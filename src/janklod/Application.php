@@ -12,7 +12,7 @@ final class Application
          
             /**
              * Instance of Application
-             * @var JanKlod\Application
+             * @var JK\Application
             */
             private static $instance;
 
@@ -20,7 +20,7 @@ final class Application
 
             /**
              * Container Dependency Injection
-             * @var JanKlod\Container\ContainerInterface
+             * @var JK\Container\ContainerInterface
             */
             private $app;
 
@@ -52,10 +52,12 @@ final class Application
 
 
             /**
+             * Get one times instance of Application
+             * Using pattern Singleton
              * @param  string $root
-             * @return JanKlod\Foundation\Application
+             * @return JK\Application [ instance of application ]
            */
-            public static function instance(string $root = null): self
+            public static function instance($root = null): self
             {
                   if(is_null(self::$instance))
                   {
@@ -64,6 +66,8 @@ final class Application
 
                   return self::$instance;
            }
+
+           
 
 
 
