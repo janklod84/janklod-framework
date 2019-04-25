@@ -1,5 +1,5 @@
 <?php 
-namespace JK;
+namespace JK\FileSystem;
 
 
 use \Exception;
@@ -34,23 +34,84 @@ class File
         * @param string $root [ it's the root directory of file ]
         * @return void
        */
-	   public function __construct($root = null)
-	   {
-	   	       if(is_null($root))
-	   	       {
-	   	       	   exit('Check please root directory');
-	   	       }
-               $this->root = $root;
-	   }
+  	   public function __construct($root = null)
+  	   {
+  	   	       if(is_null($root)) { exit('You must to set root directory for FileSystem'); }
+               $this->root = trim($root, '/');
+  	   }
+
+
+       /**
+        * Determine wether the given file path exists
+        * 
+        * Ex: (new File(__DIR__))->exists('routes/app.php');
+        * It'll determine if file __DIR__.'/routes/app.php' exist
+        * @param string $file
+        * @return bool
+       */
+       public function exists($file): bool
+       {
+            return file_exists($this->to($file));
+       }
 
        
        /**
-        * 
+        * Require The given file
+        *
+        * Ex: (new File(__DIR__))->call('routes/app.php')
+        * It'll call file __DIR__.'/routes/app.php'
+        * @param string $file
+        * @return bool
+       */
+        public function call($file)
+        {
+            return require_once($this->to($file));
+        }
+
+
+        
+        /**
+         * Call many files
+         * @param array $files 
+         * @return bool
+        */
+        public function calls($files = [])
+        {
+             foreach($files as $file)
+             {
+                 if($this->exists($file))
+                 {
+                     require_once($this->call($file));
+                 }
+             }
+        }
+
+       
+       /**
+         * Generate full path to the given path
+         * 
+         * Ex: (new File(__DIR__))->to('routes/app.php')
+         * It'll return full path  __DIR__.'/routes/app.php'
+         * @param string $path
+         * @return string
+       */
+  	   public function to($path)
+  	   {
+             return $this->fullPath($path);
+  	   }
+
+       
+       /**
+        * Prepare path 
         * @param string $path 
         * @return string
        */
-	   public function to($path)
-	   {
-           echo $path;
-	   }
+       private function fullPath($path)
+       {
+            return $this->root . self::DS. str_replace(
+                       ['/', '\\'], 
+                       static::DS, 
+                       trim($path, '/')
+                   );
+       }
 }
