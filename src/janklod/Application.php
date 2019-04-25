@@ -3,8 +3,10 @@ namespace JK;
 
 
 use JK\FileSystem\File;
-use JK\Container\DIC;
-
+use JK\Container\{
+    ContainerBuilder,
+    DI 
+};
 
 
 /**
@@ -25,9 +27,9 @@ final class Application
 
         /**
          * Container Dependency Injection
-         * @var JK\Container\ContainerInterface
+         * @var $container JK\Container\DI
         */
-        private $app;
+        private $container;
 
 
         
@@ -38,19 +40,13 @@ final class Application
 
 
 
-
-
         /**
           * Break Point of Application
           * @return mixed
         */
         public function run()
         {   
-            $file = $this->make(Test::class);
-            
-            debug($file);
-          
-            $this->app->output();
+            $this->container->output();
         }
 
 
@@ -81,7 +77,7 @@ final class Application
         */
         public function bind(string $key, $resolver)
         {
-              $this->app->registry($key, $resolver);
+              $this->container->registry($key, $resolver);
         }
 
 
@@ -89,7 +85,7 @@ final class Application
        /**
         * Make Object Factory
         * Create new object [ex: (new \JK\Application())->make(Blog::class) ]
-        * $obj = $this->app->make('JanKlod\\Test');
+        * $obj = $this->container->make('JanKlod\\Test');
         * $obj->show()
         * 
         * @param string $name 
@@ -97,7 +93,7 @@ final class Application
        */
        public function make(string $name): object
        {
-            return $this->app->factory($name);
+            return $this->container->factory($name);
        }
 
        
@@ -109,7 +105,7 @@ final class Application
        */
        public function singleton(string $key, $resolver)
        {
-            $this->app->singleton($key, $resolver);
+            $this->container->singleton($key, $resolver);
        }
 
       
@@ -121,39 +117,43 @@ final class Application
        */
        public function get(string $key)
        {
-            return $this->app->get($key);
+            return $this->container->get($key);
        }
 
        
       
 
-      /**
-       * Contructor
-       * @param string $root
-       * @return void
-     */
-      private function __construct($root)
-      {
+       /**
+        * Contructor
+        * @param string $root
+        * @return void
+       */
+       private function __construct($root)
+       {
             $this->root = $root;
-            $this->app  = $this->getContainer();
-      }
+            $this->container  = $this->getContainer();
+       }
 
 
       /**
        * Get container
        * Dependency Injection Container
-       * @return \JK\Container\DIC
+       * @param string $name [ Name of container ]
+       * @return \JK\Container\DI
       */
-      private function getContainer()
-      {
-           return new DIC(['file' => new File($this->root)]);
-      }
+       public function getContainer()
+       {
+           return (new ContainerBuilder(new DI([
+               'file' => new File($this->root)
+           ])))->create();
+      
+       }
 
 
-      /**
+       /**
         * prevent instance from being cloned
-      */
-      private function __clone(){}
+       */
+       private function __clone(){}
 
 
 

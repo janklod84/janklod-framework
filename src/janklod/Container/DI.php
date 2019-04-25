@@ -5,10 +5,10 @@ namespace JK\Container;
 use \ReflectionClass;
 
 /**
- * Dependency Injection Container
- * @package JK\Container\DIC 
+ * Class Manager [ Dependency Injection Container ]
+ * @package JK\Container\DI
 */ 
-class DIC
+class DI implements ContainerInterface
 {
 
         
@@ -36,9 +36,9 @@ class DIC
          * @param type $resolver 
          * @return type
         */
-         public function share($key, $resolver)
+         public function set($key, $resolver)
          {
-             $this->container[$key] = $resolver;
+               $this->container[$key] = $resolver;
          }
 
 
@@ -50,7 +50,7 @@ class DIC
         */
          public function registry($key, $resolver)
          {
-             $this->share($key, new RegistryContainer($key, $resolver));
+             $this->set($key, new RegistryResolver($key, $resolver));
          }
 
 
@@ -62,7 +62,7 @@ class DIC
         */
         public function singleton($key, $resolver)
         {
-              $this->share($key, new MultitonContainer($key, $resolver));
+              $this->set($key, new MultitonResolver($key, $resolver));
         }
 
 
@@ -75,9 +75,9 @@ class DIC
         {
                if($this->has($key))
                {
-                   if($this->find($key) instanceof ContainerInterface)
+                   if($this->find($key) instanceof ResolverInterface)
                    {
-                       return $this->find($key)->get($key);
+                       return $this->find($key)->resolve($key);
 
                    }
 
@@ -122,23 +122,6 @@ class DIC
         }
 
        
-        /**
-         * Determine data container
-         * @param string $key
-         * @return mixed
-        */
-        private function call($key)
-        {
-            $container = $this->find($key);
-
-            if($container instanceof \Closure)
-            {
-                 return $container($this);
-            }
-          
-            return $container;
-        }
-
 
         /**
          * Create new object
@@ -161,14 +144,34 @@ class DIC
               $this->container = array_merge($this->container, $data);
         }
 
-
-
-
+        
+        /**
+         * momentaly output
+         * @return void
+         */
         public function output()
         {
-            return debug($this->container);
+            debug($this->container);
         }
 
+
+
+        /**
+         * Determine data container
+         * @param string $key
+         * @return mixed
+        */
+        private function call($key)
+        {
+            $container = $this->find($key);
+
+            if($container instanceof \Closure)
+            {
+                 return $container($this);
+            }
+          
+            return $container;
+        }
 
 
 

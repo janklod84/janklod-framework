@@ -20,6 +20,12 @@ class ContainerBuilder
       */
       private $params = [];
 
+      
+      /**
+       * @var \JK\Container\ContainerInterface
+      */
+      private $container;
+
 
 
 	  /**
@@ -33,31 +39,28 @@ class ContainerBuilder
 	  }
 
       
-      
-      /**
-       * Set parameters
-       * @param array $params 
-       * @return void
-      */
-      public function parameters($params = [])
-      {
-            $this->params = $params;
-            return $this;
-      }
-
-
       /**
        * Create current container
        * @param array $params 
        * @return \JK\Container\ContainerInterface
       */
-	  public function create(): ContainerInterface
+	  public function create($params = []): ContainerInterface
 	  {
             if(is_string($this->parsed))
             {
-                $this->parsed = new $this->parsed($this->params);
+                $this->parsed = new $this->parsed($params);
             }
             return $this->parsed;
 	  }
 
+
+      
+      /**
+       * 
+       * @return type
+       */
+	  public function create()
+	  {
+
+	  }
 }
