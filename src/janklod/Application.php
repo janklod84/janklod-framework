@@ -6,6 +6,10 @@ use JK\FileSystem\File;
 use JK\DI\ContainerBuilder;
 
 
+use JK\Config\Config;
+
+
+
 /**
  * Application
  * @package JK\Application
@@ -61,6 +65,25 @@ final class Application
         }
 
 
+        /**
+          * Break Point of Application
+          * @return mixed
+        */
+        public function run()
+        {   
+             $dispatcher = $this->router->dispatch($this->request->method());
+
+             debug($dispatcher, false);
+             /*
+             $controller = $this->load->controller($dispatcher->get('controller'));
+             $dispatcher->callAction($this->app);
+             */
+
+
+             # PRINT OUTPUT
+             // $this->app->printOut();
+        }
+       
 
         /**
          * Get one times instance of Application
@@ -132,19 +155,17 @@ final class Application
             return $this->app->get($key);
        }
 
-
-
-        /**
-          * Break Point of Application
-          * @return mixed
-        */
-        public function run()
-        {   
-              
-              # PRINT OUT
-              $this->app->printOut();
-        }
        
+       /**
+        * Call automatically item from container
+        * @param string $key 
+        * @return mixed
+       */
+       public function __get($key)
+       {
+           return $this->get($key);
+       }
+
 
        /**
         * Add container you want to use
@@ -177,8 +198,30 @@ final class Application
        */
        public function getContainer()
        {
-           return $this->containerBuilder->build();
+            return $this->containerBuilder->build();
        }
+
+       
+       /**
+        * Load all alias
+        * @param array $alias
+        * @return void
+       */
+       public function loadAlias()
+       {
+           Initialize::alias();
+       }
+
+
+       /**
+        * Load all services providers
+        * @return void
+       */
+       public function loadProviders()
+       {
+           Initialize::providers($this->app);
+       }
+
 
 
        /**

@@ -38,7 +38,6 @@ class File
   	   {
   	   	       if(is_null($root)) { exit('You must to set root directory for FileSystem'); }
                $this->root = trim($root, '/');
-               // echo uniqid(), '<br>';
   	   }
 
 

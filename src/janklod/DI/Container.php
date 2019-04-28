@@ -154,6 +154,17 @@ class Container implements ContainerInterface
    	   unset($this->container[$key]);
    }
 
+
+   /**
+    * Call dynamically object from container
+    * @param string $key 
+    * @return object
+   */
+   public function __get($key)
+   {
+        return $this->get($key);
+   }
+
    
 
    /**
