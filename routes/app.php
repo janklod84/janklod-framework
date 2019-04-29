@@ -9,6 +9,23 @@
 */
 
 
+Route::get('', function () {
+
+});
+
+echo '<form method="POST" action="" enctype="multipart/form-data">
+	<p><input type="text" name="username"></p>
+	<p><input type="text" name="password"></p>
+  <p><input type="file" name="photo[]" multiple></p>
+	<p><button type="submit">Send</button></p>
+</form>';
+
+
+Route::get('/about/page=:id', function ($id) {
+    echo $id;
+})->with('id', '[0-9]');
+
+
 /*
 OK
 Route::get('', function () {
@@ -48,6 +65,17 @@ echo '<h2>Group</h2>';
 
 */
 
+/*
+ |------------------------------------------------------------------
+ |                 NOT FOUND ROUTE / PAGE
+ |------------------------------------------------------------------
+*/
+
+Route::get('/403', 'NotFoundController@page403');
+Route::notFound('/403');
+
+
+
 
 $options = [
  'prefix' => [
@@ -61,4 +89,15 @@ Route::group($options, function () {
    Route::package('', 'UserController');
 
 });
+
+
+/*
+ |------------------------------------------------------------------
+ |                 NOT FOUND ROUTE / PAGE
+ |------------------------------------------------------------------
+*/
+
+Route::get('/404', 'NotFoundController@index');
+Route::get('/403', 'NotFoundController@page403');
+Route::notFound('/404');
 

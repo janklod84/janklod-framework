@@ -18,7 +18,7 @@ class RequestProvider extends ServiceProvider
        */
        public function register()
        {
-       	   $this->app->set('request', function () {
+       	   $this->app->singleton('request', function () {
                return new Request();
            });
        }

@@ -1,6 +1,6 @@
 <?php 
 
-function debug($parsed, $die = true)
+function debug($parsed, $die = false)
 {
 	 echo '<pre>';
 	 print_r($parsed);
@@ -10,7 +10,7 @@ function debug($parsed, $die = true)
 }
 
 
-function dump($parsed, $die = true)
+function dump($parsed, $die = false)
 {
      echo '<pre>';
 	 var_dump($parsed);

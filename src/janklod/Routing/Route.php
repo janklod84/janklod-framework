@@ -74,8 +74,32 @@ class Route
        {  
            RouteHandler::addOptions($options);
            call_user_func($callback);
-           $options = [];
        }
+
+
+       /**
+         * Add not found path
+         * @param string $path
+         * @return void
+       */
+       public static function notFound(string $path)
+       {
+              RouteHandler::notFound($path);
+       }
+
+
+       /**
+         * Get URL Named route
+         * @param string $name 
+         * @param array $params 
+         * @return string
+       */
+       public static function url(string $name, array $params = [])
+       {
+              return RouteHandler::url($name, $params);
+       }
+
+
 
 
 	    /**
@@ -98,20 +122,6 @@ class Route
               RouteCollection::store($route);
               return $route;
   	    }
-
-
-
-        /**
-          * Get URL Named route
-          * @param string $name 
-          * @param array $params 
-          * @return string
-         */
-         public static function url(string $name, array $params = [])
-         {
-              return RouteHandler::url($name, $params);
-         }
-
 
 
 

@@ -2,6 +2,9 @@
 namespace JK\Helper;
 
 
+use JK\Http\Request;
+
+
 /**
  * @package \JK\Helper\Url 
 */
@@ -30,6 +33,6 @@ class Url
 	      */
 		  public function back()
 		  {
-		  	   // TO Implements
+		  	   return header('Location: /');
 		  }
 }

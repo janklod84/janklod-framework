@@ -400,7 +400,7 @@ class RouteHandler
                           call_user_func([$this, 'getPrefixed'. ucfirst($index)]);
                      }
                  }
-
+                
              }
 
        }
@@ -440,8 +440,11 @@ class RouteHandler
        private function getPrefixedPath()
        {
             $pathPrefix = $this->prefixItem('path');
-            $path = trim($pathPrefix, '/') . '/' . $this->path;
-            $this->setPath($path);
+            if($pathPrefix)
+            {
+                $path = trim($pathPrefix, '/') . '/' . $this->path;
+                $this->setPath($path);
+            }
        }
        
        /**

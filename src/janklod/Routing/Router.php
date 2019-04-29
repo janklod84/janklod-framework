@@ -45,6 +45,7 @@ class Router
         */
   	    public function dispatch($method = null)
   	    {
+              debug($this->routes);
               if(!isset($this->routes[$method]))
               {
                   exit('Not Found routes!');
@@ -58,7 +59,8 @@ class Router
                    }
               }
               
-              exit('No matches routes!');
+              // exit('No matches routes!');
+              RouteHandler::getNotFound();
 
   	    }
 }

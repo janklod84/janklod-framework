@@ -71,13 +71,6 @@ final class Application
         */
         public function run()
         {   
-
-             $app = $this->config->fromFile('app');
-             debug($app, false);
-
-             $database = Config::fromFile('database');
-             debug($database);
-           
              $dispatcher = $this->router->dispatch($this->request->method());
              $dispatcher->callAction($this->app);
 
