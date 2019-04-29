@@ -5,7 +5,7 @@ namespace JK\DI;
 /**
  * @package JK\DI\ContainerAdapter 
 */ 
-abstract class ContainerAdapter 
+class ContainerAdapter 
 {
 	  
 

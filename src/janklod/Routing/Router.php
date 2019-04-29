@@ -23,14 +23,6 @@ class Router
         private $routes = [];
        
 
-        
-        /**
-         * current route
-         * @var mixed
-        */
-        private $route;
-
-
 
         /**
          * Constructor
@@ -40,42 +32,11 @@ class Router
   	    public function __construct($url = '')
   	    {
               $this->url = trim($url, '/');
+              $this->routes = RouteCollection::all();
   	    }
 
        
-        /**
-         * Add all routes as array
-         * @param array $routes 
-         * @return void
-        */
-        public function addRoutes($routes = [])
-        {
-             $this->routes = $routes;
-        }
-
-
-	     /**
-         * Get routes
-         * @param string $method
-         * @return array
-        */
-  	    public function getRoutes($method = null)
-  	    {
-              $this->routes = $this->routes ?: RouteCollection::all();
-
-              if(!is_null($method))
-              {
-                  if(!isset($this->routes[$method]))
-                  {
-                        return false;
-                  }
-
-                  return $this->routes[$method];
-              }
-
-              return $this->routes;
-  	    }
-
+      
         
         /**
          * Map matched route 
@@ -84,16 +45,15 @@ class Router
         */
   	    public function dispatch($method = null)
   	    {
-              if(!$this->getRoutes($method))
+              if(!isset($this->routes[$method]))
               {
                   exit('Not Found routes!');
               }
 
-              foreach($this->getRoutes($method) as $route)
+              foreach($this->routes[$method] as $route)
               {
                    if($route->match($this->url))
                    {
-                        $this->route = $route;
                         return new Dispatcher($route);
                    }
               }

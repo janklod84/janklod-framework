@@ -26,26 +26,17 @@ class Load
 
 
        /**
-         * Load controller
+         * Load model
          * @param string $name 
          * @return object
        */
-        public function controller($name)
+        public function model($name)
         {
-            $controller = '\\app\\controllers\\'. $name;
+            $model = sprintf('\\app\\models\\%s', $name);
             
-            if(class_exists($controller))
+            if(class_exists($model))
             {
-                return new $controller($this->app);
+                return new $model($this->app);
             }
         }
-
-
-      /**
-       * Load action
-       * @param string $name 
-       * @return object
-      */
-      public function model($name) {}
-      
 }

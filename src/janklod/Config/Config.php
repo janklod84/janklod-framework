@@ -13,7 +13,7 @@ class Config
         * @var array $stored       [ Repository configuation ]
        */
 	     protected static $configPath = '';
-         protected static $stored = [];
+       protected static $stored = [];
 
 
        /**
@@ -27,6 +27,7 @@ class Config
 	     	   {
                 $stored = require_once($stored);
 	     	   }
+           $stored = (array) $stored;
            self::push($stored);
 	     }
 
@@ -83,8 +84,10 @@ class Config
        * @param string $fileName 
        * @return array
      */
-      public static function fromFile($fileName = 'no-file')
+      public static function fromFile($fileName = null)
       {
+           if(is_null($fileName)) { return false; }
+
            $file = trim(self::$configPath, '/') . '/' . trim($fileName, '/') . '.php';
 
            if(!file_exists($file))

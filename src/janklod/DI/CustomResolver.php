@@ -45,6 +45,7 @@ abstract class CustomResolver implements ResolverInterface
         	   	       exit('Set please key for : <strong> ' . get_class($this) . '</strong>');
         	     }
           }
+          
 
     		  /**
     		   * Get item from container

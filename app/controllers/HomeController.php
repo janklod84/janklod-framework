@@ -22,8 +22,9 @@ class HomeController
         * Action about
         * @return void
        */
-	   public function about()
+	   public function about($slug, $id)
 	   {
+	   	   echo $slug . ' & ' . $id;
 	   	   echo 'HomeController::about', '<br>';
 	   }
 

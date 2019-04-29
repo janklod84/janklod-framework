@@ -13,18 +13,20 @@ class RouteCollection
          * @var array
         */
 	      private static $routes = [];
-       
+
+      
 
        /**
-         * store route object
-         * @param RouteObject $route 
+         * Store curren route
+         * @param RouteHandler $route 
          * @return void
        */
-  	    public static function store(RouteObject $route)
+  	    public static function store(RouteHandler $route)
   	    {    
-             $method = $route->get('method');
+             $method = $route->getMethod();
              self::$routes[$method][] = $route;
   	    }
+
 
         /**
          * Get all route

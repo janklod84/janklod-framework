@@ -72,7 +72,7 @@ class Route
        */
        public static function group($options = [], \Closure $callback)
        {  
-           RouteObject::addOptions($options);
+           RouteHandler::addOptions($options);
            call_user_func($callback);
            $options = [];
        }
@@ -92,18 +92,26 @@ class Route
   	      $method = 'GET'
   	   )
   	   {
-
-              $route = new RouteObject([
-                 'path'     => trim($path, '/'), 
-                 'callback' => $callback,
-                 'name'     => $name,
-                 'method'   => $method
-              ]); 
-              
+             
+              $route = new RouteHandler($path, $callback, $name, $method);
               $route->beforeStore();
               RouteCollection::store($route);
               return $route;
   	    }
+
+
+
+        /**
+          * Get URL Named route
+          * @param string $name 
+          * @param array $params 
+          * @return string
+         */
+         public static function url(string $name, array $params = [])
+         {
+              return RouteHandler::url($name, $params);
+         }
+
 
 
 

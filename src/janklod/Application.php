@@ -71,13 +71,15 @@ final class Application
         */
         public function run()
         {   
-             $dispatcher = $this->router->dispatch($this->request->method());
 
-             debug($dispatcher, false);
-             /*
-             $controller = $this->load->controller($dispatcher->get('controller'));
+             $app = $this->config->fromFile('app');
+             debug($app, false);
+
+             $database = Config::fromFile('database');
+             debug($database);
+           
+             $dispatcher = $this->router->dispatch($this->request->method());
              $dispatcher->callAction($this->app);
-             */
 
 
              # PRINT OUTPUT

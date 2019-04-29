@@ -13,9 +13,10 @@ class Definition
         */
         const CONFIG = [
              'providers' => [
+             	\JK\Config\Facades\ConfigProvider::class,
 	            \JK\Http\Facades\RequestProvider::class,
 	            \JK\Routing\Facades\RouterProvider::class, 
-	            \JK\Loader\Facades\LoaderProvider::class
+	            \JK\Loader\Facades\LoaderProvider::class,
 	            /*
 	            \JK\Http\Facades\ResponseProvider::class,
 	            \JK\Template\Facades\ViewProvider::class,
