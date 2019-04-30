@@ -8,12 +8,13 @@ namespace JK;
  * How to use it ?
  * You must to create file autoloader.json
  * Inside this file write namespaces you want to map like it:
- * {
-      "psr": {
-        "NamespaceOne\\": "path/to/one",
-        "NamespaceTwo\\": "path/to/two"
-      }
-  }
+ * 
+ *  {
+ *     "psr": {
+ *       "NamespaceOne\\": "path/to/one",
+ *       "NamespaceTwo\\": "path/to/two"
+ *     }
+ *  }
  *
  * key [psr is allowed key, you must absolutly write it]
  * May write \JK\Autoloader::instance(__YOUR_ROOT__)->register();
