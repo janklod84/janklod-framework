@@ -40,9 +40,7 @@ Route::get('/test', function () {
 
 Route::package('', 'UserController');
 
-*/
 
-/*
 Route::get('/', function () {
    echo 'Welcome';
 }, 'welcome.page')->with('id', '[0-5]+');
@@ -57,10 +55,12 @@ Route::get('about', function () {
 
 
 Route::get('/about/:slug', function ($slug) {
+
    echo 'About me with parameter '. $slug . '<br>';
+
 }, 'about.me')->with('slug', '[a-z\-]+');
 
-echo '<a href="'. Route::url('about.me', ['slug' => 'your-best-friend']) . '">aboutMe</a>';
+
 
 $options = [
  'prefix' => [
@@ -83,4 +83,6 @@ Route::group($options, function () {
 
 
 Route::get('/404', 'NotFoundController@index');
+Route::notFound(404);
+
 

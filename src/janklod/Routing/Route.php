@@ -9,9 +9,11 @@ class Route
 {
       
       /**
-       * @var  prefix
+       * @var  array $options
+       * @var  bool  $notFound
       */
       private static $options = [];
+      public static $notFound = false;
 
 
 	    /**
@@ -90,7 +92,17 @@ class Route
        */
        public static function notFound(string $path)
        {
-             RouteHandler::$notFound = $path;
+             self::$notFound = $path;
+       }
+       
+
+       /**
+        * Get Not Found page
+        * @return string
+       */
+       public static function getNotFound()
+       {
+           return self::$notFound;
        }
 
 

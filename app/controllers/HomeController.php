@@ -14,7 +14,8 @@ class HomeController
        */
 	   public function index()
 	   {
-	   	   echo 'HomeController::index', '<br>';
+	   	   echo 'HomeController::index <br>';
+	   	   echo '<a href="'. \Route::url('about.me', ['slug' => 'your-best-friend']) . '">aboutMe</a>';
 	   }
 
 

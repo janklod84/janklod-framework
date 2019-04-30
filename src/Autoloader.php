@@ -21,25 +21,7 @@ namespace JK;
 */ 
 class Autoloader
 {
-       
-       /**
-        * separator for windows / lunix ..
-        * @const string
-       */
-       const DS = DIRECTORY_SEPARATOR;
-       
-
-       /**
-        * container messages
-       */
-       const MSG = [
-          'no_file' => [
-                'Autoloader can not charge file <strong>%s</strong>',
-                'May be you must to create file [autoload.json]'
-              ]
-       ];
-
-
+    
        /**
          * @var Autoloader $instance  [ Instance of Autoloader ]
          * @var string     $root      [ root ]
@@ -101,7 +83,7 @@ class Autoloader
             
             if(!file_exists($file))
             {
-            	 exit(sprintf($this->getMsg('no_file'), $file));
+            	 exit(sprintf('File <strong>%s</strong> does not exist', $file));
             }
 
             $this->file = $file;
@@ -218,18 +200,6 @@ class Autoloader
        {
            $data = json_decode(file_get_contents($this->file), true);
            return isset($data['psr']) ? $data['psr'] : [];
-       }
-
-       
-       /**
-        * Get message
-        * @param string $key 
-        * @return string
-       */
-       private function getMsg($key)
-       {
-           $msg = self::MSG[$key];
-           return is_array($msg) ? implode('. ', $msg) : $msg;
        }
 
 }

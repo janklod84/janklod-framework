@@ -16,7 +16,6 @@ class RouteHandler
         private $params  = [];
         private $regex   = [];
         private static $namedRoutes = [];
-        public static $notFound = false;
 
         
         /**
@@ -127,17 +126,16 @@ class RouteHandler
        {
              if(is_array($parameter) && is_null($regex))
              {
-                    foreach($parameter as $index => $exp)
-                    {
-                         # recursive
-                         $this->with($index, $exp);
-                    }
+                  foreach($parameter as $index => $exp)
+                  {
+                       # recursive
+                       $this->with($index, $exp);
+                  }
 
              }else{
             
                  $this->regex[$parameter] = str_replace('(', '(?:', $regex); 
-
-             }
+            }
             
             $this->set('regex', $this->regex);
             return $this;
