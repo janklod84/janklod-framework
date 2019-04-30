@@ -9,11 +9,11 @@ class RouteHandler
 {
        
         /**
-         * @var array  $params [ Route Params ]
-         * @var array  $regex  [ Route regex ]
+         * @var array  $params   [ Route Params ]
+         * @var array  $regex    [ Route regex ]
         */ 
-        private $params = [];
-        private $regex  = [];
+        private $params  = [];
+        private $regex   = [];
 
         
         /**
@@ -66,7 +66,7 @@ class RouteHandler
         */
         public function parameters()
         {
-            return $this->params;
+             return $this->params ?? [];
         }
 
 
@@ -89,18 +89,19 @@ class RouteHandler
        */
        public function with($parameter, $regex = null)
        {
-            if(!is_null($regex))
-            {
-                $this->regex[$parameter] = $regex;
-            }
+             # recursive
+             if(is_array($parameter) && is_null($regex))
+             {
+                    foreach($parameter as $index => $exp)
+                    {
+                         $this->with($index, $exp);
+                    }
 
-            if(is_array($parameter) && is_null($regex))
-            {
-                foreach($parameter as $index => $exp)
-                {
-                     $this->regex[$index] = $exp;
-                }
-            }
+             }else{
+            
+                 $this->regex[$parameter] = str_replace('(', '(?:', $regex); 
+
+             }
             
             $this->set('regex', $this->regex);
             return $this;
@@ -113,21 +114,63 @@ class RouteHandler
       */
       public function beforeStore()
       {
-
+           $this->addPrefix();
+           $this->prepareCallback();
       }
 
         
       /**
-       * Print out
+       * Do something after storage
        * @return void
       */
-      public function printOut()
+      public function afterStore() {}
+     
+
+      
+      /**
+       * Add prefix
+       * @return type
+      */
+      private function addPrefix()
       {
-          foreach($this->params as $key => $value)
+          if(!empty($this->params['prefix']['path']))
           {
+              $path = trim($this->params['prefix']['path'], '/') . '/'. $this->get('path');
+              $this->set('path', trim($path, '/'));
+          }
+
+          if(!empty($this->params['prefix']['controller']))
+          {
+               $callback = $this->params['prefix']['controller'] . '\\' . $this->get('callback');
+               $this->set('callback', $callback);
           }
       }
 
 
+      /**
+        * Prepare callback
+        * @return mixed
+       */
+       private function prepareCallback()
+       {
+            if(is_string($this->get('callback')))
+            {
+                if(strpos($this->get('callback'), '@') !== false)
+                {
+                     list($controller, $action) = explode('@', $this->get('callback'), 2);
+
+                     $callback = [
+                       'controller' => $controller,
+                       'action'     => $action
+                     ];
+                }
+
+            }else{
+
+                $callback = $this->get('callback');
+            }
+
+            $this->set('callback', $callback);
+       }
 
 }

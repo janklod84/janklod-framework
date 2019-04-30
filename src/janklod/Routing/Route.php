@@ -7,7 +7,12 @@ namespace JK\Routing;
 */ 
 class Route 
 {
-        
+      
+      /**
+       * @var  prefix
+      */
+      private static $options = [];
+
 
 	    /**
 	     * Add routes by method GET
@@ -72,7 +77,9 @@ class Route
        */
        public static function group($options = [], \Closure $callback)
        {  
-          
+            self::$options = $options;
+            call_user_func($callback); 
+            self::$options = [];
        }
 
 
@@ -115,12 +122,14 @@ class Route
   	      $method = 'GET'
   	   )
   	   {
+
              # add params
              $route = new RouteHandler([
-                'path' => trim($path, '/'),
+                'path'     => trim($path, '/'),
                 'callback' => $callback,
-                'name' => $name,
-                'method' => $method
+                'name'     => $name,
+                'method'   => $method,   
+                'prefix'   => self::$options['prefix'] ?? ''
              ]);
              
              # do action before storage in collection
@@ -128,6 +137,9 @@ class Route
 
              # store route
              RouteCollection::store($route);
+             
+             # do action after storage in collection
+             $route->afterStore();
 
              # return current route
              return $route;
