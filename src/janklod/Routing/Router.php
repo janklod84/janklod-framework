@@ -45,13 +45,19 @@ class Router
         */
   	    public function dispatch($method = null)
   	    {
-             echo '<h2>All Routes</h2>';
-             debug($this->routes);
-             
-             echo '<h2>Route params</h2>';
-             foreach($this->routes[$method] as $route)
-             {
-                  debug($route->parameters());
-             }
+              if(!isset($this->routes[$method]))
+              {
+                  exit('Not Found routes!');
+              }
+
+              foreach($this->routes[$method] as $route)
+              {
+                   if($route->match($this->url))
+                   {
+                        return new Dispatcher($route);
+                   }
+              }
+
+              exit('No matches routes!');
   	    }
 }

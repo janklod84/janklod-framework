@@ -9,11 +9,14 @@ class RouteHandler
 {
        
         /**
-         * @var array  $params   [ Route Params ]
-         * @var array  $regex    [ Route regex ]
+         * @var array  $params      [ Route Params ]
+         * @var array  $regex       [ Route regex ]
+         * @var array  $namedRoutes [ Named Routes ]
         */ 
         private $params  = [];
         private $regex   = [];
+        private static $namedRoutes = [];
+        public static $notFound = false;
 
         
         /**
@@ -70,6 +73,28 @@ class RouteHandler
         }
 
 
+        
+        /**
+         * Get Url
+         * @param type $name 
+         * @param type|array $params 
+         * @return type
+       */
+        public static function url($name, $params = [])
+        {
+             if(!isset(self::$namedRoutes[$name]))
+             {
+                   if(class_exists('\\JK\\Helper\\Url'))
+                   {
+                      return \JK\Helper\Url::to($name, $params);
+                   }
+                   return false;
+             }
+
+             return self::$namedRoutes[$name]->getUrl($params);
+        }
+
+
         /**
          * Determine if parsed url match current route
          * @param string $url 
@@ -77,7 +102,18 @@ class RouteHandler
         */
         public function match($url)
         {
+             $url   = trim($url, '/');
+             $path  = $this->replacePattern();
+             $regex = "#^$path$#i";
 
+             if(!preg_match($regex, $url, $matches))
+             {
+                  return false;
+             }
+            
+             array_shift($matches);
+             $this->set('matches', $matches);
+             return true;
         }
 
         
@@ -89,11 +125,11 @@ class RouteHandler
        */
        public function with($parameter, $regex = null)
        {
-             # recursive
              if(is_array($parameter) && is_null($regex))
              {
                     foreach($parameter as $index => $exp)
                     {
+                         # recursive
                          $this->with($index, $exp);
                     }
 
@@ -114,6 +150,7 @@ class RouteHandler
       */
       public function beforeStore()
       {
+           $this->filterRoute();
            $this->addPrefix();
            $this->prepareCallback();
       }
@@ -127,6 +164,24 @@ class RouteHandler
      
 
       
+
+      /**
+        * Filter route
+        * @return void
+       */
+       private function filterRoute()
+       {
+             if(is_string($this->get('callback')) && $this->get('name') === null)
+             {
+                   $this->set('name', $this->get('callback'));
+             }
+
+             if($name = $this->get('name'))
+             {
+                  $this->addNamedRoute($name);
+             }
+       }
+
       /**
        * Add prefix
        * @return type
@@ -145,6 +200,18 @@ class RouteHandler
                $this->set('callback', $callback);
           }
       }
+
+
+      /**
+        * Add name of route
+        * @param string $name 
+        * @return void
+      */
+      public function addNamedRoute($name)
+      {
+          self::$namedRoutes[$name] = $this;
+      }
+
 
 
       /**
@@ -171,6 +238,58 @@ class RouteHandler
             }
 
             $this->set('callback', $callback);
+       }
+
+
+       /**
+          * Return match param
+          * @param string $match 
+          * @return string 
+       */
+       private function paramMatch($match)
+       {
+             if(isset($this->regex[$match[1]]))
+             {
+                  return '('. $this->regex[$match[1]] . ')';
+             }
+             return '([^/]+)';
+       }
+
+
+
+        /**
+          * Replace param in path
+          * 
+          * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+          * 
+          * @param string $replace 
+          * @param callable $callback 
+          * @return string
+        */
+         private function replacePattern()
+         {
+              return preg_replace_callback(
+                             '#:([\w]+)#', 
+                             [$this, 'paramMatch'], 
+                             $this->get('path')
+                    );
+         }
+
+
+         /**
+          * Get Url
+          * @param array $params 
+          * @return string
+        */
+        private function getUrl($params)
+        {
+            $path = $this->get('path');
+
+            foreach($params as $k => $v)
+            {
+                $path = str_replace(":$k", $v, $path);
+            } 
+            return $path;
        }
 
 }

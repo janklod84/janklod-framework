@@ -30,28 +30,36 @@ class Dispatcher
   	   {
   	   	     $this->route = $route;
              $this->callback = $route->get('callback');
-             /*
-  	   	     $this->callback = $route->getCallback();
-  	   	     $this->matches  = $route->getMatches();
-             */
+             $this->matches  = $route->get('matches');
+             debug($route->parameters());
   	   }
 
        
        /**
+        * Get route param
+        * @param string $key 
+        * @return mixed
+       */
+       public function get($key)
+       {
+           return $this->route->get($key);
+       }
+
+       
+       /**
         * Call controller and action
-        * @param \JK\Container\ContainerInterface $app
+        * @param object $app
         * @return mixed
        */
   	   public function callAction($app)
   	   {
-           /*
   	   	    try 
   	   	    {
                   if(is_array($this->callback))
                   {
-                  	   $controller = $this->getController();
+                       $controller = $this->getController();
                   	   $action = $this->getAction();
-                       $this->callback = [new $controller($app), $action];
+                       $this->callback = [new $controller($app) , $action];
                   }
                   
                   if(is_callable($this->callback))
@@ -60,10 +68,10 @@ class Dispatcher
                   }
                   
   	   	    }catch(\Exception $e){
-
+                    
+                   die('Error');
                    exit('Not Found callback');
   	   	    }
-            */
   	   }
 
 
@@ -76,19 +84,28 @@ class Dispatcher
        */
         public function getController()
         {
-       	    return sprintf('app\\controllers\\%s', $this->callback['controller']);
+       	    $controller = sprintf('app\\controllers\\%s', 
+                                   $this->callback['controller']
+                          );
+
+            if(!class_exists($controller))
+            {
+                 die(sprintf('class <strong>%s</strong> does not exit!', $controller));
+            }
+
+            return $controller;
         }
 
              
-       /**
-        * Get full name of action
-        * Ex: 'index', 'about' ...
-        * @return string
-       */
-       public function getAction()
-       {
-    	 	   return mb_strtolower($this->callback['action']);
-       }
+        /**
+          * Get full name of action
+          * Ex: 'index', 'about' ...
+          * @return string
+        */
+        public function getAction()
+        {
+      	 	   return mb_strtolower($this->callback['action']);
+        }
 
        
        /**

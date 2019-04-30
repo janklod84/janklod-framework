@@ -25,18 +25,18 @@ class Load
     	  }
 
 
-       /**
-         * Load model
-         * @param string $name 
-         * @return object
-       */
+        /**
+           * Load model
+           * @param string $name 
+           * @return object
+        */
         public function model($name)
         {
-            $model = sprintf('\\app\\models\\%s', $name);
-            
-            if(class_exists($model))
-            {
-                return new $model($this->app);
-            }
+             $model = sprintf('\\app\\models\\%s', $name);
+              
+             if(class_exists($model))
+             {
+                  return new $model($this->app);
+             }
         }
 }

@@ -42,6 +42,26 @@ Route::package('', 'UserController');
 
 */
 
+/*
+Route::get('/', function () {
+   echo 'Welcome';
+}, 'welcome.page')->with('id', '[0-5]+');
+*/
+
+Route::get('', 'HomeController@index', 'welcome.page');
+
+Route::get('about', function () {
+   echo 'About me';
+
+});
+
+
+Route::get('/about/:slug', function ($slug) {
+   echo 'About me with parameter '. $slug . '<br>';
+}, 'about.me')->with('slug', '[a-z\-]+');
+
+echo '<a href="'. Route::url('about.me', ['slug' => 'your-best-friend']) . '">aboutMe</a>';
+
 $options = [
  'prefix' => [
   'path' => '/admin', 
@@ -62,5 +82,5 @@ Route::group($options, function () {
 });
 
 
-Route::get('/404', 'NotFoundPage@index');
+Route::get('/404', 'NotFoundController@index');
 

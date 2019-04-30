@@ -71,8 +71,8 @@ final class Application
         */
         public function run()
         {   
-             
              $dispatcher = $this->router->dispatch($_SERVER['REQUEST_METHOD']);
+             $dispatcher->callAction($this->app);
              /*
              $dispatcher = $this->router->dispatch($this->request->method());
              $dispatcher->callAction($this->app);

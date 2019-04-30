@@ -90,7 +90,7 @@ class Route
        */
        public static function notFound(string $path)
        {
-             
+             RouteHandler::$notFound = $path;
        }
 
 
@@ -102,7 +102,7 @@ class Route
        */
        public static function url(string $name, array $params = [])
        {
-              
+            return RouteHandler::url($name, $params);
        }
 
 
