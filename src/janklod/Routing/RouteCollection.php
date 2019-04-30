@@ -23,7 +23,7 @@ class RouteCollection
        */
   	    public static function store(RouteHandler $route)
   	    {    
-             $method = $route->getMethod();
+             $method = $route->get('method');
              self::$routes[$method][] = $route;
   	    }
 

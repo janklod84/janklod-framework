@@ -13,7 +13,7 @@ class ResponseProvider extends ServiceProvider
        
        public function register()
        {
-       	   $this->app->set('response', function () {
+       	   $this->app->singleton('response', function () {
                return new Response();
            });
        }

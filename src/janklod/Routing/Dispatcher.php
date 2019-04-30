@@ -10,12 +10,6 @@ class Dispatcher
        
 
        /**
-  		  * @var string 
-  	   */
-       const MASK_CONTROLLER_NAME = 'app\\controllers\\%s';
-
-
-       /**
         * @var \JK\Routing\RouteHandler $route
         * @var mixed $callback
         * @var array $matches
@@ -35,8 +29,11 @@ class Dispatcher
   	   public function __construct($route)
   	   {
   	   	     $this->route = $route;
+             $this->callback = $route->get('callback');
+             /*
   	   	     $this->callback = $route->getCallback();
   	   	     $this->matches  = $route->getMatches();
+             */
   	   }
 
        
@@ -47,6 +44,7 @@ class Dispatcher
        */
   	   public function callAction($app)
   	   {
+           /*
   	   	    try 
   	   	    {
                   if(is_array($this->callback))
@@ -65,6 +63,7 @@ class Dispatcher
 
                    exit('Not Found callback');
   	   	    }
+            */
   	   }
 
 
@@ -77,7 +76,7 @@ class Dispatcher
        */
         public function getController()
         {
-       	    return sprintf(self::MASK_CONTROLLER_NAME, $this->callback['controller']);
+       	    return sprintf('app\\controllers\\%s', $this->callback['controller']);
         }
 
              

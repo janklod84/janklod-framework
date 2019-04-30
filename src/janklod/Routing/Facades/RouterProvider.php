@@ -16,8 +16,9 @@ class RouterProvider extends ServiceProvider
         */
 	    public function register()
 	    {
+            // $uri = $this->app->request->uri();
             $this->app->singleton('router', function () {
-                 return new Router($this->app->request->uri());
+                 return new Router();
             });
 	    }
 }

@@ -72,8 +72,7 @@ class Route
        */
        public static function group($options = [], \Closure $callback)
        {  
-           RouteHandler::addOptions($options);
-           call_user_func($callback);
+          
        }
 
 
@@ -84,7 +83,7 @@ class Route
        */
        public static function notFound(string $path)
        {
-              RouteHandler::notFound($path);
+             
        }
 
 
@@ -96,7 +95,7 @@ class Route
        */
        public static function url(string $name, array $params = [])
        {
-              return RouteHandler::url($name, $params);
+              
        }
 
 
@@ -116,12 +115,23 @@ class Route
   	      $method = 'GET'
   	   )
   	   {
+             # add params
+             $route = new RouteHandler([
+                'path' => trim($path, '/'),
+                'callback' => $callback,
+                'name' => $name,
+                'method' => $method
+             ]);
              
-              $route = new RouteHandler($path, $callback, $name, $method);
-              $route->beforeStore();
-              RouteCollection::store($route);
-              return $route;
-  	    }
+             # do action before storage in collection
+             $route->beforeStore();
+
+             # store route
+             RouteCollection::store($route);
+
+             # return current route
+             return $route;
+  	   }
 
 
 

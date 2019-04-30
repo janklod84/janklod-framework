@@ -71,9 +71,12 @@ final class Application
         */
         public function run()
         {   
+             
+             $dispatcher = $this->router->dispatch($_SERVER['REQUEST_METHOD']);
+             /*
              $dispatcher = $this->router->dispatch($this->request->method());
              $dispatcher->callAction($this->app);
-
+             */
 
              # PRINT OUTPUT
              // $this->app->printOut();
@@ -164,6 +167,10 @@ final class Application
 
        /**
         * Add container you want to use
+        * Exemple:
+        * $this->addContainer(DI::class)
+        * $this->addContainer(new DI())
+        * 
         * @param string|object $container 
         * @return void
        */
@@ -176,6 +183,15 @@ final class Application
        
        /**
         * Add definition
+        * $this->addDefinition(__DIR__.'/config.php')
+        * $this->addDefinition([
+        *   'JK\Helper\Test' => function () {
+        *        return new Test();
+        *    },
+        *    'file' => new File(__DIR__),
+        *    'newtest' => ...
+        * ])
+        * 
         * @param string|array $definition 
         * @return $this
        */
