@@ -19,7 +19,6 @@ class Definition
 	            \JK\Routing\Facades\RouterProvider::class, 
 	            \JK\Loader\Facades\LoaderProvider::class,
 	            /*
-	            \JK\Http\Facades\ResponseProvider::class,
 	            \JK\Template\Facades\ViewProvider::class,
 	            \JK\Database\Facades\DatabaseProvider::class,
 	            \JK\Loading\Facades\LoaderProvider::class,

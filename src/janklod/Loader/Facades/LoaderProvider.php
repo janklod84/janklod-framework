@@ -16,7 +16,7 @@ class LoaderProvider extends ServiceProvider
         */
 	    public function register()
 	    {
-            $this->app->set('load', function () {
+            $this->app->singleton('load', function () {
                  return new Load($this->app);
             });
 	    }

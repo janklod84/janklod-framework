@@ -31,12 +31,17 @@ class Dispatcher
   	   	     $this->route = $route;
              $this->callback = $route->get('callback');
              $this->matches  = $route->get('matches');
-             debug($route->parameters());
+             /* debug($route->parameters()); */
   	   }
 
        
        /**
         * Get route param
+        * Ex:
+        *   $this->get('path')
+        *   $this->get('method')
+        *   $this->get('')
+        * 
         * @param string $key 
         * @return mixed
        */
@@ -81,16 +86,15 @@ class Dispatcher
         * Ex: \app\controllers\HomeController
         * 
         * @return string
+        * @throws \Exception
        */
         public function getController()
         {
-       	    $controller = sprintf('app\\controllers\\%s', 
-                                   $this->callback['controller']
-                          );
+       	    $controller = sprintf('app\\controllers\\%s', $this->callback['controller']);
 
             if(!class_exists($controller))
             {
-                 die(sprintf('class <strong>%s</strong> does not exit!', $controller));
+                 throw new Exception(sprintf('class <strong>%s</strong> does not exit!', $controller), 404);
             }
 
             return $controller;
@@ -109,10 +113,10 @@ class Dispatcher
 
        
        /**
-        * Get route params
+        * Get matches params of current route
         * @return array
        */
-       public function getParameters()
+       public function matches()
        {
             return $this->matches;
        }

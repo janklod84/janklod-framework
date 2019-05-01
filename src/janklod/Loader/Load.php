@@ -8,35 +8,36 @@ namespace JK\Loader;
 class Load
 {
       
-        /**
-         * @var \JK\Container\ContainerInterface
-        */
-        private $app;
+    /**
+     * @var \JK\Container\ContainerInterface
+    */
+    private $app;
 
-      
-        /**
-         * Constructor
-         * @param \JK\Container\ContainerInterface $app 
-         * @return void
-        */
-    	  public function __construct($app)
-    	  {
-              $this->app = $app;
-    	  }
+  
+    /**
+     * Constructor
+     * @param \JK\Container\ContainerInterface $app 
+     * @return void
+    */
+	  public function __construct($app)
+	  {
+          $this->app = $app;
+	  }
 
 
-        /**
-           * Load model
-           * @param string $name 
-           * @return object
-        */
-        public function model($name)
-        {
-             $model = sprintf('\\app\\models\\%s', $name);
-              
-             if(class_exists($model))
-             {
-                  return new $model($this->app);
-             }
-        }
+    /**
+       * Load model
+       * @param string $name 
+       * @return object
+    */
+    public function model($name)
+    {
+         $model = sprintf('\\app\\models\\%s', $name);
+         $name  = strtolower($name);
+
+         if(class_exists($model))
+         {
+               $this->{$name} = new $model($this->app);
+         }
+    }
 }

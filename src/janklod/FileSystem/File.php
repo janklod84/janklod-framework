@@ -33,10 +33,16 @@ class File
         * Ex: $file = new File(__DIR__);
         * @param string $root [ it's the root directory of file ]
         * @return void
+        * @throws \Exception
        */
   	   public function __construct($root = null)
   	   {
-  	   	       if(is_null($root)) { exit('You must to set root directory for FileSystem'); }
+               if(is_null($root))
+               {
+                  throw new Exception("You must to set root directory for FileSystem", 404);
+                  
+               }
+
                $this->root = trim($root, '/');
   	   }
 

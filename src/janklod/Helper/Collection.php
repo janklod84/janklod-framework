@@ -97,34 +97,6 @@ class Collection
   	   	   }
   	   }
 
-     
-       /**
-        * Sanitize all data
-        * @return array
-       */
-       public function cleanAll()
-       {
-            $data = [];
-
-            foreach($this->items as $index => $value)
-            {
-                $data[$index] = trim(Sanitize::input($value));
-            }
-
-            return $data;
-       }
-
-       
-       /**
-        * Sanitize on item
-        * @param string $key 
-        * @return mixed
-       */
-       public function cleanItem($key)
-       {
-            return $this->has($key) ? trim(Sanitize::input($this->items[$key])) : null;
-       }
-
        
        /**
         * Remove all items

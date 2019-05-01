@@ -25,9 +25,17 @@ abstract class ServiceProvider
 	       public function __construct(ContainerInterface $app)
 	       {
 	       	    $this->app = $app;
+	       	    $this->boot();
 	       }
 
            
+           /**
+            * Do something before register
+            * @return mixed
+           */
+           protected function boot() {}
+           
+
            /**
             * Register provider
             * @return void

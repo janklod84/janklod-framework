@@ -2,6 +2,7 @@
 namespace JK\DI;
 
 use \ReflectionClass;
+use \Exception
 
 
 /**
@@ -26,12 +27,13 @@ class Reflection
         * Constructor
         * @param mixed $parsed 
         * @return void
+        * @throws \Exception
        */
        public function __construct($parsed)
        {
              if(is_string($parsed) && !class_exists($parsed))
              {
-                   exit('class <strong>'. $parsed .'</strong> does not exit');
+                   throw new Exception('class <strong>'. $parsed .'</strong> does not exit');
 
              }
 

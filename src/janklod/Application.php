@@ -71,15 +71,10 @@ final class Application
         */
         public function run()
         {   
-             $dispatcher = $this->router->dispatch($_SERVER['REQUEST_METHOD']);
-             $dispatcher->callAction($this->app);
-             /*
              $dispatcher = $this->router->dispatch($this->request->method());
-             $dispatcher->callAction($this->app);
-             */
-
-             # PRINT OUTPUT
-             // $this->app->printOut();
+             $output = (string) $dispatcher->callAction($this->app);
+             $this->response->setBody($output);
+             $this->response->send();
         }
        
 

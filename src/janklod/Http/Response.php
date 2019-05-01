@@ -1,10 +1,13 @@
 <?php 
 namespace JK\Http;
 
-use JK\Http\Message\ResponseInterface;
-
 
 /**
+ *  $response
+ *  $response->withHeaders([])
+ *           ->withStatus(500)
+ *           ->withBody('Mr Yao')
+ *           ->send();
  * @package JK\Http\Response 
 */ 
 class Response implements ResponseInterface
@@ -53,7 +56,7 @@ class Response implements ResponseInterface
          * @param int $status 
          * @return void
         */
-        public function setStatus($status = null)
+        public function setStatus(int $status = 200)
         {
              $this->status = $status;
         }
@@ -63,7 +66,7 @@ class Response implements ResponseInterface
          * @param string $content 
          * @return void
         */
-        public function setBody(string $content = null)
+        public function setBody(string $content = '')
         {
              $this->content = $content;
         }
@@ -71,12 +74,20 @@ class Response implements ResponseInterface
 
         /**
          * set header
-         * @param string $header 
+         * @param string|array $header 
          * @return void
         */
         public function setHeader($header = null)
         {
-             $this->headers[] = $header;
+             if(is_array($header))
+             {
+                 $this->headers = array_merge($this->headers, $header);
+
+             }else{
+               
+                array_push($this->headers, $header);
+             }
+             
         }
 
 
@@ -105,6 +116,8 @@ class Response implements ResponseInterface
 
         /**
          * Return response with setted header
+         * ->withHeader('Location: /to/dd')
+         * ->withHeader(['Content: HtttpX1', 'Content: HtttpX2', 'Content: HtttpX3']);
          * @param string $header 
          * @return void
         */

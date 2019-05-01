@@ -28,6 +28,17 @@ class RouteHandler
              $this->params = $params;
         }
         
+        
+        /**
+         * Add Params
+         * @param array $params 
+         * @return void
+        */
+        public function addParams($params = [])
+        {
+             $this->params = $params;
+        }
+
 
         /**
          * Set params
@@ -52,7 +63,7 @@ class RouteHandler
 
         
         /**
-         * Get item param curren route
+         * Get item param current route
          * @param string $key 
          * @return mixed
         */

@@ -5,7 +5,7 @@ namespace app\controllers;
 /**
  * @package app\controllers\HomeController
 */
-class HomeController 
+class HomeController  extends BaseController
 {
        
        /**
@@ -14,8 +14,7 @@ class HomeController
        */
 	   public function index()
 	   {
-	   	   echo 'HomeController::index <br>';
-	   	   echo '<a href="'. \Route::url('about.me', ['slug' => 'your-best-friend']) . '">aboutMe</a>';
+           echo 'Welcome::index <br>';
 	   }
 
 
@@ -36,7 +35,7 @@ class HomeController
        */
 	   public function contact()
 	   {
-	   	   echo 'HomeController::contact', '<br>';
+	   	   return 'HomeController::contact';
 	   }
 
 

@@ -13,7 +13,7 @@ class Route
        * @var  bool  $notFound
       */
       private static $options = [];
-      public static $notFound = false;
+      private static $notFound = false;
 
 
 	    /**

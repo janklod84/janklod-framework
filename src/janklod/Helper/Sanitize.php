@@ -8,13 +8,14 @@ namespace JK\Helper;
 class Sanitize
 {
        
-       /**
-        * Sanitize input data 
-        * @param string $input 
-        * @return 
-       */
-	   public static function input($data)
+     /**
+      * Sanitize data 
+      * @param string $parsed
+      * @return 
+     */
+	   public static function input($parsed)
 	   {
-           return htmlentities($data, ENT_QUOTES, 'UTF-8');
+          return htmlentities($parsed, ENT_QUOTES, 'UTF-8');
 	   }
+	     
 }

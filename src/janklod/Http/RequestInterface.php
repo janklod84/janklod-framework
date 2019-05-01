@@ -1,40 +1,21 @@
 <?php 
-namespace JK\Http\Message;
+namespace JK\Http;
 
 
 /**
- * @package JK\Http\Message\RequestInterface 
+ * @package JK\Http\RequestInterface 
 */ 
 interface RequestInterface
 {
 	  
-	   /**
-        * Return data from request $_REQUEST
-        * $_REQUEST contain all request 
-        * @param string $key 
-        * @return mixed
-       */
-       public function fromGlobals($key = null);
-
-
-
+	
        /**
-        * Return data from request $_GET
+        * Contain all requests by POST, GET, PUT, HEAD, DELETE ...
         * 
         * @param string $key 
         * @return mixed
        */
-       public function get($key = null);
-
-
-
-       /**
-        * Return data from request $_POST
-        * 
-        * @param string $key 
-        * @return mixed
-       */
-       public function post($key = null);
+       public function requests($key = null);
 
 
 
