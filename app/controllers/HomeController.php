@@ -8,25 +8,27 @@ namespace app\controllers;
 class HomeController  extends BaseController
 {
        
+
+       // protected $layout = 'admin';
+
        /**
         * Action index
         * @return void
        */
 	   public function index()
 	   {
-           echo 'Welcome::index <br>';
+           $this->render('home/index');
 	   }
-
-
-	   /**
+       
+       
+       /**
         * Action about
-        * @return void
+        * @return string
        */
-	   public function about($slug, $id)
-	   {
-	   	   echo $slug . ' & ' . $id;
-	   	   echo 'HomeController::about', '<br>';
-	   }
+       public function about()
+       {
+           echo 'Here';
+       }
 
 
 	   /**
@@ -35,16 +37,13 @@ class HomeController  extends BaseController
        */
 	   public function contact()
 	   {
-	   	   return 'HomeController::contact';
+	   	   if($this->isPost())
+	   	   {
+	   	   	   debug($this->request->post());
+	   	   }
+
+	   	   $this->layout = 'admin';
+	   	   $this->render('home/contact');
 	   }
 
-
-	   /**
-        * Action submit
-        * @return void
-       */
-	   public function submit()
-	   {
-	   	   echo 'HomeController::submit', '<br>';
-	   }
 }

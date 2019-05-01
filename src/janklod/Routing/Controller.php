@@ -2,6 +2,12 @@
 namespace JK\Routing;
 
 
+use JK\Template\{
+   View,
+   ViewAdapter
+};
+
+
 /**
  * @package 
 */
@@ -16,6 +22,7 @@ abstract class Controller
      protected $app;
      protected $request;
      protected $layout;
+     protected $data = [];
 
        
      /**
@@ -30,6 +37,17 @@ abstract class Controller
 	   }
 
        
+     
+     /**
+      * Set data
+      * @param array $data 
+      * @return void
+     */
+     public function setData($data = [])
+     {
+          $this->data = $data;
+     }
+
 
      /**
       * View render
@@ -39,7 +57,22 @@ abstract class Controller
      */
      protected function render($view, $data = [])
      {
+         $viewObj = new View();
+         $viewObj->segment($view);
+         $viewObj->data($data);
+         $viewObj->layout($this->layout);
+         (new ViewAdapter($viewObj))->render();
+     }
 
+     
+     /**
+      * 
+      * @param string $name 
+      * @return void
+     */
+     protected function loadModel($name)
+     {
+         // $this->load->model($name);
      }
 
 

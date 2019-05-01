@@ -21,7 +21,6 @@ class Definition
 	            /*
 	            \JK\Template\Facades\ViewProvider::class,
 	            \JK\Database\Facades\DatabaseProvider::class,
-	            \JK\Loading\Facades\LoaderProvider::class,
 	            \JK\Validation\Facades\ValidationProvider::class,
 	           */
 	        ],

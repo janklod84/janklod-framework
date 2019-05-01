@@ -243,13 +243,13 @@ class Request implements RequestInterface
        {
             if(is_null($input))
             {
-            	$populated = [];
+              	$populated = [];
 
-            	foreach($data as $field => $value)
-            	{
-                    $populated[$field] = trim(Sanitize::input($value));
-            	}
-            	return $populated;
+              	foreach($data as $field => $value)
+              	{
+                      $populated[$field] = trim(Sanitize::input($value));
+              	}
+              	return $populated;
             }
 
             return isset($data[$input]) ? trim(Sanitize::input($data[$input])) : '';

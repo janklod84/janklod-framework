@@ -1,6 +1,4 @@
 <?php 
-
-
 /*
   |------------------------------------------------------------------
   |         WEB ROUTES OF APPLICATION
@@ -8,80 +6,26 @@
   |------------------------------------------------------------------
 */
 
-/*
-Route::get('/', function () {
-   echo 'Welcome';
-})->with('id', '[0-5]+');
-
-Route::get('/about', function () {
-   echo 'About Me';
-});
 
 
-Route::get('/contact', function () {
-   echo 'Contact Us';
-});
-
-
-Route::post('/contact', function () {
-   echo 'Send mail';
-});
-
-
-Route::get('/test', function () {
-
-   echo 'Test Regex';
-
-})->with('id', '[0-9]+')->with([
- 'slug' => '([a-z]+)',
- 'test' => '[my-test-ok]'
-]);
-
-
-Route::package('', 'UserController');
-
-
-Route::get('/', function () {
-   echo 'Welcome';
-}, 'welcome.page')->with('id', '[0-5]+');
-*/
-
+# SITE
 Route::get('', 'HomeController@index', 'welcome.page');
-
-Route::get('about', function () {
-   echo 'About me';
-
-});
-
-
-Route::get('/about/:slug', function ($slug) {
-
-   echo 'About me with parameter '. $slug . '<br>';
-
-}, 'about.me')->with('slug', '[a-z\-]+');
+Route::get('about', 'HomeController@about');
 
 
 
-$options = [
- 'prefix' => [
-  'path' => '/admin', 
-  'controller' => 'admin'
- ],
-];
-
-/*
-$options = [
- 'prefix' => '/admin'
-];
-*/
-
-Route::group($options, function () {
-
-  Route::package('', 'UserController');
-
-});
+Route::get('contact', 'HomeController@contact');
+Route::post('contact', 'HomeController@contact');
 
 
+
+# ADMIN
+
+
+
+
+
+# NOT FOUND
 Route::get('/404', 'NotFoundController@index');
 Route::notFound(404);
 

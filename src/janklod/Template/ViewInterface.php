@@ -7,5 +7,10 @@ namespace JK\Template;
 */
 interface ViewInterface
 {
-	
+	  
+	  /**
+	   * show render view
+	   * @return mixed
+	  */
+	  public function output();
 }
