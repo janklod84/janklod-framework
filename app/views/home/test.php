@@ -1,7 +1,11 @@
+<?php $this->start('head'); ?>
+<script type="text/javascript">
+	console.log('Meri les amis!');
+</script>
+<?php $this->end('head'); ?>
 
+<?php $this->start('body'); ?>
 <h1>Home::index</h1>
-<small><?= $site ?></small>
-<?php debug($posts); ?>
 <p>
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -10,3 +14,4 @@
 	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 </p>
+<?php $this->end('body'); ?>

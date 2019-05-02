@@ -1,8 +1,5 @@
 <?php 
 
-use JK\Application;
-use JK\Config\Config;
-
 /*
 |----------------------------------------------------------------------
 |   Function debogger 
@@ -63,18 +60,7 @@ define('DEV', false);
 |-------------------------------------------------------------------
 */
 
-$app = Application::instance(ROOT);
-
-
-
-/*
-|-------------------------------------------------------------------
-|    Set config root directory
-|-------------------------------------------------------------------
-*/
-
-Config::root(ROOT.'app/config');
-
+$app = \JK\Application::instance(ROOT);
 
 
 
@@ -85,6 +71,7 @@ Config::root(ROOT.'app/config');
 */
 
 $app->loadAlias();
+
 
 
 

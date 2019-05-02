@@ -6,7 +6,7 @@
   |------------------------------------------------------------------
 */
 
-
+# about?page=3
 
 # SITE
 Route::get('', 'HomeController@index', 'welcome.page');

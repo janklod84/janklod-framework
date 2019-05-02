@@ -98,7 +98,7 @@ class File
        */
        private function fullPath($path)
        {
-            return $this->root . self::DS. str_replace(
+            return str_replace('/', self::DS, $this->root) . self::DS. str_replace(
                        ['/', '\\'], 
                        static::DS, 
                        trim($path, '/')

@@ -43,10 +43,11 @@ abstract class Controller
       * @param array $data 
       * @return void
      */
-     public function setData($data = [])
+     public function set($data = [])
      {
           $this->data = $data;
      }
+
 
 
      /**
@@ -57,10 +58,11 @@ abstract class Controller
      */
      protected function render($view, $data = [])
      {
-         $viewObj = new View();
-         $viewObj->segment($view);
-         $viewObj->data($data);
-         $viewObj->layout($this->layout);
+         $this->data = $data ?: $this->data;
+         $viewObj = new View(ROOT .'app/views');
+         $viewObj->setPath($view);
+         $viewObj->setData($this->data);
+         $viewObj->setLayout($this->layout);
          (new ViewAdapter($viewObj))->render();
      }
 

@@ -10,12 +10,22 @@ interface RequestInterface
 	  
 	
        /**
-        * Contain all requests by POST, GET, PUT, HEAD, DELETE ...
+        * Return data from request $_GET
         * 
         * @param string $key 
         * @return mixed
        */
-       public function requests($key = null);
+       public function get($key = null);
+
+
+
+       /**
+        * Return data from request $_POST
+        * 
+        * @param string $key 
+        * @return mixed
+       */
+       public function post($key = null);
 
 
 

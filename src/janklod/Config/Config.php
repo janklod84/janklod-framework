@@ -17,32 +17,33 @@ class Config
 
 
        /**
-        * Constructor
-        * @param array $stored
-        * @return void
-       */
-	     public function __construct($stored = null)
-	     {
-	     	   if(is_string($stored) && file_exists($stored))
-	     	   {
-                $stored = require_once($stored);
-	     	   }
-           $stored = (array) $stored;
-           self::push($stored);
-	     }
-
-         
-       /**
         * Set configuration root directory
         * @param string $path 
         * @return void
        */
        public static function root($path)
        {
-       	   self::$configPath = $path;
+       	    self::$configPath = $path;
        }
 
 
+       /**
+        * Push stored data
+        * @param mixed $parsed
+        * @return void
+       */
+       public static function store($parsed = null)
+       {
+            if(is_string($parsed) && file_exists($parsed))
+            {
+                $stored = require_once($parsed);
+            }
+            $stored = (array) $parsed;
+            self::$stored = array_merge(self::$stored, $stored);
+       }
+       
+
+    
        /**
         * Config
         * @param string $key 
@@ -53,6 +54,17 @@ class Config
 	     {
            self::$stored[$key] = $value;
 	     }
+
+       
+       /**
+        * Get item from stored data
+        * @param string $key 
+        * @return mixed
+       */
+       public function item($key)
+       {
+           return self::has($key) ? self::$stored[$key] : null;
+       }
 
 
        /**
@@ -67,39 +79,53 @@ class Config
 
 
        /**
-        * Push stored data
-        * @param array $stored 
-        * @return void
+        * Find config item
+        *  Config::get('test.host')
+        *  Config::get('database.host')
+        * 
+        * @param string $path 
+        * @return mixed
        */
-       public static function push($stored = [])
+       public static function get($path)
        {
-       	    self::$stored = array_merge(self::$stored, $stored);
-       }
+             if($path)
+             {
+                 $path = explode('.', $path);
+                 $key  = $path[0] ?? '';
+                 $next = $path[1] ?? '';
+                 
+                 if($config = self::fromFile($key))
+                 {
+                     if(!empty($config[$next]))
+                     {
+                        return $config[$next];
 
-         
-      /**
-       * Get configuration from file
-       * Ex: Config::fromFile('app') [ put group name of file ]
-       * 
-       * @param string $fileName 
-       * @return array
-     */
-      public static function fromFile($fileName = null)
-      {
-           if(is_null($fileName)) { return false; }
+                     }else{
+                      
+                        return null;
+                     }
 
-           $file = trim(self::$configPath, '/') . '/' . trim($fileName, '/') . '.php';
+                     return $config;
+                 }
 
-           if(!file_exists($file))
-           {
-           	    exit(sprintf('File <strong>%s</strong> does not exist', $file));
-           }
+                 if(array_key_exists($key, self::$stored))
+                 {
+                      $config = self::item($key);
+                      foreach($path as $item)
+                      {
+                          if(isset($config[$item]))
+                          {
+                              $config = $config[$item];
+                          }
+                     }
+                 }
+
+                 return $config;
+
+             }
+             return false;
            
-           $path = realpath($file);
-           $data = include($path);
-           self::set($fileName, $data);
-           return $data;
-     }
+       }
 
 
          
@@ -110,6 +136,41 @@ class Config
      public static function all()
      {
      	   return self::$stored;
+     }
+
+     
+	 /**
+       * Get configuration from file
+       * Ex: Config::fromFile('app') [ put group name of file ]
+       * 
+       * @param string $fileName 
+       * @return array
+     */
+      public static function fromFile($fileName = null)
+      {
+           $file = self::filePath($fileName);
+           $path = realpath($file);
+           $data = include($path);
+           return (array) $data;
+     }
+	 
+	 
+	 
+     /**
+      * Get full path config
+      * @param string $fileName 
+      * @return string
+     */
+     private static function filePath($fileName)
+     {
+          if(is_null($fileName)) { return false; }
+          self::$configPath = self::$configPath ?: ROOT.'app/config';
+          $file = trim(self::$configPath, '/') . '/' . trim($fileName, '/') . '.php';
+          if(!file_exists($file))
+          {
+                exit(sprintf('File <strong>%s</strong> does not exist', $file));
+          }
+          return $file;
      }
 
 

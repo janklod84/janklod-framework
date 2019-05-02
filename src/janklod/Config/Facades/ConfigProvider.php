@@ -5,21 +5,16 @@ use JK\Service\ServiceProvider;
 use JK\Config\Config;
 
 
-
 /**
- * @package JK\Config\Facades\RouterProvider 
-*/ 
+ * @package JK\Config\Facades\ConfigProvider
+*/
 class ConfigProvider extends ServiceProvider
 {
-        
-        /**
-         * Register service
-         * @return void
-        */
-	    public function register()
-	    {
-            $this->app->singleton('config', function () {
-                 return new Config();
-            });
-	    }
+       
+       public function register()
+       {
+       	   $this->app->singleton('config', function () {
+               return new Config();
+           });
+       }
 }

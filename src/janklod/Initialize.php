@@ -63,10 +63,11 @@ class Initialize
          * Merge data
          * @param string $key 
          * @return array
-         */
+        */
 	    private static function get($key)
 	    {
-	    	 $config = Config::fromFile('app')[$key] ?: []; 
+             $item = "app.$key";
+             $config = Config::get($item) ?: []; 
 	    	 return array_merge(Definition::CONFIG[$key], $config);
 	    }
 }
