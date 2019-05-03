@@ -40,7 +40,7 @@ return [
 |------------------------------------------------------------------
 */
 
-'base_url' => '',
+'base_url' => 'http://project.loc/',
 
 
 /*
@@ -68,5 +68,6 @@ return [
 	\app\modules\Blog::class
 	*/
 ]
+
 
 ];

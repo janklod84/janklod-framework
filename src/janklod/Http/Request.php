@@ -16,7 +16,8 @@ class Request implements RequestInterface
         * Constructor
         * @return void
        */
-       public function __construct(){}
+       public function __construct() {}
+       
       
 
 
@@ -24,9 +25,9 @@ class Request implements RequestInterface
         * Get base url
         * @return string
        */
-       public function baseUrl($uri = true)
+       public function baseUrl($uri = false)
        {
-           return $this->prepareUrl($uri);
+           return $this->getUrl($uri);
        }
        
        
@@ -174,7 +175,7 @@ class Request implements RequestInterface
         * Determine if current scheme is secure
         * @return bool
        */
-       public function is_secure()
+       public function isSecure()
        {
            return $this->server('HTTPS') == 'on';
        }
@@ -184,25 +185,56 @@ class Request implements RequestInterface
          * Determine if current request is cli
          * @return bool
        */ 
-       public function is_cli() 
+       public function isCli() 
        {
            return $this->server('argc') > 0 
                  || php_sapi_name() === 'cli';
        }
 
+
+       /**
+        * Determine if request method is POST
+        * @return bool
+      */
+       public function isPost(): bool
+       {
+           return $this->method() === 'POST';
+       }
+
+
+       /**
+        * Determine if request method is GET
+        * @return bool
+       */
+       public function isGet(): bool
+       {
+           return $this->method() === 'GET';
+       }
+
+
+       /**
+        * Determine if request method by AJAX
+        * @return bool
+       */
+       public function isAjax(): bool
+       {
+           return $this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
+       }
+
+
        
        /**
         * Prepare Url
-        * @param string $uri
+        * @param bool $uri
         * @return string
        */
-       private function prepareUrl($uri)
+       private function getUrl($uri)
        { 
-       	  $http = $this->is_secure() ? 'https' : 'http';
+       	  $scheme = $this->isSecure() ? 'https' : 'http';
        	  $params = [
-            $http .'://',   
+            $scheme .'://',   
             $this->server('HTTP_HOST'),
-            !$uri ? '' : $this->server('REQUEST_URI')
+            $uri ? $this->server('REQUEST_URI') : ''
        	  ];
        
        	  return implode($params);
@@ -216,7 +248,7 @@ class Request implements RequestInterface
        */
        private function getCollection($data)
        {
-       	   return new Repository($data);
+       	   return new GlobalCollection($data);
        }
 
 
@@ -249,6 +281,7 @@ class Request implements RequestInterface
               	{
                       $populated[$field] = trim(Sanitize::input($value));
               	}
+
               	return $populated;
             }
 

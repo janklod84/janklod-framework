@@ -11,28 +11,38 @@ use JK\Http\Request;
 class Url
 {
       
-	      /**
-	       * Get url from 
-	       * @param string $uri 
-	       * @param array $params 
-	       * @return string
-	      */
-		  public static function to(string $uri = '', array $params = []): string
-		  {
-		  	    if($params)
-		  	    {
-		  	    	$uri .= '?'. http_build_query($params);
-		  	    }
-		  	    return $uri;
-		  }
+    /**
+     * Get url from 
+     * @param string $uri 
+     * @param array $params 
+     * @return string
+    */
+    public static function to($uri = '', $params = []): string
+    {
+	    if($params)
+	    {
+	    	$uri .= '?'. http_build_query($params);
+	    }
+	    return $uri;
+    }
 
-	      
-	      /**
-	       * Return to main page
-	       * @return string
-	      */
-		  public function back()
-		  {
-		  	   return header('Location: /');
-		  }
+    
+    /**
+     * Return to main page
+     * @return string
+    */
+    public static function back()
+    {
+    	return header('Location: '. self::base());
+    }
+
+    
+    /**
+     * Base url
+     * @return string
+    */
+    public static function base()
+    {
+        return (new Request())->baseUrl();
+    }
 }

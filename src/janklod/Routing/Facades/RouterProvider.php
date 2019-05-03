@@ -12,7 +12,7 @@ class RouterProvider extends ServiceProvider
 {
         
        
-        private $uri;
+        private $url;
 
 
         /**
@@ -21,7 +21,7 @@ class RouterProvider extends ServiceProvider
          */
         protected function boot()
         {
-             $this->uri = $this->app->request->uri();
+             $this->url = $this->app->request->get('url');
         }
 
 
@@ -32,7 +32,7 @@ class RouterProvider extends ServiceProvider
 	    public function register()
 	    {
             $this->app->singleton('router', function () {
-                 return new Router($this->uri);
+                 return new Router($this->url);
             });
 	    }
 }

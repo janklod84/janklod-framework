@@ -2,10 +2,13 @@
 <html>
 <head>
 	<title>Default Template</title>
-	<link rel="stylesheet" type="text/css" href="/assets/css/app.css">
+	<?php Asset::renderCss() ?>
 </head>
 <body>
-   <?= $content ?>
-   <script src="/assets/js/app.js"></script>
+   <?php include 'partials/menu.php'; ?>
+   <div class="container" style="margin-top:30px;">
+   	  <?= $content ?>
+   </div>
+   <?php Asset::renderJs() ?>
 </body>
 </html>

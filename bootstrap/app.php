@@ -21,7 +21,7 @@ require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
 /*
 |----------------------------------------------------------------------
-|   Check user php version
+|   Compatibility php version user with that used application
 |----------------------------------------------------------------------
 */
 

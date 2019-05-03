@@ -3,11 +3,13 @@ namespace JK\Http;
 
 
 /**
- *  $response
- *  $response->withHeaders([])
- *           ->withStatus(500)
- *           ->withBody('Mr Yao')
- *           ->send();
+ *  $response = new Response('Привет мир', 301, ['Content: xxx', '...', '...']);
+ * 
+ *  (new Response())->withHeaders(['Content: xxx', '...', '...'])
+ *                  ->withStatus(500)
+ *                  ->withBody('Жан-Клод')
+ *                  ->send();
+ *
  * @package JK\Http\Response 
 */ 
 class Response implements ResponseInterface

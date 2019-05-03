@@ -57,12 +57,12 @@ class Autoloader
        */
        public static function instance($root = null): self
        {
-              if(is_null(self::$instance))
-              {
-              	  self::$instance = new self($root);
-              }
+            if(is_null(self::$instance))
+            {
+            	  self::$instance = new self($root);
+            }
 
-              return self::$instance;
+            return self::$instance;
        }
        
 

@@ -1,24 +1,20 @@
 <?php 
-namespace app\controllers;
+namespace app\controllers\frontend;
 
 
 /**
- * @package app\controllers\HomeController
+ * @package app\controllers\frontend\HomeController
 */
 class HomeController  extends BaseController
 {
        
-
      /**
       * Action index
       * @return void
      */
 	   public function index()
 	   {
-           $site = 'JK Production';
-           $posts = ['name' => 'article1', 'test' => 'test2'];
-           $this->set(compact('site', 'posts'));
-           $this->render('home/index');
+         $this->render('home/index');
 	   }
        
        
@@ -32,20 +28,9 @@ class HomeController  extends BaseController
      }
 
 
-     /**
-      * Action about
-      * @return string
-     */
-     public function test()
-     {
-        $this->layout = 'test';
-         $this->render('home/test');
-     }
-
-
 	   /**
-        * Action contact
-        * @return void
+       * Action contact
+       * @return void
      */
 	   public function contact()
 	   {
@@ -53,9 +38,6 @@ class HomeController  extends BaseController
 	   	   {
 	   	   	   debug($this->request->post());
 	   	   }
-
-	   	   $this->layout = 'admin';
 	   	   $this->render('home/contact');
 	   }
-
 }

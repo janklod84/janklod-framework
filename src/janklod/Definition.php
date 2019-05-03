@@ -28,6 +28,7 @@ class Definition
 	             'Asset'    => 'JK\\Template\\Asset',
 	             'HTML'     => 'JK\\Template\\HTML', 
 	             'Config'   => 'JK\\Config\\Config',
+	             'Url'      => 'JK\\Helper\\Url',
             ],
         ];
 			

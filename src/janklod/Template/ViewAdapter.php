@@ -30,8 +30,8 @@ class ViewAdapter
      * @param \JK\Template\ViewInterface $view 
      * @return 
     */
-	  public function render()
-	  {
-        return $this->view->output();
-	  }
+	 public function render()
+	 {
+          return $this->view->output();
+	 }
 }

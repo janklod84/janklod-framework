@@ -2,14 +2,13 @@
 namespace JK\Http;
 
 
-use \Exception;
 use \JK\Helper\Collection;
 
 
 /**
- * @package JK\Http\Repository 
+ * @package JK\Http\GlobalCollection
 */ 
-class Repository 
+class GlobalCollection
 {
        
      /**

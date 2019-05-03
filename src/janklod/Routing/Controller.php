@@ -18,6 +18,7 @@ abstract class Controller
       * @var \JK\DI\ContainerInterface $app
       * @var \JK\Http\Request $request
       * @var string $layout
+      * @var array $data
      */
      protected $app;
      protected $request;
@@ -37,13 +38,27 @@ abstract class Controller
 	   }
 
        
-     
+    
+     /**
+      * Do something before calling action
+      * @return void
+     */
+     public function before() {}
+
+
+     /**
+      * Do something after calling action
+      * @return void
+     */
+     public function after() {}
+
+
      /**
       * Set data
       * @param array $data 
       * @return void
      */
-     public function set($data = [])
+     protected function set($data = [])
      {
           $this->data = $data;
      }
@@ -58,7 +73,7 @@ abstract class Controller
      */
      protected function render($view, $data = [])
      {
-         $this->data = $data ?: $this->data;
+         $this->data = array_merge($this->data, $data);
          $viewObj = new View(ROOT .'app/views');
          $viewObj->setPath($view);
          $viewObj->setData($this->data);
@@ -81,10 +96,10 @@ abstract class Controller
      /**
       * Determine if request method is POST
       * @return bool
-      */
+     */
      protected function isPost(): bool
      {
-         return $this->request->method() === 'POST';
+         return $this->request->isPost();
      }
 
 
@@ -94,7 +109,7 @@ abstract class Controller
      */
      protected function isGet(): bool
      {
-         return $this->request->method() === 'GET';
+         return $this->request->isGet();
      }
 
 
@@ -104,8 +119,7 @@ abstract class Controller
      */
      protected function isAjax(): bool
      {
-     	   $xhr = $this->request->server('HTTP_X_REQUESTED_WITH');
-         return $xhr === 'XMLHttpRequest';
+     	   return $this->request->isAjax();
      }
 
 

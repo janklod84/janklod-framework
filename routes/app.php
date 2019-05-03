@@ -6,27 +6,49 @@
   |------------------------------------------------------------------
 */
 
-# about?page=3
-
 # SITE
-Route::get('', 'HomeController@index', 'welcome.page');
-Route::get('about', 'HomeController@about');
+$frontend = [
+  'prefix' => [
+   'controller' => 'frontend'
+  ]
+];
 
-
-
-Route::get('contact', 'HomeController@contact');
-Route::post('contact', 'HomeController@contact');
-
+Route::group($frontend, function () {
+   Route::get('', 'HomeController@index', 'welcome.page');
+   Route::get('about', 'HomeController@about');
+   Route::get('contact', 'HomeController@contact');
+   Route::post('contact', 'HomeController@contact');
+});
 
 
 # ADMIN
+$backend = [
+ 'prefix' => [
+ 	'path' => '/admin',
+ 	'controller' => 'backend'
+ ]
+];
+
+Route::group($backend, function () {
+    Route::package('', 'UserController');
+});
 
 
+# Test closure callback
+Route::get('/test', function () {
+   echo 'Welcome to Test page!';
+});
+
+Route::get('/login', function () {
+   echo 'User::login';
+});
+
+Route::get('/logout', function () {
+   echo 'User::logout';
+});
 
 
 
 # NOT FOUND
 Route::get('/404', 'NotFoundController@index');
 Route::notFound(404);
-
-

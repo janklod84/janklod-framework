@@ -54,17 +54,6 @@ class View  implements ViewInterface
 
 
   /**
-   * Set view path
-   * @param string $viewPath 
-   * @return void
-  */
-  public function setViewPath($viewPath = '')
-  {
-      $this->viewPath = $viewPath;
-  }
-
-
-  /**
    * add layout
    * @param string $layout 
    * @return void
@@ -112,7 +101,7 @@ class View  implements ViewInterface
   */
   public function render()
   {
-      $this->getBuffer();
+      $this->runBuffer();
   }
 
 
@@ -120,7 +109,7 @@ class View  implements ViewInterface
    * Store buffer
    * @return void
   */
-  private function getBuffer()
+  private function runBuffer()
   {
       extract($this->data);
       ob_start();

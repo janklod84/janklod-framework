@@ -8,8 +8,8 @@ return [
     |------------------------------------------------------------------
    */
     'css' => [
-       '/app/css/bootstrap.min.css',
-       '/app/css/app.css'
+       '/bootstrap/css/bootstrap.min',
+       '/assets/app'
     ],
 
    /*
@@ -18,9 +18,7 @@ return [
     |------------------------------------------------------------------
    */
     'js' => [
-       '/app/js/jquery-3.3.1.min.js',
-       '/app/js/bootstrap.min.js',
-       '/app/js/app.js'
+       '/assets/app'
     ]
 ];
 
