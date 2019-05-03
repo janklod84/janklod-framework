@@ -46,25 +46,42 @@ class Asset
        {
            self::$js[] = trim($script, '/');
        }
+
+       
+       /**
+        * start buffer by type
+        * @param string $type 
+        * @return void
+       */
+       public static function start($type = '')
+       {
+
+       }
+
+
+       /**
+        * end buffer by type
+        * @param string $type 
+        * @return void
+       */
+       public static function end($type = '')
+       {
+
+       }
       
 
        /**
         * Render all css
+        * @var string $type
         * @return string
        */
-       public static function renderCss()
+       public static function render(string $type = '')
        {
-       	   echo self::render(self::$css, 'css');
-       }
-
-       
-       /**
-        * Render all js
-        * @return string
-       */
-       public static function renderJs()
-       {
-       	   echo self::render(self::$js, 'js');
+       	   if(!array_key_exists($type, self::FORMAT_TYPE))
+           {
+                exit(sprintf('This type [<strong>%s</strong>] has not render!', $type));
+           }
+           echo self::renderByType(self::${$type}, $type);
        }
 
 
@@ -73,17 +90,18 @@ class Asset
         * @param string $type 
         * @return string
        */
-       private static function render($data = [], $type)
+       private static function renderByType($data = [], $type)
        {
        	   $config = Config::get('asset.'. $type) ?? [];
-           $data = array_merge($data, $config);
-
+           $data = array_merge($config, $data);
            if(!empty($data))
            {
            	   $asset = '';
-           	   foreach ($data as $path)
+           	   foreach($data as $path)
                {
-                  $asset .= sprintf(self::FORMAT_TYPE[$type], Url::base() . '/'.  trim($path, '/'));
+                  $asset .= sprintf(self::FORMAT_TYPE[$type], 
+                                    Url::base() . '/'.  trim($path, '/')
+                            );
                }
                return $asset;
            }

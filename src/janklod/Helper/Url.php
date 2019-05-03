@@ -2,7 +2,9 @@
 namespace JK\Helper;
 
 
-use JK\Http\Request;
+use JK\Http\{Request, Response};
+use JK\Routing\Route;
+
 
 
 /**
@@ -19,11 +21,17 @@ class Url
     */
     public static function to($uri = '', $params = []): string
     {
-	    if($params)
-	    {
-	    	$uri .= '?'. http_build_query($params);
-	    }
-	    return $uri;
+    	    if(!empty($params))
+            {
+               if($namedRoute = Route::url($uri, $params))
+               {
+                    return $namedRoute;
+               }
+
+               $uri .= '?'. http_build_query($params);
+            }
+            
+            return $uri;
     }
 
     
@@ -33,7 +41,7 @@ class Url
     */
     public static function back()
     {
-    	return header('Location: '. self::base());
+    	return Response::redirect(self::base());
     }
 
     

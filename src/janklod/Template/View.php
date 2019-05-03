@@ -24,7 +24,6 @@ class View  implements ViewInterface
     protected $output;
     protected $view;
     protected $data = [];
-    protected $viewPath = '';
     protected $file;
 
 
@@ -49,26 +48,27 @@ class View  implements ViewInterface
     */
     public function __construct($viewPath = '')
     {
+         $viewPath = $viewPath ?: ROOT.'app/views';
          $this->file = new File($viewPath);
     }
 
 
-  /**
-   * add layout
-   * @param string $layout 
-   * @return void
-  */
-  public function setLayout($layout = '')
-  {
-       if($layout === false)
-       {
-          $this->layout = false;
-          
-       }else{
-           
-          $this->layout = $layout ?: Config::get('view.layout');
-       }
-  }
+    /**
+     * add layout
+     * @param string $layout 
+     * @return void
+    */
+    public function setLayout($layout = '')
+    {
+         if($layout === false)
+         {
+            $this->layout = false;
+            
+         }else{
+             
+            $this->layout = $layout ?: Config::get('view.layout');
+         }
+    }
 
 
   /**
@@ -131,15 +131,15 @@ class View  implements ViewInterface
   private function viewPath($path)
   {
        $file = $path . '.php';
-
+       $directive = $this->file->to($file);
        if(!$this->file->exists($file))
        {
           exit(
-            sprintf('File <strong>%s</strong> does not exist', $this->file->to($file))
+            sprintf('File <strong>%s</strong> does not exist', $directive)
          );
        }
 
-       return $this->file->to($file);
+       return $directive;
   }
 
 

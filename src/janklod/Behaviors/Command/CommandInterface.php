@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Behaviors;
+namespace JK\Behaviors\Command;
 
 
 /**
- * @package JK\Behaviors\CommandInterface
+ * @package JK\Behaviors\Command\CommandInterface
 */ 
 interface CommandInterface 
 {

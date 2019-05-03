@@ -3,9 +3,9 @@ namespace app\controllers\frontend;
 
 
 /**
- * @package app\controllers\frontend\HomeController
+ * @package app\controllers\frontend\HomeController 
 */
-class HomeController  extends BaseController
+class HomeController extends BaseController
 {
        
      /**

@@ -37,10 +37,13 @@ return [
 /*
 |------------------------------------------------------------------
 |   Application base URL 
+|   If base_url empty , base_url will be generated automatically 
+|   like this : http://project.loc/ [ http://project.loc/css/app.css ]
+|   But if you assign value like '/' so it'll be base url [ /css/app.css ]
 |------------------------------------------------------------------
 */
 
-'base_url' => 'http://project.loc/',
+'base_url' => '/', 
 
 
 /*

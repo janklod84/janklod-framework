@@ -31,25 +31,35 @@ interface RequestInterface
 
        /**
         * Return data from request $_FILES
-        * @param string $key 
+        * @var string $key
         * @return array
        */
-       public function files($key = null);
+       public function file($key = null);
 
 
 
        /**
         * Return data from request $_COOKIE
-        * @param string $key 
+        * @var string $key 
         * @return array
        */
-       public function cookies($key = null);
+       public function cookie($key = null);
      
-        
+       
+       
+       /**
+        * Return data from request $_SESSION
+        * @var string $key 
+        * @return array
+       */
+       public function session($key = null);
+
+
        /**
         * Return server
         * @param string $key 
         * @return mixed
        */
        public function server($key = null);
+
 }

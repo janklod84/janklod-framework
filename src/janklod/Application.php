@@ -69,8 +69,11 @@ final class Application
         public function run()
         {   
              $dispatcher = $this->router->dispatch($this->request->method());
-             $output = (string) $dispatcher->callAction($this->app);
-             $this->response->setBody($output);
+             $output = $dispatcher->callAction($this->app);
+             if(is_string($output))
+             {
+                $this->response->setBody($output);
+             }
              $this->response->send();
         }
        

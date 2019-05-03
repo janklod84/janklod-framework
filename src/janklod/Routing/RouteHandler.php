@@ -25,7 +25,7 @@ class RouteHandler
         */
         public function __construct($params = [])
         {
-             $this->params = $params;
+             $this->add($params);
         }
         
         
@@ -34,14 +34,14 @@ class RouteHandler
          * @param array $params 
          * @return void
         */
-        public function addParams($params = [])
+        public function add($params = [])
         {
              $this->params = $params;
         }
 
 
         /**
-         * Set params
+         * Set item of params
          * @param string $key 
          * @param mixed $value 
          * @return void
@@ -67,7 +67,7 @@ class RouteHandler
          * @param string $key 
          * @return mixed
         */
-        public function get($key)
+        public function get($key = null)
         {
             return $this->has($key) ? $this->params[$key] : null;
         }
@@ -94,10 +94,6 @@ class RouteHandler
         {
              if(!isset(self::$namedRoutes[$name]))
              {
-                   if(class_exists('\\JK\\Helper\\Url'))
-                   {
-                      return \JK\Helper\Url::to($name, $params);
-                   }
                    return false;
              }
 
@@ -190,6 +186,35 @@ class RouteHandler
                   $this->addNamedRoute($name);
              }
        }
+      
+
+       /**
+        * To fix later!
+        * Get items
+        * @param string $key 
+        * @return mixed
+       */
+       public function getItem($key = null)
+       { 
+            if($key)
+            {
+                $indexes = explode('.', $key);
+                if($this->has($indexes[0]))
+                {
+                    $param = $this->get($indexes[0]);
+                    foreach($indexes as $index)
+                    {
+                        if(isset($param[$index]))
+                        {
+                            $param = $param[$index];
+                        }
+                    }
+                }
+
+                return $param;
+            }
+       }
+
 
       /**
        * Add prefix

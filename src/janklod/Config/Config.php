@@ -21,7 +21,7 @@ class Config
         * @param string $path 
         * @return void
        */
-       public static function root($path)
+       public static function root($path = null)
        {
        	    self::$configPath = $path;
        }

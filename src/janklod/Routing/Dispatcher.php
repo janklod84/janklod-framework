@@ -3,6 +3,7 @@ namespace JK\Routing;
 
 
 use \Exception;
+use JK\Template\View;
 
 /**
  * @package JK\Routing\Dispatcher 
@@ -14,6 +15,7 @@ class Dispatcher
    /**
     * @var \JK\Routing\RouteHandler $route
     * @var mixed $callback
+    * @var string $controller
     * @var array $matches
    */
    private $route;
@@ -29,27 +31,11 @@ class Dispatcher
     * @param  \JK\Routing\RouteHandler $route 
     * @return void
    */
-   public function __construct($route)
+   public function __construct(RouteHandler $route)
    {
    	     $this->route    = $route;
          $this->callback = $route->get('callback');
          $this->matches  = $route->get('matches');
-   }
-
-   
-   /**
-    * Get route param
-    * Ex:
-    *   $this->get('path')
-    *   $this->get('method')
-    *   $this->get('')
-    * 
-    * @param string $key 
-    * @return mixed
-   */
-   public function get($key)
-   {
-       return $this->route->get($key);
    }
 
    
@@ -62,19 +48,16 @@ class Dispatcher
    {
           if(is_array($this->callback))
           {
-               $controller = $this->getController();
+               $controller = $this->controller_name();
                $this->controller = new $controller($app);
-               $this->callback = [$this->controller , $this->getAction()];
+               $this->callback = [$this->controller , $this->action_name()];
           }
           
           if(is_callable($this->callback))
           {
-               # to manage callBefore and callAfter
-               $this->callBefore();
           	   call_user_func_array($this->callback, $this->matches);
-               $this->callAfter();
 
-          }else {
+          }else{
              
              // must to redirect to page 404 later
              die('No callable');
@@ -91,19 +74,20 @@ class Dispatcher
     * @return string
     * @throws \Exception
    */
-    private function getController()
+    private function controller_name()
     {
-   	    $controller = sprintf('app\\controllers\\%s', $this->callback['controller']);
+          $cName = $this->callback['controller'];
+     	    $controller = sprintf('app\\controllers\\%s', $cName);
 
-        if(!class_exists($controller))
-        {
-             throw new Exception(
-               sprintf('class <strong>%s</strong> does not exit!', $controller), 
-               404
-            );
-        }
+          if(!class_exists($controller))
+          {
+               throw new Exception(
+                 sprintf('class <strong>%s</strong> does not exit!', $controller), 
+                 404
+              );
+          }
 
-        return $controller;
+          return $controller;
     }
 
          
@@ -112,7 +96,7 @@ class Dispatcher
       * Ex: 'index', 'about' ...
       * @return string
     */
-    private function getAction()
+    private function action_name()
     {
          return mb_strtolower($this->callback['action']);
     }
@@ -126,31 +110,4 @@ class Dispatcher
    {
         return $this->matches;
    }
-
-   
-   /**
-    * Do some action before callback
-    * @return void
-   */
-   private function callBefore()
-   {
-        if(method_exists($this->controller, 'before'))
-        {
-             $this->controller->before();
-        }
-   }
-
-
-   /**
-    * Do some action before callback
-    * @return void
-   */
-   private function callAfter()
-   {
-        if(method_exists($this->controller, 'after'))
-        {
-             $this->controller->after();
-        }
-   }
-
 }

@@ -166,7 +166,7 @@ class Response implements ResponseInterface
          * @param string $to 
          * @return void
         */
-        public function redirect(string $to = '/')
+        public static function redirect(string $to = '/')
         {
             if(!headers_sent())
             {
@@ -181,7 +181,7 @@ class Response implements ResponseInterface
          * @param int $code 
          * @return void
         */
-        public function setCode($code)
+        public function setCode(int $code)
         {
             http_response_code($code);
         }
@@ -189,7 +189,8 @@ class Response implements ResponseInterface
 
         /**
          * Send all setted headers and show content
-         * header('HTTP/1.1 '. $this->status)
+         * Protocol with status , 
+         * header('HTTP/1.1 '. $this->status) or
          * http_response_code($this->status)
          * 
          * Show status code

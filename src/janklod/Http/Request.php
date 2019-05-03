@@ -2,7 +2,13 @@
 namespace JK\Http;
 
 
-use JK\Helper\Sanitize;
+use JK\Helper\{
+  Sanitize,
+  Collection 
+};
+use Http\Sessions\Session;
+use Http\Cookies\Cookie;
+use \Config;
 
 
 /**
@@ -18,8 +24,6 @@ class Request implements RequestInterface
        */
        public function __construct() {}
        
-      
-
 
        /**
         * Get base url
@@ -27,7 +31,22 @@ class Request implements RequestInterface
        */
        public function baseUrl($uri = false)
        {
+           if(Config::get('app.base_url') && $uri == false)
+           {
+               return trim(Config::get('app.base_url'), '/');
+           }
            return $this->getUrl($uri);
+       }
+
+       
+       /**
+        * Get details url
+        * @param string $url 
+        * @return array
+       */
+       public function details($url)
+       {
+          return parse_url($url);
        }
        
        
@@ -70,24 +89,36 @@ class Request implements RequestInterface
        /**
         * Get item from $_FILES request
         * 
-        * @param string $key 
+        * @var string $key
         * @return mixed
        */
-       public function files($key = null)
+       public function file($key = null)
        {
-           return $this->collection($_FILES, $key);
+          return new UploadedFile($_FILES);
        }
 
 
        /**
         * Get item from $_COOKIE
         * 
+        * @var string $key
+        * @return mixed
+       */
+       public function cookie($key = null)
+       {
+           return new Cookie($_COOKIE);
+       }
+
+
+       /**
+        * Get item from $_SESSION
+        * 
         * @param string $key 
         * @return mixed
        */
-       public function cookies($key = null)
+       public function session($key = null)
        {
-           return $this->collection($_COOKIE, $key);
+           return new Session($_SESSION);
        }
 
 
@@ -196,40 +227,40 @@ class Request implements RequestInterface
         * Determine if request method is POST
         * @return bool
       */
-       public function isPost(): bool
-       {
+      public function isPost(): bool
+      {
            return $this->method() === 'POST';
-       }
+      }
 
 
-       /**
+      /**
         * Determine if request method is GET
         * @return bool
-       */
-       public function isGet(): bool
-       {
+      */
+      public function isGet(): bool
+      {
            return $this->method() === 'GET';
-       }
+      }
 
 
-       /**
-        * Determine if request method by AJAX
-        * @return bool
-       */
-       public function isAjax(): bool
-       {
+      /**
+       * Determine if request method by AJAX
+       * @return bool
+      */
+      public function isAjax(): bool
+      {
            return $this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
-       }
+      }
 
 
        
-       /**
-        * Prepare Url
-        * @param bool $uri
-        * @return string
-       */
-       private function getUrl($uri)
-       { 
+     /**
+      * Prepare Url
+      * @param bool $uri
+      * @return string
+     */
+     private function getUrl($uri = false)
+     { 
        	  $scheme = $this->isSecure() ? 'https' : 'http';
        	  $params = [
             $scheme .'://',   
@@ -238,19 +269,8 @@ class Request implements RequestInterface
        	  ];
        
        	  return implode($params);
-       }
-
+     }
        
-       /**
-        * Add data to collection
-        * @param array $data 
-        * @return \JK\Helper\Collection
-       */
-       private function getCollection($data)
-       {
-       	   return new GlobalCollection($data);
-       }
-
 
        /**
         * Retrieve item from repository
@@ -260,7 +280,11 @@ class Request implements RequestInterface
         */
        private function collection($data, $key)
        {
-       	   return $this->getCollection($data)->get($key);
+       	   if(is_null($key))
+           {
+              return (new Collection($data))->all();
+           }
+           return (new Collection($data))->get($key);
        }
 
 

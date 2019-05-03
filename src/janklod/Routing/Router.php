@@ -4,7 +4,7 @@ namespace JK\Routing;
 
 
 /**
- * @package JK\Routing
+ * @package JK\Routing\Router
 */ 
 class Router
 {

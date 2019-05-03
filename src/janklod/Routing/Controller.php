@@ -19,11 +19,13 @@ abstract class Controller
       * @var \JK\Http\Request $request
       * @var string $layout
       * @var array $data
+      * @var string $viewPath
      */
      protected $app;
      protected $request;
      protected $layout;
      protected $data = [];
+     public $render = true;
 
        
      /**
@@ -40,17 +42,19 @@ abstract class Controller
        
     
      /**
+      * Must to add later next functionnality
       * Do something before calling action
       * @return void
      */
-     public function before() {}
+     protected function before() {}
 
 
      /**
+      * Must to add later next functionnality
       * Do something after calling action
       * @return void
      */
-     public function after() {}
+     protected function after() {}
 
 
      /**
@@ -73,12 +77,15 @@ abstract class Controller
      */
      protected function render($view, $data = [])
      {
-         $this->data = array_merge($this->data, $data);
-         $viewObj = new View(ROOT .'app/views');
-         $viewObj->setPath($view);
-         $viewObj->setData($this->data);
-         $viewObj->setLayout($this->layout);
-         (new ViewAdapter($viewObj))->render();
+         if($this->render)
+         {
+             $this->data = array_merge($this->data, $data);
+             $viewObj = new View();
+             $viewObj->setPath($view);
+             $viewObj->setData($this->data);
+             $viewObj->setLayout($this->layout);
+             (new ViewAdapter($viewObj))->render();
+         }
      }
 
      
