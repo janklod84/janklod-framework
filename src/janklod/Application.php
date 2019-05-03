@@ -4,6 +4,7 @@ namespace JK;
 
 use JK\FileSystem\File;
 use JK\DI\ContainerBuilder;
+use JK\Helper\MicroTimer;
 
 
 
@@ -68,12 +69,14 @@ final class Application
         */
         public function run()
         {   
+             /**>>
+             $db = new \JK\Database\Database();
+             debug($db->query('SELECT * FROM posts'));
+             <<*/
+
              $dispatcher = $this->router->dispatch($this->request->method());
-             $output = $dispatcher->callAction($this->app);
-             if(is_string($output))
-             {
-                $this->response->setBody($output);
-             }
+             $output = (string) $dispatcher->callAction($this->app);
+             $this->response->setBody($output);
              $this->response->send();
         }
        
@@ -226,6 +229,22 @@ final class Application
        public function loadProviders()
        {
            Initialize::providers($this->app);
+       }
+
+
+       
+       /**
+        * Show development microtimer
+        * @param float $start
+        * @return string
+       */
+       public function microtimer(float $start = null)
+       {
+           if(defined('DEV') && DEV)
+           {
+              $microtimer = new MicroTimer($start);
+              $microtimer->show(\Config::get('app.language'));
+           }
        }
 
 

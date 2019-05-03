@@ -4,6 +4,8 @@ namespace JK\Template;
 
 use \Config;
 use \JK\FileSystem\File;
+use \JK\Debogger\MicroTimer;
+
 
 
 /**
@@ -132,6 +134,7 @@ class View  implements ViewInterface
   {
        $file = $path . '.php';
        $directive = $this->file->to($file);
+
        if(!$this->file->exists($file))
        {
           exit(
@@ -196,7 +199,5 @@ class View  implements ViewInterface
   {
   	  return $this->render();
   }
-
-
 
 }

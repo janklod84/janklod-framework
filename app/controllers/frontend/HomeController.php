@@ -14,7 +14,7 @@ class HomeController extends BaseController
      */
 	   public function index()
 	   {
-         $this->render('home/index');
+         return $this->render('home/index');
 	   }
        
        

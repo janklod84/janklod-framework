@@ -26,8 +26,8 @@ class RegistryResolver extends CustomResolver
     */
     public function __construct($key, $value)
     {
-    	   $this->ensureKeyParsed($key);
-    	   self::$registry[$key] = $value;
+    	 $this->ensureKeyParsed($key);
+    	 self::$registry[$key] = $value;
     }
 
 

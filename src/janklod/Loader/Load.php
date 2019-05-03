@@ -23,7 +23,23 @@ class Load
      {
           $this->app = $app;
      }
-
+     
+     
+     /**
+      * Get callback
+      * @param object $object 
+      * @param string $action 
+      * @return void
+     */
+     public function callback(
+      object $object, 
+      string $method, 
+      array $arguments = []
+     ) 
+     {
+           return call_user_func_array([$object, $method], $arguments = []);
+     }
+    
 
      /**
       * Load model

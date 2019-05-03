@@ -10,6 +10,7 @@ return [
 'microtime' => microtime(true),
 
 
+
 /*
 |------------------------------------------------------------------
 |   Application Timezone
@@ -31,7 +32,7 @@ return [
 |   Current language of Application
 |------------------------------------------------------------------
 */
-'language' => 'en',
+'language' => 'ru',
 
 
 /*

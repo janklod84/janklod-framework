@@ -20,7 +20,6 @@ class Dispatcher
    */
    private $route;
    private $callback;
-   private $controller;
    private $matches = [];
 
 
@@ -41,73 +40,50 @@ class Dispatcher
    
    /**
     * Call controller and action
-    * @param \JK\Container\ContainerInterface $app
+    * @param mixed $argument
     * @return mixed
    */
-   public function callAction($app)
+   public function callAction($argument = null)
    {
           if(is_array($this->callback))
           {
-               $controller = $this->controller_name();
-               $this->controller = new $controller($app);
-               $this->callback = [$this->controller , $this->action_name()];
+               $controllerObj = $this->getController($argument);
+               $action = strtolower($this->callback['action']);
+               $this->callback = [$controllerObj , $action];
           }
           
-          if(is_callable($this->callback))
+          if(!is_callable($this->callback))
           {
-          	   call_user_func_array($this->callback, $this->matches);
-
-          }else{
-             
-             // must to redirect to page 404 later
-             die('No callable');
+              die('No callable'); // redirect to 404 page
           }
+
+          return call_user_func_array($this->callback, $this->matches);
               
    }
 
 
    /**
-    * Get full name of controller
-    * Ex: \app\controllers\admin\UserController
-    * Ex: \app\controllers\HomeController
+    * Get controller
     * 
-    * @return string
+    * @var mixed $argument
+    * @return object
     * @throws \Exception
    */
-    private function controller_name()
+    private function getController($argument = null)
     {
-          $cName = $this->callback['controller'];
-     	    $controller = sprintf('app\\controllers\\%s', $cName);
+          $controller_name = $this->callback['controller'];
+     	    $controllerClass = sprintf('app\\controllers\\%s', $controller_name);
 
-          if(!class_exists($controller))
+          if(!class_exists($controllerClass))
           {
                throw new Exception(
-                 sprintf('class <strong>%s</strong> does not exit!', $controller), 
+                 sprintf('class <strong>%s</strong> does not exit!', $controllerClass), 
                  404
               );
           }
 
-          return $controller;
+          return new $controllerClass($argument);
     }
 
-         
-    /**
-      * Get full name of action
-      * Ex: 'index', 'about' ...
-      * @return string
-    */
-    private function action_name()
-    {
-         return mb_strtolower($this->callback['action']);
-    }
-
-   
-   /**
-    * Get matches params of current route
-    * @return array
-   */
-   private function matches()
-   {
-        return $this->matches;
-   }
+        
 }
