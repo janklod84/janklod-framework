@@ -194,7 +194,7 @@ class RouteHandler
         * @param string $key 
         * @return mixed
        */
-       public function getItem($key = null)
+       private function getItem($key = null)
        { 
             if($key)
             {

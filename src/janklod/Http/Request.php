@@ -26,10 +26,11 @@ class Request implements RequestInterface
        
 
        /**
-        * Get base url
+        * Get base url with or without URI
+        * @param bool $uri
         * @return string
        */
-       public function baseUrl($uri = false)
+       public function baseUrl($uri = false): string
        {
            if(Config::get('app.base_url') && $uri == false)
            {

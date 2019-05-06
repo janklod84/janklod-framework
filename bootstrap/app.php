@@ -21,7 +21,7 @@ require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
 /*
 |----------------------------------------------------------------------
-|   Compatibility php version user with that used application
+|   Check compatibility php version user with that used application
 |----------------------------------------------------------------------
 */
 
@@ -93,3 +93,13 @@ $app->loadProviders();
 */
 
 $app->file->call('routes/app.php');
+
+
+
+/*
+|-------------------------------------------------------------------
+|   Initialize database connection 
+|-------------------------------------------------------------------
+*/
+
+\JK\Database\DatabaseManager::open();

@@ -115,22 +115,22 @@ class View  implements ViewInterface
   {
       extract($this->data);
       ob_start();
-      require_once $this->viewPath($this->view);
+      require_once $this->fullPath($this->view);
       $content = ob_get_clean();
       if($this->layout != false)
       {
-          require_once $this->viewPath('layouts/' . $this->layout);
+          require_once $this->fullPath('layouts/' . $this->layout);
       }
   }
 
 
 
   /**
-   * Get viewPath and make sure that file exist
+   * Get full view path and make sure that file exist
    * @param string $path 
    * @return string
   */
-  private function viewPath($path)
+  private function fullPath($path)
   {
        $file = $path . '.php';
        $directive = $this->file->to($file);

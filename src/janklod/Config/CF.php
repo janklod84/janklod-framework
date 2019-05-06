@@ -96,12 +96,21 @@ class Config
                  
                  if($config = self::fromFile($key))
                  {
-                     $config = !empty($config[$next]) ? $config[$next] : null;
+                     if(!empty($config[$next]))
+                     {
+                        return $config[$next];
 
-                 }elseif(array_key_exists($key, self::$stored)){
+                     }else{
+                      
+                        return null;
+                     }
 
+                     return $config;
+                 }
+
+                 if(array_key_exists($key, self::$stored))
+                 {
                       $config = self::item($key);
-
                       foreach($path as $item)
                       {
                           if(isset($config[$item]))
@@ -112,8 +121,10 @@ class Config
                  }
 
                  return $config;
+
              }
              return false;
+           
        }
 
 

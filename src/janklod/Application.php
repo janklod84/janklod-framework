@@ -69,11 +69,7 @@ final class Application
         */
         public function run()
         {   
-             /**>>
-             $db = new \JK\Database\Database();
-             debug($db->query('SELECT * FROM posts'));
-             <<*/
-
+             require_once __DIR__.'/Test.php';
              $dispatcher = $this->router->dispatch($this->request->method());
              $output = (string) $dispatcher->callAction($this->app);
              $this->response->setBody($output);

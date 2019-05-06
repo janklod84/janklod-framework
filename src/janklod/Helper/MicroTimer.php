@@ -82,16 +82,17 @@ class MicroTimer
 	        /**
 	         * Microtimer
 	         * @param string $code [ code language we want to show messages ]
+             * @param int $times 
 	         * @return string
 	        */
-		    public function show($code = 'en')
+		    public function show($code = 'en', $times = 5)
 		    {
                  if($showMsg = $this->getMessage($code))
                  {
                      $html  = PHP_EOL;
                      $html .= sprintf('<div style="%s">%s</div>', 
                                     $this->styleStringify(), 
-                                    sprintf($showMsg, $this->rounder())
+                                    sprintf($showMsg, $this->rounder($times))
                                  );
                      $html .= PHP_EOL;
                      echo $html;
@@ -119,7 +120,7 @@ class MicroTimer
              * @param int $times [How many times]
              * @return string
             */
-            private function rounder($times = 5)
+            private function rounder($times)
             {
                 return round(microtime(true) - $this->start, $times);
             }
@@ -141,7 +142,6 @@ class MicroTimer
                      if(isset($message['msg']))
                      {
                          return $message['msg'];
-
                      }
 					 
                  }elseif(isset($this->messages[$code])){

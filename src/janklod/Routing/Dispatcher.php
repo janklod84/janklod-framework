@@ -3,7 +3,6 @@ namespace JK\Routing;
 
 
 use \Exception;
-use JK\Template\View;
 
 /**
  * @package JK\Routing\Dispatcher 
@@ -15,7 +14,6 @@ class Dispatcher
    /**
     * @var \JK\Routing\RouteHandler $route
     * @var mixed $callback
-    * @var string $controller
     * @var array $matches
    */
    private $route;

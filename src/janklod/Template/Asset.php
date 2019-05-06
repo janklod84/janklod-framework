@@ -48,30 +48,10 @@ class Asset
        }
 
        
-       /**
-        * start buffer by type
-        * @param string $type 
-        * @return void
-       */
-       public static function start($type = '')
-       {
-
-       }
-
+       
 
        /**
-        * end buffer by type
-        * @param string $type 
-        * @return void
-       */
-       public static function end($type = '')
-       {
-
-       }
-      
-
-       /**
-        * Render all css
+        * Render factory
         * @var string $type
         * @return string
        */
@@ -81,7 +61,7 @@ class Asset
            {
                 exit(sprintf('This type [<strong>%s</strong>] has not render!', $type));
            }
-           echo self::renderByType(self::${$type}, $type);
+           echo self::renderType(self::${$type}, $type);
        }
 
 
@@ -90,7 +70,7 @@ class Asset
         * @param string $type 
         * @return string
        */
-       private static function renderByType($data = [], $type)
+       private static function renderType($data = [], $type)
        {
        	   $config = Config::get('asset.'. $type) ?? [];
            $data = array_merge($config, $data);
