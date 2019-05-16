@@ -6,9 +6,9 @@ use \JK\Config\Config;
 
 
 /**
- * @package JK\Initialize
+ * @package JK\Initializer
 **/ 
-class Initialize 
+class Initializer 
 {
         
         /**
@@ -57,6 +57,16 @@ class Initialize
                    call_user_func([$provider, 'register']);
 	         }
 	    }
+
+        
+        /**
+         * 
+         * @return 
+        */
+        public static function boot()
+        {
+
+        }
 
         
         /**

@@ -38,14 +38,14 @@ class Dispatcher
    
    /**
     * Call controller and action
-    * @param mixed $argument
+    * @param \JK\Container\ContainerInterface $app
     * @return mixed
    */
-   public function callAction($argument = null)
+   public function callAction($app)
    {
           if(is_array($this->callback))
           {
-               $controllerObj = $this->getController($argument);
+               $controllerObj = $this->getController($app);
                $action = strtolower($this->callback['action']);
                $this->callback = [$controllerObj , $action];
           }
@@ -67,7 +67,7 @@ class Dispatcher
     * @return object
     * @throws \Exception
    */
-    private function getController($argument = null)
+    private function getController($argument)
     {
           $controller_name = $this->callback['controller'];
      	    $controllerClass = sprintf('app\\controllers\\%s', $controller_name);

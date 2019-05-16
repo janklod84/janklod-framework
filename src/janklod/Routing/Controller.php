@@ -16,17 +16,18 @@ abstract class Controller
        
      /**
       * @var \JK\DI\ContainerInterface $app
-      * @var  \JK\Template\View $view
+      * @var \JK\Loader\Load $load
+      * @var \JK\Template\View $view
       * @var \JK\Http\Request $request
       * @var string $layout
       * @var array $data
       * @var string $viewPath
      */
      protected $app;
+     protected $load;
      protected $view;
      protected $request;
      protected $layout;
-     protected $data = [];
      public $render = true;
 
        
@@ -39,6 +40,7 @@ abstract class Controller
 	   {
            $this->app = $app;
            $this->request = $app->get('request');
+           $this->load = $app->get('load');
            $this->view = new View();
 	   }
 
@@ -67,7 +69,7 @@ abstract class Controller
      */
      protected function set($data = [])
      {
-          $this->data = $data;
+          $this->view->setData($data);
      }
 
 
@@ -82,9 +84,8 @@ abstract class Controller
      {
          if($this->render)
          {
-             $this->data = array_merge($this->data, $data);
-             $this->view->setPath($view);
-             $this->view->setData($this->data);
+             $this->view->setView($view);
+             $this->view->setData($data);
              $this->view->setLayout($this->layout);
              (new ViewAdapter($this->view))->render();
          }

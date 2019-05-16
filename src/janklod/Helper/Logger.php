@@ -1,6 +1,9 @@
 <?php 
 namespace JK\Helper;
 
+use JK\FileSystem\File;
+
+
 /**
  * @package JK\Helper\Logger 
 */ 

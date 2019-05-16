@@ -25,7 +25,7 @@ require_once realpath(__DIR__ .'/../vendor/autoload.php');
 |----------------------------------------------------------------------
 */
 
-if(!version_compare(PHP_VERSION, '7.1', '>='))
+if(version_compare(PHP_VERSION, '7.1', '<='))
 {
      exit('check version php >= 7.1');
 }
@@ -50,7 +50,7 @@ define('ROOT', '../');
 |-------------------------------------------------------
 */
 
-define('DEV', true);
+define('DEV', false);
 
 
 
@@ -96,10 +96,3 @@ $app->file->call('routes/app.php');
 
 
 
-/*
-|-------------------------------------------------------------------
-|   Initialize database connection 
-|-------------------------------------------------------------------
-*/
-
-\JK\Database\DatabaseManager::open();

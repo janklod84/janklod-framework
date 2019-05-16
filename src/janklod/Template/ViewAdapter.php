@@ -19,10 +19,10 @@ class ViewAdapter
      * @param \JK\Template\ViewInterface $view 
      * @return void
     */
-	  public function __construct(ViewInterface $view)
-	  {
-           $this->view = $view;
-	  }
+    public function __construct(ViewInterface $view)
+    {
+         $this->view = $view;
+    }
 
     
     /**

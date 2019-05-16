@@ -56,7 +56,7 @@ class Container implements ContainerInterface
      public function setInstance($instance)
      {
      	    $name = (new Reflection($instance))->name();
-            $this->set($name, $instance);
+          $this->set($name, $instance);
      }
 
 

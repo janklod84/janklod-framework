@@ -69,11 +69,26 @@ final class Application
         */
         public function run()
         {   
-             require_once __DIR__.'/Test.php';
-             $dispatcher = $this->router->dispatch($this->request->method());
-             $output = (string) $dispatcher->callAction($this->app);
-             $this->response->setBody($output);
-             $this->response->send();
+             if(!$this->request->isCli())
+             {
+                 $dispatcher = $this->router->dispatch($this->request->method());
+                 $output = $dispatcher->callAction($this->app);
+                 if(is_string($output))
+                 {
+                    $this->response->setBody($output);
+                 }
+                 $this->response->send();
+             }
+        }
+
+        
+        /**
+         * Close application
+         * @return void
+        */
+        public function close()
+        {
+             $this->microtimer();
         }
        
 
@@ -206,6 +221,7 @@ final class Application
             return $this->containerBuilder->build();
        }
 
+
        
        /**
         * Load all alias
@@ -214,7 +230,7 @@ final class Application
        */
        public function loadAlias()
        {
-           Initialize::alias();
+           Initializer::alias();
        }
 
 
@@ -224,21 +240,20 @@ final class Application
        */
        public function loadProviders()
        {
-           Initialize::providers($this->app);
+           Initializer::providers($this->app);
        }
 
 
        
        /**
         * Show development microtimer
-        * @param float $start
         * @return string
        */
-       public function microtimer(float $start = null)
+       public function microtimer()
        {
            if(defined('DEV') && DEV)
            {
-              $microtimer = new MicroTimer($start);
+              $microtimer = new MicroTimer(\Config::get('app.microtime'));
               $microtimer->show(\Config::get('app.language'));
            }
        }

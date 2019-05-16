@@ -74,19 +74,19 @@ class View  implements ViewInterface
 
 
   /**
-   * add view
+   * set view
    * @param string $view 
    * @return void
   */
-  public function setPath($view = '')
+  public function setView($view = '')
   {
   	   $this->view = $view;
   }
 
 
   /**
-   * add view
-   * @param string $view 
+   * set datas
+   * @param array $data
    * @return void
   */
   public function setData($data = [])
@@ -120,10 +120,26 @@ class View  implements ViewInterface
       if($this->layout != false)
       {
           require_once $this->fullPath('layouts/' . $this->layout);
+          $this->currentViewPath();
       }
+
   }
 
-
+  
+  /**
+    * Show current view path
+    * @return string
+  */ 
+  private function currentViewPath()
+  {
+      $html = '<div class="container text-center">';
+      $html .= '<p>';
+      $html .= '<small>Current view path :</small>'; 
+      $html .= '<code>'. $this->fullPath($this->view) . '</code>'; 
+      $html .= '</p>';
+      $html .= '</div>';
+      echo $html;
+  }
 
   /**
    * Get full view path and make sure that file exist

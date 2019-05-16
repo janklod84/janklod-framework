@@ -28,13 +28,12 @@ require_once realpath(__DIR__.'/../bootstrap/app.php');
 $app->run();
 
 
+
 /*
 |-------------------------------------------------------
-|    Show microtimer development
-|    it's show how many times page generated
-|    in production set DEV to false 
-|    constante DEV inside file bootstrap/app.php
+|    Close Application
 |-------------------------------------------------------
 */
 
-$app->microtimer(\Config::get('app.microtime'));
+$app->close();
+

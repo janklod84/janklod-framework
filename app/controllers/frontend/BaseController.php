@@ -11,13 +11,29 @@ use JK\Routing\Controller;
 class BaseController extends Controller 
 {
      
-     /**
-      * Construct
-      * @param \JK\Container\ContainerInterface $app 
-      * @return void
-     */
+   /**
+     * Construct
+     * @param \JK\Container\ContainerInterface $app 
+     * @return void
+   */
 	 public function __construct($app)
 	 {
-	 	 parent::__construct($app);	
+	 	  parent::__construct($app);
+	 	  
+      /* $this->loadModel('User'); */
+	 }
+     
+
+     
+   /**
+     * Load model
+     * @var string $name [ Name of Model ]
+     * @return object
+   */
+	 protected function loadModel($name)
+	 {
+	 	     $model = sprintf('\\app\\models\\Manager\\%sManager', $name);
+	 	     $named = strtolower($name);
+         $this->{$named} = new $model();
 	 }
 }
