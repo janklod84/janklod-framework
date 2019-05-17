@@ -43,10 +43,19 @@ abstract class Fetch
 	    * @param string $key 
 	    * @return 
      */
-     protected function getOption($key)
+     protected function option($key)
      {
           return isset($this->options[$key]) ? $this->options[$key] : null;
      }
-
-
+     
+     /**
+      * Get argument
+      * @param string $key 
+      * @return mixed
+     */
+     protected function argument($key)
+     {
+         $argument = $this->option('arguments');
+         return isset($argument[$key]) ? $argument[$key] : null;
+     }
 } 

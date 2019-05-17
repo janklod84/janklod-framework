@@ -16,10 +16,11 @@ class FetchClass extends Fetch
       */
       public function setMode()
       {
-           if($className = $this->getOption('entity'))
+           if($className = $this->option('entity'))
            {
-               $contructor_args = $this->getOption('parameters');
-               $this->statement->setFetchMode(PDO::FETCH_CLASS, $className, $contructor_args);
+               $contructor_args = $this->argument('parameters');
+               $mode = $this->argument('mode') ?: PDO::FETCH_CLASS;
+               $this->statement->setFetchMode($mode, $className, $contructor_args);
            }
       }
 

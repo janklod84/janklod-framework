@@ -16,9 +16,10 @@ class FetchColumn extends Fetch
       */
       public function setMode()
       {
-           if($colno = $this->getOption('column'))
+           if($colno = $this->option('column'))
            {
-                $this->statement->setFetchMode($this->fetchMode, $colno);
+                $mode = $this->argument('mode') ?: PDO::FETCH_COLUMN;
+                $this->statement->setFetchMode($mode, $colno);
            }
       }
 

@@ -56,21 +56,20 @@ trait ActiveRecord
      * @param bool $fetch 
      * @return mixed
     */
-    protected function makeQuery($sql, $params = [], $fetch = true)
+    protected function execute($sql='', $params = [], $fetch = true)
     {
           return $this->query->execute($sql, $params, $fetch);
     }
 
-
+    
     /**
-     * Make Query Select
-     * @return \Query
+     * Make Query
+     * @param string $sql 
+     * @return string
     */
-    protected function selectQuery($sql = '')
+    public function makeQuery($sql = '')
     {
-        if($sql === '') 
-        {  $sql = 'SELECT * FROM '. $this->table; }
-        return $this->makeQuery($sql);
+        return $sql ?: 'SELECT * FROM '. $this->table;
     }
 
 
@@ -80,7 +79,8 @@ trait ActiveRecord
     */
     public function findAll()
     {
-       return $this->selectQuery()->results();
+       $sql = 'SELECT * FROM '. $this->table;
+       return $this->execute($sql)->results();
     }
 
     
@@ -90,7 +90,8 @@ trait ActiveRecord
     */
     public function findFisrt()
     {
-        return $this->selectQuery()->first();
+        $sql = 'SELECT * FROM '. $this->table;
+        return $this->execute($sql)->first();
     }
 
 
@@ -98,9 +99,10 @@ trait ActiveRecord
      * Get fist result
      * @return array
     */
-    public function findOne()
+    public function findById()
     {
-        return $this->selectQuery()->first();
+        $sql = 'SELECT * FROM '. $this->table .' WHERE id = ? LIMIT 1';
+        return $this->execute($sql, [$this->id])->results();
     }
 
 

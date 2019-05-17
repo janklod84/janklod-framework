@@ -16,9 +16,10 @@ class FetchInto extends Fetch
       */
       public function setMode()
       {
-           if($object = $this->getOption('object'))
+           if($object = $this->option('object'))
            {
-                $this->statement->setFetchMode(PDO::FETCH_INTO, $object);
+                $mode = $this->argument('mode') ?: PDO::FETCH_INTO;
+                $this->statement->setFetchMode($mode, $object);
            }
       }
 

@@ -51,9 +51,10 @@ class UserManager extends CustomManager
    * @param  $id 
    * @return array
   */
-  public function findUserById($id)
+  public function findUserById()
   {
-      
+      $this->user->setId(2);
+      return $this->user->findById();
   }
 
   

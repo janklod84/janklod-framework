@@ -14,9 +14,7 @@ class HomeController extends BaseController
 	   public function index()
 	   {
          $user = new UserManager();
-         $users = $user->allUsers(); 
-         /* debug($user->firstUser()); */
-         debug($users); 
+         debug($user->findUserById());
          $user->saveUser(3);
          return $this->render('home/index');
 	   }

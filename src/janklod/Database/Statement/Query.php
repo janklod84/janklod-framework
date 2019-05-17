@@ -16,23 +16,17 @@ class Query
 * @var string $sql
 * @var \PDO $connection
 * @var \PDOStatement $statement
-* @var int $fetchMode
+* @var int $fetchHandler
 * @var string $className
 * @var array  $options
-* @var mixed $result 
-* @var int $count
 * @var bool $error
-* @var int $lastId  Last insert id
 */
 private $sql;
 private $connection;
 private $statement;
 private $fetchHandler;
 private $options = [];
-private $result;
-private $count;
 private $error = false;
-private $lastId;
 
 
 // fetch handler prefix
@@ -69,15 +63,51 @@ public function prepare($sql = '')
 
 
 /**
+* Execute query
+* @param string $sql 
+* @param array $params 
+* @param bool $fetch [ determine if fetch results or no ]
+* @return mixed
+* @throws \Exception 
+*/
+public function execute($sql, $params = [], $fetch = true)
+{
+    if(empty($this->statement))
+    {
+        $this->statement = $this->connection->prepare($sql);
+    }
+    
+    echo $sql .'<br>';
+    debug($params);
+    // begin transaction
+    if(!$this->statement->execute($params))
+    {
+         $this->error = true;
+         // rollback
+         die('Query : ['. $sql . ']');
+    }
+    // commit
+
+    if($fetch)
+    {
+        $this->fetchModeProcess();
+        return $this;
+    }
+}
+
+
+
+
+/**
 * Fetch class
 * @param string $entity [class name]
-* @param array  $arguments
+* @param array $arguments
 * @return 
 */
 public function fetchClass($entity=null, $arguments = [])
 {
     $this->fetchModeRegister('FetchClass', [
-      'entity' => $entity,  
+      'entity' => $entity, 
       'arguments' => $arguments
     ]);
     return $this;
@@ -87,12 +117,14 @@ public function fetchClass($entity=null, $arguments = [])
 /**
 * Fetch column
 * @param int $colno [number of column]
+* @param array $arguments
 * @return 
 */
-public function fetchColumn($colno=null)
+public function fetchColumn($colno=null, $arguments = [])
 {
     $this->fetchModeRegister('FetchColumn', [  
-      'column' => $colno
+      'column' => $colno, 
+      'arguments' => $arguments
     ]);
     return $this;
 }
@@ -101,28 +133,18 @@ public function fetchColumn($colno=null)
 /**
 * Fetch into
 * @param object $object
+* @param array $arguments
 * @return 
 */
-public function fetchInto($object=null)
+public function fetchInto($object=null, $arguments = [])
 {
     $this->fetchModeRegister('FetchInto', [  
-      'object' => $object
+      'object' => $object,   
+      'arguments' => $arguments
     ]);
     return $this;
 }
 
-
-/**
-* Fetch mixed
-* @param string $mode 
-* @param array $options [$options['mode'] = PDO::FETCH_CLASS|PDO::FETCH_OBJ]
-* @return self
-*/
-public function fetchComplex($options = [])
-{
-     $this->fetchModeRegister('FetchComplex', $options);
-     return $this;
-}
 
 
 /**
@@ -155,37 +177,6 @@ public function rollback()
 }
 
 
-/**
-* Execute query
-* @param string $sql 
-* @param array $params 
-* @param bool $fetch [ determine if fetch results or no ]
-* @return mixed
-* @throws \Exception 
-*/
-public function execute($sql, $params = [], $fetch = true)
-{
-    if(empty($this->statement))
-    {
-        $this->statement = $this->connection->prepare($sql);
-    }
-
-    // begin transaction
-    if(!$this->statement->execute($params))
-    {
-         $this->error = true;
-         // rollback
-         die('Query : ['. $sql . ']');
-    }
-    // commit
-
-    if($fetch)
-    {
-        $this->fetchModeProcess();
-        return $this;
-    }
-}
-
 
 /**
 * Get results
@@ -193,7 +184,7 @@ public function execute($sql, $params = [], $fetch = true)
 */
 public function results()
 {
-    return $this->fetch();
+    return $this->record();
 }
 
  
@@ -203,7 +194,7 @@ public function results()
 */
 public function first()
 {
-   return $this->fetch(true);
+   return $this->record(true);
 }
 
  
@@ -238,13 +229,29 @@ public function error()
 
 
 /**
+ * Fetch one record
+ * @param string $mode 
+ * @return mixed
+*/
+public function record($one=false)
+{
+    $result = $this->statement->fetchAll();
+    if($one && !empty($result))
+    {
+       $result = $result[0];
+    }
+    return $result;
+}
+
+
+/**
 * To Refactoring
 * Fetch mode process
 * @return void
 */
 private function fetchModeProcess()
 {
-    if(empty($this->options))
+    if(!$this->options && !$this->fetchHandler)
     {
          $this->fetchHandler = 'FetchObject';
     }
@@ -258,20 +265,6 @@ private function fetchModeProcess()
 }
 
 
-/**
-* Get result
-* @param bool $one
-* @return self
-*/
-private function fetch($one = false)
-{
-   $result = $this->statement->fetchAll();
-   if($one && !empty($result))
-   {
-      $result = $result[0];
-   }
-   return $result ?? [];
-}
 
 /**
 * register fetch mode
