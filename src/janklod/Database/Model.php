@@ -3,6 +3,7 @@ namespace JK\Database;
 
 
 use JK\Database\ORM\QueryBuilder;
+use JK\Database\Statement\Query;
 use \PDO;
 
 /**
@@ -21,9 +22,6 @@ abstract class Model
     */
     protected $query;
     protected $queryBuilder;
-    protected $guarded = [];
-    protected $fillable = [];
-    protected $softDelete = false;
 
 
     /**
@@ -41,4 +39,18 @@ abstract class Model
         }
         $this->after();
     }
+
+
+    /**
+     * Make Query
+     * @param string $sql 
+     * @param array $params 
+     * @param bool $fetch 
+     * @return mixed
+    */
+    protected function execute($sql, $params = [], $fetch = true)
+    {
+          return $this->query->execute($sql, $params, $fetch);
+    }
+
 }

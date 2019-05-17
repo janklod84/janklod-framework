@@ -2,13 +2,8 @@
 namespace JK\Database\ORM;
 
 
-use JK\Database\{
-    DatabaseManager,
-    Query
-};
-use JK\Database\ORM\QueryBuilder;
-use \PDO;
-use \Exception;
+use JK\Database\DatabaseManager;
+use JK\Database\Statement\Query;
 
 
 /**
@@ -39,7 +34,7 @@ trait ActiveRecord
     {
     	$db = DatabaseManager::instance();
         $this->query = new Query($db);
-        $this->query->fetchStyle(PDO::FETCH_CLASS, $this->getEntity());
+        $this->query->fetchClass($this->entity());
         $this->queryBuilder = new QueryBuilder($this->table);
     }
 
@@ -55,17 +50,60 @@ trait ActiveRecord
 
     
     /**
+     * Make Query
+     * @param string $sql 
+     * @param array $params 
+     * @param bool $fetch 
+     * @return mixed
+    */
+    protected function makeQuery($sql, $params = [], $fetch = true)
+    {
+          return $this->query->execute($sql, $params, $fetch);
+    }
+
+
+    /**
+     * Make Query Select
+     * @return \Query
+    */
+    protected function selectQuery($sql = '')
+    {
+        if($sql === '') 
+        {  $sql = 'SELECT * FROM '. $this->table; }
+        return $this->makeQuery($sql);
+    }
+
+
+    /**
      * Get all results
      * @return array
     */
-    public function all()
+    public function findAll()
     {
-        return $this->query
-                    ->execute('SELECT * FROM '. $this->table)
-                    ->results();
+       return $this->selectQuery()->results();
     }
 
     
+    /**
+     * Get fist result
+     * @return array
+    */
+    public function findFisrt()
+    {
+        return $this->selectQuery()->first();
+    }
+
+
+    /**
+     * Get fist result
+     * @return array
+    */
+    public function findOne()
+    {
+        return $this->selectQuery()->first();
+    }
+
+
     /**
      * Save data
      * @return mixed
@@ -85,7 +123,7 @@ trait ActiveRecord
      * Get entity
      * @return string
     */
-    private function getEntity()
+    private function entity()
     {
         if(property_exists($this, 'entity') && $this->entity !== '')
         {

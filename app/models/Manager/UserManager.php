@@ -30,15 +30,19 @@ class UserManager extends CustomManager
    * Get all users
    * @return array
   */
-  public function getAllUsers()
+  public function allUsers()
   {
-      return $this->user->all();
+      return $this->user->findAll();
   }
 
-
-  public function findOne()
+  
+  /**
+   * Get first user
+   * @return array
+  */
+  public function firstUser()
   {
-      
+      return $this->user->findFirst();
   }
 
 
