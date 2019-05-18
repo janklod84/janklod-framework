@@ -9,7 +9,7 @@ class SetBuilder extends CustomBuilder
 {
      
      /**
-      * Build select
+      * Build set
       * @return string
      */
      public function build()

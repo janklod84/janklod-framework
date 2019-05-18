@@ -9,7 +9,7 @@ class FromBuilder extends CustomBuilder
 {
      
      /**
-      * Build select
+      * Build from
       * @return string
      */
      public function build()

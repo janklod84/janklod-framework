@@ -9,7 +9,7 @@ class UpdateBuilder extends CustomBuilder
 {
      
      /**
-      * Build select
+      * Build update
       * @return string
      */
      public function build()

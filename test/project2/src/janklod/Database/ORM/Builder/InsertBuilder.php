@@ -9,7 +9,7 @@ class InsertBuilder extends CustomBuilder
 {
      
      /**
-      * Build select
+      * Build insert
       * @return string
      */
      public function build()
@@ -25,9 +25,5 @@ class InsertBuilder extends CustomBuilder
                  $insertQuery .= sprintf(' (%s) VALUES (%s)', $fields, $binds);
              }
              return $insertQuery;
-
-             /*
-             return sprintf('INSERT INTO `%s` (%s) VALUES (%s)', $table, $fields, $binds);
-             */
      }
 }

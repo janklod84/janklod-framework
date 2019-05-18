@@ -9,7 +9,7 @@ class LimitBuilder extends CustomBuilder
 {
      
      /**
-      * Build select
+      * Build limit
       * @return string
      */
      public function build()

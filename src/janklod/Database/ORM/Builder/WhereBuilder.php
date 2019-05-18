@@ -9,7 +9,7 @@ class WhereBuilder extends CustomBuilder
 {
      
      /**
-      * Build select
+      * Build where
       * @return string
      */
      public function build()
