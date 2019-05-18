@@ -5,7 +5,7 @@ namespace JK\Database\ORM\Builder;
 /**
  * @package 
 */ 
-class FromBuilder extends CustomBuilder
+class WhereBuilder extends CustomBuilder
 {
      
      /**
@@ -14,7 +14,7 @@ class FromBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $from = $this->tableQuery();
-         return sprintf('FROM %s', $from);
+         $where = implode(' AND ', array_values($this->sql('where')));
+     	 return sprintf('%s', $where);
      }
 }

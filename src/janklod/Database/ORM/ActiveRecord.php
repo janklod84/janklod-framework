@@ -94,6 +94,54 @@ trait ActiveRecord
         return $this->execute($sql)->first();
     }
 
+    
+    public function test()
+    {
+        return $this->queryBuilder
+             ->select('username', 'password', 'role')
+             ->from($this->table, 'u')
+             ->sql();
+    }
+
+
+    public function testSelect()
+    {
+        return $this->queryBuilder
+             ->select()
+             ->from($this->table)
+             ->where('id', $this->id)
+             ->where('username', 'brown')
+             ->limit()
+             ->sql(); 
+    }
+
+    
+    public function testInsert()
+    {
+        return $this->queryBuilder
+                    ->insert($this->table, [
+                           'username' => 'Jean',  
+                           'password' => 'Qwerty084',   
+                           'deleted'  => 1
+                    ])
+                    ->sql();
+    }
+
+
+    public function testUpdate()
+    {
+        /*       $this->queryBuilder
+                     ->update($this->table, [
+                     'id' => $this->id
+                 ])
+                 ->sql();
+        */
+         return $this->queryBuilder
+                     ->update($this->table)
+                     ->set(['id' => $this->id])
+                     ->sql();
+    }
+
 
     /**
      * Get fist result
@@ -101,14 +149,14 @@ trait ActiveRecord
     */
     public function findById()
     {
-        $sql = 'SELECT * FROM '. $this->table .' WHERE id = ? LIMIT 1';
-        $sql = $this->queryBuilder
-                    ->select('username', 'password', 'role')
-                    ->from($this->table, 'u')
-                    ->sql();
-
-        die;
-        return $this->execute($sql, [$this->id])->results();
+         // $sql = $this->testSelect();
+         $sql = $this->testInsert();
+         // $sql = $this->testUpdate();
+            echo $sql;
+            debug($this->queryBuilder->values);
+            die;
+        // $sql = 'SELECT * FROM '. $this->table .' WHERE id = ? LIMIT 1';
+        // return $this->execute($sql, [$this->id])->results();
     }
 
 

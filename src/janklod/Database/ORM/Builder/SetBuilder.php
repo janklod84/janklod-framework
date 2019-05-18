@@ -5,7 +5,7 @@ namespace JK\Database\ORM\Builder;
 /**
  * @package 
 */ 
-class FromBuilder extends CustomBuilder
+class SetBuilder extends CustomBuilder
 {
      
      /**
@@ -14,7 +14,8 @@ class FromBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $from = $this->tableQuery();
-         return sprintf('FROM %s', $from);
+         debug($this->sql('set'));
+         $set = '';
+         return sprintf('SET %s', $set);
      }
 }

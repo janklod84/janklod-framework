@@ -9,27 +9,31 @@ class QueryBuilder
 {
 	  
 	  /**
-	   * @var string $table
    	   * @var array $classBuilder
 	   * @var array $sql
 	   * @var array $values
 	   * @var array $output
 	  */
-	  private $table;
   	  private $classBuilder = [];
 	  private $sql    = [];
 	  public  $values = [];
 	  private $output = [];
+	  private $condition = false;
 
-
+      const QTYPES = [
+      	'Select', 
+      	'Insert', 
+      	'Update', 
+      	'Delete'
+      ];
 
 	  /**
 	   * Constructor
 	   * @return void
 	  */
-	  public function __construct($table=null)
+	  public function __construct()
 	  {
-	  	   $this->table = $table;
+
 	  }
 	  
 
@@ -42,7 +46,7 @@ class QueryBuilder
 	  {
 	  	   $this->clear();
            $this->sql['select'] = $selects;
-           $this->classBuilder[] = 'Select';
+           $this->addBuilderClass('Select');
            return $this;
 	  }
 
@@ -57,15 +61,105 @@ class QueryBuilder
 	  {
           $this->sql['table'] = $table;
           $this->sql['table.alias'] = $alias;
-          $this->classBuilder[] = 'From';
+          $this->addBuilderClass('From');
           return $this;
 	  }
 
       
-	  public function where()
-	  {
+	  /**
+	    * Must to add more functionalites for WHERE
+	    * Conditions
+	    * where('id', 3)
+	    * by default $operator is '='
+	    * 
+	    * @param string $column
+	    * @param string $value
+	    * @param string $operator
+	     * @return $this
+       */
+	   public function where($column='', $value='', $operator = '='): self
+	   {
+	        $where = sprintf('`%s` %s %s', $column, $operator, '?');
+	        $this->sql['where'][] = $where;
+	        $this->values[] = $value;
+	        $this->addBuilderClass('Where');
+	        return $this;
+	   }
 
-	  }
+
+       
+       /**
+        * Limit
+        * @return self
+       */
+	   public function limit()
+	   {
+	   	   return $this;
+	   }
+
+       
+       
+       /**
+        * Add alias table
+        * @param string $alias 
+        * @return self
+       */
+       public function alias($alias='')
+       {
+       	    $this->sql['table.alias'] = $alias;
+            return $this;
+       }
+
+       
+       /**
+        * Set data
+        * @param array $data 
+        * @return self
+       */
+       public function set($data=[])
+       {
+       	   $this->sql['set'] = array_keys($data);
+	   	   $this->values = array_values($data);
+	   	   $this->addBuilderClass('Set');
+           return $this;
+       }
+
+       
+       /**
+        * Insert data
+        * @param string $table 
+        * @param array $params 
+        * @return self
+       */
+	   public function insert($table, $params = [])
+	   {
+	   	    $this->clear();
+	   	    $this->sql['table'] = $table;
+	   	    $this->sql['insert'] = array_keys($params);
+	   	    $this->values = array_values($params);
+	   	    $this->addBuilderClass('Insert');
+            return $this;
+	   }
+	   
+
+       /**
+        * Update data
+        * @param string $table 
+        * @param array $params 
+        * @return self
+       */
+	   public function update($table, $params = [])
+	   {
+	   	    $this->sql['table'] = $table;
+	   	    if(!empty($params))
+	   	    {
+	   	    	 $this->sql['update'] = array_keys($params);
+	   	         $this->values = array_values($data);
+	   	    }
+	   	    $this->addBuilderClass('Update');
+            return $this;
+	   }
+
 
       
       /**
@@ -74,14 +168,34 @@ class QueryBuilder
       */
 	  public function sql()
 	  {
-          foreach($this->classBuilder as $builder)
-          {
-               $this->output[] = $this->callBuilder($builder);
-          }
-
-          echo implode(' ', $this->output);
+   	  	   foreach($this->classBuilder as $builder)
+           {
+           	    $output = $this->callBuilder($builder);
+           	    if($builder === 'Where')
+           	    {
+           	        $output = sprintf(' WHERE %s', $output);
+           	    }
+                $this->output[] = $output;
+           }
+   	  	
+          echo join(' ', $this->output);
           debug($this->sql);
 	  }
+
+      
+      
+      /**
+       * Add class name for building parts
+       * @param string $name 
+       * @return void
+      */
+      private function addBuilderClass(string $name)
+      {
+      	   if(!in_array($name, $this->classBuilder))
+	       {
+	          $this->classBuilder[] = $name;
+	       }
+      }
 
 
 	  /**
@@ -94,6 +208,12 @@ class QueryBuilder
           $class = sprintf('\\JK\\Database\\ORM\\Builder\\%sBuilder', 
                           $builder
           );
+
+          if(!class_exists($class))
+          {
+          	  die(sprintf('Class <strong>%s</strong> does not exist!', $class));
+          }
+
           $classObj = new $class($this->sql);
           return $classObj->build();
       }
