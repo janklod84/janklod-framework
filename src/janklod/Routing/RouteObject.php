@@ -3,9 +3,9 @@ namespace JK\Routing;
 
 
 /**
- * @package JK\Routing\RouteHandler
+ * @package JK\Routing\RouteObject
 */ 
-class RouteHandler
+class RouteObject
 {
        
 /**

@@ -18,10 +18,10 @@ class RouteCollection
 
        /**
          * Store curren route
-         * @param \JK\Routing\RouteHandler $route 
+         * @param \JK\Routing\RouteObject $route 
          * @return void
        */
-  	    public static function store(RouteHandler $route)
+  	    public static function store(RouteObject $route)
   	    {    
               $method = $route->get('method');
               self::$routes[$method][] = $route;

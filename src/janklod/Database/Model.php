@@ -33,11 +33,11 @@ abstract class Model
         $db = DatabaseManager::instance();
         $this->query = new Query($db);
         $this->queryBuilder = new QueryBuilder();
-        if(!method_exists($this, 'after'))
+        if(method_exists($this, 'before'))
         {
-            throw new \Exception("Method [after] does not exist");
+            $this->before();
         }
-        $this->after();
+        
     }
 
 

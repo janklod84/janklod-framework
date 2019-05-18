@@ -114,7 +114,7 @@ class Route
        */
        public static function url(string $name, array $params = [])
        {
-            return RouteHandler::url($name, $params);
+            return RouteObject::url($name, $params);
        }
 
 
@@ -136,7 +136,7 @@ class Route
   	   {
 
              # add params
-             $route = new RouteHandler([
+             $route = new RouteObject([
                 'path'     => trim($path, '/'),
                 'callback' => $callback,
                 'name'     => $name,

@@ -25,10 +25,10 @@ class Dispatcher
 
    /**
     * Constructor
-    * @param  \JK\Routing\RouteHandler $route 
+    * @param  \JK\Routing\RouteObject $route 
     * @return void
    */
-   public function __construct(RouteHandler $route)
+   public function __construct(RouteObject $route)
    {
    	     $this->route    = $route;
          $this->callback = $route->get('callback');

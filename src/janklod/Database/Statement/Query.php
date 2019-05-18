@@ -29,8 +29,8 @@ private $options = [];
 private $error = false;
 
 
-// fetch handler prefix
-const FH_PREFIX = '\\JK\\Database\\Statement\\%s';
+// fetch handler class name
+const FH_NAME = '\\JK\\Database\\Statement\\%s';
 
 
 
@@ -238,7 +238,8 @@ public function record($one=false)
     $result = $this->statement->fetchAll();
     if($one && !empty($result))
     {
-       $result = $result[0];
+       // $this->statement->fetch()
+       $result = $result[0]; 
     }
     return $result;
 }
@@ -251,26 +252,36 @@ public function record($one=false)
 */
 private function fetchModeProcess()
 {
-    if(!$this->options && !$this->fetchHandler)
-    {
-         $this->fetchHandler = 'FetchObject';
-    }
-
-    $class = sprintf(self::FH_PREFIX, 
-           ucfirst($this->fetchHandler)
-    );
-
-    $object = new $class($this->statement, $this->options);
+    $object = $this->getProcessObject();
     call_user_func([$object, 'setMode']);
 }
 
 
 
 /**
+ * Get class name
+ * @return string
+*/
+private function getProcessObject()
+{
+    if(!$this->options && !$this->fetchHandler)
+    {
+         $this->fetchHandler = 'FetchObject';
+    }
+
+    $class = sprintf(self::FH_NAME, 
+           ucfirst($this->fetchHandler)
+    );
+
+    return new $class($this->statement, $this->options);
+}
+
+
+/**
 * register fetch mode
 * @param string $fetchHandler
 * @param array $options
-* @return self
+* @return void
 */
 private function fetchModeRegister(
 $fetchHandler = null, 

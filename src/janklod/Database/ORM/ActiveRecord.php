@@ -102,6 +102,12 @@ trait ActiveRecord
     public function findById()
     {
         $sql = 'SELECT * FROM '. $this->table .' WHERE id = ? LIMIT 1';
+        $sql = $this->queryBuilder
+                    ->select('username', 'password', 'role')
+                    ->from($this->table, 'u')
+                    ->sql();
+
+        die;
         return $this->execute($sql, [$this->id])->results();
     }
 

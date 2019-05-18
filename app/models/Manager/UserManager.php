@@ -20,7 +20,7 @@ class UserManager extends CustomManager
    * Constuctor
    * @return void
   */
-  public function after()
+  public function before()
   {
       $this->user = new User();
   }
