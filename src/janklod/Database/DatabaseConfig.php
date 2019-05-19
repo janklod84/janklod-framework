@@ -17,7 +17,7 @@ class DatabaseConfig
 */
 protected static function get(string $key='')
 {
-	    return Config::get('database.'.$key);
+	  return Config::get('database.'.$key);
 }
  
 /**

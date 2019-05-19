@@ -34,7 +34,7 @@ trait ActiveRecord
     {
     	$db = DatabaseManager::instance();
         $this->query = new Query($db);
-        $this->query->fetchClass($this->entity());
+        // $this->query->fetchClass($this->entity());
         $this->queryBuilder = new QueryBuilder();
     }
 
@@ -52,24 +52,13 @@ trait ActiveRecord
     /**
      * Make Query
      * @param string $sql 
-     * @param array $params 
-     * @param bool $fetch 
-     * @return mixed
-    */
-    protected function execute($sql='', $params = [], $fetch = true)
-    {
-          return $this->query->execute($sql, $params, $fetch);
-    }
-
-    
-    /**
-     * Make Query
-     * @param string $sql 
      * @return string
     */
-    public function makeQuery($sql = '')
+    protected function makeSelect()
     {
-        return $sql ?: 'SELECT * FROM '. $this->table;
+         return $this->queryBuilder
+                     ->select()
+                     ->from($this->table);
     }
 
 
@@ -79,8 +68,8 @@ trait ActiveRecord
     */
     public function findAll()
     {
-       $sql = 'SELECT * FROM '. $this->table;
-       return $this->execute($sql)->results();
+       $sql = $this->makeSelect()->sql();
+       return $this->query->execute($sql)->results();
     }
 
     
@@ -90,61 +79,8 @@ trait ActiveRecord
     */
     public function findFisrt()
     {
-        $sql = 'SELECT * FROM '. $this->table;
-        return $this->execute($sql)->first();
-    }
-
-    
-    public function test()
-    {
-        return $this->queryBuilder
-             ->select('username', 'password', 'role')
-             ->from($this->table, 'u')
-             ->sql();
-    }
-
-
-    public function testSelect()
-    {
-        return $this->queryBuilder
-             ->select()
-             ->from($this->table, 'u')
-             ->where('id', $this->id)
-             ->where('username', 'brown')
-             ->limit(1)
-             ->sql(); 
-    }
-
-    
-    public function testInsert()
-    {
-        return $this->queryBuilder
-                    ->insert($this->table, [
-                           'username' => 'Jean',  
-                           'password' => 'Qwerty084',   
-                           'deleted'  => 1
-                    ])
-                    ->sql();
-    }
-
-
-    public function testUpdate()
-    {
-        /*       $this->queryBuilder
-                     ->update($this->table, [
-                     'id' => $this->id
-                 ])
-                 ->sql();
-        */
-         return $this->queryBuilder
-                     ->update($this->table)
-                     ->set([
-                       'username' => 'Jean',  
-                       'password' => 'Qwerty084',   
-                       'deleted'  => 1
-                     ])
-                     ->where('id', $this->id)
-                     ->sql();
+        $sql = $this->makeSelect()->sql();
+        return $this->query->execute($sql)->first();
     }
 
 
@@ -154,20 +90,46 @@ trait ActiveRecord
     */
     public function findById()
     {
-            $select = $this->testSelect();
-            echo $select.'<br>';
-            debug($this->queryBuilder->values);
-            
-            $insert = $this->testInsert();
-            echo $insert . '<br>';
-            debug($this->queryBuilder->values);
+        $sql = $this->makeSelect()
+                    ->where('id', $this->id)
+                    ->limit(1)
+                    ->sql();
+        return $this->query
+                    ->execute($sql, $this->queryBuilder->values)
+                    ->results();
+    }
 
-            $update = $this->testUpdate();
-            echo $update;
-            debug($this->queryBuilder->values);
-            die;
-        // $sql = 'SELECT * FROM '. $this->table .' WHERE id = ? LIMIT 1';
-        // return $this->execute($sql, [$this->id])->results();
+    
+    /**
+     * Insert data into database
+     * @param array $params 
+     * @return 
+     */
+    public function insert($params = [])
+    {
+         $sql = $this->queryBuilder
+                     ->insert($this->table)
+                     ->set($params)
+                     ->sql();
+         return $this->query
+                     ->execute($sql, $this->queryBuilder->values, false);
+    }
+
+
+    /**
+     * Update data into database
+     * @param array $params 
+     * @return 
+    */
+    public function update($params = [])
+    {
+         $sql = $this->queryBuilder
+                     ->update($this->table)
+                     ->set($params)
+                     ->where('id', $this->id)
+                     ->sql();
+         return $this->query
+                     ->execute($sql, $this->queryBuilder->values, false);
     }
 
 
@@ -177,12 +139,22 @@ trait ActiveRecord
     */
     public function save()
     {
+        $save = null;
         if(property_exists($this, 'id') && isset($this->id))
         {
-            echo 'UPDATE' . $this->id;
+            $save = $this->update([
+                'username' => 'BrownUpdated2'
+            ]);
+
         }else{
-            echo 'INSERT';
+            
+            $save = $this->insert([
+                'username' => 'BrownNew', 
+                'password' => 'PwQwerty', 
+                'role' => '1'
+            ]);
         }
+        return $save;
     }
 
 

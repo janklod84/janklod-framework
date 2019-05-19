@@ -95,7 +95,7 @@ abstract class CustomBuilder
          $set = '';
          foreach($fields as $field)
          {
-             $str = sprintf('`%s`', $field);
+             $str = sprintf(' `%s` ', $field);
              if($alias = $this->sql('table.alias'))
              {
                  $str = sprintf(' `%s`.`%s`', $alias, $field);

@@ -53,7 +53,7 @@ class UserManager extends CustomManager
   */
   public function findUserById()
   {
-      $this->user->setId(2);
+      $this->user->setId(1);
       return $this->user->findById();
   }
 
@@ -88,6 +88,6 @@ class UserManager extends CustomManager
   public function saveUser($id=null)
   {
   	  $this->user->setId($id);
-  	  $this->user->save();
+      return $this->user->save();
   }
 }

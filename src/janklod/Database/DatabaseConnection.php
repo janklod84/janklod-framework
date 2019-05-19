@@ -13,9 +13,10 @@ use \Exception;
 class DatabaseConnection
 {
     
-     const DEFAULT_OPTIONS = [
+     private static $options = [
          PDO::ATTR_PERSISTENT => false,
-         PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION
+         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
      ];
 
 
@@ -30,17 +31,19 @@ class DatabaseConnection
      */
     public static function make($dsn, $user, $password, $options = [])
     {
-           $options = array_merge(self::DEFAULT_OPTIONS, $options);
-
+           if(!empty($options))
+           {
+               self::$options = array_merge(self::$options, $options);
+           }
+           
            try 
            {
-                return new PDO($dsn, $user, $password, $options);
+                return new PDO($dsn, $user, $password, self::$options);
          
            }catch(PDOException $e){
 
                 throw new Exception($e->getMessage(), 404);
            }
-
 
     }
 

@@ -71,6 +71,7 @@ final class Application
         {   
              if(!$this->request->isCli())
              {
+                 require_once __DIR__.'/Test.php';
                  $dispatcher = $this->router->dispatch($this->request->method());
                  $output = $dispatcher->callAction($this->app);
                  if(is_string($output))

@@ -3,7 +3,7 @@ namespace JK\Database\Statement;
 
 
 use \PDO;
-use \Exception;
+use \PDOException;
 
 
 /**
@@ -17,14 +17,15 @@ class Query
 * @var \PDO $connection
 * @var \PDOStatement $statement
 * @var int $fetchHandler
-* @var string $className
+* @var array $results
 * @var array  $options
 * @var bool $error
 */
 private $sql;
 private $connection;
 private $statement;
-private $fetchHandler;
+private $fetchHandler = 'FetchObject';
+private $result;
 private $options = [];
 private $error = false;
 
@@ -36,30 +37,13 @@ const FH_NAME = '\\JK\\Database\\Statement\\%s';
 
 /**
 * Constructor
-* @param PDO $connection 
+* @param \PDO $connection 
 * @return void
 */
 public function __construct(PDO $connection)
 {
-    $this->connection = $connection;
+      $this->connection = $connection;
 }
-
-
-/**
-* Prepare query
-* @param string $sql 
-* @return self
-*/
-public function prepare($sql = '')
-{
-   if($sql !== '')
-   {
-       $this->statement = $this->connection->prepare($sql);
-   }
-
-   return $this;
-}
-
 
 
 /**
@@ -70,29 +54,36 @@ public function prepare($sql = '')
 * @return mixed
 * @throws \Exception 
 */
-public function execute($sql, $params = [], $fetch = true)
+public function execute($sql='', $params = [], $fetch = true)
 {
-    if(empty($this->statement))
-    {
-        $this->statement = $this->connection->prepare($sql);
-    }
-    
-    echo $sql .'<br>';
-    debug($params);
-    // begin transaction
-    if(!$this->statement->execute($params))
-    {
-         $this->error = true;
-         // rollback
-         die('Query : ['. $sql . ']');
-    }
-    // commit
+     if(!$sql) { exit('No Query setted!'); }
 
-    if($fetch)
-    {
-        $this->fetchModeProcess();
-        return $this;
+     try
+     {
+          $this->statement = $this->connection->prepare($sql);
+          // beginTransaction ...
+          $this->statement->execute($params);
+          // commit ...
+
+          if($fetch)
+          {
+             $this->fetchModeProcess();
+             $this->result = $this->record();
+             return $this;
+          }
+
+    }catch(PDOException $e){
+         
+         // rollback ...
+         $this->error = true;
+         $html  = '<h4>Error Mysql: </h4>';
+         $html .= '<p>' . $e->getMessage() . '</p>';
+         $html .= '<h4>Last Query: </h4>';
+         $html .= '<p>' . $sql . '</p>';
+         echo $html;
+         exit;
     }
+ 
 }
 
 
@@ -153,7 +144,7 @@ public function fetchInto($object=null, $arguments = [])
 */
 public function transaction()
 {
-   $this->connection->beginTransaction(); 
+    $this->connection->beginTransaction(); 
 }
 
 
@@ -163,7 +154,7 @@ public function transaction()
 */
 public function commit()
 {
-   $this->connection->commit(); 
+    $this->connection->commit(); 
 }
 
 
@@ -173,18 +164,18 @@ public function commit()
 */
 public function rollback()
 {
-   $this->connection->rollBack();
+    $this->connection->rollBack();
 }
 
 
 
 /**
 * Get results
-* @return mixed
+* @return array
 */
 public function results()
 {
-    return $this->record();
+    return $this->result;
 }
 
  
@@ -194,10 +185,11 @@ public function results()
 */
 public function first()
 {
-   return $this->record(true);
+   return !empty($this->result) ? $this->result[0] : [];
 }
 
- 
+
+
 /**
 * Get result count 
 * @return int
@@ -219,27 +211,26 @@ public function lastID()
 
 
 /**
-* Get error
-* @return mixed
+* Get errors
+* @return array
 */
-public function error()
+public function errors()
 {
-   return $this->error;
+   return $this->statement->errorInfo();
 }
 
 
 /**
  * Fetch one record
- * @param string $mode 
+ * @param bool $one
  * @return mixed
 */
 public function record($one=false)
 {
     $result = $this->statement->fetchAll();
-    if($one && !empty($result))
+    if($one)
     {
-       // $this->statement->fetch()
-       $result = $result[0]; 
+       $result = $this->statement->fetch();
     }
     return $result;
 }
@@ -252,26 +243,26 @@ public function record($one=false)
 */
 private function fetchModeProcess()
 {
-    $object = $this->getProcessObject();
+    $object = $this->getHandler();
     call_user_func([$object, 'setMode']);
 }
 
 
 
 /**
- * Get class name
+ * Get class handler
  * @return string
 */
-private function getProcessObject()
+private function getHandler()
 {
-    if(!$this->options && !$this->fetchHandler)
-    {
-         $this->fetchHandler = 'FetchObject';
-    }
-
     $class = sprintf(self::FH_NAME, 
            ucfirst($this->fetchHandler)
     );
+    
+    if(!class_exists($class))
+    {
+        exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
+    }
 
     return new $class($this->statement, $this->options);
 }

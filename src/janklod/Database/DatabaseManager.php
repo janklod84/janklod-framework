@@ -42,7 +42,10 @@ private function __wakeup(){}
 */
 private function __construct() 
 {
-   self::open();
+    if(!self::isConnected())
+    {
+         self::open();
+    }
 }
 
 
@@ -50,11 +53,25 @@ private function __construct()
 * Determine if has connection
 * @return bool
 */
-public static function isConnected()
+private static function isConnected()
 {
-   self::$connection instanceof \PDO;
+     return self::$connection instanceof \PDO;
 }
 
+
+/**
+  * Run connection to Database
+  * @return void
+*/
+private static function connect()
+{
+    return DatabaseConnection::make(
+          DatabaseConfig::dsn(),   
+          DatabaseConfig::user(),  
+          DatabaseConfig::password(),  
+          DatabaseConfig::options()
+    );
+}
 
 
 /**
@@ -63,10 +80,7 @@ public static function isConnected()
 */
 public static function open()
 {
-	  if(!self::isConnected())
-	  {
-	  	  self::$connection = self::getPDO();
-	  }
+    self::$connection = self::instance();
 }
 
 
@@ -80,15 +94,6 @@ public static function close()
 } 
 
 
-/**
- * Get Database Connection PDO Object
- * @return \PDO
-*/
-public static function connect()
-{
-     return self::$connection;
-}
-
 
 /**
  * Get instance of database
@@ -98,36 +103,9 @@ public static function instance()
 {
      if(is_null(self::$instance))
      {
-         self::$instance = self::getPDO();
+         self::$instance = self::connect();
      }
      return self::$instance;
-}
-
-
-/**
- * Exceute statement
- * @param string $sql 
- * @param array $params 
- * @return \PDOStatement
-*/
-public function query($sql, $params = [])
-{
- 	
-}
-
-
-/**
-  * Run connection to Database
-  * @return void
-*/
-private static function getPDO()
-{
-    return DatabaseConnection::make(
-        	DatabaseConfig::dsn(),   
-        	DatabaseConfig::user(),  
-        	DatabaseConfig::password(),  
-        	DatabaseConfig::options()
-        );
 }
 
      
