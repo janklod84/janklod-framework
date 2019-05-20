@@ -147,7 +147,7 @@ public function execute($sql='', $params = [], $fetch = true)
 
           if($fetch)
           {
-             $this->setfetchMode();
+             $this->setFetchMode();
              $this->result = $this->record();
              return $this;
           }
@@ -262,7 +262,7 @@ public function errors()
 * Set Fetch mode
 * @return void
 */
-private function setfetchMode()
+private function setFetchMode()
 {
      $class = sprintf(self::FH_NAME, 
            ucfirst($this->fetchHandler)
@@ -279,8 +279,8 @@ private function setfetchMode()
 
 
 /**
-* register fetch mode
-* @param string $fetchHandler
+* Register fetch params
+* @param string $fetchHandler [ name of class ]
 * @param array $options
 * @return void
 */

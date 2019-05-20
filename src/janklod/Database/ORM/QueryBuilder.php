@@ -115,6 +115,22 @@ public function limit($limit='')
 	   return $this;
 }
 
+
+/**
+ * Join
+ * @param string $join 
+ * @param string $condition
+ * @param string $type 
+ * @return self
+*/
+public function join($table, $condition, $type='INNER')
+{
+    // sprintf('%s JOIN %s ', $type, $table);
+    $this->sql['join'][$type][] = [$table, $condition];
+    $this->addBuilderClass('Join');
+    return $this;
+}
+
    
  
  /**

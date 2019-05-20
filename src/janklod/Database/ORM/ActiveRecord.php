@@ -45,17 +45,6 @@ trait ActiveRecord
         return $this->table;
     }
 
-    
-    /**
-     * Make Select Query
-     * @return QueryBuilder
-    */
-    protected function makeSelect()
-    {
-         return $this->queryBuilder
-                     ->select()
-                     ->from($this->table);
-    }
 
 
     /**
@@ -64,8 +53,7 @@ trait ActiveRecord
     */
     public function findAll()
     {
-       $sql = $this->makeSelect();
-       return $this->query->execute($sql)->results();
+       return $this->makeSelect()->results();
     }
 
     
@@ -75,8 +63,7 @@ trait ActiveRecord
     */
     public function findFisrt()
     {
-        $sql = $this->makeSelect();
-        return $this->query->execute($sql)->first();
+        return $this->makeSelect()->first();
     }
 
 
@@ -110,39 +97,6 @@ trait ActiveRecord
                     ->results();
     }
 
-    
-    /**
-     * Insert data into database
-     * @param array $params 
-     * @return 
-     */
-    public function insert($params = [])
-    {
-         $sql = $this->queryBuilder
-                     ->insert($this->table)
-                     ->set($params)
-                     ->sql();
-         return $this->query
-                     ->execute($sql, $this->queryBuilder->values, false);
-    }
-
-
-    /**
-     * Update data into database
-     * @param array $params 
-     * @return 
-    */
-    public function update($params = [])
-    {
-         $sql = $this->queryBuilder
-                     ->update($this->table)
-                     ->set($params)
-                     ->where('id', $this->id)
-                     ->sql();
-         return $this->query
-                     ->execute($sql, $this->queryBuilder->values, false);
-    }
-
 
     /**
      * Save data
@@ -166,6 +120,52 @@ trait ActiveRecord
             ]);
         }
         return $save;
+    }
+
+    
+    /**
+     * Make Select Query
+     * @return QueryBuilder
+    */
+    protected function makeSelect()
+    {
+         $sql = $this->queryBuilder
+                     ->select()
+                     ->from($this->table);
+        return $this->query->execute($sql);
+    }
+
+    
+    /**
+     * Insert data into database
+     * @param array $params 
+     * @return 
+     */
+    protected function insert($params = [])
+    {
+         $sql = $this->queryBuilder
+                     ->insert($this->table)
+                     ->set($params);
+
+         return $this->query
+                     ->execute($sql, $this->queryBuilder->values, false);
+    }
+
+
+    /**
+     * Update data into database
+     * @param array $params 
+     * @return 
+    */
+    protected function update($params = [])
+    {
+         $sql = $this->queryBuilder
+                     ->update($this->table)
+                     ->set($params)
+                     ->where('id', $this->id);
+
+         return $this->query
+                     ->execute($sql, $this->queryBuilder->values, false);
     }
 
     
