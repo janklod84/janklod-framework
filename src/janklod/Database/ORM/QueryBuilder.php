@@ -45,10 +45,10 @@ public function __construct()
 */
 public function select(...$selects)
 {
-	   $this->clear();
-     $this->sql['select'] = $selects;
-     $this->addBuilderClass('Select');
-     return $this;
+   $this->clear();
+   $this->sql['select'] = $selects;
+   $this->addBuilderClass('Select');
+   return $this;
 }
 
   
@@ -60,10 +60,10 @@ public function select(...$selects)
 */
 public function from($table, $alias='')
 {
-      $this->sql['table'] = $table;
-      $this->sql['table.alias'] = $alias;
-      $this->addBuilderClass('From');
-      return $this;
+  $this->sql['table'] = $table;
+  $this->sql['table.alias'] = $alias;
+  $this->addBuilderClass('From');
+  return $this;
 }
 
   
@@ -80,11 +80,11 @@ public function from($table, $alias='')
 */
 public function where($column='', $value='', $operator = '='): self
 {
-	    $where = $this->conditionField($column, $value, $operator);
-      $this->sql['where'][] = $where;
-      $this->values[] = $value;
-      $this->addBuilderClass('Where');
-      return $this;
+  $where = $this->conditionField($column, $value, $operator);
+  $this->sql['where'][] = $where;
+  $this->values[] = $value;
+  $this->addBuilderClass('Where');
+  return $this;
 }
 
 
@@ -110,9 +110,9 @@ public function or($column = '', $value = '', $operator = '='): self
 */
 public function limit($limit='')
 {
-	   $this->sql['limit'] = $limit;
-	   $this->addBuilderClass('Limit');
-	   return $this;
+   $this->sql['limit'] = $limit;
+   $this->addBuilderClass('Limit');
+   return $this;
 }
 
 
@@ -140,8 +140,8 @@ public function join($table, $condition, $type='INNER')
  */
  public function alias($alias='')
  {
- 	    $this->sql['table.alias'] = $alias;
-      return $this;
+    $this->sql['table.alias'] = $alias;
+    return $this;
  }
 
  
@@ -152,10 +152,10 @@ public function join($table, $condition, $type='INNER')
  */
  public function set($data=[])
  {
- 	     $this->sql['set'] = array_keys($data);
-	     $this->values = array_values($data);
-	     $this->addBuilderClass('Set');
-       return $this;
+   $this->sql['set'] = array_keys($data);
+   $this->values = array_values($data);
+   $this->addBuilderClass('Set');
+   return $this;
  }
 
  
@@ -167,28 +167,28 @@ public function join($table, $condition, $type='INNER')
  */
  public function insert($table, $params = [])
  {
- 	    $this->clear();
- 	    $this->sql['table'] = $table;
- 	    $this->sql['insert'] = array_keys($params);
- 	    $this->values = array_values($params);
- 	    $this->addBuilderClass('Insert');
-      return $this;
- }
+  $this->clear();
+  $this->sql['table'] = $table;
+  $this->sql['insert'] = array_keys($params);
+  $this->values = array_values($params);
+  $this->addBuilderClass('Insert');
+  return $this;
+}
 
 
- /**
-  * Update data
-  * @param string $table 
-  * @param string $alias
-  * @return self
- */
- public function update($table)
- {
- 	    $this->clear();
- 	    $this->sql['table'] = $table;
- 	    $this->addBuilderClass('Update');
-      return $this;
- }
+/**
+* Update data
+* @param string $table 
+* @param string $alias
+* @return self
+*/
+public function update($table)
+{
+  $this->clear();
+  $this->sql['table'] = $table;
+  $this->addBuilderClass('Update');
+  return $this;
+}
 
 
 /**
@@ -198,10 +198,10 @@ public function join($table, $condition, $type='INNER')
 */
 public function showColumn($table = null)
 {
-      $this->clear();
-      $this->sql['table'] = $table;
-      $this->addBuilderClass('ShowColumn');
-      return $this;
+  $this->clear();
+  $this->sql['table'] = $table;
+  $this->addBuilderClass('ShowColumn');
+  return $this;
 }
 
 
@@ -212,17 +212,17 @@ public function showColumn($table = null)
 */
 public function sql()
 {
-  	foreach($this->classBuilder as $builder)
-    {
-       	    $output = $this->callBuilder($builder);
-       	    if($builder === 'Where')
-       	    {
-       	        $output = sprintf(' WHERE %s', $output);
-       	    }
-            $this->output[] = $output;
-    }
-	  	
-    return join(' ', $this->output);
+	foreach($this->classBuilder as $builder)
+  {
+ 	    $output = $this->callBuilder($builder);
+ 	    if($builder === 'Where')
+ 	    {
+ 	        $output = sprintf(' WHERE %s', $output);
+ 	    }
+      $this->output[] = $output;
+  }
+  	
+  return join(' ', $this->output);
 }
 
 
