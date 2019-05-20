@@ -1,8 +1,6 @@
 <?php 
 namespace JK\Database\ORM;
 
-
-use JK\Database\DatabaseManager;
 use JK\Database\Statement\Query;
 
 
@@ -32,9 +30,8 @@ trait ActiveRecord
     */
     public function __construct()
     {
-    	$db = DatabaseManager::instance();
-        $this->query = new Query($db);
-        // $this->query->fetchClass($this->entity());
+        $this->query = new Query();
+        $this->entity();
         $this->queryBuilder = new QueryBuilder();
     }
 
@@ -50,9 +47,8 @@ trait ActiveRecord
 
     
     /**
-     * Make Query
-     * @param string $sql 
-     * @return string
+     * Make Select Query
+     * @return QueryBuilder
     */
     protected function makeSelect()
     {
@@ -68,7 +64,7 @@ trait ActiveRecord
     */
     public function findAll()
     {
-       $sql = $this->makeSelect()->sql();
+       $sql = $this->makeSelect();
        return $this->query->execute($sql)->results();
     }
 
@@ -79,7 +75,7 @@ trait ActiveRecord
     */
     public function findFisrt()
     {
-        $sql = $this->makeSelect()->sql();
+        $sql = $this->makeSelect();
         return $this->query->execute($sql)->first();
     }
 
@@ -92,9 +88,24 @@ trait ActiveRecord
     {
         $sql = $this->makeSelect()
                     ->where('id', $this->id)
-                    ->limit(1)
-                    ->sql();
+                    ->limit(1);
         return $this->query
+                    ->execute($sql, $this->queryBuilder->values)
+                    ->results();
+    }
+
+    
+    /**
+     * Find record by field
+     * @param string $field 
+     * @param string $value 
+     * @return array
+    */
+    public function findBy($field, $value)
+    {
+         $sql = $this->makeSelect()
+                     ->where($field, $value);
+        return $this->query 
                     ->execute($sql, $this->queryBuilder->values)
                     ->results();
     }
@@ -157,18 +168,42 @@ trait ActiveRecord
         return $save;
     }
 
+    
+    /**
+     * Determine if has new record or not
+     * @return bool
+    */
+    protected function isNew()
+    {
+        return property_exists($this, 'id') 
+               && isset($this->id);
+    }
+
+
 
     /**
      * Get entity
      * @return string
     */
-    private function entity()
+    protected function entity()
     {
+        $entity = get_class($this);
         if(property_exists($this, 'entity') && $this->entity !== '')
         {
-            return $this->entity;
+            $entity = $this->entity;
         }
-        return get_class($this);
+       
+       // $this->query->fetchClass($entity);
+    }
+
+    
+    /**
+     * Get Entity
+     * @return string
+    */
+    public function getEntity()
+    {
+        return $this->entity;
     }
 
     

@@ -40,7 +40,7 @@ public function __construct()
 
 /**
  * Select 
- * @param type ...$selects 
+ * @param string ...$selects 
  * @return self
 */
 public function select(...$selects)
@@ -209,6 +209,15 @@ public function sql()
     return join(' ', $this->output);
 }
 
+
+/**
+ * stringify 
+ * @return string
+*/
+public function __toString()
+{
+    return $this->sql();
+}
   
   
 /**

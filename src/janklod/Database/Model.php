@@ -15,10 +15,6 @@ abstract class Model
 	/**
      * @var \JK\Database\Query $query
      * @var \JK\Database\ORM\QueryBuilder $queryBuilder
-     * @var  string $table
-     * @var  array  $guarded
-     * @var  array  $fillable
-     * @var  bool   $softDelete
     */
     protected $query;
     protected $queryBuilder;
@@ -30,27 +26,13 @@ abstract class Model
     */
     public function __construct()
     {
-        $db = DatabaseManager::instance();
-        $this->query = new Query($db);
+        $this->query = new Query();
         $this->queryBuilder = new QueryBuilder();
         if(method_exists($this, 'before'))
         {
             $this->before();
         }
         
-    }
-
-
-    /**
-     * Make Query
-     * @param string $sql 
-     * @param array $params 
-     * @param bool $fetch 
-     * @return mixed
-    */
-    protected function execute($sql, $params = [], $fetch = true)
-    {
-          return $this->query->execute($sql, $params, $fetch);
     }
 
 }

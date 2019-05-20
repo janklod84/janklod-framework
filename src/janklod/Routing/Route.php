@@ -141,7 +141,7 @@ class Route
                 'callback' => $callback,
                 'name'     => $name,
                 'method'   => $method,   
-                'prefix'   => self::$options['prefix'] ?? ''
+                'prefix'   => self::getOption('prefix')
              ]);
              
              # do action before storage in collection
@@ -156,6 +156,17 @@ class Route
              # return current route
              return $route;
   	   }
+
+       
+       /**
+        * Get option
+        * @param string $key 
+        * @return mixed
+       */
+       protected static function getOption($key)
+       {
+            return self::$options[$key] ?? '';
+       }
 
 
 

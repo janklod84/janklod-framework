@@ -4,6 +4,7 @@ namespace JK\Database\Statement;
 
 use \PDO;
 use \PDOException;
+use JK\Database\DatabaseManager;
 
 
 /**
@@ -17,7 +18,7 @@ class Query
 * @var \PDO $connection
 * @var \PDOStatement $statement
 * @var int $fetchHandler
-* @var array $results
+* @var array $result
 * @var array  $options
 * @var bool $error
 */
@@ -40,53 +41,10 @@ const FH_NAME = '\\JK\\Database\\Statement\\%s';
 * @param \PDO $connection 
 * @return void
 */
-public function __construct(PDO $connection)
+public function __construct(PDO $connection = null)
 {
-      $this->connection = $connection;
+    $this->connection = $connection ?: DatabaseManager::instance();
 }
-
-
-/**
-* Execute query
-* @param string $sql 
-* @param array $params 
-* @param bool $fetch [ determine if fetch results or no ]
-* @return mixed
-* @throws \Exception 
-*/
-public function execute($sql='', $params = [], $fetch = true)
-{
-     if(!$sql) { exit('No Query setted!'); }
-
-     try
-     {
-          $this->statement = $this->connection->prepare($sql);
-          // beginTransaction ...
-          $this->statement->execute($params);
-          // commit ...
-
-          if($fetch)
-          {
-             $this->fetchModeProcess();
-             $this->result = $this->record();
-             return $this;
-          }
-
-    }catch(PDOException $e){
-         
-         // rollback ...
-         $this->error = true;
-         $html  = '<h4>Error Mysql: </h4>';
-         $html .= '<p>' . $e->getMessage() . '</p>';
-         $html .= '<h4>Last Query: </h4>';
-         $html .= '<p>' . $sql . '</p>';
-         echo $html;
-         exit;
-    }
- 
-}
-
-
 
 
 /**
@@ -168,6 +126,75 @@ public function rollback()
 }
 
 
+/**
+* Execute query
+* @param string $sql 
+* @param array $params 
+* @param bool $fetch [ determine if fetch results or no ]
+* @return mixed
+* @throws \Exception 
+*/
+public function execute($sql='', $params = [], $fetch = true)
+{
+     if(!$sql) { exit('No Query sql added!'); }
+
+     try
+     {
+          $this->statement = $this->connection->prepare($sql);
+          // beginTransaction ...
+          $this->statement->execute($params);
+          // commit ...
+
+          if($fetch)
+          {
+             $this->setfetchMode();
+             $this->result = $this->record();
+             return $this;
+          }
+
+     }catch(PDOException $e){
+         
+         // rollback ...
+         $this->error = true;
+         $html  = '<h4>Error Mysql: </h4>';
+         $html .= '<p>' . $e->getMessage() . '</p>';
+         $html .= '<h4>Last Query: </h4>';
+         $html .= '<p>' . $sql . '</p>';
+         echo $html;
+         exit;
+     }
+ 
+}
+
+
+/**
+ * Fetch record
+ * @param bool $one
+ * @return mixed
+*/
+protected function record($one=false)
+{
+    $result = $this->statement->fetchAll();
+    if($one)
+    {
+       $result = $this->statement->fetch();
+    }
+    return $result;
+}
+
+
+
+
+/**
+ * Execute many queries
+ * @param array $queries
+ * @return mixed
+*/
+public function multi($queries = [])
+{
+    // ...
+}
+
 
 /**
 * Get results
@@ -186,6 +213,17 @@ public function results()
 public function first()
 {
    return !empty($this->result) ? $this->result[0] : [];
+}
+
+
+/**
+ * Fetch one record
+ * @return array
+*/
+public function fetchOne()
+{
+    $this->result = [];
+    return $this->record(true);
 }
 
 
@@ -221,41 +259,12 @@ public function errors()
 
 
 /**
- * Fetch one record
- * @param bool $one
- * @return mixed
-*/
-public function record($one=false)
-{
-    $result = $this->statement->fetchAll();
-    if($one)
-    {
-       $result = $this->statement->fetch();
-    }
-    return $result;
-}
-
-
-/**
-* To Refactoring
-* Fetch mode process
+* Set Fetch mode
 * @return void
 */
-private function fetchModeProcess()
+private function setfetchMode()
 {
-    $object = $this->getHandler();
-    call_user_func([$object, 'setMode']);
-}
-
-
-
-/**
- * Get class handler
- * @return string
-*/
-private function getHandler()
-{
-    $class = sprintf(self::FH_NAME, 
+     $class = sprintf(self::FH_NAME, 
            ucfirst($this->fetchHandler)
     );
     
@@ -264,7 +273,8 @@ private function getHandler()
         exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
     }
 
-    return new $class($this->statement, $this->options);
+    $object = new $class($this->statement, $this->options);
+    call_user_func([$object, 'setMode']);
 }
 
 
