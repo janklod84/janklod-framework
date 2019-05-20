@@ -9,7 +9,7 @@ class JoinBuilder extends CustomBuilder
 {
      
      /**
-      * Build limit
+      * Build Join
       * @return string
      */
      public function build()

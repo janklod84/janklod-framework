@@ -34,15 +34,17 @@ abstract class CustomBuilder
      
      /**
       * Field builder
+      * [ '`' . implode('`, `', $columns) . '`' ]
       * @param array $columns 
       * @return string
      */
      protected function fieldQuery($columns = [])
      {
-        if(!empty($columns))
+        if(count($columns) > 1)
         {
-            return '`' . implode('`, `', $columns) . '`';
+             return '`' . implode('`, `', $columns) . '`';
         }
+        return implode($columns);
      }
 
     
@@ -71,12 +73,13 @@ abstract class CustomBuilder
      */
      protected function tableQuery()
      {
-         $query = '`'. $this->sql('table') . '`';
-         if($alias = $this->sql('table.alias'))
+         $table = $this->sql('table');
+         $str = '`'.$table[0].'`';
+         if($alias = $table[1])
          {
-              $query .= ' AS ' . $alias;
+             $str .= ' AS ' . $alias;
          }
-         return $query;
+         return $str;
      }
 
      
@@ -112,17 +115,6 @@ abstract class CustomBuilder
      }
      
      
-     /**
-      * Determine if sql
-      * @param string $key 
-      * @return bool
-     */
-     protected function hasValue($key)
-     {
-         return ! empty($this->sql[$key]);
-     }
-
-
      /**
       * Determine if has query
       * @param string $key 

@@ -21,7 +21,7 @@ class OrderByBuilder extends CustomBuilder
               {
                    $orderString .= join(' ', $orders) . ', ';
               }
-              echo sprintf('ORDER BY %s', trim($orderString, ', '));
+              return sprintf('ORDER BY %s', trim($orderString, ', '));
        	 }
      }
 

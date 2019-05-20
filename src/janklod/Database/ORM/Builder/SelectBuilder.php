@@ -15,10 +15,9 @@ class SelectBuilder extends CustomBuilder
      public function build()
      {
      	 $selects = $this->sql('select');
-         if(empty($selects))
+         $select = '*';
+         if(!empty($selects))
          {
-             $select = '*';
-         }else{
              $select = $this->fieldQuery($selects);
          }
          

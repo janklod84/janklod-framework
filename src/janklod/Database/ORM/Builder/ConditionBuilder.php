@@ -15,7 +15,7 @@ class ConditionBuilder extends CustomBuilder
      public function build()
      {
      	 if($conditions = $this->sql('condition'))
-     	 {
+       {
               $conditioned = '';
               $types = [];
               foreach($conditions as $type => $wheres)
@@ -27,8 +27,8 @@ class ConditionBuilder extends CustomBuilder
                                 );
               }
               
-              return ltrim($conditioned, $types[0]);
-     	 }
+              return sprintf('WHERE %s', ltrim($conditioned, $types[0]));
+       }
      }
 
 

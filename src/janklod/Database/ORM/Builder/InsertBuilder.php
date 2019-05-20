@@ -16,7 +16,7 @@ class InsertBuilder extends CustomBuilder
      {
              $table = $this->sql('table');
              $insertQuery = sprintf('INSERT INTO `%s`', $table);
-             if(!$this->hasQuery('set') && $this->hasValue('insert'))
+             if($insert = $this->sql('insert'))
              {
                  $insert = $this->sql('insert');
                  $fields = $this->fieldQuery($insert);

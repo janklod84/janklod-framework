@@ -51,7 +51,7 @@ public function select(...$selects)
    return $this;
 }
 
-  
+
 /**
  * From
  * @param string $table 
@@ -60,18 +60,29 @@ public function select(...$selects)
 */
 public function from($table, $alias='')
 {
-  $this->sql['table'] = $table;
-  $this->sql['table.alias'] = $alias;
+  $this->sql['table'] = [$table, $alias];
   $this->addBuilderClass('From');
   return $this;
 }
 
-  
+
+
+
 /**
   * Conditions
-  * where('id', 3)
   * by default $operator is '='
   * and By default AND
+  * 
+  * Operators [
+  * =, >, <, >=, <=, <> or !=,
+  * BETWEEN, LIKE, IN
+  * ]
+  * 
+  * where('id', 5)
+  * where('login', 'superadmin')
+  * where('login', '%test%', 'LIKE')
+  * where('orders', 3, '>')
+  * where('NOT username', 'Brown')
   * 
   * @param string $column
   * @param string $value
@@ -99,6 +110,7 @@ public function or($column = '', $value = '', $operator = '=')
 }
 
 
+
 /**
  * Conditions
  * @param string $condition 
@@ -114,13 +126,12 @@ public function conditions($condition, $value, $type='AND')
 }
 
 
-
 /**
  * Order Query [Filter]
  * @param string $field
  * @param string $sort 
  * @return $this
- */
+*/
 public function orderBy($field, $sort='ASC')
 {
     if($field)
@@ -135,11 +146,12 @@ public function orderBy($field, $sort='ASC')
 /**
 * Limit
 * @param string $limit
+* @param strirng $offset
 * @return self
 */
-public function limit($limit='')
+public function limit($limit='', $offset = null)
 {
-   $this->sql['limit'] = $limit;
+   $this->sql['limit'] = [$limit, $offset];
    $this->addBuilderClass('Limit');
    return $this;
 }
@@ -154,7 +166,6 @@ public function limit($limit='')
 */
 public function join($table, $condition, $type='INNER')
 {
-    // sprintf('%s JOIN %s ', $type, $table);
     $this->sql['join'][$type][] = [$table, $condition];
     $this->addBuilderClass('Join');
     return $this;
@@ -186,8 +197,11 @@ public function join($table, $condition, $type='INNER')
  {
   $this->clear();
   $this->sql['table'] = $table;
-  $this->sql['insert'] = array_keys($params);
-  $this->values = array_values($params);
+  if($params)
+  {
+     $this->sql['insert'] = array_keys($params);
+     $this->values = array_values($params);
+  }
   $this->addBuilderClass('Insert');
   return $this;
 }
@@ -196,16 +210,36 @@ public function join($table, $condition, $type='INNER')
 /**
 * Update data
 * @param string $table 
-* @param string $alias
+* @param array $params
 * @return self
 */
-public function update($table)
+public function update($table, $params = [])
 {
   $this->clear();
   $this->sql['table'] = $table;
+  if($params) // add functionnality
+  {
+     $this->sql['update'] = array_keys($params);
+     $this->values = array_values($params);
+  }
   $this->addBuilderClass('Update');
   return $this;
 }
+
+
+/**
+ * Delete
+ * @param string $table 
+ * @return self
+*/
+public function delete($table)
+{
+    $this->clear();
+    $this->sql['table'] = $table;
+    $this->addBuilderClass('Delete');
+    return $this;
+}
+
 
 
 /**
@@ -222,7 +256,6 @@ public function showColumn($table = null)
 }
 
 
-
 /**
  * Query output
  * @return string
@@ -231,12 +264,7 @@ public function sql()
 {
 	foreach($this->classBuilder as $builder)
   {
- 	    $output = $this->callBuilder($builder);
- 	    if($builder === 'Condition')
- 	    {
- 	        $output = sprintf('WHERE %s', $output);
- 	    }
-      $this->output[] = $output;
+      $this->output[] = $this->callBuilder($builder);
   }
   	
   return join(' ', $this->output);
@@ -276,8 +304,7 @@ private function addBuilderClass(string $name)
 */
 private function conditionField($column, $value, $operator)
 {
-    $field = sprintf('`%s`', $column);
-    return sprintf('%s %s %s', $field, $operator, '?');
+    return sprintf('%s %s %s', $column, $operator, '?');
 }
 
 

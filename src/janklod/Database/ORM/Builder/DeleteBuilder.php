@@ -5,7 +5,7 @@ namespace JK\Database\ORM\Builder;
 /**
  * @package 
 */ 
-class FromBuilder extends CustomBuilder
+class DeleteBuilder extends CustomBuilder
 {
      
      /**
@@ -15,6 +15,6 @@ class FromBuilder extends CustomBuilder
      public function build()
      {
      	 $table = $this->tableQuery();
-         return sprintf('FROM %s', $table);
+         return sprintf('DELETE FROM `%s`', $table);
      }
 }
