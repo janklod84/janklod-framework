@@ -193,6 +193,20 @@ protected function record($one=false)
 public function multi($queries = [])
 {
     // ...
+    try
+    {
+        $this->transaction();
+        foreach($queries as $sql => $values)
+        {
+            $this->execute($sql, $values, false);
+        }
+        $this->commit();
+
+    }catch(\PDOException $e){
+
+        $this->rollback();
+        exit($e->getMessage());
+    }
 }
 
 

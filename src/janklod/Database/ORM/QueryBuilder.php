@@ -9,15 +9,17 @@ class QueryBuilder
 {
 	  
 /**
- * @var array $classBuilder
+ * @var array $builders
  * @var array $sql
  * @var array $values
  * @var array $output
 */
-private $classBuilder = [];
+private $builders = [];
 private $sql    = [];
 public  $values = [];
 private $output = [];
+
+const NBQuery = '\\JK\\Database\\ORM\\Builder\\%sBuilder';
 
 const QTYPES = [
 	'Select', 
@@ -47,7 +49,7 @@ public function select(...$selects)
 {
    $this->clear();
    $this->sql['select'] = $selects;
-   $this->addBuilderClass('Select');
+   $this->addBuilder('Select');
    return $this;
 }
 
@@ -61,7 +63,7 @@ public function select(...$selects)
 public function from($table, $alias='')
 {
   $this->sql['table'] = [$table, $alias];
-  $this->addBuilderClass('From');
+  $this->addBuilder('From');
   return $this;
 }
 
@@ -121,7 +123,7 @@ public function conditions($condition, $value, $type='AND')
 {
      $this->sql['condition'][$type][] = $condition;
      $this->values[] = $value;
-     $this->addBuilderClass('Condition');
+     $this->addBuilder('Condition');
      return $this;
 }
 
@@ -137,7 +139,7 @@ public function orderBy($field, $sort='ASC')
     if($field)
     {
        $this->sql['orderBy'][] = [$field, $sort];
-       $this->addBuilderClass('OrderBy');
+       $this->addBuilder('OrderBy');
     }
     return $this;
 }
@@ -152,7 +154,7 @@ public function orderBy($field, $sort='ASC')
 public function limit($limit='', $offset = null)
 {
    $this->sql['limit'] = [$limit, $offset];
-   $this->addBuilderClass('Limit');
+   $this->addBuilder('Limit');
    return $this;
 }
 
@@ -167,7 +169,7 @@ public function limit($limit='', $offset = null)
 public function join($table, $condition, $type='INNER')
 {
     $this->sql['join'][$type][] = [$table, $condition];
-    $this->addBuilderClass('Join');
+    $this->addBuilder('Join');
     return $this;
 }
 
@@ -182,7 +184,7 @@ public function join($table, $condition, $type='INNER')
  {
    $this->sql['set'] = array_keys($data);
    $this->values = array_values($data);
-   $this->addBuilderClass('Set');
+   $this->addBuilder('Set');
    return $this;
  }
 
@@ -202,7 +204,7 @@ public function join($table, $condition, $type='INNER')
      $this->sql['insert'] = array_keys($params);
      $this->values = array_values($params);
   }
-  $this->addBuilderClass('Insert');
+  $this->addBuilder('Insert');
   return $this;
 }
 
@@ -222,7 +224,7 @@ public function update($table, $params = [])
      $this->sql['update'] = array_keys($params);
      $this->values = array_values($params);
   }
-  $this->addBuilderClass('Update');
+  $this->addBuilder('Update');
   return $this;
 }
 
@@ -236,8 +238,23 @@ public function delete($table)
 {
     $this->clear();
     $this->sql['table'] = $table;
-    $this->addBuilderClass('Delete');
+    $this->addBuilder('Delete');
     return $this;
+}
+
+
+
+/**
+* Truncate table
+* @param string $table 
+* @return string
+*/
+public function truncate($table = null)
+{
+      $this->clear();
+      $this->sql['table'] = $table;
+      $this->addBuilder('Truncate');
+      return $this;
 }
 
 
@@ -251,7 +268,7 @@ public function showColumn($table = null)
 {
   $this->clear();
   $this->sql['table'] = $table;
-  $this->addBuilderClass('ShowColumn');
+  $this->addBuilder('ShowColumn');
   return $this;
 }
 
@@ -262,7 +279,7 @@ public function showColumn($table = null)
 */
 public function sql()
 {
-	foreach($this->classBuilder as $builder)
+	foreach($this->builders as $builder)
   {
       $this->output[] = $this->callBuilder($builder);
   }
@@ -286,11 +303,11 @@ public function __toString()
  * @param string $name 
  * @return void
 */
-private function addBuilderClass(string $name)
+protected function addBuilder(string $name)
 {
-    if(!in_array($name, $this->classBuilder))
+    if(!in_array($name, $this->builders))
     {
-        $this->classBuilder[] = $name;
+        $this->builders[] = $name;
     }
 }
 
@@ -302,7 +319,7 @@ private function addBuilderClass(string $name)
  * @param string $operator 
  * @return string
 */
-private function conditionField($column, $value, $operator)
+protected function conditionField($column, $value, $operator)
 {
     return sprintf('%s %s %s', $column, $operator, '?');
 }
@@ -315,9 +332,7 @@ private function conditionField($column, $value, $operator)
 */
 private function callBuilder($builder)
 {
-  $class = sprintf('\\JK\\Database\\ORM\\Builder\\%sBuilder', 
-                  $builder
-  );
+  $class = sprintf(self::NBQuery, $builder);
 
   if(!class_exists($class))
   {
@@ -338,7 +353,7 @@ private function clear()
   $this->sql = [];
   $this->values = [];
   $this->output = [];
-  $this->classBuilder = [];
+  $this->builders = [];
 }
 
 

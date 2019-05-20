@@ -5,7 +5,7 @@ namespace JK\Database;
 use \PDO;
 use \PDOException;
 use \Exception;
-
+use \Config;
 
 /**
  * @package JK\Database\DatabaseManager
@@ -66,10 +66,10 @@ private static function isConnected()
 private static function connect()
 {
     return DatabaseConnection::make(
-          DatabaseConfig::dsn(),   
-          DatabaseConfig::user(),  
-          DatabaseConfig::password(),  
-          DatabaseConfig::options()
+          Config::get('database.dsn'),
+          Config::get('database.user'),
+          Config::get('database.password'),
+          Config::get('database.options')
     );
 }
 
