@@ -104,8 +104,6 @@ trait ActiveRecord
     */
     public function save()
     {
-        $this->joinTest();
-        /*
         $save = null;
         if(property_exists($this, 'id') && isset($this->id))
         {
@@ -122,44 +120,9 @@ trait ActiveRecord
             ]);
         }
         return $save;
-        */
     }
-   
-    protected function orderByTest()
-    {
-          $sql = $this->queryBuilder
-                      ->orderBy('order1, order2', false)
-                      ->orderBy('order3, order4')
-                       ->orderBy('status, username')
-                       ->orderBy('country', 'DESC');
-         echo $sql;
-    }
+
     
-    /**
-     * Join test
-     * @return void
-    */
-    protected function joinTest()
-    {
-         /*
-         $sql = $this->queryBuilder
-                     ->select('u.username', 'u.password')
-                     ->from($this->table, 'u')
-                     ->join('orders', 'u.order_id = orders.id')
-                     ->where('id', 3)
-                     ->where('username', 'Brown')
-                     ->or('test', 'Test2')
-                     ->conditions('my = ?', 'd', 'LIKE')
-                     ->orderBy('status')
-                     ->orderBy('country', 'DESC');
-                     // ->join('orders', 'u.order_id = orders.id', 'left');
-                     // ->join('orders', 'u.order_id = orders.id', 'full');
-         */
-        // debug($this->queryBuilder->values);
-        // echo $sql;
-    }
-
-
     /**
      * Make Select Query
      * @return QueryBuilder

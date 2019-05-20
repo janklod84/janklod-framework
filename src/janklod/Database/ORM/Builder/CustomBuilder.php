@@ -41,10 +41,6 @@ abstract class CustomBuilder
      {
         if(!empty($columns))
         {
-            if($this->hasValue('table.alias'))
-            {
-                return $this->fieldWithAlias($columns);
-            }
             return '`' . implode('`, `', $columns) . '`';
         }
      }
@@ -95,12 +91,7 @@ abstract class CustomBuilder
          $set = '';
          foreach($fields as $field)
          {
-             $str = sprintf(' `%s` ', $field);
-             if($alias = $this->sql('table.alias'))
-             {
-                 $str = sprintf(' `%s`.`%s`', $alias, $field);
-             }
-             $set .= sprintf(' %s = ?,', $str);
+             $set .= sprintf(' `%s` = ?,', $field);
          }
          return trim($set, ',');
      }

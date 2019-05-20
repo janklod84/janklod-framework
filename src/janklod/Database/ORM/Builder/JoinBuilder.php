@@ -14,9 +14,25 @@ class JoinBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 if($join = $this->sql('join'))
+     	   if($joins = $this->sql('join'))
          {
-              // sprintf('%s JOIN %s ON %s', 'INNER', 'users', 'users.id = categories.user_id');
+              $joined = '';
+              foreach($joins as $type => $joinParams)
+              {
+                  $typed = strtoupper($type);
+                  if($typed === 'FULL')
+                  {
+                      $typed .= ' OUTER';
+                  }
+                  foreach($joinParams as [$table, $condition])
+                  {
+                       $joined .= sprintf(' %s JOIN `%s` ON %s ', 
+                                          $typed, 
+                                          $table, 
+                                          $condition);
+                  }
+              }
+              return $joined;
          }
      }
 }

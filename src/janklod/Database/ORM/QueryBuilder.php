@@ -68,41 +68,70 @@ public function from($table, $alias='')
 
   
 /**
-  * Must to add more functionalites for WHERE
   * Conditions
   * where('id', 3)
   * by default $operator is '='
+  * and By default AND
   * 
   * @param string $column
   * @param string $value
   * @param string $operator
-  * @return $this
+  * @return self
 */
 public function where($column='', $value='', $operator = '='): self
 {
-  $where = $this->conditionField($column, $value, $operator);
-  $this->sql['where'][] = $where;
-  $this->values[] = $value;
-  $this->addBuilderClass('Where');
-  return $this;
+    $condition = $this->conditionField($column, $value, $operator);
+    return $this->conditions($condition, $value);
 }
 
 
 /**
- * Or
+ * Condition OR
  * @param string $column 
  * @param string $value 
  * @param string $operator 
  * @return self
- */
-public function or($column = '', $value = '', $operator = '='): self 
+*/
+public function or($column = '', $value = '', $operator = '=')
 {
-   // TO Implements
-   return $this;
+    $condition = $this->conditionField($column, $value, $operator);
+    return $this->conditions($condition, $value, 'OR');
 }
 
 
-   
+/**
+ * Conditions
+ * @param string $condition 
+ * @param string $type 
+ * @return self
+*/
+public function conditions($condition, $value, $type='AND')
+{
+     $this->sql['condition'][$type][] = $condition;
+     $this->values[] = $value;
+     $this->addBuilderClass('Condition');
+     return $this;
+}
+
+
+
+/**
+ * Order Query [Filter]
+ * @param string $field
+ * @param string $sort 
+ * @return $this
+ */
+public function orderBy($field, $sort='ASC')
+{
+    if($field)
+    {
+       $this->sql['orderBy'][] = [$field, $sort];
+       $this->addBuilderClass('OrderBy');
+    }
+    return $this;
+}
+
+
 /**
 * Limit
 * @param string $limit
@@ -131,18 +160,6 @@ public function join($table, $condition, $type='INNER')
     return $this;
 }
 
-   
- 
- /**
-  * Add alias table
-  * @param string $alias 
-  * @return self
- */
- public function alias($alias='')
- {
-    $this->sql['table.alias'] = $alias;
-    return $this;
- }
 
  
  /**
@@ -215,9 +232,9 @@ public function sql()
 	foreach($this->classBuilder as $builder)
   {
  	    $output = $this->callBuilder($builder);
- 	    if($builder === 'Where')
+ 	    if($builder === 'Condition')
  	    {
- 	        $output = sprintf(' WHERE %s', $output);
+ 	        $output = sprintf('WHERE %s', $output);
  	    }
       $this->output[] = $output;
   }
@@ -291,10 +308,10 @@ private function callBuilder($builder)
 */
 private function clear()
 {
-	  $this->sql = [];
-	  $this->values = [];
-	  $this->output = [];
-	  $this->classBuilder = [];
+  $this->sql = [];
+  $this->values = [];
+  $this->output = [];
+  $this->classBuilder = [];
 }
 
 

@@ -14,12 +14,12 @@ class SelectBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $select = $this->sql('select');
-         if(empty($select))
+     	 $selects = $this->sql('select');
+         if(empty($selects))
          {
              $select = '*';
          }else{
-             $select = implode(', ', $select);
+             $select = $this->fieldQuery($selects);
          }
          
          return sprintf('SELECT %s', $select);
