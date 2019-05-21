@@ -17,7 +17,7 @@ class QueryBuilder
 private $builders = [];
 private $sql    = [];
 public  $values = [];
-private $output = [];
+
 
 const NBQuery = '\\JK\\ORM\\Builder\\%sBuilder';
 
@@ -346,13 +346,14 @@ public function min($column, $table, $alias = null)
 */
 public function sql()
 {
-	foreach($this->builders as $builder)
-  {
-      $this->output[] = $this->callBuilder($builder);
-  }
-  	
-  return join(' ', $this->output);
+    $output = [];
+    foreach($this->builders as $builder)
+    {
+        $output[] = $this->callBuilder($builder);
+    }
+    return join(' ', $output);
 }
+
 
 
 /**
@@ -462,10 +463,12 @@ private function clear()
 {
   $this->sql = [];
   $this->values = [];
-  $this->output = [];
   $this->builders = [];
 }
 
+/*
+SELECT * FROM `users` WHERE id = ? INSERT INTO `users` (`username`, `password`, `role`) VALUES (?, ?, ?)
+*/
 
 
 }

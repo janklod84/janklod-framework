@@ -1,14 +1,20 @@
 <?php 
 namespace JK\Database;
 
-
+/*
 use JK\ORM\{
 	Query,
 	QueryBuilder
 };
 
 use JK\Database\DatabaseManager;
-use JK\Database\Records\Select;
+*/
+
+use JK\Database\Records\{
+    Select,
+    Insert,
+    Update 
+};
 
 
 /**
@@ -37,11 +43,7 @@ class ActiveRecord
     */
     public function __construct()
     {
-        /*
-		$connection = DatabaseManager::instance();
-        $this->query = new Query($connection);
-        $this->queryBuilder = new QueryBuilder();
-        */
+      
     }
 
     
@@ -74,15 +76,7 @@ class ActiveRecord
     public function findById()
     {
         return (new Select($this->table))
-               ->where('id', $this->id, 1);
-        /*
-        $sql = $this->makeSelect()
-                    ->where('id', $this->id)
-                    ->limit(1);
-        return $this->query
-                    ->execute($sql, $this->queryBuilder->values)
-                    ->results();
-        */
+               ->where('id', $this->id);
     }
 
 
@@ -95,12 +89,38 @@ class ActiveRecord
     */
     public function findBy($field, $value)
     {
-        /*
-         $sql = $this->makeSelect()
-                     ->where($field, $value);
-         return $this->query 
-                    ->execute($sql, $this->queryBuilder->values)
-                    ->results();
+         return (new Select($this->table))
+               ->where($field, $value);
+    }
+
+
+    /**
+     * Insert data into database
+     * @param array $params 
+     * @return 
+    */
+    public function insert($params = [])
+    {
+         return (new Insert($this->table))
+                ->data($params);
+    }
+
+
+    /**
+     * Update data into database
+     * @param array $params 
+     * @return 
+    */
+    public function update($params = [])
+    {
+         /*
+         $sql = $this->queryBuilder
+                     ->update($this->table)
+                     ->set($params)
+                     ->where('id', $this->id);
+
+         return $this->query
+                     ->execute($sql, $this->queryBuilder->values, false);
         */
     }
 
@@ -131,58 +151,6 @@ class ActiveRecord
        */
     }
    
-
-    
-    /**
-     * Make Select Query
-     * @return QueryBuilder
-    */
-    protected function makeSelect()
-    {
-         /*
-         $sql = $this->queryBuilder
-                     ->select()
-                     ->from($this->table);
-        return $this->query->execute($sql);
-        */
-    }
-
-
-    /**
-     * Insert data into database
-     * @param array $params 
-     * @return 
-     */
-    public function insert($params = [])
-    {
-        /*
-         $sql = $this->queryBuilder
-                     ->insert($this->table, $params);
-         return $this->query
-                     ->execute($sql, $this->queryBuilder->values, false);
-        */
-    }
-
-
-    /**
-     * Update data into database
-     * @param array $params 
-     * @return 
-    */
-    public function update($params = [])
-    {
-         /*
-         $sql = $this->queryBuilder
-                     ->update($this->table)
-                     ->set($params)
-                     ->where('id', $this->id);
-
-         return $this->query
-                     ->execute($sql, $this->queryBuilder->values, false);
-        */
-    }
-
-    
     /**
      * Determine if has new record or not
      * @return bool

@@ -15,17 +15,50 @@ class HomeController extends BaseController
      */
 	   public function index()
 	   {
-        /*
-         $user = new UserManager();
-         // debug($user->findUserById());
-         // $user->saveUser(3);
-         $user->saveUser();
+
+         // $user = new User();
+         // $users = $user->findAll(); // OK debug($users);
+
+         /*
+         $user->setId(2);
+         $userById = $user->findById();
+         // debug($userById);
+       
+         $user->insert([
+            'username' => 'Test2',
+            'password' => 'Ok2',
+            'role' => 1
+         ]);
          */
+        
+         $db = \JK\Database\DatabaseManager::instance();
+         $query = new \JK\ORM\Query($db);
+         $builder = new \JK\ORM\QueryBuilder();
+         
+         $sql = $builder->select()
+                        ->from('users')
+                        ->where('id', 3);
+                        //->sql();
+         
+         $query->execute($sql, $builder->values);
 
-         $user = new User();
-         $users = $user->findAll(); 
-         debug($users);
+         $insert = $builder->insert('users', [
+                                'username' => 'Henry',  
+                                'password' => md5('test'),  
+                                'role' => '1'
+                           ])->sql();
+         
+         $query->execute($insert, $builder->values, false);
 
+
+         $update = $builder->update('users')
+                           ->set(['username' => 'HP'])
+                           ->where('id', 1)
+                           ->sql();
+         
+         $query->execute($update, $builder->values, false);
+
+         $query->queries();
          return $this->render('home/index');
 	   }
        

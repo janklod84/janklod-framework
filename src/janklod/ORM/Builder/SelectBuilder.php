@@ -21,6 +21,6 @@ class SelectBuilder extends CustomBuilder
              $select = $this->fieldQuery($selects);
          }
          
-         return sprintf('SELECT %s', $select);
+         return sprintf('SELECT %s ', $select);
      }
 }

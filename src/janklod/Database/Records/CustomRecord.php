@@ -2,29 +2,18 @@
 namespace JK\Database\Records;
 
 
-use JK\ORM\{
-	Query,
-	QueryBuilder
-};
-
-use JK\Database\DatabaseManager;
+use JK\Database\Model;
 
 /**
  * @package JK\Database\Records\CustomRecord 
 */ 
-abstract class CustomRecord 
+class CustomRecord  extends Model
 {
    
    /**
-     * @var \JK\ORM\Query $query
-     * @var  \JK\ORM\QueryBuilder $queryBuilder
-     * @var  array $guarded
-     * @var  array $fillable
-     * @var  bool  $softDelete
-    */
-    protected $query;
-    protected $queryBuilder;
-    protected $table;
+     * @var string $table
+   */
+   protected $table;
 
 
 	/**
@@ -34,26 +23,8 @@ abstract class CustomRecord
     */
     public function __construct($table = null)
     {
-		$connection = DatabaseManager::instance();
-        $this->query = new Query($connection);
-        $this->queryBuilder = new QueryBuilder();
+		    parent::__construct();
         $this->table = $table;
-    }
-
-
-    /**
-     * Execute Query
-     * @param string $sql 
-     * @param array $params 
-     * @param bool $fetch 
-     * @return Query
-     */
-    protected function execute(
-    $sql='', 
-    $params = [], 
-    $fetch = true)
-    {
-         return $this->query->execute($sql, $params, $fetch);
     }
 
 }

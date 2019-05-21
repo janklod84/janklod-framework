@@ -28,6 +28,8 @@ private $fetchHandler = 'FetchObject';
 private $result;
 private $options = [];
 private $error = false;
+private $queries = [];
+private $increment = 0;
 
 
 // fetch handler class name
@@ -42,10 +44,11 @@ const FH_NAME = '\\JK\\ORM\\Statement\\%s';
 */
 public function __construct(PDO $connection = null)
 {
-    if(!is_null($connection))
+    if(is_null($connection))
     {
-        $this->connection = $connection;
+         exit('No connection! for : '. __CLASS__);
     }
+    $this->connection = $connection;
 }
 
 
@@ -136,21 +139,25 @@ public function rollback()
 * @return mixed
 * @throws \Exception 
 */
-public function execute($sql='', $params = [], $fetch = true)
+public function execute(string $sql='', $params = [], $fetch = true)
 {
      if(!$sql) { exit('No Query sql added!'); }
-
      try
      {
           $this->statement = $this->connection->prepare($sql);
           // beginTransaction ...
-          $this->statement->execute($params);
+          if($this->statement->execute($params))
+          {
+                 $this->addQuery($sql);
+                 $this->increment++;
+          }
           // commit ...
 
           if($fetch)
           {
              $this->setFetchMode();
              $this->result = $this->record();
+             return $this;
           }
           
           // close cursor for next query [ somme drivers need it ]
@@ -168,9 +175,54 @@ public function execute($sql='', $params = [], $fetch = true)
          exit;
      }
     
-     return $this;
 }
 
+
+/**
+ * Add Query
+ * @param string $sql [type string very important ]
+ * @return array
+*/
+public function addQuery($sql)
+{
+     array_push($this->queries, $sql);
+}
+
+
+/**
+ * Add one time query
+ * @param string $sql 
+ * @return void
+*/
+public function addOneTime($sql)
+{
+    if(!in_array($sql, $this->queries))
+    {
+        $this->addQuery($sql);
+    }
+}
+
+
+/**
+ * Get all queries
+ * @return array
+*/
+public function queries()
+{
+     $html = '<strong>Count executed queries : </strong>'.$this->increment;
+     $html .= '<br/>';
+     if(!empty($this->queries))
+     {
+         $i = 1;
+         $html .= '<strong>Currents queries : </strong>';
+         foreach($this->queries as $query)
+         {
+             $html .= '<div>'. $i.'--- '. $query . '</div>';
+             $i++;
+         }
+     }
+     echo $html;
+} 
 
 /**
  * Fetch record
