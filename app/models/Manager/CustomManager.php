@@ -7,8 +7,9 @@ use JK\Database\Model;
 /**
  * @package app\models\Manager\CustomManager 
 */ 
-abstract class CustomManager extends Model
+abstract class CustomManager
 {
+
 	 
     /**
      * Constuctor

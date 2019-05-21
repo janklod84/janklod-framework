@@ -256,7 +256,7 @@ class Request implements RequestInterface
 
        
      /**
-      * Prepare Url
+      * Prepare Url 
       * @param bool $uri
       * @return string
      */
@@ -281,11 +281,12 @@ class Request implements RequestInterface
         */
        private function collection($data, $key)
        {
+           $collection = new Collection($data);
        	   if(is_null($key))
            {
-              return (new Collection($data))->all();
+              return $collection->all();
            }
-           return (new Collection($data))->get($key);
+           return $collection->get($key);
        }
 
 

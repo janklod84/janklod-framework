@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Database\ORM;
+namespace JK\ORM;
 
 
 /**
- * @package JK\Database\ORM\QueryBuilder 
+ * @package JK\ORM\QueryBuilder 
 */ 
 class QueryBuilder 
 {
@@ -19,7 +19,7 @@ private $sql    = [];
 public  $values = [];
 private $output = [];
 
-const NBQuery = '\\JK\\Database\\ORM\\Builder\\%sBuilder';
+const NBQuery = '\\JK\\ORM\\Builder\\%sBuilder';
 
 const QTYPES = [
 	'Select', 
@@ -274,6 +274,73 @@ public function showColumn($table = null)
 
 
 /**
+ * COUNT of column
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias
+ * @return QueryBuilder
+*/
+public function count($column, $table, $alias = null)
+{
+      return $this->arithmeticQuery($column, $table, 'COUNT', $alias);
+}
+
+
+/**
+ * AVG of column
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias
+ * @return QueryBuilder
+*/
+public function avg($column, $table, $alias = null)
+{
+      return $this->arithmeticQuery($column, $table, 'AVG', $alias);
+}
+
+
+/**
+ * SUM of column 
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias
+ * @return QueryBuilder
+*/
+public function sum($column, $table, $alias = null)
+{
+      return $this->arithmeticQuery($column, $table, 'SUM', $alias);
+}
+
+
+
+/**
+ * MAX of column 
+ * @param string $column 
+ * @param string $table
+ * @param string $alias 
+ * @return QueryBuilder
+*/
+public function max($column, $table, $alias = null)
+{
+      return $this->arithmeticQuery($column, $table, 'MAX', $alias);
+}
+
+
+
+/**
+ * MIN of column 
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias 
+ * @return QueryBuilder
+*/
+public function min($column, $table, $alias = null)
+{
+      return $this->arithmeticQuery($column, $table, 'MIN', $alias);
+}
+
+
+/**
  * Query output
  * @return string
 */
@@ -326,21 +393,64 @@ protected function conditionField($column, $value, $operator)
 
 
 /**
+ * Artihmetic Query Maker
+ * [
+ * COUNT(column_name), 
+ * AVG(column_name)
+ * ]
+ * arithmetic('COUNT(username)', 'users')
+ * arithmetic('username', 'users', 'COUNT')
+ * 
+ * @param string $column 
+ * @param string $table
+ * @param string $type 
+ * @return self
+*/
+protected function arithmeticQuery(
+$column='', 
+$table = 'no-table', 
+$type=null,   
+$alias = null
+)
+{
+     if($column !== '')
+     {
+          $function = $column;
+          if(!is_null($type))
+          {
+               $type = strtoupper($type);
+               $function = "$type($column)";
+          }
+
+          if($alias)
+          {
+              $function .= ' AS ' . $alias;
+          }
+
+          return $this->select($function)
+                      ->from($table);
+     }
+     return $this;
+} 
+
+
+
+/**
 * Get buider class name
 * @param string $builder
 * @return string
 */
 private function callBuilder($builder)
 {
-  $class = sprintf(self::NBQuery, $builder);
+  $builderName = sprintf(self::NBQuery, $builder);
 
-  if(!class_exists($class))
+  if(!class_exists($builderName))
   {
-  	  die(sprintf('Class <strong>%s</strong> does not exist!', $class));
+  	  die(sprintf('class <strong>%s</strong> does not exist!', $builderName));
   }
 
-  $classObj = new $class($this->sql);
-  return call_user_func([$classObj, 'build']);
+  $builderObj = new $builderName($this->sql);
+  return call_user_func([$builderObj, 'build']);
 }
   
   

@@ -1,24 +1,31 @@
 <?php 
-namespace JK\Database\ORM;
+namespace JK\Database;
 
-use JK\Database\Statement\Query;
+
+use JK\ORM\{
+	Query,
+	QueryBuilder
+};
+
+use JK\Database\DatabaseManager;
+use JK\Database\Records\Select;
 
 
 /**
- * @package JK\Database\ORM\ActiveRecord 
+ * @package JK\Database\ActiveRecord 
 */ 
-trait ActiveRecord
+class ActiveRecord
 {
 	   
     /**
-     * @var \JK\Database\Query $query
-     * @var  \JK\Database\ORM\QueryBuilder $queryBuilder
+     * @var \JK\ORM\Query $query
+     * @var  \JK\ORM\QueryBuilder $queryBuilder
      * @var  array $guarded
      * @var  array $fillable
      * @var  bool  $softDelete
     */
-    protected $query;
-    protected $queryBuilder;
+    // protected $query;
+    // protected $queryBuilder;
     protected $guarded  = [];
     protected $fillable = [];
     protected $softDelete = false;
@@ -30,9 +37,11 @@ trait ActiveRecord
     */
     public function __construct()
     {
-        $this->query = new Query();
-        $this->entity();
+        /*
+		$connection = DatabaseManager::instance();
+        $this->query = new Query($connection);
         $this->queryBuilder = new QueryBuilder();
+        */
     }
 
     
@@ -48,38 +57,34 @@ trait ActiveRecord
 
 
     /**
-     * Get all results
+     * Get all records
      * @return array
     */
     public function findAll()
     {
-       return $this->makeSelect()->results();
-    }
-
-    
-    /**
-     * Get fist result
-     * @return array
-    */
-    public function findFisrt()
-    {
-        return $this->makeSelect()->first();
+        return (new Select($this->table))
+               ->all();
     }
 
 
     /**
-     * Get fist result
+     * Get record by id
      * @return array
     */
     public function findById()
     {
+        return (new Select($this->table))
+               ->where('id', $this->id, 1);
+        /*
         $sql = $this->makeSelect()
                     ->where('id', $this->id)
                     ->limit(1);
         return $this->query
                     ->execute($sql, $this->queryBuilder->values)
                     ->results();
+        */
     }
+
 
     
     /**
@@ -90,11 +95,13 @@ trait ActiveRecord
     */
     public function findBy($field, $value)
     {
+        /*
          $sql = $this->makeSelect()
                      ->where($field, $value);
-        return $this->query 
+         return $this->query 
                     ->execute($sql, $this->queryBuilder->values)
                     ->results();
+        */
     }
 
 
@@ -104,7 +111,6 @@ trait ActiveRecord
     */
     public function save()
     {
-        $this->orderByTest();
         /*
         $save = null;
         if(property_exists($this, 'id') && isset($this->id))
@@ -125,22 +131,7 @@ trait ActiveRecord
        */
     }
    
-   
-   // OK
-   protected function orderByTest()
-   {
-      $sql = $this->queryBuilder
-                    ->select()
-                    ->from($this->table)
-                    ->where('id', 5)
-                    ->orderBy('username')
-                    ->orderBy('login', 'DESC')
-                    ->limit("0,3");
 
-        
-        echo $sql;
-        debug($this->queryBuilder->values);
-   }
     
     /**
      * Make Select Query
@@ -148,10 +139,12 @@ trait ActiveRecord
     */
     protected function makeSelect()
     {
+         /*
          $sql = $this->queryBuilder
                      ->select()
                      ->from($this->table);
         return $this->query->execute($sql);
+        */
     }
 
 
@@ -160,13 +153,14 @@ trait ActiveRecord
      * @param array $params 
      * @return 
      */
-    protected function insert($params = [])
+    public function insert($params = [])
     {
+        /*
          $sql = $this->queryBuilder
                      ->insert($this->table, $params);
-                     // ->set($params);
          return $this->query
                      ->execute($sql, $this->queryBuilder->values, false);
+        */
     }
 
 
@@ -175,8 +169,9 @@ trait ActiveRecord
      * @param array $params 
      * @return 
     */
-    protected function update($params = [])
+    public function update($params = [])
     {
+         /*
          $sql = $this->queryBuilder
                      ->update($this->table)
                      ->set($params)
@@ -184,6 +179,7 @@ trait ActiveRecord
 
          return $this->query
                      ->execute($sql, $this->queryBuilder->values, false);
+        */
     }
 
     

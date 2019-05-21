@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Database\ORM\Builder;
+namespace JK\ORM\Builder;
 
 
 /**
  * @package 
 */ 
-class UpdateBuilder extends CustomBuilder
+class ShowColumnBuilder extends CustomBuilder
 {
      
      /**
@@ -15,6 +15,6 @@ class UpdateBuilder extends CustomBuilder
      public function build()
      {
          $table = $this->tableQuery();
-         return sprintf('UPDATE %s', $table);
+         return sprintf(' SHOW COLUMNS FROM %s', $table);
      }
 }

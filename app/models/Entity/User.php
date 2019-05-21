@@ -2,18 +2,15 @@
 namespace app\models\Entity;
 
 
-use JK\Database\ORM\ActiveRecord;
+use JK\Database\ActiveRecord;
 
 
 /**
  * @package app\models\Entity\User 
 */ 
-class User 
+class User extends ActiveRecord
 {
 	  
-	  use ActiveRecord;
-
-
 	  /**
 	   * @var string $table
 	  */

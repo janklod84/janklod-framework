@@ -1,14 +1,13 @@
 <?php 
-namespace JK\Database\Statement;
+namespace JK\ORM;
 
 
 use \PDO;
 use \PDOException;
-use JK\Database\DatabaseManager;
 
 
 /**
- * @package JK\Database\Statement\Query 
+ * @package JK\ORM\Query 
 */ 
 class Query 
 {
@@ -32,7 +31,7 @@ private $error = false;
 
 
 // fetch handler class name
-const FH_NAME = '\\JK\\Database\\Statement\\%s';
+const FH_NAME = '\\JK\\ORM\\Statement\\%s';
 
 
 
@@ -43,7 +42,10 @@ const FH_NAME = '\\JK\\Database\\Statement\\%s';
 */
 public function __construct(PDO $connection = null)
 {
-    $this->connection = $connection ?: DatabaseManager::instance();
+    if(!is_null($connection))
+    {
+        $this->connection = $connection;
+    }
 }
 
 
@@ -149,8 +151,10 @@ public function execute($sql='', $params = [], $fetch = true)
           {
              $this->setFetchMode();
              $this->result = $this->record();
-             return $this;
           }
+          
+          // close cursor for next query [ somme drivers need it ]
+          $this->statement->closeCursor();
 
      }catch(PDOException $e){
          
@@ -163,7 +167,8 @@ public function execute($sql='', $params = [], $fetch = true)
          echo $html;
          exit;
      }
- 
+    
+     return $this;
 }
 
 
@@ -186,11 +191,12 @@ protected function record($one=false)
 
 
 /**
+ * To Fix
  * Execute many queries
  * @param array $queries
  * @return mixed
 */
-public function multi($queries = [])
+public function multiple($queries = [])
 {
     // ...
     try
@@ -280,15 +286,15 @@ private function setFetchMode()
 {
      $class = sprintf(self::FH_NAME, 
            ucfirst($this->fetchHandler)
-    );
+     );
     
-    if(!class_exists($class))
-    {
+     if(!class_exists($class))
+     {
         exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
-    }
+     }
 
-    $object = new $class($this->statement, $this->options);
-    call_user_func([$object, 'setMode']);
+     $object = new $class($this->statement, $this->options);
+     call_user_func([$object, 'setMode']);
 }
 
 

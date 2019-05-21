@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Database\ORM\Builder;
+namespace JK\ORM\Builder;
 
 
 /**
@@ -49,37 +49,27 @@ abstract class CustomBuilder
 
     
      /**
-      * Get fields with alias
-      * @param array $columns 
-      * @return string
-      */
-     protected function fieldWithAlias($columns)
-     {
-          if($alias = $this->sql('table.alias'))
-          {
-               $field = '';
-               foreach($columns as $column)
-               {
-                   $field .= sprintf('`%s`.`%s`,', $alias, $column);
-               }
-               return trim($field, ',');
-          }
-     }
-
-    
-     /**
       * Get table
       * @return string
      */
      protected function tableQuery()
      {
-         $table = $this->sql('table');
-         $str = '`'.$table[0].'`';
-         if($alias = $table[1])
+         if($table = $this->sql('table'))
          {
-             $str .= ' AS ' . $alias;
+             $tableString = '';
+             if(is_array($table))
+             {
+                $tableString = '`'.$table[0].'`';
+                if(!empty($table[1]))
+                {
+                   $tableString .= ' AS '.$table[1];
+                }
+                
+             }else{
+                  $tableString = '`'.$table.'`';
+             }
+             return $tableString;
          }
-         return $str;
      }
 
      

@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Database\Statement;
+namespace JK\ORM\Statement;
 
 
 use \PDO;
 
 /**
- * @package JK\Database\Statement\FetchClass
+ * @package JK\ORM\Statement\FetchClass
 */ 
 class FetchClass extends Fetch
 {
