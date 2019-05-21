@@ -21,12 +21,6 @@ public  $values = [];
 
 const NBQuery = '\\JK\\ORM\\Builder\\%sBuilder';
 
-const QTYPES = [
-	'Select', 
-	'Insert', 
-	'Update', 
-	'Delete'
-];
 
 
 

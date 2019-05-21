@@ -30,7 +30,7 @@ class HomeController extends BaseController
             'role' => 1
          ]);
          */
-        
+         /*
          $db = \JK\Database\DatabaseManager::instance();
          $query = new \JK\ORM\Query($db);
          $builder = new \JK\ORM\QueryBuilder();
@@ -59,6 +59,7 @@ class HomeController extends BaseController
          $query->execute($update, $builder->values, false);
 
          $query->queries();
+         */
          return $this->render('home/index');
 	   }
        

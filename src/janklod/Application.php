@@ -269,7 +269,7 @@ private function __wakeup(){}
  * Close application
  * @return void
 */
-public function __destruct()
+public function terminate()
 {
      $db = \JK\Database\DatabaseManager::instance();
      $query = new \JK\ORM\Query($db);
