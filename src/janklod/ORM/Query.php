@@ -18,8 +18,10 @@ class Query
 * @var \PDOStatement $statement
 * @var int $fetchHandler
 * @var array $result
-* @var array  $options
+* @var array $options
 * @var bool $error
+* @var array $queries
+* @var int $increment
 */
 private $sql;
 private $connection;
@@ -29,7 +31,9 @@ private $result;
 private $options = [];
 private $error = false;
 private $queries = [];
-private $increment = 0;
+private $lastID;
+private $count;
+
 
 
 // fetch handler class name
@@ -142,24 +146,28 @@ public function rollback()
 public function execute(string $sql='', $params = [], $fetch = true)
 {
      if(!$sql) { exit('No Query sql added!'); }
+
      try
      {
+          
           $this->statement = $this->connection->prepare($sql);
+
           // beginTransaction ...
           if($this->statement->execute($params))
           {
                  $this->addQuery($sql);
-                 $this->increment++;
           }
           // commit ...
 
           if($fetch)
           {
              $this->setFetchMode();
-             $this->result = $this->record();
-             return $this;
+             $this->result = $this->fetch();
           }
-          
+
+          $this->count  = $this->statement->rowCount();
+          $this->lastID = $this->connection->lastInsertId();
+
           // close cursor for next query [ somme drivers need it ]
           $this->statement->closeCursor();
 
@@ -174,7 +182,8 @@ public function execute(string $sql='', $params = [], $fetch = true)
          echo $html;
          exit;
      }
-    
+
+     return $this;
 }
 
 
@@ -190,46 +199,23 @@ public function addQuery($sql)
 
 
 /**
- * Add one time query
- * @param string $sql 
- * @return void
-*/
-public function addOneTime($sql)
-{
-    if(!in_array($sql, $this->queries))
-    {
-        $this->addQuery($sql);
-    }
-}
-
-
-/**
  * Get all queries
  * @return array
 */
 public function queries()
 {
-     $html = '<strong>Count executed queries : </strong>'.$this->increment;
-     $html .= '<br/>';
-     if(!empty($this->queries))
-     {
-         $i = 1;
-         $html .= '<strong>Currents queries : </strong>';
-         foreach($this->queries as $query)
-         {
-             $html .= '<div>'. $i.'--- '. $query . '</div>';
-             $i++;
-         }
-     }
-     echo $html;
+    return (new QueryPrinter($this->queries))
+           ->printOut();
 } 
+
+
 
 /**
  * Fetch record
  * @param bool $one
  * @return mixed
 */
-protected function record($one=false)
+protected function fetch($one=false)
 {
     $result = $this->statement->fetchAll();
     if($one)
@@ -289,24 +275,12 @@ public function first()
 
 
 /**
- * Fetch one record
- * @return array
-*/
-public function fetchOne()
-{
-    $this->result = [];
-    return $this->record(true);
-}
-
-
-
-/**
 * Get result count 
 * @return int
 */
 public function count()
 {
-    return $this->statement->rowCount();
+    return $this->count;
 }
 
  
@@ -316,18 +290,29 @@ public function count()
 */
 public function lastID()
 {
-   return $this->connection->lastInsertId();
+   return $this->lastID;
 }
 
 
 /**
-* Get errors
+* Get error status
 * @return array
+*/
+public function error()
+{
+   return $this->error;
+}
+
+
+/**
+ * Get info errors
+ * @return array
 */
 public function errors()
 {
-   return $this->statement->errorInfo();
+    return $this->statement->errorInfo();
 }
+
 
 
 /**

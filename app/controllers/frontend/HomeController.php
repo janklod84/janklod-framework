@@ -39,8 +39,8 @@ class HomeController extends BaseController
                         ->from('users')
                         ->where('id', 3);
                         //->sql();
-         
-         $query->execute($sql, $builder->values);
+         $result = $query->execute($sql, $builder->values)->results();
+         debug($result);
 
          $insert = $builder->insert('users', [
                                 'username' => 'Henry',  
@@ -60,6 +60,7 @@ class HomeController extends BaseController
 
          $query->queries();
          */
+         
          return $this->render('home/index');
 	   }
        

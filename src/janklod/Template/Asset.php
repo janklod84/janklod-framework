@@ -38,7 +38,7 @@ class Asset
        }
 
        /**
-        * Add css
+        * Add js
         * @var string $script
         * @return void
        */
