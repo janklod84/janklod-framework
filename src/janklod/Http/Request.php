@@ -196,7 +196,7 @@ public function is($key='xxx'): bool
 */
 public function isMethod($type='get'): bool
 {
-    if(in_array($typeI, self::METHOD_TYPES))
+    if(in_array($type, self::METHOD_TYPES))
     {
          return $this->method() === strtoupper($type);
     }
