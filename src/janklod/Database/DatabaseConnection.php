@@ -28,7 +28,7 @@ class DatabaseConnection
      * @param array $options 
      * @return \PDO
      * @throws \Exception
-     */
+    */
     public static function make($dsn, $user, $password, $options = [])
     {
            if(!empty($options))
