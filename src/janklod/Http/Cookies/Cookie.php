@@ -2,6 +2,8 @@
 namespace JK\Http;
 
 
+use JK\Collections\Collection;
+
 /**
  * @package JK\Http\Cookie 
 */ 
@@ -9,9 +11,9 @@ class Cookie
 {
 
 /**
-* @var array $cookies
+* @var JK\Collections\Collection $collection
 */
-private $cookies = [];
+private $collection;
 
 
 /**
@@ -19,9 +21,9 @@ private $cookies = [];
 * @param array $cookies 
 * @return void
 */
-public function __construct($cookies = [])
+public function __construct()
 {
-   $this->cookies = $cookies;
+   $this->collection = new Collection($_COOKIE);
 }
 
 

@@ -51,6 +51,6 @@ class Url
     */
     public static function base()
     {
-        return (new Request())->baseUrl();
+        return (new Request())->url();
     }
 }

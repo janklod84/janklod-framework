@@ -2,6 +2,7 @@
 namespace JK\ORM;
 
 
+
 /**
  * @package JK\ORM\QueryBuilder 
 */ 
@@ -15,7 +16,8 @@ class QueryBuilder
  * @var array $output
 */
 private $builders = [];
-private $sql    = [];
+private $sql    = []; 
+private $parts  = [];
 public  $values = [];
 public  $output = [];
 
@@ -142,10 +144,10 @@ public function orderBy($field, $sort='ASC')
 /**
 * Limit
 * @param string $limit
-* @param strirng $offset
+* @param int $offset
 * @return self
 */
-public function limit($limit='', $offset = null)
+public function limit($limit='', $offset = 0)
 {
    $this->sql['limit'] = [$limit, $offset];
    $this->addBuilder('Limit');
@@ -340,6 +342,9 @@ public function min($column, $table, $alias = null)
 */
 public function sql()
 {
+    /*
+     $builder = [$this->sql, $this->parts]
+    */
     foreach($this->builders as $builder)
     {
         $this->output[] = $this->callBuilder($builder);
@@ -409,18 +414,12 @@ $alias = null
 {
      if($column !== '')
      {
-          $function = $column;
-          if(!is_null($type))
-          {
-               $type = strtoupper($type);
-               $function = "$type($column)";
-          }
-
-          if($alias)
-          {
-              $function .= ' AS ' . $alias;
-          }
-
+          $this->sql['column'] = $column;
+          $this->sql['table'] = $table;
+          $this->sql['type'] = $type;
+          $this->sql['alias'] = $alias;
+          $builder = new \JK\ORM\Builder\FunctionBuilder($this->sql);
+          $function = $builder->build();
           return $this->select($function)
                       ->from($table);
      }

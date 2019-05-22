@@ -2,64 +2,31 @@
 namespace JK\Http;
 
 
-use JK\Helper\{
-  Sanitize,
-  Collection 
-};
-use Http\Sessions\Session;
-use Http\Cookies\Cookie;
+use JK\Http\Sessions\Session;
+use JK\Http\Cookies\Cookie;
+use JK\Http\Requests\Input;
+use JK\Http\Uploads\UploadedFile;
+
 use \Config;
 
 
 /**
  * @package JK\Http\Request 
 */ 
-class Request implements RequestInterface
+class Request //implements RequestInterface
 {
       
 
-       /**
-        * Constructor
-        * @return void
-       */
-       public function __construct() {}
-       
-
-       /**
-        * Get base url with or without URI
-        * @param bool $uri
-        * @return string
-       */
-       public function baseUrl($uri = false): string
-       {
-           if(Config::get('app.base_url') && $uri == false)
-           {
-               return trim(Config::get('app.base_url'), '/');
-           }
-           return $this->getUrl($uri);
-       }
-
-       
-       /**
-        * Get details url
-        * @param string $url 
-        * @return array
-       */
-       public function details($url)
-       {
-          return parse_url($url);
-       }
-       
-       
        /**
         * Contain all requests by POST, GET, PUT, HEAD, DELETE ...
         * 
         * @param string $key 
         * @return mixed
        */
-       public function requests($key = null)
+       public function input($key = null)
        {
-           return $this->sanitize($_REQUEST, $key);
+            return (new Input($_REQUEST))
+                   ->get($key);
        }
 
 
@@ -71,7 +38,8 @@ class Request implements RequestInterface
        */
        public function get($key = null)
        {
-           return $this->sanitize($_GET, $key);
+           return (new Input($_GET))
+                  ->get($key);
        }
 
 
@@ -83,7 +51,8 @@ class Request implements RequestInterface
        */
        public function post($key = null)
        {
-           return $this->sanitize($_POST, $key);
+            return (new Input($_POST))
+                   ->get($key);
        }
 
 
@@ -102,24 +71,22 @@ class Request implements RequestInterface
        /**
         * Get item from $_COOKIE
         * 
-        * @var string $key
         * @return mixed
        */
-       public function cookie($key = null)
+       public function cookie()
        {
-           return new Cookie($_COOKIE);
+           return new Cookie();
        }
 
 
        /**
         * Get item from $_SESSION
         * 
-        * @param string $key 
         * @return mixed
        */
-       public function session($key = null)
+       public function session()
        {
-           return new Session($_SESSION);
+           return new Session();
        }
 
 
@@ -132,7 +99,8 @@ class Request implements RequestInterface
        */
        public function server($key = null)
        {
-           return $this->collection($_SERVER, $key);
+           return (new Input($_SERVER))
+                  ->get($key);
        }
 
        
@@ -159,13 +127,15 @@ class Request implements RequestInterface
 
 
        /**
-         * Return query string
-         * @return string
-        */
-        public function queryString()
-        {
-            return $this->server('QUERY_STRING');
-        }
+        * Get host
+        * 
+        * @return string
+       */
+       public function host()
+       {
+            return $this->server('HTTP_HOST');
+       }
+
 
        
        /**
@@ -180,139 +150,74 @@ class Request implements RequestInterface
 
 	    /**
 	     * Get User ip
-	     * Get the direct ip for user [1]
-	     * Get if user uses proxy     [2]
-	     * Get the direct ip for user [1]
 	     * @return string
 	    */
-	    public function ip()
-	    {
-	    	 $ip = $this->server('REMOTE_ADDR'); // [1]
-
-	    	 if($this->server('HTTP_CLIENT_IP')) // [2]
-	    	 {
-	    	 	  $ip = $this->server('HTTP_CLIENT_IP');
-
-	    	 }elseif($this->server('HTTP_X_FORWARDED_FOR')){
-
-	    	 	  $ip = $this->server('HTTP_X_FORWARDED_FOR');
-	    	 }
-
-	    	 return $ip;
-	    }
-
-
-
-       /**
-        * Determine if current scheme is secure
-        * @return bool
-       */
-       public function isSecure()
-       {
-           return $this->server('HTTPS') == 'on';
-       }
-
-
-       /**
-         * Determine if current request is cli
-         * @return bool
-       */ 
-       public function isCli() 
-       {
-           return $this->server('argc') > 0 
-                 || php_sapi_name() === 'cli';
-       }
-
-
-       /**
-        * Determine if request method is POST
-        * @return bool
-      */
-      public function isPost(): bool
-      {
-           return $this->method() === 'POST';
-      }
+	    public function ip(){}
+	   
 
 
       /**
-        * Determine if request method is GET
-        * @return bool
+       * Determine if has param
+       * @param type|string $key 
+       * @return string
       */
-      public function isGet(): bool
+      public function is($key='xxx'): bool
       {
-           return $this->method() === 'GET';
-      }
+             switch($key)
+             {
+                  case 'https':
+                    return $this->server('HTTPS') == 'on';
+                  break;
+                  case 'cli':
+                    return $this->server('argc') > 0 
+                    || php_sapi_name() === 'cli';
+                  break;
+                  case 'ajax':
+                    $this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
+                  break;
+             }
+    }
+    
+    
+    /**
+     * Determine method request
+     * @param string $type 
+     * @return bool
+    */
+    public function isMethod($type='get')
+    {
+          switch($type)
+          {
+               case 'get':
+                return $this->method() === 'GET';
+               break;
+               case 'post':
+                return $this->method() === 'POST';
+               break;
+               case 'put':
+                return $this->method() === 'PUT';
+               break;
+               case 'delete':
+                return $this->method() === 'DELETE';
+               break;
+          }
+    }
+  
+    
+    /**
+     * Get Base Url
+     * @param bool $uri
+     * @return string
+    */
+    public function url($uri = false)
+    {
+        $url = $this->is('https') ? 'https' : 'http';
+        $url .= '://' . $this->host();
+        $url .= $uri ? $this->uri() : '';
+        return $url;
+    }
 
-
-      /**
-       * Determine if request method by AJAX
-       * @return bool
-      */
-      public function isAjax(): bool
-      {
-           return $this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
-      }
-
-
-       
-     /**
-      * Prepare Url 
-      * @param bool $uri
-      * @return string
-     */
-     private function getUrl($uri = false)
-     { 
-       	  $scheme = $this->isSecure() ? 'https' : 'http';
-       	  $params = [
-            $scheme .'://',   
-            $this->server('HTTP_HOST'),
-            $uri ? $this->server('REQUEST_URI') : ''
-       	  ];
-       
-       	  return implode($params);
-     }
-       
-
-       /**
-        * Retrieve item from repository
-        * @param array $data 
-        * @param string $key 
-        * @return mixed
-        */
-       private function collection($data, $key)
-       {
-           $collection = new Collection($data);
-       	   if(is_null($key))
-           {
-              return $collection->all();
-           }
-           return $collection->get($key);
-       }
-
-
-       /**
-        * Sanitize input data
-        * 
-        * @param array $data
-        * @param string $input
-        * @return mixed
-       */
-       public function sanitize($data, $input = null)
-       {
-            if(is_null($input))
-            {
-              	$populated = [];
-
-              	foreach($data as $field => $value)
-              	{
-                      $populated[$field] = trim(Sanitize::input($value));
-              	}
-
-              	return $populated;
-            }
-
-            return isset($data[$input]) ? trim(Sanitize::input($data[$input])) : '';
-       }
+      
 
        
 }

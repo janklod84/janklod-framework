@@ -91,46 +91,5 @@ abstract class Controller
          }
      }
 
-     
-     /**
-      * 
-      * @param string $name 
-      * @return void
-     */
-     protected function loadModel($name)
-     {
-         // $this->load->model($name);
-     }
-
-
-     /**
-      * Determine if request method is POST
-      * @return bool
-     */
-     protected function isPost(): bool
-     {
-         return $this->request->isPost();
-     }
-
-
-     /**
-      * Determine if request method is GET
-      * @return bool
-     */
-     protected function isGet(): bool
-     {
-         return $this->request->isGet();
-     }
-
-
-     /**
-      * Determine if request method by AJAX
-      * @return bool
-     */
-     protected function isAjax(): bool
-     {
-     	   return $this->request->isAjax();
-     }
-
 
 }

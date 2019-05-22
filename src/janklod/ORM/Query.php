@@ -146,7 +146,9 @@ public function rollback()
 public function execute(string $sql='', $params = [], $fetch = true)
 {
      if(!$sql) { exit('No Query sql added!'); }
-
+     
+     $this->sql = $sql;
+     
      try
      {
           

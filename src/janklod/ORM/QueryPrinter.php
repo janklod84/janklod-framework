@@ -2,20 +2,19 @@
 namespace JK\ORM;
 
 
-use \PDO;
-use \PDOException;
-
 
 /**
- * @package JK\ORM\Query 
+ * @package JK\ORM\QueryPrinter
 */ 
-class Query 
+class QueryPrinter
 {
 	   
 /**
 * @var array $queries
 */
 private $queries = [];
+private $count;
+
 
 
 /**
@@ -26,6 +25,7 @@ private $queries = [];
 public function __construct($queries = [])
 {
      $this->queries = $queries;
+     $this->count = count($queries);
 }
 
 
@@ -35,10 +35,10 @@ public function __construct($queries = [])
 */
 public function printOut()
 {
-   if($count = count($this->queries))
+   if($this->count > 1)
    {
        $i = 1;
-       $html = '<strong>Count executed queries : </strong>'. $count;
+       $html = '<strong>Count executed queries : </strong>'. $this->count;
        $html .= '<br/>';
        $html .= '<strong>Currents queries : </strong>';
        foreach($this->queries as $query)

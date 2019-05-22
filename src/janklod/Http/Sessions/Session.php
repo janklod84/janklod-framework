@@ -2,6 +2,8 @@
 namespace JK\Http;
 
 
+use JK\Collections\Collection;
+
 /**
  * @package JK\Http\Session 
 */ 
@@ -9,19 +11,18 @@ class Session
 {
       
 /**
-* @var array $sessions
+* @var JK\Collections\Collection $collection
 */
-private $sessions = [];
+private $collection;
 
 
 /**
 * Constructor
-* @param array $sessions 
 * @return void
 */
-public function __construct($sessions = [])
+public function __construct()
 {
-    $this->sessions = $sessions ?: $_SESSION;
+    $this->collection = new Collection($_SESSION);
 }
 
 
@@ -33,7 +34,7 @@ public function __construct($sessions = [])
 */
 public function put($name, $value)
 {
-
+    return $this->collection->set($name, $value);
 }
 
 
@@ -44,7 +45,7 @@ public function put($name, $value)
 */
 public function has($key): bool
 {
-
+   return $this->collection->has($key);
 }
 
 
@@ -55,7 +56,7 @@ public function has($key): bool
 */
 public function get($key)
 {
-
+    return $this->collection->get($key);
 }
 
 
@@ -65,6 +66,6 @@ public function get($key)
 */
 public function all()
 {
-	  
+	 return $this->collection->all();
 }
 }

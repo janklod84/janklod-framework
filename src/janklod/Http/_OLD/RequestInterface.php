@@ -10,12 +10,23 @@ interface RequestInterface
 	  
 	
        /**
-        * Return data from all type request
+        * Return data from request $_GET
         * 
         * @param string $key 
         * @return mixed
        */
-       public function input($key = null);
+       public function get($key = null);
+
+
+
+       /**
+        * Return data from request $_POST
+        * 
+        * @param string $key 
+        * @return mixed
+       */
+       public function post($key = null);
+
 
 
        /**

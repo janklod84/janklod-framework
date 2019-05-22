@@ -24,14 +24,10 @@ class ActiveRecord
 {
 	   
     /**
-     * @var \JK\ORM\Query $query
-     * @var  \JK\ORM\QueryBuilder $queryBuilder
      * @var  array $guarded
      * @var  array $fillable
      * @var  bool  $softDelete
     */
-    // protected $query;
-    // protected $queryBuilder;
     protected $guarded  = [];
     protected $fillable = [];
     protected $softDelete = false;
@@ -43,7 +39,7 @@ class ActiveRecord
     */
     public function __construct()
     {
-      
+       // TO Implements
     }
 
     

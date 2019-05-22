@@ -29,8 +29,8 @@ class HomeController extends BaseController
             'password' => 'Ok2',
             'role' => 1
          ]);
-         */
-         /*
+         
+         
          $db = \JK\Database\DatabaseManager::instance();
          $query = new \JK\ORM\Query($db);
          $builder = new \JK\ORM\QueryBuilder();
@@ -60,6 +60,7 @@ class HomeController extends BaseController
 
          $query->queries();
          */
+         
          
          return $this->render('home/index');
 	   }
