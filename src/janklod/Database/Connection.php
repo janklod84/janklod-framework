@@ -8,9 +8,9 @@ use \Exception;
 
 
 /**
- * @package JK\Database\DatabaseConnection
+ * @package JK\Database\Connection
 */ 
-class DatabaseConnection
+class Connection
 {
     
      private static $options = [

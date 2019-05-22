@@ -74,7 +74,7 @@ public function post($key = null)
 */
 public function file($key = null)
 {
-  return new UploadedFile($_FILES);
+   return new UploadedFile($_FILES);
 }
 
 
@@ -179,7 +179,7 @@ public function is($key='xxx'): bool
               return $this->server('HTTPS') == 'on';
             break;
             case 'cli':
-              return $this->server('argc') > 0 
+              return $this->cli('argc') > 0 
               || php_sapi_name() === 'cli';
             break;
             case 'ajax':

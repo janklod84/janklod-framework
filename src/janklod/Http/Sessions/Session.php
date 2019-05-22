@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Http;
+namespace JK\Http\Sessions;
 
 
 use JK\Collections\Collection;
 
 /**
- * @package JK\Http\Session 
+ * @package JK\Http\Sessions\Session 
 */ 
 class Session 
 {
@@ -27,6 +27,20 @@ public function __construct()
 
 
 /**
+ * Ensure if session is started
+ * 
+ * @return void
+*/
+public static function start()
+{
+      if(session_status() === PHP_SESSION_NONE)
+      {
+      	   session_start();
+      }
+}
+
+
+/**
 * Put item in session
 * @param string $name 
 * @param mixed $value 
@@ -34,7 +48,8 @@ public function __construct()
 */
 public function put($name, $value)
 {
-    return $this->collection->set($name, $value);
+    return $this->collection
+                ->set($name, $value);
 }
 
 
@@ -45,7 +60,8 @@ public function put($name, $value)
 */
 public function has($key): bool
 {
-   return $this->collection->has($key);
+   return $this->collection
+               ->has($key);
 }
 
 
@@ -56,7 +72,23 @@ public function has($key): bool
 */
 public function get($key)
 {
-    return $this->collection->get($key);
+    return $this->collection
+                ->get($key);
+}
+
+
+/**
+ * Remove key in the session [delete]
+ * @param string $key
+ * @return void
+*/
+public function remove($key)
+{
+	if($this->collection->has($key))
+	{
+	   return $this->collection
+	               ->remove($key);
+	}
 }
 
 
@@ -66,6 +98,9 @@ public function get($key)
 */
 public function all()
 {
-	 return $this->collection->all();
+	 return $this->collection
+	             ->all();
 }
+
+
 }

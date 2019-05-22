@@ -3,6 +3,7 @@ namespace JK\Http\Requests;
 
 
 use JK\Collections\Collection;
+use JK\Helper\Common;
 
 
 /**
@@ -36,10 +37,10 @@ public function __construct($data = [])
 */
 public function get($key = null)
 {
-	 $result = $this->parameters();
+	   $result = $this->parameters();
      if(!is_null($key))
      {
-     	 $result = $this->collection->get($key);
+     	  $result = $this->collection->get($key);
      }
      return $result;
 }
@@ -51,7 +52,7 @@ public function get($key = null)
 */
 public function parameters()
 {
-	return $this->collection->all();
+	  return $this->collection->all();
 }
 
 
@@ -66,16 +67,33 @@ public function sanitize($input = null)
 {
     if(is_null($input))
     {
-      	$populated = [];
         $data = $this->parameters();
-      	foreach($data as $field => $value)
-      	{
-              $populated[$field] = trim(Sanitize::input($value));
-      	}
-      	return $populated;
+      	return $this->populated($data);
     }
-
-    return isset($data[$input]) ? trim(Sanitize::input($data[$input])) : '';
+    
+    $sanitized = '';
+    if(isset($data[$input]))
+    {
+        $sanitized = trim(Common::sanitize($data[$input]));
+    }
+    return $sanitized;
 }
+
+
+/**
+ * Populate and sanitize full data
+ * @param array $data 
+ * @return mixed
+ */
+public function populated($data=[])
+{
+    $populated = [];
+    foreach($data as $field => $value)
+    {
+          $populated[$field] = trim(Common::sanitize($value));
+    }
+    return $populated;
+}
+
 
 }

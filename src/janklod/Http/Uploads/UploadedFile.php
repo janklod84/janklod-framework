@@ -1,26 +1,29 @@
 <?php 
-namespace JK\Http;
+namespace JK\Http\Uploads;
+
+use JK\Collections\Collection;
+
 
 
 /**
- * @package JK\Http\UploadedFile 
+ * @package JK\Http\Uploads\UploadedFile 
 */ 
 class UploadedFile 
 {
 	  
       /**
-       * @var array $files
+       * @var \JK\Collections\Collection $collection
       */
-	  private $files = [];
+	  private $collection;
 
 
 	  /**
 	   * Constructor
-	   * @param array $files 
+	   * @param mixed $key
 	   * @return void
 	  */
-	  public function __construct($files)
+	  public function __construct($key = null)
 	  {
-            $this->files = $files;
+            $this->collection = new Collection($_FILES);
 	  }
 }

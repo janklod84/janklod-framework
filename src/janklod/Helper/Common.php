@@ -3,17 +3,17 @@ namespace JK\Helper;
 
 
 /**
- * @package JK\Helper\Sanitize
+ * @package JK\Helper\Common
 */
-class Sanitize
+class Common
 {
        
    /**
-    * Sanitize data 
-    * @param string $parsed
+    * Sanitize input data 
+    * @param string $input
     * @return 
    */
-   public static function input($parsed)
+   public static function sanitize($input)
    {
         return htmlentities($parsed, ENT_QUOTES, 'UTF-8');
    }

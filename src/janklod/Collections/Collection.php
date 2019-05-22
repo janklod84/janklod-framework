@@ -48,11 +48,7 @@ class Collection
    */
    public function get($key = null)
    {
-   	    if($this->has($key))
-        {
-            return $this->items[$key];
-        }
-        return null;
+       return $this->has($key) ? $this->items[$key] : null;
    }
 
 
@@ -74,10 +70,7 @@ class Collection
    */
    public function remove($key)
    {
-   	   if($this->has($key))
-   	   {
-   	   	   unset($this->items[$key]);
-   	   }
+   	   unset($this->items[$key]);
    }
 
    

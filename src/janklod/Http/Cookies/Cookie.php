@@ -28,7 +28,7 @@ public function __construct()
 
 
 /**
-* Set cookies
+* Set cookie
 * @param string $name 
 * @param mixed $value 
 * @param int $times 
@@ -43,7 +43,7 @@ $times = 3600,
 $domain = '/', 
 $httpOnly = false)
 {
-
+   setcookie($key, $value, time() + $times, $domain, $httpOnly);
 }
 
 
@@ -54,7 +54,8 @@ $httpOnly = false)
 */
 public function has($key): bool
 {
-
+   return $this->collection  
+              ->has($key);
 }
 
 
@@ -65,8 +66,27 @@ public function has($key): bool
 */
 public function get($key)
 {
-
+    if($this->collection->has($key))
+    {
+    	 return $this->collection 
+    	             ->get($key);
+    }
 }
+
+
+/**
+* Delete cookies by $key
+* @param $key
+*/
+public static function delete($key)
+{
+	if($this->collection->has($key)))
+	{
+		 $this->set($key, '', -3600);
+		 return $this->collection->remove($key);
+	}
+}
+
 
 
 /**
@@ -75,6 +95,7 @@ public function get($key)
 */
 public function all()
 {
-	  
+	  return $this->collection
+                ->all();
 }
 }

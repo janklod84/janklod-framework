@@ -16,21 +16,22 @@ abstract class Model
 {
     
     /**
-     * @var \JK\ORM\Query $statement
+     * @var \JK\ORM\Query $query
      * @var  \JK\ORM\QueryBuilder $builder
     */
-    protected $statement;
+    protected $query;
     protected $builder;
 
 
     /**
      * Constructor
+     * @param string $table
      * @return void
     */
     public function __construct()
     {
         $connection = DatabaseManager::instance();
-        $this->statement = new Query($connection);
+        $this->query = new Query($connection);
         $this->builder = new QueryBuilder();
     }
     
