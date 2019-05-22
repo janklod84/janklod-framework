@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Database\Driver;
+namespace JK\Database\Drivers;
 
 
 use \PDO;
@@ -8,6 +8,6 @@ use \Exception;
 use JK\Database\Database;
 
 /**
- * @package JK\Database\Driver\MySql
+ * @package JK\Database\Drivers\MySql
 */ 
 class MySql extends Database {}

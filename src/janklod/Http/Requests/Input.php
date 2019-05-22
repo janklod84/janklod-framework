@@ -37,12 +37,12 @@ public function __construct($data = [])
 */
 public function get($key = null)
 {
-	   $result = $this->parameters();
-     if(!is_null($key))
-     {
-     	  $result = $this->collection->get($key);
-     }
-     return $result;
+  $result = $this->parameters();
+  if(!is_null($key))
+  {
+ 	  $result = $this->collection->get($key);
+  }
+  return $result;    
 }
 
 

@@ -55,7 +55,7 @@ abstract class Fetch
      */
      protected function argument($key)
      {
-         $argument = $this->option('arguments');
-         return isset($argument[$key]) ? $argument[$key] : null;
+         $arguments = $this->option('arguments');
+         return isset($arguments[$key]) ? $arguments[$key] : null;
      }
 } 

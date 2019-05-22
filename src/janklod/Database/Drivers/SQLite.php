@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Database\Driver;
+namespace JK\Database\Drivers;
 
 
 use \PDO;
@@ -9,6 +9,6 @@ use JK\Database\Database;
 
 
 /**
- * @package JK\Database\Driver\SQLite
+ * @package JK\Database\Drivers\SQLite
 */ 
 class SQLite extends Database {}
