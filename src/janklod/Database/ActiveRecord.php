@@ -1,13 +1,6 @@
 <?php 
 namespace JK\Database;
 
-
-use JK\Database\Records\{
-    Select,
-    Insert,
-    Update 
-};
-
  
 /**
  * @package JK\Database\ActiveRecord 
