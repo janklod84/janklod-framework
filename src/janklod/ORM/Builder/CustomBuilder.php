@@ -8,110 +8,112 @@ namespace JK\ORM\Builder;
 abstract class CustomBuilder
 {
      
-     /**
-      * @var array $sql
-     */
-     protected $sql;
-     
+/**
+* @var array params
+*/
+protected $params;
 
-     /**
-      * Constructor
-      * @param array $sql 
-      * @return void
-     */
-     public function __construct($sql)
-     {
-          $this->sql = $sql;
-     }
 
-     
-     /**
-      * Builder query
-      * @return string
-     */
-     abstract public function build();
+/**
+* Constructor
+* @param array $params 
+* @return void
+*/
+public function __construct($params)
+{
+    $this->params = $params;
+}
 
-     
-     /**
-      * Field builder
-      * [ '`' . implode('`, `', $columns) . '`' ]
-      * @param array $columns 
-      * @return string
-     */
-     protected function fieldQuery($columns = [])
-     {
-        if(count($columns) > 1)
-        {
-             return '`' . implode('`, `', $columns) . '`';
-        }
-        return implode($columns);
-     }
 
-    
-     /**
-      * Get table
-      * @return string
-     */
-     protected function tableQuery()
-     {
-         if($table = $this->sql('table'))
-         {
-             $tableString = '';
-             if(is_array($table))
-             {
-                $tableString = '`'.$table[0].'`';
-                if(!empty($table[1]))
-                {
-                   $tableString .= ' AS '.$table[1];
-                }
-                
-             }else{
-                  $tableString = '`'.$table.'`';
-             }
-             return $tableString;
-         }
-     }
+/**
+* Builder query
+* @return string
+*/
+abstract public function build();
 
-     
-     /**
-      * Set fields
-      * @param array $fields 
-      * @return string
-     */
-     protected function setField()
-     {
-         $fields = $this->sql('set');
-         $set = '';
-         foreach($fields as $field)
-         {
-             $set .= sprintf(' `%s` = ?,', $field);
-         }
-         return trim($set, ',');
-     }
 
-     
-     /**
-      * Get sql
-      * @param string $key 
-      * @return mixed
-     */
-     protected function sql($key)
-     {
-          if($this->hasQuery($key))
-          {
-              return $this->sql[$key];
-          }
-          return false;
-     }
-     
-     
-     /**
-      * Determine if has query
-      * @param string $key 
-      * @return bool
-     */
-     protected function hasQuery($key)
-     {
-         return isset($this->sql[$key]);
-     }
+/**
+* Field builder
+* [ '`' . implode('`, `', $columns) . '`' ]
+* @param array $columns 
+* @return string
+*/
+protected function fields($columns = [])
+{
+  if(count($columns) > 1)
+  {
+       return '`' . implode('`, `', $columns) . '`';
+  }
+  return implode($columns);
+}
+
+
+/**
+* Get table
+* @return string
+*/
+protected function table()
+{
+   if($table = $this->get('table'))
+   {
+       $tableString = '`'.$table.'`';
+       if($alias = $this->get('alias'))
+       {
+           $tableString .= ' AS '.$alias;
+       }
+       return $tableString;
+   }
+}
+
+
+/**
+* assign fields
+* @param array $fields 
+* @return string
+*/
+protected function assign($fields = [])
+{
+   $set = '';
+   foreach($fields as $field)
+   {
+       $set .= sprintf(' `%s` = ?,', $field);
+   }
+   return trim($set, ',');
+}
+
+
+/**
+* Get param
+* @param string $key 
+* @return mixed
+*/
+protected function get($key=null)
+{
+   if($this->has($key))
+   {
+      return $this->params[$key];
+   }
+   return null;
+}
+
+
+/**
+* Get all params
+* @return array
+*/
+public function params()
+{
+   return $this->params;
+}
+
+
+/**
+* Determine if has param
+* @param string $key 
+* @return bool
+*/
+protected function has($key)
+{
+   return isset($this->params[$key]);
+}
 }

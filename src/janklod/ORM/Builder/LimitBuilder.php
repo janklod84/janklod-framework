@@ -14,14 +14,11 @@ class LimitBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 if($limit = $this->sql('limit'))
-         {
-             $limited = sprintf(' LIMIT %s ', $limit[0]);
-             if($offset = $limit[1])
+             $limited = sprintf(' LIMIT %s ', $this->get('limit'));
+             if($offset = $this->get('offset'))
              {
                  $limited .= sprintf(' OFFSET %s ', $offset);
              }
              return $limited;
-         }
      }
 }

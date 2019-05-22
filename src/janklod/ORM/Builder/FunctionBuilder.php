@@ -9,17 +9,17 @@ class FunctionBuilder extends CustomBuilder
 {
      
      /**
-      * Build from
+      * Build function
       * @return string
      */
      public function build()
      {
-     	$column = $this->sql('column');
-     	$table  = $this->tableQuery();
-     	$type = $this->sql('type');
-        $alias = $this->sql('alias');
-
-     	if($column !== '')
+     	$column = $this->get('column');
+     	$table  = $this->table();
+     	$type   = $this->get('type');
+        $alias  = $this->get('alias');
+        // if has column and table defined
+     	if($column !== '' && $table) 
         {
 	          $function = $column;
 	          if(!is_null($type))
@@ -32,7 +32,7 @@ class FunctionBuilder extends CustomBuilder
 	          {
 	              $function .= ' AS ' . $alias;
 	          }
-            return $function;
+              return sprintf('SELECT %s FROM %s ', $function, $table);
         }
      }
 }

@@ -14,7 +14,7 @@ class ShowColumnBuilder extends CustomBuilder
      */
      public function build()
      {
-         $table = $this->tableQuery();
+         $table = $this->table();
          return sprintf(' SHOW COLUMNS FROM %s', $table);
      }
 }

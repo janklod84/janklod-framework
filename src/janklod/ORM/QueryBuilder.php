@@ -10,30 +10,14 @@ class QueryBuilder
 {
 	  
 /**
- * @var array $builders
  * @var array $sql
  * @var array $values
- * @var array $output
 */
-private $builders = [];
 private $sql    = []; 
-private $parts  = [];
 public  $values = [];
-public  $output = [];
-
+private $output = [];
 const NBQuery = '\\JK\\ORM\\Builder\\%sBuilder';
 
-
-
-
-/**
- * Constructor
- * @return void
-*/
-public function __construct()
-{
-      // TO Implements
-}
 
 
 /**
@@ -43,10 +27,9 @@ public function __construct()
 */
 public function select(...$selects)
 {
-   $this->clear();
-   $this->sql['select'] = $selects;
-   $this->addBuilder('Select');
-   return $this;
+     $this->clear();
+     $this->sql['select'] = $selects;
+     return $this;
 }
 
 
@@ -58,24 +41,13 @@ public function select(...$selects)
 */
 public function from($table, $alias='')
 {
-  $this->sql['table'] = [$table, $alias];
-  $this->addBuilder('From');
-  return $this;
+    $this->sql['from'] = compact('table', 'alias');
+    return $this;
 }
 
 
-
-
 /**
-  * Conditions
-  * by default $operator is '='
-  * and By default AND
-  * 
-  * Operators [
-  * =, >, <, >=, <=, <> or !=,
-  * BETWEEN, LIKE, IN
-  * ]
-  * 
+  * Where
   * where('id', 5)
   * where('login', 'superadmin')
   * where('login', '%test%', 'LIKE')
@@ -87,10 +59,23 @@ public function from($table, $alias='')
   * @param string $operator
   * @return self
 */
-public function where($column='', $value='', $operator = '='): self
+public function where($column='', $value=null, $operator='=')
 {
-    $condition = $this->conditionField($column, $value, $operator);
-    return $this->conditions($condition, $value);
+    return $this->and($column, $value, $operator);
+}
+
+
+/**
+ * Condition AND
+ * @param string $column 
+ * @param string $value 
+ * @param string $operator 
+ * @return self
+*/
+public function and($column = '', $value = '', $operator = '=')
+{
+    $condition = $this->conditionOperator($column, $operator);
+    return $this->condition($condition, $value);
 }
 
 
@@ -103,24 +88,38 @@ public function where($column='', $value='', $operator = '='): self
 */
 public function or($column = '', $value = '', $operator = '=')
 {
-    $condition = $this->conditionField($column, $value, $operator);
-    return $this->conditions($condition, $value, 'OR');
+    $condition = $this->conditionOperator($column, $operator);
+    return $this->condition($condition, $value, 'OR');
 }
 
 
-
 /**
- * Conditions
- * @param string $condition 
- * @param string $type 
- * @return self
+  * Conditions
+  * by default $operator is '='
+  * and By default AND
+  * 
+  * Operators [
+  * =, >, <, >=, <=, <> or !=,
+  * BETWEEN, LIKE, IN
+  * ]
+  * 
+  * condition('id = ?', 5)
+  * condition('login = ?', 'superadmin', 'OR')
+  * condition('login = :login', ['login' => 'superadmin'])
+  * condition('NOT username = :username', 'Brown')
+  * 
+  * @param string $column
+  * @param string $value
+  * @param string $operator
+  * @return self
 */
-public function conditions($condition, $value, $type='AND')
+public function condition($condition, $value, $type='AND')
 {
-     $this->sql['condition'][$type][] = $condition;
-     $this->values[] = $value;
-     $this->addBuilder('Condition');
-     return $this;
+   if(!$this->isBinded($condition)) 
+   { exit('You must to bind param : '. $condition); }
+   $this->sql['where'][$type][] = $condition;
+   $this->addValue($value);
+   return $this;
 }
 
 
@@ -132,11 +131,7 @@ public function conditions($condition, $value, $type='AND')
 */
 public function orderBy($field, $sort='ASC')
 {
-    if($field)
-    {
-       $this->sql['orderBy'][] = [$field, $sort];
-       $this->addBuilder('OrderBy');
-    }
+    $this->sql['orderBy'][] = compact('field', 'sort');
     return $this;
 }
 
@@ -149,43 +144,27 @@ public function orderBy($field, $sort='ASC')
 */
 public function limit($limit='', $offset = 0)
 {
-   $this->sql['limit'] = [$limit, $offset];
-   $this->addBuilder('Limit');
-   return $this;
+    $this->sql['limit'] = compact('limit', 'offset');
+    return $this;
 }
 
 
 /**
  * Join
+ * join('orders', 'users.id = orders.user_id')
  * @param string $join 
  * @param string $condition
  * @param string $type 
  * @return self
 */
-public function join($table, $condition, $type='INNER')
+public function join($table='', $condition='', $type='INNER')
 {
-    $this->sql['join'][$type][] = [$table, $condition];
-    $this->addBuilder('Join');
+    $this->sql['join'][$type][] = compact('table', 'condition');
     return $this;
 }
 
 
- 
- /**
-  * Set data
-  * @param array $data 
-  * @return self
- */
- public function set($data=[])
- {
-   $this->sql['set'] = array_keys($data);
-   $this->values = array_values($data);
-   $this->addBuilder('Set');
-   return $this;
- }
-
- 
- /**
+/**
   * Insert data
   * @param string $table 
   * @param array $params 
@@ -194,13 +173,11 @@ public function join($table, $condition, $type='INNER')
  public function insert($table, $params = [])
  {
   $this->clear();
-  $this->sql['table'] = $table;
-  if($params)
-  {
-     $this->sql['insert'] = array_keys($params);
-     $this->values = array_values($params);
-  }
-  $this->addBuilder('Insert');
+  $columns = array_keys($params);
+  $this->sql['insert'] = compact('table', 'columns');
+  $this->addValue(
+    array_values($params)
+  );
   return $this;
 }
 
@@ -214,16 +191,31 @@ public function join($table, $condition, $type='INNER')
 public function update($table, $params = [])
 {
   $this->clear();
-  $this->sql['table'] = $table;
-  if($params) // add functionnality
-  {
-     $this->sql['update'] = array_keys($params);
-     $this->values = array_values($params);
-  }
-  $this->addBuilder('Update');
+  $columns = array_keys($params);
+  $this->sql['update'] = compact('table', 'columns');
+  $this->addValue(
+    array_values($params)
+  );
   return $this;
 }
 
+
+ /**
+  * Set data
+  * @param array $data 
+  * @return self
+ */
+ public function set($data=[])
+ {
+   $this->sql['set'] = array_keys($data);
+   $this->addValue(
+     array_values($data)
+   );
+   return $this;
+ }
+
+ 
+ 
 
 /**
  * Delete
@@ -233,9 +225,76 @@ public function update($table, $params = [])
 public function delete($table)
 {
     $this->clear();
-    $this->sql['table'] = $table;
-    $this->addBuilder('Delete');
+    $this->sql['delete'] = compact('table');
     return $this;
+}
+
+
+
+/**
+ * COUNT of column
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias
+ * @return QueryBuilder
+*/
+public function count($column='', $table='', $alias = null)
+{
+     return $this->functionQuery($column, $table, 'COUNT', $alias);
+}
+
+
+/**
+ * AVG of column
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias
+ * @return QueryBuilder
+*/
+public function avg($column='', $table='', $alias = null)
+{
+      return $this->functionQuery($column, $table, 'AVG', $alias);
+}
+
+
+/**
+ * SUM of column 
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias
+ * @return QueryBuilder
+*/
+public function sum($column='', $table='', $alias = null)
+{
+      return $this->functionQuery($column, $table, 'SUM', $alias);
+}
+
+
+
+/**
+ * MAX of column 
+ * @param string $column 
+ * @param string $table
+ * @param string $alias 
+ * @return QueryBuilder
+*/
+public function max($column='', $table='', $alias = null)
+{
+      return $this->functionQuery($column, $table, 'MAX', $alias);
+}
+
+
+
+/**
+ * MIN of column 
+ * @param string $column 
+ * @param string $table 
+ * @param string $alias 
+ * @return QueryBuilder
+*/
+public function min($column='', $table='', $alias = null)
+{
+      return $this->functionQuery($column, $table, 'MIN', $alias);
 }
 
 
@@ -248,216 +307,140 @@ public function delete($table)
 public function truncate($table = null)
 {
       $this->clear();
-      $this->sql['table'] = $table;
-      $this->addBuilder('Truncate');
+      $this->sql['truncate'] = compact('table');
       return $this;
 }
 
 
 
 /**
- * Show table columns
+ * Show all columns of table
  * @param string $table 
  * @return string
 */
 public function showColumn($table = null)
 {
   $this->clear();
-  $this->sql['table'] = $table;
-  $this->addBuilder('ShowColumn');
+  $this->sql['showColumn'] = compact('table');
   return $this;
 }
 
 
 /**
- * COUNT of column
- * @param string $column 
- * @param string $table 
- * @param string $alias
- * @return QueryBuilder
-*/
-public function count($column, $table, $alias = null)
-{
-      return $this->arithmeticQuery($column, $table, 'COUNT', $alias);
-}
-
-
-/**
- * AVG of column
- * @param string $column 
- * @param string $table 
- * @param string $alias
- * @return QueryBuilder
-*/
-public function avg($column, $table, $alias = null)
-{
-      return $this->arithmeticQuery($column, $table, 'AVG', $alias);
-}
-
-
-/**
- * SUM of column 
- * @param string $column 
- * @param string $table 
- * @param string $alias
- * @return QueryBuilder
-*/
-public function sum($column, $table, $alias = null)
-{
-      return $this->arithmeticQuery($column, $table, 'SUM', $alias);
-}
-
-
-
-/**
- * MAX of column 
- * @param string $column 
- * @param string $table
- * @param string $alias 
- * @return QueryBuilder
-*/
-public function max($column, $table, $alias = null)
-{
-      return $this->arithmeticQuery($column, $table, 'MAX', $alias);
-}
-
-
-
-/**
- * MIN of column 
- * @param string $column 
- * @param string $table 
- * @param string $alias 
- * @return QueryBuilder
-*/
-public function min($column, $table, $alias = null)
-{
-      return $this->arithmeticQuery($column, $table, 'MIN', $alias);
-}
-
-
-/**
- * Query output
+ * Create SQL
  * @return string
 */
 public function sql()
 {
-    /*
-     $builder = [$this->sql, $this->parts]
-    */
-    foreach($this->builders as $builder)
+    foreach($this->sql as $type => $params)
     {
-        $this->output[] = $this->callBuilder($builder);
+        $this->output[] = $this->build($type, $params);
     }
     return join(' ', $this->output);
 }
 
 
-
 /**
- * stringify 
+ * Get output as string
  * @return string
 */
 public function __toString()
 {
     return $this->sql();
 }
-  
-  
-/**
- * Add class name for building parts
- * @param string $name 
- * @return void
-*/
-protected function addBuilder(string $name)
-{
-    if(!in_array($name, $this->builders))
-    {
-        $this->builders[] = $name;
-    }
-}
 
 
 /**
- * Condition fields
- * @param string $column 
- * @param mixed $value 
- * @param string $operator 
- * @return string
-*/
-protected function conditionField($column, $value, $operator)
-{
-    return sprintf('%s %s %s', $column, $operator, '?');
-}
-
-
-/**
- * Artihmetic Query Maker
- * [
- * COUNT(column_name), 
- * AVG(column_name)
- * ]
- * arithmetic('COUNT(username)', 'users')
- * arithmetic('username', 'users', 'COUNT')
- * 
+ * Function
  * @param string $column 
  * @param string $table
  * @param string $type 
  * @return self
 */
-protected function arithmeticQuery(
+protected function functionQuery(
 $column='', 
 $table = 'no-table', 
 $type=null,   
 $alias = null
 )
 {
-     if($column !== '')
-     {
-          $this->sql['column'] = $column;
-          $this->sql['table'] = $table;
-          $this->sql['type'] = $type;
-          $this->sql['alias'] = $alias;
-          $builder = new \JK\ORM\Builder\FunctionBuilder($this->sql);
-          $function = $builder->build();
-          return $this->select($function)
-                      ->from($table);
-     }
-     return $this;
+    $this->sql['function'] = compact('column', 'table', 'type', 'alias');
+    return $this;
 } 
 
 
 
 /**
-* Get buider class name
-* @param string $builder
+* Build part
+* @param string $type
+* @param string $params
 * @return string
 */
-private function callBuilder($builder)
+protected function build($type, $params)
 {
-  $builderName = sprintf(self::NBQuery, $builder);
-
-  if(!class_exists($builderName))
-  {
-  	  die(sprintf('class <strong>%s</strong> does not exist!', $builderName));
-  }
-
-  $builderObj = new $builderName($this->sql);
-  return call_user_func([$builderObj, 'build']);
+      $builderName = sprintf(self::NBQuery, ucfirst($type));
+      if(!class_exists($builderName))
+      {
+          die(sprintf('class <strong>%s</strong> does not exist!', $builderName));
+      }
+      $builderObj = new $builderName($params);
+      return call_user_func([$builderObj, 'build']);
 }
   
-  
+
+/**
+ * Add Value
+ * @param mixed $value 
+ * @return void
+*/
+protected function addValue($value=null)
+{
+     if(is_array($value))
+     {
+        $this->values = array_merge($this->values, $value);
+     }else{
+         array_push($this->values, $value);
+     }
+}
+
+
+/**
+ * Condition operator
+ * @param string $column 
+ * @param string $operator 
+ * @return string
+*/
+protected function conditionOperator($column, $operator)
+{
+     $condition = sprintf('%s %s %s', $column, $operator, '?');
+     if($this->isBinded($column))
+     {
+           $condition = sprintf('%s', $column);
+     }
+     return $condition;
+}
+
+
+/**
+ * Determine if condition is binded
+ * @param string $condition 
+ * @return bool
+*/
+protected function isBinded($condition)
+{
+    return strpos($condition, '?') !== false 
+           || strpos($condition, ':') !== false;
+}
+
 /**
 * Remove values
 * @return void
 */
-private function clear()
+public function clear()
 {
-  $this->sql = [];
-  $this->values = [];
-  $this->builders = [];
-  $this->output = [];
+    $this->sql = [];
+    $this->values = [];
+    $this->output = [];
 }
-
 
 }

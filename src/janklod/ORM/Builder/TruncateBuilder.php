@@ -14,7 +14,7 @@ class TruncateBuilder extends CustomBuilder
      */
      public function build()
      {
-         $table = $this->tableQuery();
-         return sprintf('TRUNCATE TABLE `%s`', $table);
+         $table = $this->table();
+         return sprintf('TRUNCATE TABLE %s', $table);
      }
 }

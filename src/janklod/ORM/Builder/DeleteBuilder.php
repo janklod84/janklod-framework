@@ -14,7 +14,7 @@ class DeleteBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $table = $this->tableQuery();
-         return sprintf('DELETE FROM `%s`', $table);
+     	 $table = $this->table();
+         return sprintf('DELETE FROM %s', $table);
      }
 }

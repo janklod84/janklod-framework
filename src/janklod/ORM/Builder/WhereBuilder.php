@@ -5,7 +5,7 @@ namespace JK\ORM\Builder;
 /**
  * @package 
 */ 
-class ConditionBuilder extends CustomBuilder
+class WhereBuilder extends CustomBuilder
 {
      
      /**
@@ -14,7 +14,7 @@ class ConditionBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 if($conditions = $this->sql('condition'))
+     	 if($conditions = $this->params())
        {
               $conditioned = '';
               $types = [];

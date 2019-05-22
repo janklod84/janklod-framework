@@ -1,9 +1,9 @@
 <?php 
-namespace app\controllers\backend;
+namespace app\controllers\admin;
 
 
 /**
- * @package app\controllers\backend\UserController 
+ * @package app\controllers\admin\UserController 
 */ 
 class UserController extends BaseController
 {

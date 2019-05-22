@@ -14,7 +14,12 @@ class UpdateBuilder extends CustomBuilder
      */
      public function build()
      {
-         $table = $this->tableQuery();
-         return sprintf('UPDATE %s', $table);
+         $table = $this->table();
+         $update = sprintf('UPDATE %s ', $table);
+         if($columns = $this->get('columns'))
+         {
+         	  $update .= sprintf(' SET %s', $this->assign($columns));
+         }
+         return $update;
      }
 }

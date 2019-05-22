@@ -14,13 +14,12 @@ class InsertBuilder extends CustomBuilder
      */
      public function build()
      {
-             $table = $this->sql('table');
+             $table = $this->get('table');
              $insertQuery = sprintf('INSERT INTO `%s`', $table);
-             if($insert = $this->sql('insert'))
+             if($columns = $this->get('columns'))
              {
-                 $insert = $this->sql('insert');
-                 $fields = $this->fieldQuery($insert);
-                 $fill = array_fill(0, count($insert), '?');
+                 $fields = $this->fields($columns);
+                 $fill = array_fill(0, count($columns), '?');
                  $binds = implode(', ', $fill);
                  $insertQuery .= sprintf(' (%s) VALUES (%s)', $fields, $binds);
              }

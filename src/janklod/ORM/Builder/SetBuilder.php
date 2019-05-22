@@ -14,7 +14,7 @@ class SetBuilder extends CustomBuilder
      */
      public function build()
      {
-         $set = $this->setField();
+         $set = $this->assign($this->params());
          return sprintf('SET %s', $set);
      }
 }

@@ -9,15 +9,15 @@ class OrderByBuilder extends CustomBuilder
 {
      
      /**
-      * Build conditions
+      * Build Order By
       * @return string
      */
      public function build()
      {
-       	 if($filters = $this->sql('orderBy'))
+       	 if($orderBy = $this->params())
        	 {
               $orderString = '';
-              foreach($filters as $orders)
+              foreach($orderBy as $orders)
               {
                    $orderString .= join(' ', $orders) . ', ';
               }

@@ -14,23 +14,23 @@ class JoinBuilder extends CustomBuilder
      */
      public function build()
      {
-     	   if($joins = $this->sql('join'))
+     	   if($joins = $this->params())
          {
               $joined = '';
               foreach($joins as $type => $joinParams)
               {
-                  $typed = strtoupper($type);
-                  if($typed === 'FULL')
-                  {
-                      $typed .= ' OUTER';
-                  }
-                  foreach($joinParams as [$table, $condition])
-                  {
-                       $joined .= sprintf(' %s JOIN `%s` ON %s ', 
-                                          $typed, 
-                                          $table, 
-                                          $condition);
-                  }
+                      $typed = strtoupper($type);
+                      if($typed === 'FULL')
+                      {
+                          $typed .= ' OUTER';
+                      }
+                      foreach($joinParams as $join)
+                      {
+                              $joined .= sprintf(' %s JOIN `%s` ON %s ', 
+                                              $typed, 
+                                              $join['table'], 
+                                              $join['condition']);
+                      }
               }
               return $joined;
          }

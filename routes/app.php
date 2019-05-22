@@ -9,7 +9,7 @@
 # SITE
 $frontend = [
   'prefix' => [
-   'controller' => 'frontend'
+   'controller' => 'site'
   ]
 ];
 
@@ -25,7 +25,7 @@ Route::group($frontend, function () {
 $backend = [
  'prefix' => [
  	'path' => '/admin',
- 	'controller' => 'backend'
+ 	'controller' => 'admin'
  ]
 ];
 
