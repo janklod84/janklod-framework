@@ -121,7 +121,7 @@ public function server($key = null)
 */
 public function method()
 {
-	   return $this->server('REQUEST_METHOD');
+	 return $this->server('REQUEST_METHOD');
 }
 
 
@@ -132,7 +132,7 @@ public function method()
 */
 public function uri()
 {
-	    return $this->server('REQUEST_URI');
+	 return $this->server('REQUEST_URI');
 }
 
 
@@ -168,14 +168,14 @@ public function ip(){}
 
 /**
  * Determine if has param
- * @param type|string $key 
+ * @param string $key 
  * @return string
 */
 public function is($key='xxx'): bool
 {
        switch($key)
        {
-            case 'https':
+            case 'secure':
               return $this->server('HTTPS') == 'on';
             break;
             case 'cli':
@@ -210,7 +210,7 @@ public function isMethod($type='get'): bool
 */
 public function url($uri = false)
 {
-  $url = $this->is('https') ? 'https' : 'http';
+  $url = $this->is('secure') ? 'https' : 'http';
   $url .= '://' . $this->host();
   $url .= $uri ? $this->uri() : '';
   return $url;

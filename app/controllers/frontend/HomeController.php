@@ -82,8 +82,11 @@ class HomeController extends BaseController
      */
 	   public function contact()
 	   {
-	   	   if($this->isPost())
+	   	   if($this->request->isMethod('post'))
 	   	   {
+             
+             debug($this->request->post());
+             die('IsPost');
              /*
 	   	   	   $posted = $this->request->post();
              $this->user->assign($posted);
