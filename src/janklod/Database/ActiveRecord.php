@@ -26,20 +26,12 @@ protected $id;
 
 /**
  * Constructor
+ * @param int $id
  * @return void
 */
-public function __construct()
+public function __construct($id=null)
 {
-     if($this->has('entity')) 
-     {
-         // $entity = get_class($this); 
-         // (new FetchMode())->entity($entity);
-     }
      
-     if(!is_null($id))
-     {
-         $this->id = $id;
-     }
 }
 
 
@@ -52,6 +44,33 @@ public function getTable(): string
     return $this->table;
 }
 
+
+/**
+ * Get connection to database
+ * @return \PDO
+*/
+public static function connect()
+{
+    if(is_null(self::$db))
+    {
+       self::$db = new DatabaseManager::instance();
+    }
+    return self::$db;
+}
+
+
+/**
+ * Get connection to database
+ * @return \PDO
+*/
+public static function connect()
+{
+    if(is_null(self::$db))
+    {
+       self::$db = new DatabaseManager::instance();
+    }
+    return self::$db;
+}
 
 
 /**
