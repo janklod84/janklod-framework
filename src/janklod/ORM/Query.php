@@ -368,14 +368,14 @@ public function rollback()
  * @param int $type 
  * @return void
 */
-// public function bind($param, $value, $type=0){}
+public function bind($param, $value, $type=0){}
 
 
 
 
 /**
  * Close cursor
- close cursor for next query [ somme drivers need it ]
+ * close cursor for next query [ somme drivers need it ]
  * @return 
 */
 public function close()
