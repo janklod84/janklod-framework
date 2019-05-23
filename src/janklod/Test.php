@@ -1,30 +1,20 @@
 <?php 
 
+// $query = new \JK\ORM\Query(
+//    \JK\Database\DatabaseManager::instance(),  
+//    'users'
+// );
 /*
-use JK\Database\DatabaseManager;
-use JK\Database\Statement\Query;
-use JK\Database\ORM\QueryBuilder;
+$db = \JK\Database\DatabaseManager::instance();
 
+$query = new \JK\ORM\Query();
+$results = $query->connect($db)
+                 ->fetchClass('app\\models\\User')
+                 ->table('users')
+                 ->read(2);
 
-function insert($params)
-{
-	$db = DatabaseManager::instance();
-    $query = new Query($db);
-    $qb = new QueryBuilder();
-	// $sql = 'INSERT INTO users (username, password, role) VALUES (?, ?, ?)';
-	// $sql = 'INSERT INTO users SET username = ?, password = ?, role = ?';
-	$sql = $qb->insert('users')
-	          ->set($params)
-	          ->sql();
+$data = ['username' => 'Brown1'];
+$query->update($data, 1);
 
-	$values = $qb->values;
-	return $query->execute($sql, $values, false);
-}
-
-insert([
-	'username' => 'JBrown3', 
-	'password' => 'JQwerty', 
-	'role' => '0'
-]);
+debug($query->queries());
 */
-/* insert(['Brown2', 'Qwerty', '2']); */

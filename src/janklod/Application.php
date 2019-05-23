@@ -272,9 +272,6 @@ private function __wakeup(){}
 */
 public function terminate()
 {
-     $db = \JK\Database\DatabaseManager::instance();
-     $query = new \JK\ORM\Query($db);
-     $query->queries();
      $this->microtimer();
 }
 

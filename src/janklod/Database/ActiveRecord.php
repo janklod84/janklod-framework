@@ -1,28 +1,34 @@
 <?php 
 namespace JK\Database;
 
-
+use JK\ORM\Query;
 
 /**
  * @package JK\Database\ActiveRecord 
 */ 
-class ActiveRecord
+class ActiveRecord extends Model
 {
-	   
+
+
 /**
  * @var  array $guarded
  * @var  array $fillable
  * @var  bool  $softDelete
+ * @var  bool $entity
+ * @var  bool $softDelete
+ * @var  string $table
+ * @var  \JK\ORM\Query $query
+ * @var  \JK\Database\DatabaseManager $connection
+ * @var  int $id
 */
 protected $guarded  = [];
 protected $fillable = [];
-protected $entity = false;
+protected $entity   = true;
 protected $softDelete = false;
-protected $table = 'no-table';
-protected $query;
-protected static $db;
+protected $table;
 protected $id;
-   
+
+
 
 /**
  * Constructor
@@ -31,8 +37,24 @@ protected $id;
 */
 public function __construct($id=null)
 {
-     
+    parent::__construct();
+    $this->query->table($this->table);
+    if($this->entity)
+    {
+         $this->query->fetchClass(get_class($this));
+    }
+    if($id){ $this->id = $id; }
+    if(method_exists($this, 'before'))
+    {
+         $this->before();
+    }
 }
+
+/**
+ * Do some action before others actions
+ * @return void
+*/
+protected function before(){}
 
 
 /**
@@ -46,66 +68,49 @@ public function getTable(): string
 
 
 /**
- * Get connection to database
- * @return \PDO
+ * 
+ * @return 
 */
-public static function connect()
+public function columnMap()
 {
-    if(is_null(self::$db))
-    {
-       self::$db = new DatabaseManager::instance();
-    }
-    return self::$db;
+
 }
 
 
-/**
- * Get connection to database
- * @return \PDO
-*/
-public static function connect()
-{
-    if(is_null(self::$db))
-    {
-       self::$db = new DatabaseManager::instance();
-    }
-    return self::$db;
-}
-
 
 /**
- * Get all records
+ * Find all records
  * @return array
 */
 public function findAll()
 {
-    return (new Select($this->table))
-           ->all();
+    return $this->query
+                ->all();
 }
 
 
 /**
- * Get record by id
+ * Find record by id
  * @return array
 */
 public function findById()
 {
-    return (new Select($this->table))
-           ->where('id', $this->id);
+    return $this->query
+                ->read($this->id);
 }
 
 
 
 /**
- * Find record by field
+ * Find record by field by defaut column is id
  * @param string $field 
  * @param string $value 
  * @return array
 */
-public function findBy($field, $value)
+public function findBy($value=null, $field='id')
 {
-     return (new Select($this->table))
-           ->where($field, $value);
+     return $this->query
+                 ->read($value, $field);
 }
 
 
@@ -116,32 +121,32 @@ public function findBy($field, $value)
 */
 public function insert($params = [])
 {
-     return (new Insert($this->table, $params))
-            ->data();
+     return $this->query
+                 ->create($params);
 }
 
 
 /**
- * Update data into database
+ * Update data into database by defaut column is id
  * @param array $params 
  * @return 
 */
 public function update($params = [])
 {
-    return (new Update($this->table, $params))
-           ->where('id', $this->id);
+    return $this->query
+                ->update($params, $this->id);
 }
 
 
 /**
- * Update data into database
- * @param array $params 
+ * Delete one record from database
+ * @param int $id
  * @return 
 */
 public function delete($id=null)
 {
-    // return (new Delete($this->table))
-    //        ->where('id', $this->id);
+   return $this->query
+               ->delete($this->id);
 }
 
 
@@ -152,7 +157,6 @@ public function delete($id=null)
 */
 public function save()
 {
-    /*
     $save = null;
     if(property_exists($this, 'id') && isset($this->id))
     {
@@ -169,8 +173,8 @@ public function save()
         ]);
     }
     return $save;
-   */
 }
+
 
 /**
  * Determine if has new record or not
@@ -193,7 +197,7 @@ protected function has($type='xxx'): bool
       {
            case 'entity':
              return property_exists($this, 'entity') 
-                    && $this->entity !== '';
+                    && $this->entity;
            break;
            case 'id':
             return property_exists($this, 'id') 

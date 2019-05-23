@@ -1,11 +1,11 @@
 <?php 
-namespace app\controllers\admin;
+namespace app\controllers\backend;
 
 
 /**
- * @package app\controllers\admin\UserController 
+ * @package app\controllers\backend\UserController 
 */ 
-class UserController extends BaseController
+class UserController extends AdminController
 {
       
       /**

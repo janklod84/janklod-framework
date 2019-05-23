@@ -26,34 +26,53 @@ class Load
      
      
      /**
-      * Get callback
-      * @param object $object 
-      * @param string $action 
-      * @return void
-     */
-     public function callback(
-      object $object, 
-      string $method, 
-      array $arguments = []
-     ) 
-     {
-           return call_user_func_array([$object, $method], $arguments = []);
-     }
-    
-
-     /**
       * Load model
       * @param string $name 
-      * @return object
+      * @return void
      */
      public function model($name)
      {
-         $model = sprintf('\\app\\models\\%s', $name);
-         $name  = strtolower($name);
-
-         if(class_exists($model))
-         {
-             $this->{$name} = new $model($this->app);
-         }
+         $model = $this->getModel($name);
+         $this->{$name} = new $model();
      }  
+
+     /**
+      * entity name
+      * @param string $entity 
+      * @return void
+     */
+     public function entity($entity)
+     {
+        $entityName = $this->getModel(sprintf('Entity\\%s', $entity));
+        $entity = strtolower($entity);
+        $this->{$entity} = new $entityName();
+     }
+
+
+     /**
+      * manager name
+      * @param string $manager 
+      * @return object
+     */
+     public function manager($manager)
+     {
+          $managerName = $this->getModel(sprintf('Manager\\%s', $manager));
+          $entity = strtolower($entity);
+          $this->{$entity} = new $managerName();
+     }
+
+     /**
+      * Get model name
+      * @param string $name 
+      * @return string
+     */
+     public function getModel($name)
+     {
+         $model = sprintf('\\app\\models\\%s', $name);
+         if(!class_exists($model))
+         {
+             exit(sprintf('Sorry class <b>%s</b> does not exist!'. $model)); 
+         }
+         return $model;
+     }
 }

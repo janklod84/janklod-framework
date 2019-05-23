@@ -46,6 +46,8 @@ public function printOut()
            $html .= '<div>'. $i.'--- '. $query . '</div>';
            $i++;
        }
+
+       echo $html;
        // $html .= implode('<br/>', $this->queries);
        // echo $html;
    //}

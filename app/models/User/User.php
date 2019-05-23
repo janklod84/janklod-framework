@@ -1,12 +1,12 @@
 <?php 
-namespace app\models;
+namespace app\models\User;
 
 
 use JK\Database\ActiveRecord;
 
 
 /**
- * @package app\models\Entity\User 
+ * @package app\models\User\User 
 */ 
 class User extends ActiveRecord
 {
@@ -15,7 +15,7 @@ class User extends ActiveRecord
 	   * @var string $table
 	  */
       protected $table = 'users';
-
+      
 
 	  /**
 	   * @var int    $id
@@ -23,10 +23,10 @@ class User extends ActiveRecord
 	   * @var string $password
 	   * @var mixed  $role
 	  */
-	  public $id;
-	  public $username;
-	  public $password;
-	  public $role = 1;
+	  protected $id;
+	  protected $username;
+	  protected $password;
+	  protected $role = 1;
 
       
       /**

@@ -24,6 +24,7 @@ class Query
 * @var string $result
 * @var int $count
 * @var int $lastID
+* @var int $builder
 */
 private $connection;
 private $statement;
@@ -390,8 +391,7 @@ public function close()
 */
 public function queries()
 {
-    return (new QueryPrinter($this->queries))
-           ->printOut();
+   debug($this->queries);
 } 
 
 
