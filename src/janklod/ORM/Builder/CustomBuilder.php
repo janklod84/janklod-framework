@@ -10,6 +10,7 @@ abstract class CustomBuilder
      
 /**
 * @var array params
+* @var string $table
 */
 protected $params;
 
@@ -17,6 +18,7 @@ protected $params;
 /**
 * Constructor
 * @param array $params 
+* @param string $table
 * @return void
 */
 public function __construct($params)

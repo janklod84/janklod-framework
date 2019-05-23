@@ -15,9 +15,30 @@ class HomeController extends BaseController
 */
 public function index()
 {
-   $builder = new QueryBuilder();
-     
-   echo $builder->select('id', 'test')->from('users', 'u');
+   // $query = new \JK\ORM\Query(
+   //    \JK\Database\DatabaseManager::instance(),  
+   //    'users'
+   // );
+
+    $db = \JK\Database\DatabaseManager::instance();
+
+    $query = new \JK\ORM\Query();
+    $results = $query->connect($db)
+                     ->fetchClass('app\\models\\User')
+                     ->table('users')
+                     ->read(2);
+    
+    debug($results);
+
+   $data = ['username' => 'Brown1'];
+   // $query->update($data, 1);
+
+   /*
+     // set fetch mode 
+     $query->fetchClass('app\\models\\User'); 
+   */
+    
+ 
    return $this->render('home/index');
 }
 

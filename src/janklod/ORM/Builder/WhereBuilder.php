@@ -27,7 +27,7 @@ class WhereBuilder extends CustomBuilder
                                 );
               }
               
-              return sprintf('WHERE %s', ltrim($conditioned, $types[0]));
+              return sprintf(' WHERE %s ', ltrim($conditioned, $types[0]));
        }
      }
 

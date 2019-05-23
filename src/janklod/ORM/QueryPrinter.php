@@ -35,8 +35,8 @@ public function __construct($queries = [])
 */
 public function printOut()
 {
-   if($this->count > 1)
-   {
+   //if($this->count)
+   //{
        $i = 1;
        $html = '<strong>Count executed queries : </strong>'. $this->count;
        $html .= '<br/>';
@@ -47,8 +47,9 @@ public function printOut()
            $i++;
        }
        // $html .= implode('<br/>', $this->queries);
-   }
-   echo $html;
+       // echo $html;
+   //}
+   
 }
 
 }

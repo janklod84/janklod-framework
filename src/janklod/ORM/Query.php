@@ -20,35 +20,266 @@ class Query
 * @var array $options
 * @var bool $error
 * @var array $queries
+* @var string $table
+* @var string $result
+* @var int $count
+* @var int $lastID
 */
 private $connection;
 private $statement;
 private $fetchHandler = 'FetchObject';
-private $fetchMode = false;
 private $options = [];
 private $error = false;
 private $queries = [];
+private $table = '';
+private $result;
+private $count;
+private $lastID;
+private $builder;
 
 
 
 // fetch handler class name
-const FH_NAME = '\\JK\\ORM\\Statement\\%s';
+const FH_NAME = '\\JK\\ORM\\Fetch\\%s';
 
 
 
 /**
 * Constructor
 * @param \PDO $connection 
+* @param string $table
 * @return void
 */
-public function __construct(PDO $connection = null)
+public function __construct(PDO $connection = null, $table='')
 {
-    if(is_null($connection))
+    if(!is_null($connection))
     {
-         exit('No connection! for : '. __CLASS__);
+        $this->connection = $connection;
     }
-    $this->connection = $connection;
+    $this->table = $table;
+    $this->builder = new QueryBuilder();
 }
+
+
+
+/**
+ * Return Query Builder
+ * @return \JK\ORM\QueryBuilder
+*/
+public function builder(): QueryBuilder
+{
+   return $this->builder;
+}
+
+
+/**
+ * Add connection
+ * @param \PDO $connection 
+ * @return void
+*/
+public function connect(PDO $connection=null)
+{
+     $this->connection = $connection;
+     return $this;
+}
+
+
+/**
+ * Add table name
+ * @param string $table 
+ * @return void
+*/
+public function table($table='')
+{
+    $this->table = $table;
+    return $this;
+}
+
+
+/**
+ * create new record
+ * @param array $params 
+ * @return 
+*/
+public function create($params=[])
+{
+    $sql = $this->builder
+                ->insert($this->table)
+                ->set($params);
+   return $this->execute($sql, $this->builder->values);
+}
+
+
+/**
+ * Read data
+ * @param string $value 
+ * @param string $field 
+ * @return 
+*/
+public function read($value='', $field='id')
+{
+     $sql = $this->builder
+                 ->select()
+                 ->from($this->table)
+                 ->where($field, $value)
+                 ->limit(1);
+     return $this->execute($sql, $this->builder->values)
+                 ->first();
+}
+
+
+/**
+ * Update record
+ * @param array $params
+ * @param mixed $value 
+ * @param string $field
+ * @return 
+*/
+public function update($params=[], $value, $field='id')
+{
+    $sql = $this->builder
+                ->update($this->table)
+                ->set($params)
+                ->where($field, $value);
+    return $this->execute($sql, $this->builder->values);
+}
+
+
+/**
+ * Delete one record
+ * @param array $params
+ * @param mixed $value 
+ * @param string $field
+ * @return 
+*/
+public function delete($value, $field='id')
+{
+    $sql = $this->builder
+                ->delete($this->table)
+                ->where($field, $value);
+    return $this->execute($sql, $this->builder->values);
+}
+
+
+
+/**
+ * Get all records
+ * @return array
+*/
+public function all()
+{
+    $sql = $this->builder 
+                ->select()
+                ->from($this->table);
+    return $this->execute($sql)
+                ->results();
+}
+
+
+
+/**
+ * Execute simple query
+ * $this->exec('DELETE FROM table ')
+ * @param string $sql 
+ * @return bool
+ */
+public function exec($sql)
+{
+    return $this->connection 
+               ->exec($sql);
+}
+
+
+/**
+* Execute query
+* @param string $sql 
+* @param array $params 
+* @param 
+* @return mixed
+* @throws \Exception 
+*/
+public function execute(string $sql='', array $params = [])
+{
+     if(!$sql) { exit('No Query sql added!'); }
+     $this->statement = $this->connection->prepare($sql);
+
+     try
+     {
+         
+          // begin transaction ...
+          $this->transaction();
+
+          // execute statement
+          if($this->statement->execute($params))
+          {
+               $this->addQuery($sql);
+
+               // set fetch mode
+               $this->setFetchMode();
+              
+               // get results
+               $this->result = $this->statement->fetchAll();
+
+               // rows count
+               $this->count  = $this->statement->rowCount();
+
+               // last insert id
+               $this->lastID = $this->connection->lastInsertId();
+          
+          }
+          
+          // commit
+          $this->commit();
+
+          
+     }catch(PDOException $e){
+         
+         // rollback ...
+         $this->rollback();
+         $this->error = true;
+         $html  = '<h4>Error Mysql: </h4>';
+         $html .= '<p>' . $e->getMessage() . '</p>';
+         $html .= '<h4>Last Query: </h4>';
+         $html .= '<p>' . $sql . '</p>';
+         echo $html;
+
+         throw new \Exception($e->getMessage());
+         
+         // exit;
+     }
+
+     return $this;
+}
+
+
+
+/**
+ * To Fix
+ * Execute many queries
+ * @param array $queries
+ * @return mixed
+*/
+public function multi($queries = [])
+{
+    try
+    {   
+        // begin transaction ...
+        $this->transaction();
+        foreach($queries as $sql => $values)
+        {
+            $this->execute($sql, $values);
+        }
+        // commit ...
+        $this->commit();
+
+    }catch(\PDOException $e){
+        
+        // rollback ...
+        $this->rollback();
+        exit($e->getMessage());
+    }
+}
+
 
 
 /**
@@ -63,7 +294,6 @@ public function fetchClass($entity=null, $arguments = [])
       'entity' => $entity, 
       'arguments' => $arguments
     ]);
-    $this->fetchMode = true;
     return $this;
 }
 
@@ -80,7 +310,6 @@ public function fetchColumn($colno=null, $arguments = [])
       'column' => $colno, 
       'arguments' => $arguments
     ]);
-    $this->fetchMode = true;
     return $this;
 }
 
@@ -97,7 +326,6 @@ public function fetchInto($object=null, $arguments = [])
       'object' => $object,   
       'arguments' => $arguments
     ]);
-    $this->fetchMode = true;
     return $this;
 }
 
@@ -135,84 +363,24 @@ public function rollback()
 
 /**
  * Bind param or value
- * @param string $param
+ * @param mixed $param
+ * @param mixed $value
  * @param int $type 
  * @return void
 */
-// public function bind($param='', $type=''){}
+// public function bind($param, $value, $type=0){}
 
-
-/**
- * To Fix
- * Execute many queries
- * @param array $queries
- * @return mixed
-*/
-public function multi($queries = [])
-{
-    try
-    {
-        // begin transaction ...
-        $this->transaction();
-        foreach($queries as $sql => $values)
-        {
-            $this->execute($sql, $values);
-        }
-        // commit ...
-        $this->commit();
-
-    }catch(\PDOException $e){
-        
-        // rollback ...
-        $this->rollback();
-        exit($e->getMessage());
-    }
-}
 
 
 
 /**
-* Execute query
-* @param string $sql 
-* @param array $params 
-* @return mixed
-* @throws \Exception 
+ * Close cursor
+ close cursor for next query [ somme drivers need it ]
+ * @return 
 */
-public function execute(string $sql='', $params = [])
+public function close()
 {
-     if(!$sql) { exit('No Query sql added!'); }
-     $this->statement = $this->connection->prepare($sql);
-
-     try
-     {
-          // execute statement
-          if($this->statement->execute($params))
-          {
-               $this->addQuery($sql);
-          }
-          
-          // set fetch mode
-          if($this->fetchMode)
-          {
-             $this->setFetchMode();
-          }
-
-          // close cursor for next query [ somme drivers need it ]
-          $this->statement->closeCursor();
-
-     }catch(PDOException $e){
-         
-         // rollback ...
-         $this->error = true;
-         $html  = '<h4>Error Mysql: </h4>';
-         $html .= '<p>' . $e->getMessage() . '</p>';
-         $html .= '<h4>Last Query: </h4>';
-         $html .= '<p>' . $sql . '</p>';
-         echo $html;
-         exit;
-     }
-
-     return $this;
+    return $this->statement->closeCursor();
 }
 
 
@@ -229,29 +397,23 @@ public function queries()
 
 
 /**
- * Fetch record
- * @param bool $type [one, 'first']
- * @param int $fetchMode
+ * Fetch all records
  * @return mixed
 */
-public function result(
-$type=false, 
-int $fetchMode = null
-)
+public function results()
 {
-    $results = $this->statement->fetchAll($fetchMode);
-    switch($one)
-    {
-         case 'one':
-           $result = $this->statement->fetch($fetchMode);
-         break;
-         case 'first':
-           $result = !empty($results) ? $results[0] : [];
-         break;
-         default:
-           $result = $results;
-    }
-    return $result;
+   return $this->result;
+}
+
+
+
+/**
+ * Get first record
+ * @return array
+*/
+public function first()
+{
+    return ! empty($this->result) ? $this->result[0] : [];
 }
 
 
@@ -261,8 +423,7 @@ int $fetchMode = null
 */
 public function count()
 {
-    return $this->statement
-                ->rowCount();
+    return $this->count;
 }
 
  
@@ -272,8 +433,7 @@ public function count()
 */
 public function lastID()
 {
-   return $this->connection
-               ->lastInsertId();
+   return $this->lastID;
 }
 
 
@@ -296,6 +456,7 @@ public function errors()
     return $this->statement
                 ->errorInfo();
 }
+
 
 
 /**

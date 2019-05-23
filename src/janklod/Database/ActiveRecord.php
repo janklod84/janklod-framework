@@ -1,14 +1,7 @@
 <?php 
 namespace JK\Database;
 
- 
 
-use JK\Database\Records\ 
-{
-  Select,
-  Insert, 
-  Update
-};
 
 /**
  * @package JK\Database\ActiveRecord 
@@ -26,6 +19,8 @@ protected $fillable = [];
 protected $entity = false;
 protected $softDelete = false;
 protected $table = 'no-table';
+protected $query;
+protected static $db;
 protected $id;
    
 
@@ -33,12 +28,12 @@ protected $id;
  * Constructor
  * @return void
 */
-public function __construct($id=null)
+public function __construct()
 {
      if($this->has('entity')) 
      {
-         $entity = get_class($this); 
-         (new FetchMode())->entity($entity);
+         // $entity = get_class($this); 
+         // (new FetchMode())->entity($entity);
      }
      
      if(!is_null($id))

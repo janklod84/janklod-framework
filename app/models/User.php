@@ -1,5 +1,5 @@
 <?php 
-namespace app\models\Entity;
+namespace app\models;
 
 
 use JK\Database\ActiveRecord;

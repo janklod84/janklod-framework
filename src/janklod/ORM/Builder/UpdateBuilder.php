@@ -18,7 +18,7 @@ class UpdateBuilder extends CustomBuilder
          $update = sprintf('UPDATE %s ', $table);
          if($columns = $this->get('columns'))
          {
-         	  $update .= sprintf(' SET %s', $this->assign($columns));
+         	  $update .= sprintf(' SET %s ', $this->assign($columns));
          }
          return $update;
      }

@@ -12,9 +12,13 @@ use \Exception;
 */ 
 class Connection
 {
-    
+     /**
+      * For SQLSTATE[HY000]: General error
+      * // It's very important [0 for exec(), 1 for execute()]
+    */
      private static $options = [
          PDO::ATTR_PERSISTENT => false,
+         PDO::ATTR_EMULATE_PREPARES => 0, 
          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
      ];

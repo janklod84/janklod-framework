@@ -1,11 +1,11 @@
 <?php 
-namespace JK\ORM\Statement;
+namespace JK\ORM\Fetch;
 
 
 use \PDO;
 
 /**
- * @package JK\ORM\Statement\FetchInto
+ * @package JK\ORM\Mode\FetchInto
 */ 
 class FetchInto extends Fetch
 {

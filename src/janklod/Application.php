@@ -77,6 +77,7 @@ public function run()
         $this->response->setBody($output);
      }
      $this->response->send();
+     $this->terminate();
 }
 
 
@@ -273,7 +274,7 @@ public function terminate()
 {
      $db = \JK\Database\DatabaseManager::instance();
      $query = new \JK\ORM\Query($db);
-     // $query->queries();
+     $query->queries();
      $this->microtimer();
 }
 

@@ -1,16 +1,15 @@
 <?php 
-namespace JK\ORM\Statement;
+namespace JK\ORM\Fetch;
 
 
 /**
- * @package JK\ORM\Statement\Fetch
+ * @package JK\ORM\Fetch\Fetch
 */ 
 abstract class Fetch
 {
      
      /**
       * @var \PDOStatement $statement
-      * @var int $fetchMode
       * @var array $options
      */
      protected $statement;

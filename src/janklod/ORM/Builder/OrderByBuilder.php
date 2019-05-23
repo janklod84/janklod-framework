@@ -17,9 +17,12 @@ class OrderByBuilder extends CustomBuilder
        	 if($orderBy = $this->params())
        	 {
               $orderString = '';
-              foreach($orderBy as $orders)
+              foreach($orderBy as $order)
               {
-                   $orderString .= join(' ', $orders) . ', ';
+                   $orderString .= sprintf('%s %s, ', 
+                                    $order['field'], 
+                                    strtoupper($order['sort'])
+                                  );
               }
               return sprintf('ORDER BY %s', trim($orderString, ', '));
        	 }

@@ -12,12 +12,26 @@ class QueryBuilder
 /**
  * @var array $sql
  * @var array $values
+ * @var array $output
 */
 private $sql    = []; 
 public  $values = [];
-private $output = [];
+public $table   = '';
 const NBQuery = '\\JK\\ORM\\Builder\\%sBuilder';
 
+
+
+
+
+/**
+ * Constructor
+ * @param string $table 
+ * @return void
+*/
+public function __construct($table='')
+{
+     $this->table = $table;
+}
 
 
 /**
@@ -39,7 +53,7 @@ public function select(...$selects)
  * @param string $alias 
  * @return self
 */
-public function from($table, $alias='')
+public function from($table='', $alias='')
 {
     $this->sql['from'] = compact('table', 'alias');
     return $this;
@@ -209,7 +223,7 @@ public function update($table, $params = [])
  {
    $this->sql['set'] = array_keys($data);
    $this->addValue(
-     array_values($data)
+      array_values($data)
    );
    return $this;
  }
@@ -332,11 +346,12 @@ public function showColumn($table = null)
 */
 public function sql()
 {
+    $output = [];
     foreach($this->sql as $type => $params)
     {
-        $this->output[] = $this->build($type, $params);
+        $output[] = $this->build($type, $params);
     }
-    return join(' ', $this->output);
+    return join(' ', $output);
 }
 
 
@@ -440,7 +455,6 @@ public function clear()
 {
     $this->sql = [];
     $this->values = [];
-    $this->output = [];
 }
 
 }
