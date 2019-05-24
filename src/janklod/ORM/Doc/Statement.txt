@@ -138,3 +138,37 @@ QQ::setup($db, 'users');
 
 QQ::getTable()->delete(5);
 
+==============================================================================
+
+
+   // Instance of connection
+   $db = DatabaseManager::instance();
+
+   // Add simple connection [connection must to be instance to PDO]
+   // QQ::setup($db, 'users');
+   QQ::setup($db, 'users');
+   
+   QQ::fetchClass('app\\models\\User\\User');
+   $selects = [
+       'username', 
+       'password', 
+       'role'
+   ];
+   $sql = QQ::select($selects)
+             ->where('id = ?', 6);
+   $values = QQ::sql()->values;
+   
+   debug($values);
+   $r = QQ::execute($sql, $values)->first();
+  
+   debug($r);
+
+   $user = [
+      'username' => 'newRecord',
+      'password' => md5('wwff'),  
+      'role' => 3
+   ];
+
+   QQ::getTable()->create($user);
+
+

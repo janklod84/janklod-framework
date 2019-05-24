@@ -215,6 +215,7 @@ public function update($table, $params = [])
  }
 
 
+
 /**
  * Delete
  * @param string $table 
@@ -332,7 +333,6 @@ public function clear()
 {
     $this->sql = [];
     $this->values = [];
-    // $this->table = '';
 }
 
 /**
@@ -441,6 +441,21 @@ protected function isBinded($condition)
 {
     return strpos($condition, '?') !== false 
            || strpos($condition, ':') !== false;
+}
+
+
+/**
+ * Determine if has parsed data or params
+ * @param array $params 
+ * @param string $indicate 
+ * @return 
+*/
+private function ensureParams($params=[], $indicate='')
+{
+    if(empty($params))
+    {
+        exit(sprintf('You must to add data for <strong>%s</strong> SQL'));
+    }
 }
 
 }

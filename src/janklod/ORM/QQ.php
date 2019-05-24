@@ -264,10 +264,13 @@ public static function select(...$selects)
 */
 public function create($params=[])
 {
-    $sql = self::$builder
-              ->insert(self::$table)
-              ->set($params);
-    return self::execute($sql, self::$builder->values);
+    if(!empty($params))
+    {
+        $sql = self::$builder
+                  ->insert(self::$table)
+                  ->set($params);
+        return self::execute($sql, self::$builder->values);
+    }
 }
 
 
@@ -279,13 +282,16 @@ public function create($params=[])
 */
 public function read($value='', $field='id')
 {
-     $sql = self::$builder
+     if($value)
+     {
+         $sql = self::$builder
                  ->select()
                  ->from(self::$table)
                  ->where($field, $value)
                  ->limit(1);
-     return self::execute($sql, self::$builder->values)
+          return self::execute($sql, self::$builder->values)
                  ->first();
+     }
 }
 
 
@@ -298,11 +304,14 @@ public function read($value='', $field='id')
 */
 public function update($params=[], $value, $field='id')
 {
-    $sql = self::$builder
+    if($params && $value)
+    {
+         $sql = self::$builder
                 ->update(self::$table)
                 ->set($params)
                 ->where($field, $value);
-    return self::execute($sql, self::$builder->values);
+         return self::execute($sql, self::$builder->values);
+    }
 }
 
 
@@ -325,10 +334,13 @@ public function store()
 */
 public function delete($value, $field='id')
 {
-    $sql = self::$builder
+    if($value)
+    {
+        $sql = self::$builder
                 ->delete(self::$table)
                 ->where($field, $value);
-    return self::execute($sql, self::$builder->values);
+        return self::execute($sql, self::$builder->values);
+   }
 }
 
 
@@ -350,7 +362,7 @@ public function all()
 /**
  * Get html output executed queries
  * @param bool $show
- * @return string
+ * @return void
 */
 public static function output($show=true)
 {
@@ -387,6 +399,7 @@ public static function html($queries=[])
      foreach($queries as $query):
      $template .= '<td>'. $i++ .'</td>';
      $template .= '<td>'. $query .'</td>';
+     $template .= '</tr>';
      endforeach;
      else:
      $template .= '<td></td>';

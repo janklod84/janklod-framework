@@ -69,20 +69,25 @@ private function __construct($root)
 */
 public function run()
 {   
-     require_once __DIR__.'/Test.php';
-     $dispatcher = $this->router->dispatch($this->request->method());
-     $output = $dispatcher->callAction($this->app);
-     if(is_string($output))
-     {
-        $this->response->setBody($output);
-     }
-     $this->response->send();
-     
-     // Print out executed queries
-     \JK\ORM\QQ::output(false);
+     debug($this->app);
 }
 
 
+
+public function boot()
+{
+    require_once __DIR__.'/Test.php';
+    $dispatcher = $this->router->dispatch($this->request->method());
+    $output = $dispatcher->callAction($this->app);
+   if(is_string($output))
+   {
+      $this->response->setBody($output);
+   }
+   $this->response->send();
+   
+   // Print out executed queries
+   \JK\ORM\QQ::output(false);
+}
 
 
 /**

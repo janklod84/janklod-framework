@@ -17,28 +17,6 @@ class HomeController extends SiteController
 */
 public function index()
 {
-  
-   // Instance of connection
-   $db = DatabaseManager::instance();
-
-   // Add simple connection [connection must to be instance to PDO]
-   // QQ::setup($db, 'users');
-   QQ::setup($db, 'users');
-   
-   QQ::fetchClass('app\\models\\User\\User');
-   $selects = [
-       'username', 
-       'password', 
-       'role'
-   ];
-   $sql = QQ::select($selects)
-             ->where('id = ?', 6);
-   $values = QQ::sql()->values;
-   
-   $r = QQ::execute($sql, $values)->first();
-  
-   debug($r);
-
    return $this->render('home/index');
 }
 
