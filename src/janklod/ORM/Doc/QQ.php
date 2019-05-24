@@ -235,53 +235,6 @@ public static function sql()
      return self::$builder;
 }
 
-
-/**
- * Make select query
- * @return QueryBuilder
-*/
-public static function select(...$selects)
-{
-     $table = self::map('table');
-     if(is_array($selects[0]))
-     {
-        $query = self::$builder->select($selects[0]);
-     }else{
-        $query = self::$builder->select($selects);
-     }
-     if($table)
-     {
-        return $query->from($table);
-     }
-     return $query;
-}
-
-public static function selector(...$selects)
-{
-     $table = self::map('table');
-    
-     $select = '';
-     foreach($selects as $selected)
-     {
-           if(is_array($selected))
-           {
-              $select .= implode(',', $selected);
-           }
-           if(is_string($selected))
-           {
-               $select .= sprintf('%s, ', $selected);
-           }
-     }
-     $select = trim($select, ', ');
-     $query = self::$builder->select($select);
-     if($table)
-     {
-        return $query->from($table);
-     }
-     return $query;
-}
-
-
 /**
  * Create new record
  * @param array $params 

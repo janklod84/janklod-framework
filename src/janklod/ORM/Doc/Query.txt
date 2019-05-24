@@ -59,3 +59,31 @@ $r = QQ::execute($sql, $values)->results();
 // $r = QQ::execute($sql, QQ::sql()->values)->results();
 
 debug($r);
+
+===========================================================
+NO DEFINED TABLE
+QQ::setup($db);
+ 
+QQ::fetchClass('app\\models\\User\\User');
+$selects = [
+   'username', 
+   'password', 
+   'role'
+];
+$sql = QQ::sql()->select($selects)
+               ->from('orders', 'o')
+               ->where('id = ?', 6);
+$values = QQ::sql()->values;
+
+$sql = QQ::select('username', 'password', 'role')
+       ->from('users')
+      ->where('id', 4);
+die($sql);
+
+========================================================
+DEFINED TABLE
+QQ::setup($db, 'users');
+ 
+$sql = QQ::select('username', 'password', 'role')
+       ->where('id', 4);
+die($sql);

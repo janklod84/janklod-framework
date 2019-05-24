@@ -13,7 +13,7 @@ abstract class CustomBuilder
 * @var string $table
 */
 protected $params;
-
+protected $table;
 
 /**
 * Constructor
@@ -52,9 +52,10 @@ protected function fields($columns = null)
 */
 protected function table()
 {
+   $tableString = '';
    if($table = $this->get('table'))
    {
-       $tableString = '`'.$table.'`';
+       $tableString .= sprintf('`%s`', $table);
        if($alias = $this->get('alias'))
        {
            $tableString .= ' AS '.$alias;

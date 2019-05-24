@@ -14,7 +14,7 @@ class SelectBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $selects = $this->params();
+     	   $selects = $this->params();
          $select = '';
 
          // if not empty selects
@@ -37,6 +37,6 @@ class SelectBuilder extends CustomBuilder
              $select = '*';
          }
          
-         return sprintf('SELECT %s ', trim($select, ','));
+         return sprintf('SELECT %s', trim($select, ','));
      }
 }

@@ -22,6 +22,7 @@ public function index()
    $db = DatabaseManager::instance();
 
    // Add simple connection [connection must to be instance to PDO]
+   // QQ::setup($db, 'users');
    QQ::setup($db, 'users');
    
    QQ::fetchClass('app\\models\\User\\User');
@@ -30,15 +31,23 @@ public function index()
        'password', 
        'role'
    ];
-   $sql = QQ::sql()->select($selects)
-                   ->from('users')
-                   ->where('id', 6);
+   $sql1 = QQ::sql()->select($selects)
+                   ->from('orders', 'o')
+                   ->where('id = ?', 6);
    $values = QQ::sql()->values;
-   $r = QQ::execute($sql, $values)->results();
+
+   $sql = QQ::select($selects);
+           // ->where('id', 4);
+   $sql = QQ::select('username', 'test1', 'test2');
+   die($sql);
+
+   //$r = QQ::execute($sql, $values)->results();
    // $r = QQ::execute($sql, QQ::sql()->values)->results();
    
-   debug($r);
+   //debug($r);
+   
 
+   QQ::output();
    return $this->render('home/index');
 }
 

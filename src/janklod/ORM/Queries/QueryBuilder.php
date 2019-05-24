@@ -16,7 +16,6 @@ class QueryBuilder
 */
 private $sql    = []; 
 public  $values = [];
-public $table   = '';
 const NBQuery = '\\JK\\ORM\\Queries\\Builder\\%sBuilder';
 
 
@@ -215,8 +214,6 @@ public function update($table, $params = [])
    return $this;
  }
 
- 
- 
 
 /**
  * Delete
@@ -328,6 +325,17 @@ public function showColumn($table = null)
 
 
 /**
+* Remove values
+* @return void
+*/
+public function clear()
+{
+    $this->sql = [];
+    $this->values = [];
+    // $this->table = '';
+}
+
+/**
  * Create SQL
  * @return string
 */
@@ -350,6 +358,7 @@ public function __toString()
 {
     return $this->sql();
 }
+
 
 
 /**
@@ -406,8 +415,6 @@ protected function addValue($value=null)
 }
 
 
-
-
 /**
  * Condition operator
  * @param string $column 
@@ -419,7 +426,7 @@ protected function conditionOperator($column, $operator)
      $condition = sprintf('%s %s %s', $column, $operator, '?');
      if($this->isBinded($column))
      {
-           $condition = sprintf('%s', $column);
+           $condition = $column;
      }
      return $condition;
 }
@@ -434,16 +441,6 @@ protected function isBinded($condition)
 {
     return strpos($condition, '?') !== false 
            || strpos($condition, ':') !== false;
-}
-
-/**
-* Remove values
-* @return void
-*/
-public function clear()
-{
-    $this->sql = [];
-    $this->values = [];
 }
 
 }
