@@ -1,6 +1,0 @@
-{
-	"psr": {
-		"JK\\": "src/janklod",
-		"app\\": "app/"
-	}
-}
