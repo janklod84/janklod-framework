@@ -264,7 +264,7 @@ public static function select(...$selects)
 */
 public function create($params=[])
 {
-    if(!empty($params))
+    if($params)
     {
         $sql = self::$builder
                   ->insert(self::$table)

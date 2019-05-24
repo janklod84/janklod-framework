@@ -36,7 +36,6 @@ class Reflection
                    throw new Exception('class <strong>'. $parsed .'</strong> does not exit');
 
              }
-
              $this->reflection = new ReflectionClass($parsed);
        }
 
