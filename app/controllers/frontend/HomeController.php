@@ -31,16 +31,13 @@ public function index()
        'password', 
        'role'
    ];
-   $sql1 = QQ::sql()->select($selects)
+   $sql = QQ::sql()->select($selects)
                    ->from('orders', 'o')
                    ->where('id = ?', 6);
    $values = QQ::sql()->values;
-
-   $sql = QQ::select($selects);
-           // ->where('id', 4);
-   $sql = QQ::select('username', 'test1', 'test2');
+   
+   debug($values);
    die($sql);
-
    //$r = QQ::execute($sql, $values)->results();
    // $r = QQ::execute($sql, QQ::sql()->values)->results();
    

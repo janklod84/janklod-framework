@@ -256,31 +256,6 @@ public static function select(...$selects)
      return $query;
 }
 
-public static function selector(...$selects)
-{
-     $table = self::map('table');
-    
-     $select = '';
-     foreach($selects as $selected)
-     {
-           if(is_array($selected))
-           {
-              $select .= implode(',', $selected);
-           }
-           if(is_string($selected))
-           {
-               $select .= sprintf('%s, ', $selected);
-           }
-     }
-     $select = trim($select, ', ');
-     $query = self::$builder->select($select);
-     if($table)
-     {
-        return $query->from($table);
-     }
-     return $query;
-}
-
 
 /**
  * Create new record
@@ -328,6 +303,16 @@ public function update($params=[], $value, $field='id')
                 ->set($params)
                 ->where($field, $value);
     return self::execute($sql, self::$builder->values);
+}
+
+
+/**
+ * store data // update or insert
+ * @return 
+*/
+public function store()
+{
+   
 }
 
 

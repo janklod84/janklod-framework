@@ -20,16 +20,11 @@ class SelectBuilder extends CustomBuilder
          // if not empty selects
          if(!empty($selects))
          {
-             foreach($selects as $selected)
+             if(is_array($selects[0]))
              {
-                   if(is_array($selected))
-                   {
-                      $select = $this->fields($selected);
-                   }
-                   if(is_string($selected))
-                   {
-                       $select .= sprintf('`%s`,', $selected);
-                   }
+                  $select = $this->fields($selects[0]);
+             }else{
+                  $select = $this->fields($selects);
              }
 
          }else{
