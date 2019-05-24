@@ -23,18 +23,9 @@ public function index()
 
    // Add simple connection [connection must to be instance to PDO]
    QQ::setup($db, 'users');
-
-   // Create record
-   /*
-   QQ::getTable()->create([
-     'username' => 'TestQQ',  
-     'password' => md5('newQQ'),  
-     'role' => 7
-   ]);
-   */
    
- 
-
+   
+   QQ::getTable()->delete(5);
 
    return $this->render('home/index');
 }

@@ -23,7 +23,7 @@ private static $connection;
 private static $table = '';
 private static $builder;
 private static $register = [];
-
+private static $query;
 
 /**
 * Constructor
@@ -33,10 +33,12 @@ private static $register = [];
 */
 public static function setup(\PDO $connection = null, $table='')
 {
-    if(!$connection)
+    if(is_null($connection))
     {
        exit('You can to set up connection!');
     }
+    self::$query = new Query($connection);
+    self::$builder = new QueryBuilder();
     self::$connection = $connection;
     self::$register['table'] = $table;
 }
@@ -49,6 +51,29 @@ public static function setup(\PDO $connection = null, $table='')
 public static function close()
 {
     self::$connection = null;
+}
+
+
+/**
+ * Add connection if has not connection
+ * @param string $dsn 
+ * @param string $user 
+ * @param string $password 
+ * @param array $options 
+ * @return \PDO
+*/
+public static function connect(
+$dsn='', 
+$user='', 
+$password='', 
+$options=[]
+): \PDO
+{
+    if(is_null(self::$connection))
+    {
+         self::$connection = new PDO($dsn, $user, $password, $options);
+    }
+    return self::$connection;
 }
 
 
@@ -68,7 +93,43 @@ public static function isRegistred($type=''): bool
 */
 public static function query()
 {
-    return new Query(self::$connection);
+    return self::$query;
+}
+
+
+/**
+ * Fetch class
+ * @param  $entity 
+ * @param  array $arguments 
+ * @return Query
+*/
+public static function fetchClass($entity, $arguments=[])
+{
+    self::$query->fetchClass($entity, $arguments);
+}
+
+
+/**
+* Fetch column
+* @param int $colno [number of column]
+* @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
+* @return 
+*/
+public static function fetchColumn($colno=null, $arguments = [])
+{
+    self::$query->fetchColumn($colno, $arguments);
+}
+
+
+/**
+* Fetch into
+* @param object $object
+* @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
+* @return 
+*/
+public static function fetchInto($object=null, $arguments = [])
+{
+    self::$query->fetchColumn($object, $arguments);
 }
 
 
@@ -80,7 +141,21 @@ public static function query()
 */
 public static function execute($sql, $params=[])
 {
-   return self::query()->execute($sql, $params);
+   return self::$query->execute($sql, $params);
+}
+
+
+
+/**
+ * Execute simple query
+ * QQ::exec('DELETE FROM table ')
+ * @param string $sql 
+ * @return bool
+ */
+public static function exec($sql='')
+{
+      return self::$connection 
+                 ->exec($sql);
 }
 
 
@@ -124,7 +199,7 @@ public static function getTable($return=false)
       {
           exit(sprintf('Sorry no table yet setted!'));
       }
-      return self::build(self::map('table'));
+      return self::assignTable(self::map('table'));
     }
 }
 
@@ -136,25 +211,29 @@ public static function getTable($return=false)
 */
 public static function table($table='')
 {
-    return self::build($table);
+    return self::assignTable($table);
 }
 
 
 /**
- * Get Builder
+ * Assign table
  * @return void
 */
-public static function build($table='', $sql=false)
+public static function assignTable($table='')
 {
    self::$table = $table;
-   self::$builder = new QueryBuilder();
-   if($sql)
-   {
-      return self::$builder;
-   }
    return new self;
 }
 
+
+/**
+ * Query builder
+ * @return \JK\ORM\Queries\QueryBuilder
+*/
+public static function sql()
+{
+     return self::$builder;
+}
 
 /**
  * Create new record
@@ -233,39 +312,6 @@ public function all()
                 ->from(self::$table);
     return self::execute($sql)
                 ->results();
-}
-
-
-
-/**
- * Execute simple query
- * QQ::exec('DELETE FROM table ')
- * @param string $sql 
- * @return bool
- */
-public static function exec($sql='')
-{
-      return self::$connection 
-                 ->exec($sql);
-}
-
-
-
-/**
- * Add connection if has not connection
- * @param string $dsn 
- * @param string $user 
- * @param string $password 
- * @param array $options 
- * @return void
-*/
-public static function connect($dsn='', $user='', $password='', $options=[])
-{
-    if(!is_null(self::$connection) && self::$connection instanceof PDO)
-    {
-         return self::$connection;
-    }
-    self::$connection = new PDO($dsn, $user, $password, $options);
 }
 
 

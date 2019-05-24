@@ -29,6 +29,7 @@ class Query
 private $connection;
 private $statement;
 private $fetchHandler = 'FetchObject';
+private $options = [];
 private $error = false;
 private $queries = [];
 private $table = '';
@@ -36,7 +37,7 @@ private $result;
 private $count;
 private $lastID;
 
-private $arguments = [];
+
 
 // fetch handler class name
 const FH_NAME = '\\JK\\ORM\\Statement\\Fetch\\%s';
@@ -72,55 +73,6 @@ public function exec($sql)
 
 
 /**
-* Fetch class
-* @param string $entity [class name]
-* @param array $arguments ['mode' => 'PDO::FETCH_CLASS|PDO::FETCH_OBJ..']
-* @return 
-*/
-public function fetchClass($entity=null, $arguments = [])
-{
-   $this->fetchModeRegister('FetchClass', [
-     'entity' => $entity,
-     'arguments' => $arguments
-   ]);
-   return $this;
-}
-
-/**
-* Fetch column
-* @param int $colno [number of column]
-* @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
-* @return 
-*/
-public function fetchColumn($colno=null, $arguments = [])
-{
-    $this->fetchModeRegister('FetchColumn', [  
-      'column' => $colno, 
-      'arguments' => $arguments
-    ]);
-    return $this;
-}
-
-
-/**
-* Fetch into
-* @param object $object
-* @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
-* @return 
-*/
-public function fetchInto($object=null, $arguments = [])
-{
-    $this->fetchModeRegister('FetchInto', [  
-      'object' => $object,   
-      'arguments' => $arguments
-    ]);
-    return $this;
-}
-
-
-
-
-/**
 * Execute query
 * @param string $sql 
 * @param array $params 
@@ -132,6 +84,7 @@ public function execute(string $sql='', array $params = [])
 {
      if(!$sql) { exit('No Query sql added!'); }
      $this->statement = $this->connection->prepare($sql);
+
      try
      {
          
@@ -142,7 +95,7 @@ public function execute(string $sql='', array $params = [])
           if($this->statement->execute($params))
           {
                $this->addQuery($sql);
-               
+
                // set fetch mode
                $this->setFetchMode();
 
@@ -154,8 +107,9 @@ public function execute(string $sql='', array $params = [])
 
                // last insert id
                $this->lastID = $this->connection->lastInsertId();
+          
           }
-
+          
           // commit
           $this->commit();
 
@@ -177,38 +131,6 @@ public function execute(string $sql='', array $params = [])
      }
 
      return $this;
-}
-
-
-/**
-* Set Fetch mode
-* @return void
-*/
-public function setFetchMode()
-{
-    $class = sprintf(self::FH_NAME, ucfirst($this->fetchHandler));
-    if(!class_exists($class))
-    {
-        exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
-    } 
-    $obj = new $class($this->statement, $this->arguments);
-    call_user_func([$obj, 'setMode']);
-}
-
-
-/**
-* Register fetch params
-* @param string $fetchHandler [ name of class ]
-* @param array $arguments
-* @return void
-*/
-private function fetchModeRegister(
-$fetchHandler = null, 
-$arguments = []
-)
-{
-     $this->fetchHandler = $fetchHandler; 
-     $this->arguments    = $arguments;
 }
 
 
@@ -240,6 +162,54 @@ public function multi($queries = [])
     }
 }
 
+
+
+/**
+* Fetch class
+* @param string $entity [class name]
+* @param array $arguments ['mode' => 'PDO::FETCH_CLASS|PDO::FETCH_OBJ..']
+* @return 
+*/
+public function fetchClass($entity=null, $arguments = [])
+{
+    $this->fetchModeRegister('FetchClass', [
+      'entity' => $entity, 
+      'arguments' => $arguments
+    ]);
+    return $this;
+}
+
+
+/**
+* Fetch column
+* @param int $colno [number of column]
+* @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
+* @return 
+*/
+public function fetchColumn($colno=null, $arguments = [])
+{
+    $this->fetchModeRegister('FetchColumn', [  
+      'column' => $colno, 
+      'arguments' => $arguments
+    ]);
+    return $this;
+}
+
+
+/**
+* Fetch into
+* @param object $object
+* @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
+* @return 
+*/
+public function fetchInto($object=null, $arguments = [])
+{
+    $this->fetchModeRegister('FetchInto', [  
+      'object' => $object,   
+      'arguments' => $arguments
+    ]);
+    return $this;
+}
 
 
 
@@ -380,5 +350,40 @@ private function addQuery($sql)
      array_push($this->queries, $sql);
 }
 
+
+/**
+* Register fetch params
+* @param string $fetchHandler [ name of class ]
+* @param array $options
+* @return void
+*/
+private function fetchModeRegister(
+$fetchHandler = null, 
+$options = []
+)
+{
+     $this->fetchHandler = $fetchHandler; 
+     $this->options = $options;
+}
+
+
+/**
+* Set Fetch mode
+* @return void
+*/
+private function setFetchMode()
+{
+     $class = sprintf(self::FH_NAME, 
+           ucfirst($this->fetchHandler)
+     );
+    
+     if(!class_exists($class))
+     {
+        exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
+     }
+     die($this->fetchHandler);
+     $object = new $class($this->statement, $this->options);
+     call_user_func([$object, 'setMode']);
+}
 
 }
