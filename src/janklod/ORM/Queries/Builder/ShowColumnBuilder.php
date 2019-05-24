@@ -1,11 +1,11 @@
 <?php 
-namespace JK\ORM\Builder;
+namespace JK\ORM\Queries\Builder;
 
 
 /**
  * @package 
 */ 
-class TruncateBuilder extends CustomBuilder
+class ShowColumnBuilder extends CustomBuilder
 {
      
      /**
@@ -15,6 +15,6 @@ class TruncateBuilder extends CustomBuilder
      public function build()
      {
          $table = $this->table();
-         return sprintf('TRUNCATE TABLE %s', $table);
+         return sprintf(' SHOW COLUMNS FROM %s', $table);
      }
 }

@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Database;
 
-use JK\ORM\Query;
+use JK\ORM\QQ;
 
 /**
  * @package JK\Database\ActiveRecord 
@@ -38,11 +38,12 @@ protected $id;
 public function __construct($id=null)
 {
     parent::__construct();
-    $this->query->table($this->table);
+    QQ::addTable($this->table);
     if($this->entity)
     {
-         $this->query->fetchClass(get_class($this));
+         QQ::query()->fetchClass(get_class($this));
     }
+
     if($id){ $this->id = $id; }
     if(method_exists($this, 'before'))
     {
@@ -51,10 +52,22 @@ public function __construct($id=null)
 }
 
 /**
- * Do some action before others actions
+ * Do some action before next actions actions
+ * Do some action before storage data
  * @return void
 */
 protected function before(){}
+protected function beforeSave(){}
+
+
+/**
+ * Do some action after all actions
+ * Do some action after storage data
+ * @return void
+*/
+protected function after(){}
+protected function afterSave(){}
+
 
 
 /**
@@ -63,7 +76,7 @@ protected function before(){}
 */
 public function getTable(): string
 {
-    return $this->table;
+    return QQ::getTable(true);
 }
 
 
@@ -76,16 +89,13 @@ public function columnMap()
 
 }
 
-
-
 /**
  * Find all records
  * @return array
 */
 public function findAll()
 {
-    return $this->query
-                ->all();
+    return QQ::getTable()->all();
 }
 
 
@@ -95,8 +105,7 @@ public function findAll()
 */
 public function findById()
 {
-    return $this->query
-                ->read($this->id);
+    return QQ::getTable()->read($this->id);
 }
 
 
@@ -109,8 +118,7 @@ public function findById()
 */
 public function findBy($value=null, $field='id')
 {
-     return $this->query
-                 ->read($value, $field);
+     return QQ::getTable()->read($value, $field);
 }
 
 
@@ -121,8 +129,7 @@ public function findBy($value=null, $field='id')
 */
 public function insert($params = [])
 {
-     return $this->query
-                 ->create($params);
+     return QQ::getTable()->create($params);
 }
 
 
@@ -133,8 +140,7 @@ public function insert($params = [])
 */
 public function update($params = [])
 {
-    return $this->query
-                ->update($params, $this->id);
+    return QQ::getTable()->update($params, $this->id);
 }
 
 
@@ -145,8 +151,7 @@ public function update($params = [])
 */
 public function delete($id=null)
 {
-   return $this->query
-               ->delete($this->id);
+   return QQ::getTable()->delete($this->id);
 }
 
 

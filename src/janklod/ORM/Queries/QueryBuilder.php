@@ -1,10 +1,10 @@
 <?php 
-namespace JK\ORM;
+namespace JK\ORM\Queries;
 
 
 
 /**
- * @package JK\ORM\QueryBuilder 
+ * @package JK\ORM\Queries\QueryBuilder 
 */ 
 class QueryBuilder 
 {
@@ -17,7 +17,7 @@ class QueryBuilder
 private $sql    = []; 
 public  $values = [];
 public $table   = '';
-const NBQuery = '\\JK\\ORM\\Builder\\%sBuilder';
+const NBQuery = '\\JK\\ORM\\Queries\\Builder\\%sBuilder';
 
 
 

@@ -17,23 +17,21 @@ class HomeController extends SiteController
 */
 public function index()
 {
-  
-   // Instance of connection
-   $db = DatabaseManager::instance();
+    // debug($this->user);
 
-   // Add simple connection [connection must to be instance to PDO]
-   QQ::setup($db, 'users');
-
-   // Create record
-   /*
-   QQ::getTable()->create([
-     'username' => 'TestQQ',  
-     'password' => md5('newQQ'),  
-     'role' => 7
-   ]);
-   */
+    // $this->user->createUser(['username' => 'Thomas2', 'password' => sha1('test')]);
+    // $this->user->getAll();
    
- 
+   $db = DatabaseManager::instance();
+   QQ::setup($db);
+
+   QQ::
+   
+   // debug(QQ::connect());
+
+
+
+
 
 
    return $this->render('home/index');

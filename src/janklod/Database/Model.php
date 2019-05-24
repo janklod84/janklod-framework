@@ -2,10 +2,8 @@
 namespace JK\Database;
 
 
-use JK\ORM\{
-  Query,
-  QueryBuilder
-};
+use JK\ORM\QQ;
+
 
 /**
  * @package JK\Database\Model
@@ -13,44 +11,14 @@ use JK\ORM\{
 abstract class Model
 {
 
-
-  /**
-   * @var \PDO $connection
-   * @var \JK\ORM\Query
-   * @var \JK\ORM\QueryBuilder
-  */
-  protected static $connection;
-  protected $query;
-  protected $queryBuilder;
-  
-  
   /**
    * Constructor
    * @return void
   */
   public function __construct()
   {
-      $this->query = new Query(
-          self::connect()
-      );
-      $this->queryBuilder = new QueryBuilder();
+      $db = DatabaseManager::instance();
+      QQ::setup($db);
   }
 
-
- 
-  /**
-   * Get connection to database
-   * @return \PDO 
-  */
-  protected static function connect()
-  {
-      if(is_null(self::$connection))
-      {
-          self::$connection = DatabaseManager::instance();
-      }
-      return self::$connection;
-  }
-
-
-     
 }

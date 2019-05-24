@@ -1,5 +1,5 @@
 <?php 
-namespace JK\ORM\Builder;
+namespace JK\ORM\Queries\Builder;
 
 
 /**

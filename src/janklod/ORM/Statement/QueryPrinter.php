@@ -1,10 +1,10 @@
 <?php 
-namespace JK\ORM;
+namespace JK\ORM\Statement;
 
 
 
 /**
- * @package JK\ORM\QueryPrinter
+ * @package JK\ORM\Statement\QueryPrinter
 */ 
 class QueryPrinter
 {

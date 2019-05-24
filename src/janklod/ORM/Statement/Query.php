@@ -1,5 +1,5 @@
 <?php 
-namespace JK\ORM;
+namespace JK\ORM\Statement;
 
 
 use \PDO;
@@ -7,7 +7,7 @@ use \PDOException;
 
 
 /**
- * @package JK\ORM\Query 
+ * @package JK\ORM\Statement\Query 
 */ 
 class Query 
 {
@@ -41,7 +41,7 @@ private $builder;
 
 
 // fetch handler class name
-const FH_NAME = '\\JK\\ORM\\Fetch\\%s';
+const FH_NAME = '\\JK\\ORM\\Statement\\Fetch\\%s';
 
 
 
@@ -58,7 +58,7 @@ public function __construct(PDO $connection = null, $table='')
         $this->connection = $connection;
     }
     $this->table = $table;
-    $this->builder = new QueryBuilder();
+    $this->builder = new \JK\ORM\Queries\QueryBuilder();
 }
 
 

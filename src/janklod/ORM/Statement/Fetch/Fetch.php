@@ -1,9 +1,9 @@
 <?php 
-namespace JK\ORM\Fetch;
+namespace JK\ORM\Statement\Fetch;
 
 
 /**
- * @package JK\ORM\Fetch\Fetch
+ * @package JK\ORM\Statement\Fetch\Fetch
 */ 
 abstract class Fetch
 {
