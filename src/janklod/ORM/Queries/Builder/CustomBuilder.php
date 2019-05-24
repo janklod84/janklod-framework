@@ -40,13 +40,9 @@ abstract public function build();
 * @param array $columns 
 * @return string
 */
-protected function fields($columns = [])
+protected function fields($columns = null)
 {
-  if(count($columns) > 1)
-  {
-       return '`' . implode('`, `', $columns) . '`';
-  }
-  return implode($columns);
+    return '`' . implode('`, `', $columns) . '`';
 }
 
 

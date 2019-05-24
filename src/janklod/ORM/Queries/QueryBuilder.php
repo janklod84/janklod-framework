@@ -21,19 +21,6 @@ const NBQuery = '\\JK\\ORM\\Queries\\Builder\\%sBuilder';
 
 
 
-
-
-/**
- * Constructor
- * @param string $table 
- * @return void
-*/
-public function __construct($table='')
-{
-     $this->table = $table;
-}
-
-
 /**
  * Select 
  * @param string ...$selects 
@@ -417,6 +404,8 @@ protected function addValue($value=null)
          array_push($this->values, $value);
      }
 }
+
+
 
 
 /**

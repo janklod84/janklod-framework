@@ -15,12 +15,28 @@ class SelectBuilder extends CustomBuilder
      public function build()
      {
      	 $selects = $this->params();
-         $select = '*';
+         $select = '';
+
+         // if not empty selects
          if(!empty($selects))
          {
-             $select = $this->fields($selects);
+             foreach($selects as $selected)
+             {
+                   if(is_array($selected))
+                   {
+                      $select = $this->fields($selected);
+                   }
+                   if(is_string($selected))
+                   {
+                       $select .= sprintf('`%s`,', $selected);
+                   }
+             }
+
+         }else{
+             
+             $select = '*';
          }
          
-         return sprintf('SELECT %s ', $select);
+         return sprintf('SELECT %s ', trim($select, ','));
      }
 }
