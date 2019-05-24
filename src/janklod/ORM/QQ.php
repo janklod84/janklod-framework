@@ -347,10 +347,56 @@ public function all()
 }
 
 
-
-public static function output()
+/**
+ * Get html output executed queries
+ * @param bool $show
+ * @return string
+*/
+public static function output($show=true)
 {
-   return self::$query->queries();
+   if($show)
+   {
+       if(!is_null(self::$query))
+       {
+           $queries = self::$query->executed();
+           self::html($queries);
+       }else{
+          self::html();
+       }
+   }
+}
+
+
+/**
+ * Get htmt executed queries
+ * @param array $queries 
+ * @return void
+*/
+public static function html($queries=[])
+{
+     $i = 1;
+     $template = '<table class="table">';
+     $template .= '<thead>';
+     $template .= '<tr>';
+     $template .= '<th scope="col">#</th>';
+     $template .= '<th scope="col">Executed Queries :</th>';
+     $template .= '</tr>';
+     $template .= '<tbody>';
+     $template .= '<tr>';
+     if(!empty($queries)):
+     foreach($queries as $query):
+     $template .= '<td>'. $i++ .'</td>';
+     $template .= '<td>'. $query .'</td>';
+     endforeach;
+     else:
+     $template .= '<td></td>';
+     $template .= '<td col="2">No Query Executed!</td>';
+     endif;
+     $template .= '</tr>';
+     $template .= '</tbody>';
+     $template .= '</table>';
+     $template .= '<strong>Count executed queries : </strong>'. count($queries);
+     echo $template;
 }
 
 }

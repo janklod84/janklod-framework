@@ -31,20 +31,14 @@ public function index()
        'password', 
        'role'
    ];
-   $sql = QQ::sql()->select($selects)
-                   ->from('orders', 'o')
-                   ->where('id = ?', 6);
+   $sql = QQ::select($selects)
+             ->where('id = ?', 6);
    $values = QQ::sql()->values;
    
-   debug($values);
-   die($sql);
-   //$r = QQ::execute($sql, $values)->results();
-   // $r = QQ::execute($sql, QQ::sql()->values)->results();
-   
-   //debug($r);
-   
+   $r = QQ::execute($sql, $values)->first();
+  
+   debug($r);
 
-   QQ::output();
    return $this->render('home/index');
 }
 

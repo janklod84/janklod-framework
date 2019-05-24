@@ -297,12 +297,12 @@ public function close()
 
 
 /**
- * Get all queries
+ * Get all executed queries
  * @return array
 */
-public function queries()
+public function executed()
 {
-   debug($this->queries);
+    return $this->queries;
 } 
 
 

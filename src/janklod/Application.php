@@ -77,7 +77,9 @@ public function run()
         $this->response->setBody($output);
      }
      $this->response->send();
-     $this->terminate();
+     
+     // Print out executed queries
+     \JK\ORM\QQ::output(false);
 }
 
 
