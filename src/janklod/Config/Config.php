@@ -114,14 +114,11 @@ public static function isStored($group='')
 */
 public static function hasChild($item='')
 {
-    if(!is_null(self::$group))
+    if(!is_null($item))
     {
-        if(!is_null($item))
-        {
-            return array_key_exists($item, self::$stored[self::$group]);
-        }else{
-           return array_key_exists(self::$group, self::$stored);
-        }
+        return array_key_exists($item, self::$stored[self::$group]);
+    }else{
+       return array_key_exists(self::$group, self::$stored);
     }
 }
 
