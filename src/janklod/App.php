@@ -5,7 +5,7 @@ namespace JK;
 use JK\FileSystem\File;
 use JK\DI\ContainerBuilder;
 use JK\Helper\MicroTimer;
-use \JK\Config\Config;
+
 
 
 /**
@@ -70,10 +70,7 @@ private function __construct($root)
 */
 public function run()
 {   
-   $app = Config::load('app'); // Load group
-   $alias = Config::load('app.timezone'); // Load item
-   debug($app);
-   debug($alias);
+     debug($this->app);
 }
 
 

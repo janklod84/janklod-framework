@@ -79,7 +79,7 @@ $app = \JK\Application::instance(ROOT);
 |-------------------------------------------------------------------
 */
 
-$app->loadAlias();
+// $app->loadAlias();
 
 
 
@@ -90,7 +90,7 @@ $app->loadAlias();
 |-------------------------------------------------------------------
 */
 
-$app->loadProviders();
+// $app->loadProviders();
 
 
 
@@ -101,7 +101,7 @@ $app->loadProviders();
 |-------------------------------------------------------------------
 */
 
-$app->file->call('routes/app.php');
+// $app->file->call('routes/app.php');
 
 
 

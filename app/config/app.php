@@ -54,10 +54,8 @@ return [
 */
 
 'alias' => [
- /*
  'Test' => 'app\\controllers\\Test',
  'Form' => 'app\\library\\Bootstrap'
- */
 ],
 
 /*

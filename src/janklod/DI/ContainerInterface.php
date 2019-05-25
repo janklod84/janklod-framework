@@ -8,35 +8,35 @@ namespace JK\DI;
 interface ContainerInterface 
 {
        
-       /**
-        * Set item in container
-        * @param string $key 
-        * @param mixed $resolver
-        * @return void
-       */
-	   public function set($key, $resolver);
-
-       
-       /**
-	    * Determine if has key in container
-	    * @param string $key 
-	    * @return bool
-	   */
-	   public function has($key): bool;
+/**
+* Set item in container
+* @param string $key 
+* @param mixed $resolver
+* @return void
+*/
+public function set($key, $resolver);
 
 
-	   /**
-	    * Get item from container
-	    * @param string $key 
-	    * @return mixed
-	   */
-	   public function get($key);
+/**
+* Determine if has key in container
+* @param string $key 
+* @return bool
+*/
+public function has($key): bool;
 
 
-	   /**
-	    * Remove item from container
-	    * @param string $key 
-	    * @return void
-	   */
-	   public function remove($key);
+/**
+* Get item from container
+* @param string $key 
+* @return mixed
+*/
+public function get($key);
+
+
+/**
+* Remove item from container
+* @param string $key 
+* @return void
+*/
+public function remove($key);
 }

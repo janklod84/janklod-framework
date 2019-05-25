@@ -8,159 +8,129 @@ namespace JK\Config;
 class Config 
 {
          
-       /**
-        * @var string $configPath  [ configuration directory ]
-        * @var array $stored       [ Repository configuation ]
-       */
-	     protected static $configPath = '';
-       protected static $stored = [];
+/**
+* @var array $stored       [ Repository configuation ]
+* @var string $configPath
+* @var string $group
+*/
+protected static $stored = [];
+protected static $item;
+protected static $configPath='';
+protected static $group='';
 
 
-       /**
-        * Set configuration root directory
-        * @param string $path 
-        * @return void
-       */
-       public static function root($path = null)
-       {
-       	    self::$configPath = $path;
-       }
+/**
+* set config directory path
+* @param string
+* @return 
+*/
+public static function directive(string $configPath='')
+{
+     self::$configPath = $configPath;
+}
 
 
-       /**
-        * Push stored data
-        * @param mixed $parsed
-        * @return void
-       */
-       public static function store($parsed = null)
-       {
-            if(is_string($parsed) && file_exists($parsed))
-            {
-                $stored = require_once($parsed);
-            }
-            $stored = (array) $parsed;
-            self::$stored = array_merge(self::$stored, $stored);
-       }
-       
-
-    
-       /**
-        * Config
-        * @param string $key 
-        * @param mixed $value 
-        * @return void
-       */
-	     public static function set($key, $value)
-	     {
-           self::$stored[$key] = $value;
-	     }
-
-       
-       /**
-        * Get item from stored data
-        * @param string $key 
-        * @return mixed
-       */
-       public function item($key)
-       {
-           return self::has($key) ? self::$stored[$key] : null;
-       }
+/**
+* Store configuration
+* @param array $data 
+* @return void
+*/
+public static function store($data=[])
+{
+    self::$stored = array_merge(self::$stored, $data);
+}
 
 
-       /**
-        * Determine if has key in data stored
-        * @param string $key 
-        * @return bool
-       */
-       public static function has($key)
-       {
-            return isset(self::$stored[$key]);
-       }
+/**
+* Load config from file
+* @param string $parsed
+* @return self
+*/
+public static function load($parsed='')
+{
+   if($parsed)
+   {
+        self::$group = $parsed;
+        if(strpos($parsed, '.') !== false)
+        {
+            $exp = explode('.', $parsed);
+            self::$group = $exp[0];
+            self::$item  = $exp[1];
+        }
 
+        self::$configPath .= '/' . self::$group . '.php';
+        if(is_file(self::$configPath))
+        {
+            self::saveFile();
+        }
 
-       /**
-        * Find config item
-        *  Config::get('test.host')
-        *  Config::get('database.host')
-        * 
-        * @param string $path 
-        * @return mixed
-       */
-       public static function get($path)
-       {
-             if($path)
+        if(self::isStored(self::$group))
+        {
+             // retrive part
+             if(self::hasChild(self::$item))
              {
-                 $path = explode('.', $path);
-                 $key  = $path[0] ?? '';
-                 $next = $path[1] ?? '';
-                 
-                 if($config = self::fromFile($key))
-                 {
-                     $config = !empty($config[$next]) ? $config[$next] : null;
-
-                 }elseif(array_key_exists($key, self::$stored)){
-
-                      $config = self::item($key);
-
-                      foreach($path as $item)
-                      {
-                          if(isset($config[$item]))
-                          {
-                              $config = $config[$item];
-                          }
-                     }
-                 }
-
-                 return $config;
+                return self::retrieveItem(self::$item);
              }
-             return false;
-       }
+             return self::retrieveGroup();
+        }
+   }
+}
 
 
-         
-     /**
-      * Get all stored configuration
-      * @return array
-     */
-     public static function all()
-     {
-     	   return self::$stored;
-     }
+/**
+ * Determine if has group stored
+ * @param string $group 
+ * @return bool
+*/
+public static function isStored($group='')
+{
+     return array_key_exists($group, self::$stored);
+}
 
-     
-	 /**
-       * Get configuration from file
-       * Ex: Config::fromFile('app') [ put group name of file ]
-       * 
-       * @param string $fileName 
-       * @return array
-     */
-      public static function fromFile($fileName = null)
-      {
-           $file = self::filePath($fileName);
-           $path = realpath($file);
-           $data = include($path);
-           return (array) $data;
-     }
-	 
-	 
-	 
-     /**
-      * Get full path config
-      * @param string $fileName 
-      * @return string
-     */
-     private static function filePath($fileName)
-     {
-          if(is_null($fileName)) { return false; }
-          self::$configPath = self::$configPath ?: ROOT.'app/config';
-          $file = trim(self::$configPath, '/') . '/' . trim($fileName, '/') . '.php';
-          if(!file_exists($file))
-          {
-                exit(sprintf('File <strong>%s</strong> does not exist', $file));
-          }
-          return $file;
-     }
+
+
+/**
+ * Determine if has item
+ * @param string $item 
+ * @return bool
+*/
+public static function hasChild($item)
+{
+    return array_key_exists($item, self::$stored[self::$group]);
+}
+
+
+/**
+ * Retrieve item
+ * @param string $item 
+ * @return mixed
+*/
+public static function retrieveItem($item='')
+{
+     return self::$stored[self::$group][$item];
+}
+
+
+/**
+ * Retrieve group
+ * @param string $item 
+ * @return mixed
+*/
+public static function retrieveGroup()
+{
+     return self::$stored[self::$group];
+}
+
+
+
+/**
+ * Save data file in container
+ * @return 
+*/
+private static function saveFile()
+{
+     self::store([self::$group => require(self::$configPath)]);
+}
 
 
 }

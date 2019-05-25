@@ -64,7 +64,7 @@ public function get($key)
  * @param string $key 
  * @return bool
 */
-public function has($key): bool
+protected function has($key): bool
 {
      return isset(self::$singletons[$key]);
 }
