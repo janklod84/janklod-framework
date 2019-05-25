@@ -48,7 +48,7 @@ class Initializer
              
 	         foreach(self::$providers as $service)
 	         {
-	               if(class_exists($service))
+	               if(!class_exists($service))
                    {
                         exit(sprintf(
                             'class <strong>%s</strong> does not exist!', 

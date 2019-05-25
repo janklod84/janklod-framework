@@ -35,6 +35,17 @@ class Router
               $this->routes = RouteCollection::all();
   	    }
 
+        
+        /**
+         * Determine if route match URL
+         * @param string $url 
+         * @return bool
+        */
+        public function match($url='')
+        {
+
+        }
+
        
         
         /**
@@ -59,4 +70,14 @@ class Router
 
               exit('No matches routes!');
   	    }
+
+        
+        /**
+         * Get routes
+         * @return array
+        */
+        public function getRoutes()
+        {
+            return $this->routes;
+        }
 }

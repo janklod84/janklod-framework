@@ -28,7 +28,7 @@ abstract class Controller
      protected $view;
      protected $request;
      protected $layout;
-     public $render = true;
+     // public $render = true;
 
        
      /**

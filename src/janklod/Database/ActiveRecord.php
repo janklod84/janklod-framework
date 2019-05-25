@@ -41,7 +41,7 @@ public function __construct($id=null)
     QQ::addTable($this->table);
     if($this->entity)
     {
-         QQ::query()->fetchClass(get_class($this));
+         QQ::fetchClass(get_class($this));
     }
  
     if($id){ $this->id = $id; }

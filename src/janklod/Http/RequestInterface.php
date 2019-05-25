@@ -29,19 +29,17 @@ interface RequestInterface
 
        /**
         * Return data from request $_COOKIE
-        * @var string $key 
         * @return array
        */
-       public function cookie($key = null);
+       public function cookie();
      
        
        
        /**
         * Return data from request $_SESSION
-        * @var string $key 
         * @return array
        */
-       public function session($key = null);
+       public function session();
 
 
        /**

@@ -18,13 +18,18 @@ class RouteCollection
 
        /**
          * Store curren route
-         * @param \JK\Routing\RouteObject $route 
+         * @param mixed $route 
          * @return void
        */
-  	    public static function store(RouteObject $route)
+  	    public static function store($route)
   	    {    
-              $method = $route->get('method');
-              self::$routes[$method][] = $route;
+              if($route instanceof RouteCustomer)
+              {
+                   $method = $route->get('method');
+                   self::$routes[$method][] = $route;
+              }else{
+                    self::$routes[] = $route;
+              }
   	    }
 
 

@@ -16,7 +16,7 @@ final class DB
     
 /**
 * @var \PDO $instance 
-* @var  Database $instance
+* @var  \JK\Database\DB $instance
 */
 private static $connection;
 private static $instance;

@@ -114,11 +114,15 @@ public static function retrieveGroup()
 
 /**
  * Save data file in container
- * @return 
+ * @return void
 */
 private static function saveFile()
 {
-     self::store([self::$group => require(self::$configPath)]);
+     if(self::$configPath !== '')
+     {
+         $path = realpath(self::$configPath);
+         self::store([self::$group => require($path)]);
+     }
 }
 
 
@@ -143,7 +147,6 @@ public static function load($parsed='')
             self::$item  = $exp[1];
         }
          
-        // save data from file
         self::$configPath .= '/' . self::$group . '.php';
         if(is_file(self::$configPath))
         {
