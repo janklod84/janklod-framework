@@ -11,26 +11,15 @@ use JK\Routing\Router;
 class RouterProvider extends ServiceProvider
 {
         
-       
         private $url;
-
-
-        /**
-         * Get uri
-         * @return type
-         */
-        protected function boot()
-        {
-             $this->url = $this->app->request->get('url');
-        }
-
-
+        
         /**
          * Register service
          * @return void
         */
 	    public function register()
 	    {
+            $this->url = 'http://project.loc//';
             $this->app->singleton('router', function () {
                  return new Router($this->url);
             });

@@ -4,9 +4,9 @@ namespace JK\Routing;
 
 /**
  * Route Handler
- * @package JK\Routing\RH
+ * @package JK\Routing\RouteCustomer
 */ 
-class RH
+class RouteCustomer
 {
        
 /**
@@ -27,7 +27,7 @@ private static $parameter;
 */
 public function __construct($params)
 {
-     self::$params = new RouteParameter($params);  
+     self::$parameter = new RouteParameter($params);  
 }
 
 

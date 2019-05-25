@@ -10,74 +10,73 @@ class Router
 {
        
 
-        /**
-         * @var string $url
-        */
-        private $url;
-
-        
-
-        /**
-         * @var array
-        */
-        private $routes = [];
-       
+/**
+ * @var string $url
+*/
+private $url;
 
 
-        /**
-         * Constructor
-         * @param string $url 
-         * @return void
-        */
-  	    public function __construct($url = '')
-  	    {
-              $this->url = trim($url, '/');
-              $this->routes = RouteCollection::all();
-  	    }
 
-        
-        /**
-         * Determine if route match URL
-         * @param string $url 
-         * @return bool
-        */
-        public function match($url='')
-        {
+/**
+ * @var array
+*/
+private $routes = [];
 
-        }
 
-       
-        
-        /**
-         * Map matched route 
-         * @param string $method
-         * @return 
-        */
-  	    public function dispatch($method = null)
-  	    {
-              if(!isset($this->routes[$method]))
-              {
-                  exit('Not Found routes!');
-              }
 
-              foreach($this->routes[$method] as $route)
-              {
-                   if($route->match($this->url))
-                   {
-                        return new Dispatcher($route);
-                   }
-              }
+/**
+ * Constructor
+ * @param string $url 
+ * @return void
+*/
+public function __construct($url = '')
+{
+      $this->url = trim($url, '/');
+      // $this->routes = RouteCollection::all();
+}
 
-              exit('No matches routes!');
-  	    }
 
-        
-        /**
-         * Get routes
-         * @return array
-        */
-        public function getRoutes()
-        {
-            return $this->routes;
-        }
+/**
+ * Add route
+ * @param array $routes 
+ * @return void
+*/
+public function addRoute($routes=[])
+{
+     $this->routes = $routes;
+}
+
+
+/**
+ * Get routes
+ * @return array
+*/
+public function getRoutes()
+{
+    return $this->routes;
+}
+
+
+
+/**
+ * Determine if route match URL
+ * @param string $url 
+ * @return bool
+*/
+public function isMatch($url='')
+{
+
+}
+
+
+
+/**
+ * @return 
+*/
+public function dispatch($callback, $matches=[])
+{
+    return new Dispatcher($callback, $matches);
+}
+
+
 }
