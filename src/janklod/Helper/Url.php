@@ -2,7 +2,9 @@
 namespace JK\Helper;
 
 
-use JK\Http\{Request, Response};
+// use JK\Http\{Request, Response};
+use JK\Http\Request;
+use JK\Http\Response;
 use JK\Routing\Route;
 
 
@@ -51,7 +53,7 @@ public static function back()
 */
 public static function base()
 {
-   return (new Request())->url();
+   return call_user_func([new Request, 'url']);
 }
 
 }

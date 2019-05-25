@@ -1,14 +1,17 @@
 <?php 
 namespace JK\DI;
 
-
+/*
 use JK\DI\Containers\
 {
     Registry,
     Singleton,
     RegisterInterface
 };
-
+*/
+use JK\DI\Containers\Registry;
+use JK\DI\Containers\Singleton;
+use JK\DI\Containers\RegisterInterface;
 
 /**
  * @package JK\DI\Container
