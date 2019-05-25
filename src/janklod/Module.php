@@ -8,8 +8,8 @@ namespace JK;
 abstract class Module 
 {
        
-       const VIEW_PATH  = '';
-       const CONFIG_PATH = '';
-	   const MIGRATION_PATH = '';
+const VIEW_PATH  = '';
+const CONFIG_PATH = '';
+const MIGRATION_PATH = '';
 
 }

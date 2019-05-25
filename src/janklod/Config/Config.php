@@ -60,7 +60,7 @@ public static function get($parsed='')
  * @param string $group 
  * @return bool
 */
-public static function isStored($group='')
+private static function isStored($group='')
 {
      return !empty(self::$stored[$group]);
 }
@@ -72,7 +72,7 @@ public static function isStored($group='')
  * @param string $item 
  * @return bool
 */
-public static function hasChild($item='')
+private static function hasChild($item='')
 {
     $finded = array_key_exists(self::$group, self::$stored);
     if(!is_null($item))
@@ -89,7 +89,7 @@ public static function hasChild($item='')
  * @param string $item 
  * @return mixed
 */
-public static function retrieveItem($item='')
+private static function retrieveItem($item='')
 {
      $retrieved = self::$stored[self::$group] ?? '';
      if(!is_null($item))
@@ -105,7 +105,7 @@ public static function retrieveItem($item='')
  * @param string $item 
  * @return mixed
 */
-public static function retrieveGroup()
+private static function retrieveGroup()
 {
      return self::$stored[self::$group];
 }

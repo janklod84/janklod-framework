@@ -11,85 +11,87 @@ namespace JK\Collections;
 class Collection 
 {
        
-   /**
-    * container collection
-    * @var array $items
-   */
-   private $items = [];
+/**
+* container collection
+* @var array $items
+*/
+private $items = [];
 
 
-   /**
-    * Constructor
-    * @param array $items 
-    * @return void
-   */
-   public function __construct($items = [])
-   {
-          $this->items = $items;
-   }
-
-   
-   /**
-    * Set item
-    * @param string $key 
-    * @param mixed $value 
-    * @return void
-   */
-   public function set($key, $value)
-   {
-   	   $this->items[$key] = $value;
-   }
+/**
+* Constructor
+* @param array $items 
+* @return void
+*/
+public function __construct($items = [])
+{
+      $this->items = $items;
+}
 
 
-   /**
-      * Get item
-      * @param string $key 
-      * @return mixed
-   */
-   public function get($key = null)
-   {
-       return $this->has($key) ? $this->items[$key] : null;
-   }
+/**
+* Set item
+* @param string $key 
+* @param mixed $value 
+* @return void
+*/
+public function set($key, $value)
+{
+	   $this->items[$key] = $value;
+}
 
 
-   /**
-    * Determine if item's setted
-    * @param string $key 
-    * @return bool
-   */
-   public function has($key)
-   {
-   	   return isset($this->items[$key]);
-   }
-   
-   
-   /**
-    * Remove item from container
-    * @param string $key 
-    * @return void
-   */
-   public function remove($key)
-   {
-   	   unset($this->items[$key]);
-   }
-
-   
-   /**
-    * Remove all items
-    * @return void
-   */
-   public function clear()
-   {
-       $this->items = [];
-   }
+/**
+  * Get item
+  * @param string $key 
+  * @return mixed
+*/
+public function get($key = null)
+{
+   return $this->has($key) ? $this->items[$key] : null;
+}
 
 
-   /**
-    * Return all items
-    * @return array
-   */
-   public function all()
-   {
-   	   return $this->items;
-   }
+/**
+* Determine if item's setted
+* @param string $key 
+* @return bool
+*/
+public function has($key)
+{
+	   return isset($this->items[$key]);
+}
+
+
+/**
+* Remove item from container
+* @param string $key 
+* @return void
+*/
+public function remove($key)
+{
+	   unset($this->items[$key]);
+}
+
+
+/**
+* Remove all items
+* @return void
+*/
+public function clear()
+{
+   $this->items = [];
+}
+
+
+/**
+* Return all items
+* @return array
+*/
+public function all()
+{
+	   return $this->items;
+}
+
+
 }
