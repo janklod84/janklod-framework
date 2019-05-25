@@ -16,31 +16,14 @@ private static $routes = [];
 
 
 /**
- * Add route in collection
- * @param  $key 
- * @param  mixed $route 
- * @return void
-*/
-public static function add($key, $value)
-{
-	 self::$routes[$key] = $route;
-}
-
-
-/**
- * Description
+ * Add collection route
  * @param mixed $route
  * @param string $key 
  * @return void
 */
-public static function store($route, $key='')
+public static function store($key, $route)
 {
-     if($key !== '')
-     {
-       self::$routes[$key][] = $route;
-     }else{
-     	array_push(self::$routes, $route);
-     }
+ 	self::$routes[$key] = $route;
 }
 
 

@@ -58,7 +58,7 @@ private function __construct($root)
      $this->containerBuilder = new ContainerBuilder();
      $this->app = $this->getContainer();
      $this->bind('file', new File($root));
-     Config::directive($root.'app/config');
+     Config::basePath($root.'app/config');
 }
 
 

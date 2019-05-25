@@ -113,16 +113,12 @@ $method = 'GET'
 )
 {
      # add params
-     $route = new RouteCustomer([
-       'path'     => $path,
-       'callback' => $callback,
-       'name'     => $name,
-       'method'   => $method,   
-       'options'  => self::$options
-     ]);
+     $prefix = self::getOption('prefix');
+     $params = compact('path', 'callback', 'name', 'method', 'prefix');
+     $route = new RouteCustomer($params);
      
      # store route
-     RouteCollection::store($route, $method);
+     RouteCollection::store($method, $route->parameters());
      return $route;
 }
 

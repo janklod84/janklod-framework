@@ -23,11 +23,11 @@ protected static $group='';
 
 
 /**
-* set config directory path
+* set base path config
 * @param string
 * @return 
 */
-public static function directive(string $configPath='')
+public static function basePath(string $configPath='')
 {
      self::$configPath = $configPath;
 }

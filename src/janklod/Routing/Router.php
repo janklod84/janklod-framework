@@ -32,7 +32,7 @@ private $route;
 */
 public function __construct($url = '')
 {
-   $this->url = trim($url, '/');
+      $this->url = trim($url, '/');
 }
 
 
@@ -82,8 +82,15 @@ public function getRoute()
  * Run routing
  * @return mixed
 */
-public function run()
+public function dispatch($method='')
 {
+	$routes = $this->getRoutes($method);
+	foreach($routes as $route)
+	{
+         $this->route = $route;
+	}
+
+	return $this;
 }
 
 
@@ -92,38 +99,24 @@ public function run()
  * @param string $url 
  * @return bool
 */
-public function isMatch()
+public function match()
 {
-    return $this->route 
-                ->match($this->url);
-}
+    foreach($this->routes as $pattern => $route)
+    {
+	  if(!preg_match($this->url, $route['path'], $matches))
+      {
+	        return false;
+      }
 
-
-/**
- * Get route params
- * @return type
- */
-public function params()
-{
-	return $this->route 
-	            ->parameters();
-}
-
-
-/**
- * Dispatch all routes
- * @return mixed
-*/
-public function dispatched($method='')
-{
-
+      return true;
+    }
 }
 
 
 /**
  * @return 
 */
-public function dispatch($callback, $matches=[])
+public function dispatcher($callback, $matches=[])
 {
     return new Dispatcher($callback, $matches);
 }

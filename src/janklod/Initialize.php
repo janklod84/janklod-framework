@@ -43,7 +43,7 @@ public static function alias()
 */
 public static function providers($app)
 {
-	 self::$providers = self::get('providers');
+	   self::$providers = self::get('providers');
      
      foreach(self::$providers as $service)
      {
