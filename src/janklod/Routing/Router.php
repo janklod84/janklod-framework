@@ -19,9 +19,10 @@ private $url;
 
 /**
  * @var array
+ * @var mixed $route
 */
 private $routes = [];
-
+private $route;
 
 
 /**
@@ -31,8 +32,7 @@ private $routes = [];
 */
 public function __construct($url = '')
 {
-      $this->url = trim($url, '/');
-      // $this->routes = RouteCollection::all();
+   $this->url = trim($url, '/');
 }
 
 
@@ -51,11 +51,40 @@ public function addRoute($routes=[])
  * Get routes
  * @return array
 */
-public function getRoutes()
+public function getRoutes($method='')
 {
+	if($method !== '')
+	{
+		if(!isset($this->routes[$method]))
+		{
+			 exit(
+			 	sprintf('Method <strong>%s</strong> does not match!', $method)
+			 );
+		}
+		return $this->routes[$method];
+	}
     return $this->routes;
 }
 
+
+/**
+ * Run routing
+ * @return mixed
+*/
+public function getRoute()
+{
+    return $this->route;
+}
+
+
+
+/**
+ * Run routing
+ * @return mixed
+*/
+public function run()
+{
+}
 
 
 /**
@@ -63,14 +92,29 @@ public function getRoutes()
  * @param string $url 
  * @return bool
 */
-public function isMatch($url='')
+public function isMatch()
 {
-
+    return $this->route 
+                ->match($this->url);
 }
 
 
+/**
+ * Get route params
+ * @return type
+ */
+public function params()
+{
+	return $this->route 
+	            ->parameters();
+}
 
-public function run()
+
+/**
+ * Dispatch all routes
+ * @return mixed
+*/
+public function dispatched($method='')
 {
 
 }

@@ -108,4 +108,13 @@ $app->loadProviders();
 $app->file->call('routes/app.php');
 
 
+/*
+|-------------------------------------------------------------------
+|   Add all collections routes
+|-------------------------------------------------------------------
+*/
+
+$app->router->addRoute(
+	\JK\Routing\RH\RouteCollection::all()
+);
 

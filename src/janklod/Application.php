@@ -68,6 +68,7 @@ private function __construct($root)
 */
 public function run()
 {
+   /*
    $posts = [
       'name' => 'Jean Claude',
       'username' => 'Brown',
@@ -77,6 +78,9 @@ public function run()
    debug($posts);
 
    echo base_url().'/admin'; // http://project.loc
+   */
+
+   $router = $this->router->run();
 }
 
 

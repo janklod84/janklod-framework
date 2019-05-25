@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Routing;
+namespace JK\Routing\RH;
 
 
 /**
- * @package JK\Routing\RouteParameter
+ * @package JK\Routing\RH\RouteParameter
 */ 
 class RouteParameter
 {
@@ -65,7 +65,11 @@ public function has($key): bool
 */
 public function get($key = null)
 {
-    return $this->has($key) ? $this->params[$key] : null;
+	if($this->has($key))
+	{
+		return $this->params[$key];
+	}
+    return null;
 }
 
 
@@ -75,7 +79,7 @@ public function get($key = null)
 */
 public function parameters()
 {
-     return $this->params ?? [];
+   return $this->params ?? [];
 }
 
 

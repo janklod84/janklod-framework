@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Routing;
+namespace JK\Routing\RH;
 
 
 
 /**
- * @package JK\Routing\RouteCollection
+ * @package JK\Routing\RH\RouteCollection
 */ 
 class RouteCollection 
 {
@@ -15,21 +15,32 @@ class RouteCollection
 private static $routes = [];
 
 
+/**
+ * Add route in collection
+ * @param  $key 
+ * @param  mixed $route 
+ * @return void
+*/
+public static function add($key, $value)
+{
+	 self::$routes[$key] = $route;
+}
+
 
 /**
-* Store curren route
-* @param mixed $route 
-* @return void
+ * Description
+ * @param mixed $route
+ * @param string $key 
+ * @return void
 */
-public static function store($route)
-{    
-  if($route instanceof RouteCustomer)
-  {
-       $method = $route->get('method');
-       self::$routes[$method][] = $route;
-  }else{
-        self::$routes[] = $route;
-  }
+public static function store($route, $key='')
+{
+     if($key !== '')
+     {
+       self::$routes[$key][] = $route;
+     }else{
+     	array_push(self::$routes, $route);
+     }
 }
 
 
@@ -39,7 +50,7 @@ public static function store($route)
 */
 public static function all()
 {
-  return self::$routes;
+     return self::$routes;
 }
 
 }

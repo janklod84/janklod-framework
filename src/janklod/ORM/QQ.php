@@ -242,14 +242,12 @@ public static function sql()
 */
 public static function select(...$selects)
 {
-     $table = self::map('table');
+     $query = self::$builder->select($selects);
      if(is_array($selects[0]))
      {
         $query = self::$builder->select($selects[0]);
-     }else{
-        $query = self::$builder->select($selects);
      }
-     if($table)
+     if($table = self::map('table'))
      {
         return $query->from($table);
      }

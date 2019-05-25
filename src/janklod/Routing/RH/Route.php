@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Routing;
+namespace JK\Routing\RH;
 
 
 /**
- * @package JK\Routing\Route 
+ * @package JK\Routing\RH\Route 
 */ 
 class Route 
 {
@@ -13,7 +13,6 @@ class Route
 * @var  bool  $notFound
 */
 private static $options = [];
-private static $notFound = false;
 
 
 /**
@@ -21,7 +20,7 @@ private static $notFound = false;
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteObject
+* @return RouteCustomer
 */
 public static function get(
 	string $path, 
@@ -38,7 +37,7 @@ public static function get(
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteObject
+* @return RouteCustomer
 */
 public static function post(
 	string $path, 
@@ -86,27 +85,6 @@ public static function group($options = [], \Closure $callback)
 
 
 /**
- * Add not found path
- * @param string $path
- * @return void
-*/
-public static function notFound(string $path)
-{
-     self::$notFound = $path;
-}
-
-
-/**
-* Get Not Found page
-* @return string
-*/
-public static function getNotFound()
-{
-   return self::$notFound;
-}
-
-
-/**
  * Get URL Named route
  * @param string $name 
  * @param array $params 
@@ -114,7 +92,7 @@ public static function getNotFound()
 */
 public static function url(string $name, array $params = [])
 {
-    return RouteObject::url($name, $params);
+       return RouteCustomer::url($name, $params);
 }
 
 
@@ -140,20 +118,11 @@ $method = 'GET'
        'callback' => $callback,
        'name'     => $name,
        'method'   => $method,   
-       // 'prefix'   => self::getOption('prefix')
        'options'  => self::$options
      ]);
      
-     # do action before storage in collection
-     // $route->beforeStore();
-
      # store route
-     RouteCollection::store($route);
-     
-     # do action after storage in collection
-     // $route->afterStore();
-
-     # return current route
+     RouteCollection::store($route, $method);
      return $route;
 }
 
