@@ -11,34 +11,34 @@ use JK\DI\ContainerInterface;
 abstract class ServiceProvider 
 {
        
-	       /**
-	        * @var \JK\DI\ContainerInterface
-	       */
-	       protected $app;
+/**
+* @var \JK\DI\ContainerInterface
+*/
+protected $app;
 
 
-           /**
-            * Constructor
-            * @param ContainerInterface $app 
-            * @return void
-           */
-	       public function __construct(ContainerInterface $app)
-	       {
-	       	    $this->app = $app;
-	       	    $this->boot();
-	       }
+/**
+* Constructor
+* @param ContainerInterface $app 
+* @return void
+*/
+public function __construct(ContainerInterface $app)
+{
+    $this->app = $app;
+    $this->boot();
+}
 
-           
-           /**
-            * Do something before register
-            * @return mixed
-           */
-           protected function boot() {}
-           
 
-           /**
-            * Register provider
-            * @return void
-           */
-	       abstract public function register();
+/**
+* Do something before register
+* @return mixed
+*/
+protected function boot() {}
+
+
+/**
+* Register provider
+* @return void
+*/
+abstract public function register();
 }
