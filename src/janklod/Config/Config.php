@@ -9,12 +9,14 @@ class Config
 {
          
 /**
-* @var array $stored       [ Repository configuation ]
+* @var array $stored       [ Repository all stored data  ]
+* @var array $files        [ Repository all stored files ]
 * @var mixed $item
 * @var string $configPath
 * @var string $group
 */
 protected static $stored = [];
+protected static $files = []; 
 protected static $item;
 protected static $configPath='';
 protected static $group='';
@@ -62,6 +64,16 @@ public static function get($parsed='')
 public static function all()
 {
     return self::$stored;
+}
+
+
+/**
+ * Get all stored files
+ * @return array
+*/
+public static function files()
+{
+    return self::$files;
 }
 
 
@@ -132,7 +144,22 @@ public static function saveFile($file='')
    if($path = realpath($file))
    {
        self::store([self::$group => require($path)]);
+       self::addFile($path);
    }
+}
+
+
+/**
+ * Add path
+ * @param string $path 
+ * @return string
+*/
+private static function addFile($path)
+{
+     if(!in_array($path, self::$files))
+     {
+          self::$files[] = $path;
+     }
 }
 
 

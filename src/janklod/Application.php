@@ -99,6 +99,7 @@ public function run()
    // $router = $this->router->run();
    
    debug(Config::all());
+   debug(Config::files());
 }
 
 
