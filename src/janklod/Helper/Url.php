@@ -21,7 +21,7 @@ class Url
 */
 public static function to($uri = '', $params = []): string
 {
-    if(!empty($params))
+    if($uri && !empty($params))
     {
        if($namedRoute = Route::url($uri, $params))
        {

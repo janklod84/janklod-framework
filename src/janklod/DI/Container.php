@@ -80,7 +80,9 @@ public function setInstance($instance)
 */
 public function registry($key, $resolver)
 {
-    $this->set($key, new Registry($key, $resolver));
+    $this->set($key, 
+      new Registry($key, $this->resolverMap($resolver))
+    );
 }
 
 
@@ -93,7 +95,9 @@ public function registry($key, $resolver)
 */
 public function singleton($key, $resolver)
 {
-    $this->set($key, new Singleton($key, $resolver));
+    $this->set($key, 
+      new Singleton($key, $this->resolverMap($resolver))
+    );
 }
 
 
@@ -129,7 +133,7 @@ public function get($key)
 
    }else{
        
-       # autowiring
+       # auto calling object
        $reflection = new Reflection($key);
        $constructorParams = $this->populateParams($reflection->parameters());
        $reflection->setArguments($constructorParams);
@@ -182,21 +186,16 @@ public function __get($key)
 private function populateParams($parameters = [])
 {
     $constructorParams = [];
-
     foreach($parameters as $parameter)
     {
-          if($class = $parameter->getClass())
-          {
-              $constructorParams[] = $this->get($class->getName());
-
-          }else{
-
-              $constructorParams[] = $parameter->getDefaultValue();
-          }
+        if($class = $parameter->getClass())
+        {
+            $constructorParams[] = $this->get($class->getName());
+        }else{
+            $constructorParams[] = $parameter->getDefaultValue();
+        }
     }
-
     return $constructorParams;
-         
 }
 
 
@@ -218,17 +217,17 @@ private function call($key)
 
 
 /**
-* Determine if output is instance of closure
+* Return resolver as closure or not
 * @param mixed $parsed 
 * @return mixed
 */
-protected function check($parsed)
+protected function resolverMap($resolver)
 {
-   if($parsed instanceof \Closure)
+   if($resolver instanceof \Closure)
    {
-        return call_user_func($parsed);
+        return call_user_func($resolver);
    }
-   return $parsed;
+   return $resolver;
 }
 
 

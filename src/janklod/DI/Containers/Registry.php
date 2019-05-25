@@ -26,7 +26,7 @@ private static $registry = [];
 */
 public function __construct($key, $value)
 {
- self::set($key, $value);
+  self::set($key, $value);
 }
 
 
@@ -38,7 +38,7 @@ public function __construct($key, $value)
 */
 public function set($key, $value)
 {
- self::$registry[$key] = $value;
+  self::$registry[$key] = $value;
 }
 
 
@@ -52,7 +52,7 @@ public function get($key)
 {
   if($this->has($key))
   {
-  	  return $this->check(self::$registry[$key]);
+  	  return self::$registry[$key];
   }
 }
 
@@ -65,21 +65,6 @@ public function get($key)
 protected function has($key): bool
 {
  return isset(self::$registry[$key]);
-}
-
-
-/**
-* Determine if output is instance of closure
-* @param mixed $parsed 
-* @return mixed
-*/
-protected function check($parsed)
-{
-   if($parsed instanceof \Closure)
-   {
-        return call_user_func($parsed);
-   }
-   return $parsed;
 }
 
 }
