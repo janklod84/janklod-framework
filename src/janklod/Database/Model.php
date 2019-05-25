@@ -17,7 +17,7 @@ abstract class Model
   */
   public function __construct()
   {
-      $db = DatabaseManager::instance();
+      $db = DB::instance();
       QQ::setup($db);
   }
 

@@ -42,46 +42,6 @@ public static function store($data=[])
 
 
 /**
-* Load config from file
-* @param string $parsed
-* @return self
-*/
-public static function load($parsed='')
-{
-   if($parsed)
-   {
-        // Get config part
-        self::$group = $parsed;
-        self::$item = null;
-        if(strpos($parsed, '.') !== false)
-        {
-            $exp = explode('.', $parsed);
-            self::$group = $exp[0];
-            self::$item  = $exp[1];
-        }
-         
-        // save data from file
-        self::$configPath .= '/' . self::$group . '.php';
-        if(is_file(self::$configPath))
-        {
-            self::saveFile();
-        }
-        
-        // retrieve group or item
-        if(self::isStored(self::$group))
-        {
-             // retrive part
-             if(self::hasChild(self::$item))
-             {
-                return self::retrieveItem(self::$item);
-             }
-
-             return self::retrieveGroup();
-        }
-   }
-}
-
-/**
  * Get config
  * @param string $parsed 
  * @return mixed
@@ -159,6 +119,49 @@ public static function retrieveGroup()
 private static function saveFile()
 {
      self::store([self::$group => require(self::$configPath)]);
+}
+
+
+
+
+/**
+* Load config from file
+* @param string $parsed
+* @return self
+*/
+public static function load($parsed='')
+{
+   if($parsed)
+   {
+        // Get config part
+        self::$group = $parsed;
+        self::$item = null;
+        if(strpos($parsed, '.') !== false)
+        {
+            $exp = explode('.', $parsed);
+            self::$group = $exp[0];
+            self::$item  = $exp[1];
+        }
+         
+        // save data from file
+        self::$configPath .= '/' . self::$group . '.php';
+        if(is_file(self::$configPath))
+        {
+            self::saveFile();
+        }
+        
+        // retrieve group or item
+        if(self::isStored(self::$group))
+        {
+             // retrive part
+             if(self::hasChild(self::$item))
+             {
+                return self::retrieveItem(self::$item);
+             }
+
+             return self::retrieveGroup();
+        }
+   }
 }
 
 

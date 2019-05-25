@@ -43,7 +43,7 @@ public function __construct($id=null)
     {
          QQ::query()->fetchClass(get_class($this));
     }
-
+ 
     if($id){ $this->id = $id; }
     if(method_exists($this, 'before'))
     {
@@ -162,22 +162,20 @@ public function delete($id=null)
 */
 public function save()
 {
-    $save = null;
+    $params = [];
     if(property_exists($this, 'id') && isset($this->id))
     {
-        $save = $this->update([
-            'username' => 'BrownUpdated2'
-        ]);
+        $params = ['username' => 'BrownUpdated2'];
+        return $this->update($params);
 
     }else{
-        
-        $save = $this->insert([
-            'username' => 'BrownNew', 
+        $params = [
+             'username' => 'BrownNew', 
             'password' => 'PwQwerty', 
             'role' => '1'
-        ]);
+        ];
+        return $this->insert($params);
     }
-    return $save;
 }
 
 

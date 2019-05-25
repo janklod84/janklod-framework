@@ -7,13 +7,12 @@ use JK\Http\Cookies\Cookie;
 use JK\Http\Requests\Input;
 use JK\Http\Uploads\UploadedFile;
 
-use \Config;
 
 
 /**
  * @package JK\Http\Request 
 */ 
-class Request //implements RequestInterface
+class Request implements RequestInterface
 {
       
    

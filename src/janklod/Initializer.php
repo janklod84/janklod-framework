@@ -39,35 +39,29 @@ class Initializer
         
         /**
          * Initialize all providers
-         * @param \JK\Container\ContainerInterface $container
+         * @param \JK\Container\ContainerInterface $app
          * @return void
         */
-	    public static function providers($container)
+	    public static function providers($app)
 	    {
 	    	 self::$providers = self::get('providers');
              
 	         foreach(self::$providers as $service)
 	         {
-	               if(!class_exists($service))
+	               if(class_exists($service))
                    {
-                        exit(sprintf('class <strong>%s</strong> does not exist!', $service));
+                        exit(sprintf(
+                            'class <strong>%s</strong> does not exist!', 
+                            $service)
+                        );
                    }
 
-                   $provider = new $service($container);
+                   $provider = new $service($app);
                    call_user_func([$provider, 'register']);
 	         }
 	    }
 
         
-        /**
-         * 
-         * @return 
-        */
-        public static function boot()
-        {
-
-        }
-
         
         /**
          * Merge data

@@ -70,9 +70,9 @@ private function __construct($root)
 */
 public function run()
 {   
-   /*
-   $app = Config::load('app'); // Load group
-   $alias = Config::load('app.timezone'); // Load item
+
+   $app = Config::get('app'); // Load group
+   $alias = Config::get('app.timezone'); // Load item
    debug($app);
    debug($alias);
 
@@ -93,7 +93,6 @@ public function run()
    debug(Config::get('pdo.user'));
    debug(Config::get('pdo.password'));
    debug(Config::get('pdo.dsn'));
-   */
 }
 
 

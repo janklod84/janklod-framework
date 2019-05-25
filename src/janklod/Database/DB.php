@@ -8,9 +8,10 @@ use \Exception;
 use \Config;
 
 /**
- * @package JK\Database\DatabaseManager
+ * Database Manager
+ * @package JK\Database\DB
 */ 
-final class DatabaseManager
+final class DB
 {
     
 /**
