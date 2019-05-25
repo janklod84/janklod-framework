@@ -10,6 +10,7 @@ class Config
          
 /**
 * @var array $stored       [ Repository configuation ]
+* @var mixed $item
 * @var string $configPath
 * @var string $group
 */
@@ -42,56 +43,15 @@ public static function store($data=[])
 
 
 /**
- * Get config
- * @param string $parsed 
- * @return mixed
+* Get config group or item
+* @param string $parsed 
+* ex: [Config::get(group)]      Load group
+* ex: [Config::get(group.item)] Loaad item
+* @return self
 */
 public static function get($parsed='')
 {
     return self::load($parsed);
-}
-
-
-/**
-* Load config from file
-* @param string $parsed
-* @return self
-*/
-public static function load($parsed='')
-{
-   if($parsed)
-   {
-        // Get config part
-        self::$group = $parsed;
-        self::$item = null;
-        if(strpos($parsed, '.') !== false)
-        {
-            $exp = explode('.', $parsed);
-            self::$group = $exp[0];
-            self::$item  = $exp[1];
-        }
-         
-        if(self::$configPath !== '')
-        {
-            $file = self::$configPath . '/' . mb_strtolower(self::$group) . '.php';
-            if(is_file($file))
-            {
-                self::saveFile($file);
-            }
-        }
-        
-        // retrieve group or item
-        if(self::isStored(self::$group))
-        {
-             // retrive part
-             if(self::hasChild(self::$item))
-             {
-                  return self::retrieveItem(self::$item);
-             }
-
-             return self::retrieveGroup();
-        }
-   }
 }
 
 
@@ -108,12 +68,11 @@ public static function all()
 
 /**
  * Determine if has group stored
- * @param string $group 
  * @return bool
 */
-private static function isStored($group='')
+public static function isStored()
 {
-     return !empty(self::$stored[$group]);
+     return !empty(self::$stored[self::$group]);
 }
 
 
@@ -123,7 +82,7 @@ private static function isStored($group='')
  * @param string $item 
  * @return bool
 */
-private static function hasChild($item='')
+public static function hasChild($item='')
 {
     $finded = array_key_exists(self::$group, self::$stored);
     if(!is_null($item))
@@ -140,7 +99,7 @@ private static function hasChild($item='')
  * @param string $item 
  * @return mixed
 */
-private static function retrieveItem($item='')
+public static function retrieveItem($item='')
 {
      $retrieved = self::$stored[self::$group] ?? '';
      if(!is_null($item))
@@ -156,7 +115,7 @@ private static function retrieveItem($item='')
  * @param string $item 
  * @return mixed
 */
-private static function retrieveGroup()
+public static function retrieveGroup()
 {
      return self::$stored[self::$group];
 }
@@ -168,14 +127,58 @@ private static function retrieveGroup()
  * @param string $file
  * @return void
 */
-private static function saveFile($file)
+public static function saveFile($file='')
 {
-  if($path = realpath($file))
-  {
-      self::store([self::$group => require($path)]);
-  }
+   if($path = realpath($file))
+   {
+       self::store([self::$group => require($path)]);
+   }
 }
 
 
+/**
+* Load config group or item
+* @param string $parsed 
+* ex: [self::load(group)]      Load group
+* ex: [self::load(group.item)] Loaad item
+* @return self
+*/
+private static function load($parsed='')
+{
+   if($parsed)
+   {
+        // Get config part
+        self::$group = $parsed;
+        self::$item = null;
+        if(strpos($parsed, '.') !== false)
+        {
+            $exp = explode('.', $parsed);
+            self::$group = $exp[0];
+            self::$item  = $exp[1];
+        }
+         
+        if(self::$configPath !== '')
+        {
+            $file = self::$configPath . '/' . mb_strtolower(self::$group) . '.php';
+           
+            if(is_file($file))
+            {
+                self::saveFile($file);
+            }
+        }
+        
+        // retrieve group or item
+        if(self::isStored())
+        {
+             // retrive part
+             if(self::hasChild(self::$item))
+             {
+                  return self::retrieveItem(self::$item);
+             }
+
+             return self::retrieveGroup();
+        }
+   }
+}
 
 }
