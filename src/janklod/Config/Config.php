@@ -114,13 +114,14 @@ public static function isStored($group='')
 */
 public static function hasChild($item='')
 {
+    $finded = array_key_exists(self::$group, self::$stored);
     if(!is_null($item))
     {
-        return array_key_exists($item, self::$stored[self::$group]);
-    }else{
-       return array_key_exists(self::$group, self::$stored);
+        $finded = array_key_exists($item, self::$stored[self::$group]);
     }
+    return $finded;
 }
+
 
 
 /**
@@ -130,12 +131,12 @@ public static function hasChild($item='')
 */
 public static function retrieveItem($item='')
 {
+     $retrieved = self::$stored[self::$group] ?? '';
      if(!is_null($item))
      {
-         return self::$stored[self::$group][$item] ?? '';
-     }else{
-        return self::$stored[self::$group] ?? '';
+         $retrieved = self::$stored[self::$group][$item] ?? '';
      }
+     return $retrieved;
 }
 
 
