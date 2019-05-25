@@ -70,10 +70,7 @@ private function __construct($root)
 */
 public function run()
 {   
-   $app = Config::load('app'); // Load group
-   $alias = Config::load('app.timezone'); // Load item
-   debug($app);
-   debug($alias);
+
 }
 
 

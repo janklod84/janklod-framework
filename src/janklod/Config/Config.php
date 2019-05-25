@@ -50,20 +50,24 @@ public static function load($parsed='')
 {
    if($parsed)
    {
+        // Get config part
         self::$group = $parsed;
+        self::$item = null;
         if(strpos($parsed, '.') !== false)
         {
             $exp = explode('.', $parsed);
             self::$group = $exp[0];
             self::$item  = $exp[1];
         }
-
+         
+        // save data from file
         self::$configPath .= '/' . self::$group . '.php';
         if(is_file(self::$configPath))
         {
             self::saveFile();
         }
-
+        
+        // retrieve group or item
         if(self::isStored(self::$group))
         {
              // retrive part
@@ -71,9 +75,23 @@ public static function load($parsed='')
              {
                 return self::retrieveItem(self::$item);
              }
+
              return self::retrieveGroup();
         }
    }
+}
+
+/**
+ * Get config
+ * @param string $parsed 
+ * @return mixed
+*/
+public static function get($parsed='')
+{
+    if($parsed)
+    {
+        return self::load($parsed);
+    }
 }
 
 
@@ -84,7 +102,7 @@ public static function load($parsed='')
 */
 public static function isStored($group='')
 {
-     return array_key_exists($group, self::$stored);
+     return !empty(self::$stored[$group]);
 }
 
 
@@ -94,9 +112,17 @@ public static function isStored($group='')
  * @param string $item 
  * @return bool
 */
-public static function hasChild($item)
+public static function hasChild($item='')
 {
-    return array_key_exists($item, self::$stored[self::$group]);
+    if(!is_null(self::$group))
+    {
+        if(!is_null($item))
+        {
+            return array_key_exists($item, self::$stored[self::$group]);
+        }else{
+           return array_key_exists(self::$group, self::$stored);
+        }
+    }
 }
 
 
@@ -107,7 +133,12 @@ public static function hasChild($item)
 */
 public static function retrieveItem($item='')
 {
-     return self::$stored[self::$group][$item];
+     if(!is_null($item))
+     {
+         return self::$stored[self::$group][$item] ?? '';
+     }else{
+        return self::$stored[self::$group] ?? '';
+     }
 }
 
 
