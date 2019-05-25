@@ -2,15 +2,6 @@
 
 /*
 |----------------------------------------------------------------------
-|   Function debogger 
-|----------------------------------------------------------------------
-*/
-
-require_once '../debug.php';
-
-
-/*
-|----------------------------------------------------------------------
 |   Autoloading classes and dependencies of application
 |----------------------------------------------------------------------
 */
@@ -27,7 +18,10 @@ require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
 if(version_compare(PHP_VERSION, '7.1', '<='))
 {
-     exit('check version php >= 7.1');
+   exit(
+     'You must to check version php >= 7.1, 
+     because This application use version more than 7.1!'
+  );
 }
 
 
@@ -60,6 +54,16 @@ define('DEV', false);
 |-------------------------------------------------------------------
 */
 \JK\Http\Sessions\Session::start();
+
+
+
+/*
+|-------------------------------------------------------------------
+|    Initialize all Functions of Application
+|-------------------------------------------------------------------
+*/
+\JK\Initialize::functions();
+
 
 
 
