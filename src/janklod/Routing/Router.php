@@ -70,6 +70,12 @@ public function isMatch($url='')
 
 
 
+public function run()
+{
+
+}
+
+
 /**
  * @return 
 */

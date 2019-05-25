@@ -33,7 +33,7 @@ class Connection
      * @return \PDO
      * @throws \Exception
     */
-    public static function make($dsn, $user, $password, $options = [])
+    public static function make($dsn='', $user='', $password='', $options = [])
     {
            if(!empty($options))
            {
