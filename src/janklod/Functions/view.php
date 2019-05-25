@@ -11,7 +11,7 @@ if(!function_exists('view'))
       * @param array $data
       * @return string
      */
-     public function view($path='', $data=[])
+     function view($path='', $data=[])
      {
      	     // return (new View())->render($path, $data);
      }

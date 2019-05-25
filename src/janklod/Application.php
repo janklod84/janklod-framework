@@ -5,7 +5,7 @@ namespace JK;
 use JK\FileSystem\File;
 use JK\DI\ContainerBuilder;
 use JK\Helper\MicroTimer;
-use \JK\Config\Config;
+use JK\Config\Config;
 
 
 /**
@@ -29,8 +29,6 @@ private static $instance;
  * @var \JK\DI\ContainerBuilder $containerBuilder
 */
 private $containerBuilder;
-
-
 
 
 /**
@@ -60,7 +58,7 @@ private function __construct($root)
      $this->containerBuilder = new ContainerBuilder();
      $this->app = $this->getContainer();
      $this->bind('file', new File($root));
-     \JK\Config\Config::directive($root.'app/config');
+     Config::directive($root.'app/config');
 }
 
 
@@ -69,24 +67,27 @@ private function __construct($root)
   * @return mixed
 */
 public function run()
-{   
+{
+  
 }
 
 
 
 public function boot()
 {
+    /*
     require_once __DIR__.'/Test.php';
     $dispatcher = $this->router->dispatch($this->request->method());
     $output = $dispatcher->callAction($this->app);
-   if(is_string($output))
-   {
+    if(is_string($output))
+    {
       $this->response->setBody($output);
-   }
-   $this->response->send();
+    }
+    $this->response->send();
    
-   // Print out executed queries
-   \JK\ORM\QQ::output(false);
+    // Print out executed queries
+    \JK\ORM\QQ::output(false);
+    */
 }
 
 
@@ -222,23 +223,23 @@ public function getContainer()
 
 
 /**
-* Load all alias
+* Initialize all alias
 * @param array $alias
 * @return void
 */
 public function loadAlias()
 {
-   Initializer::alias();
+   Initialize::alias();
 }
 
 
 /**
-* Load all services providers
+* Initialize all services providers
 * @return void
 */
 public function loadProviders()
 {
-   Initializer::providers($this->app);
+   Initialize::providers($this->app);
 }
 
 

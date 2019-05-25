@@ -29,6 +29,12 @@ const CONFIG = [
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
 ],
+'functions' => [
+  'debug',
+  'url',
+  'response',
+  'view'
+]
 ];
 			
 }

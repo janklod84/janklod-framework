@@ -3,7 +3,6 @@ use JK\Http\Response;
 
 
 
-
 if(!function_exists('response'))
 {
      
@@ -14,7 +13,7 @@ if(!function_exists('response'))
       * @param array $headers 
       * @return \JK\Http\Response 
      */
-     public function response($content='', $status = 200, $headers = [])
+     function response($content='', $status = 200, $headers = [])
      {
      	  return new Response($content, $status, $headers);
      }
