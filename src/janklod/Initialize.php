@@ -97,7 +97,7 @@ public static function functions($functions=[])
 */
 private static function get($key)
 {
-     $config = \JK\Config\Config::get('app'.$key) ?: []; 
-	 return array_merge(Definition::CONFIG[$key], $config);
+     $config = \JK\Config\Config::get('app.'.$key) ?: []; 
+	   return array_merge(Definition::CONFIG[$key], $config);
 }
 }

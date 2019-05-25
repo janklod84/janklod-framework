@@ -57,7 +57,7 @@ public static function get($parsed='')
 * @param string $parsed
 * @return self
 */
-private static function load($parsed='')
+public static function load($parsed='')
 {
    if($parsed)
    {
@@ -73,10 +73,10 @@ private static function load($parsed='')
          
         if(self::$configPath !== '')
         {
-            self::$configPath .= '/' . mb_strtolower(self::$group) . '.php';
-            if(is_file(self::$configPath))
+            $file = self::$configPath . '/' . mb_strtolower(self::$group) . '.php';
+            if(is_file($file))
             {
-                self::saveFile();
+                self::saveFile($file);
             }
         }
         
@@ -93,6 +93,17 @@ private static function load($parsed='')
         }
    }
 }
+
+
+/**
+ * Get all stored configuration
+ * @return array
+*/
+public static function all()
+{
+    return self::$stored;
+}
+
 
 
 /**
@@ -154,11 +165,12 @@ private static function retrieveGroup()
 
 /**
  * Save data file in container
+ * @param string $file
  * @return void
 */
-private static function saveFile()
+private static function saveFile($file)
 {
-  if($path = realpath(self::$configPath))
+  if($path = realpath($file))
   {
       self::store([self::$group => require($path)]);
   }

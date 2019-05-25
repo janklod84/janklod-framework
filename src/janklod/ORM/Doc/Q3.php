@@ -24,8 +24,6 @@ private static $table = '';
 private static $builder;
 private static $register = [];
 private static $query;
-private static $sql = ' ';
-
 
 /**
 * Constructor
@@ -39,42 +37,12 @@ public static function setup(\PDO $connection = null, $table='')
     {
        exit('You can to set up connection!');
     }
-    self::addConnection($connection);
-    self::$query   = new Query($connection);
+    self::$query = new Query($connection);
     self::$builder = new QueryBuilder();
+    self::$connection = $connection;
     self::$register['table'] = $table;
 }
 
-
-/**
- * Add connection
- * @param \PDO $connection 
- * @return void
-*/
-public static function addConnection(\PDO $connection)
-{
-     self::$connection = $connection;
-}
-
-
-/**
- * Query statement
- * @return \JK\ORM\Statement\Query
-*/
-public static function query()
-{
-     return self::$query;
-}
-
-
-/**
- * Query builder create sql query
- * @return \JK\ORM\Queries\QueryBuilder
-*/
-public static function sql()
-{
-    return self::$builder;
-}
 
 
 /**
@@ -120,7 +88,14 @@ public static function isRegistred($type=''): bool
    return ! empty(self::$register[$type]); // not empty
 }
 
-
+/**
+ * Query statement
+ * @return \JK\ORM\Statement\Query
+*/
+public static function query()
+{
+    return self::$query;
+}
 
 
 /**
@@ -205,7 +180,7 @@ public static function map($type=null)
 {
    if(!array_key_exists($type, self::$register))
    {
-       exit(sprintf('No <b>%s</b> added for mapping !', $type));
+       exit(sprintf('Can not map <b>%s</b> !', $type));
    }
    return self::$register[$type];
 }
@@ -252,7 +227,35 @@ public static function assignTable($table='')
 }
 
 
+/**
+ * Query builder create sql query
+ * @return \JK\ORM\Queries\QueryBuilder
+*/
+public static function sql()
+{
+     return self::$builder;
+}
 
+
+/**
+ * Make select query
+ * @return QueryBuilder
+*/
+/*
+public static function select(...$selects)
+{
+     $query = self::$builder->select($selects);
+     if(is_array($selects[0]))
+     {
+        $query = self::$builder->select($selects[0]);
+     }
+     if($table = self::map('table'))
+     {
+        return $query->from($table);
+     }
+     return $query;
+}
+*/
 
 /**
  * Make select query
@@ -267,13 +270,27 @@ public static function select(...$selects)
      }
      if($table = self::map('table'))
      {
-        return $query->from($table);
+        $query = $query->from($table);
      }
-     return $query;
 }
 
 
-
+/**
+ * Where
+ * @param string $field 
+ * @param mixed $value 
+ * @param string $operator 
+ * @return 
+*/
+public function where(
+$field, 
+$value, 
+$operator='='
+)
+{
+       self::$builder = self::$builder->where($field, $value, $operator);
+       return self::$builder;
+}
 
 /**
  * Create new record
