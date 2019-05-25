@@ -48,10 +48,50 @@ public static function store($data=[])
 */
 public static function get($parsed='')
 {
-    if($parsed)
-    {
-        return self::load($parsed);
-    }
+    return self::load($parsed);
+}
+
+
+/**
+* Load config from file
+* @param string $parsed
+* @return self
+*/
+private static function load($parsed='')
+{
+   if($parsed)
+   {
+        // Get config part
+        self::$group = $parsed;
+        self::$item = null;
+        if(strpos($parsed, '.') !== false)
+        {
+            $exp = explode('.', $parsed);
+            self::$group = $exp[0];
+            self::$item  = $exp[1];
+        }
+         
+        if(self::$configPath !== '')
+        {
+            self::$configPath .= '/' . mb_strtolower(self::$group) . '.php';
+            if(is_file(self::$configPath))
+            {
+                self::saveFile();
+            }
+        }
+        
+        // retrieve group or item
+        if(self::isStored(self::$group))
+        {
+             // retrive part
+             if(self::hasChild(self::$item))
+             {
+                  return self::retrieveItem(self::$item);
+             }
+
+             return self::retrieveGroup();
+        }
+   }
 }
 
 
@@ -118,54 +158,12 @@ private static function retrieveGroup()
 */
 private static function saveFile()
 {
-     if(self::$configPath !== '')
-     {
-         $path = realpath(self::$configPath);
-         self::store([self::$group => require($path)]);
-     }
+  if($path = realpath(self::$configPath))
+  {
+      self::store([self::$group => require($path)]);
+  }
 }
 
-
-
-
-/**
-* Load config from file
-* @param string $parsed
-* @return self
-*/
-public static function load($parsed='')
-{
-   if($parsed)
-   {
-        // Get config part
-        self::$group = $parsed;
-        self::$item = null;
-        if(strpos($parsed, '.') !== false)
-        {
-            $exp = explode('.', $parsed);
-            self::$group = $exp[0];
-            self::$item  = $exp[1];
-        }
-         
-        self::$configPath .= '/' . self::$group . '.php';
-        if(is_file(self::$configPath))
-        {
-            self::saveFile();
-        }
-        
-        // retrieve group or item
-        if(self::isStored(self::$group))
-        {
-             // retrive part
-             if(self::hasChild(self::$item))
-             {
-                return self::retrieveItem(self::$item);
-             }
-
-             return self::retrieveGroup();
-        }
-   }
-}
 
 
 }

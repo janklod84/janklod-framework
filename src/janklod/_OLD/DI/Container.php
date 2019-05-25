@@ -118,25 +118,27 @@ public function create($className, $arguments = null)
 */
 public function get($key)
 {
-   if($this->has($key))
-   {
-       if($this->container[$key] instanceof RegisterInterface)
-       {
-            return $this->container[$key]->get($key);
-       }else{
-           return $this->call($key);
-       }
+ if($this->has($key))
+ {
+     if($this->container[$key] instanceof RegisterInterface)
+     {
+          return $this->container[$key]->get($key);
+     }else{
+         return $this->call($key);
+     }
 
-   }else{
-       
-       # autowiring
-       $reflection = new Reflection($key);
-       $constructorParams = $this->populateParams($reflection->parameters());
-       $reflection->setArguments($constructorParams);
-       return $reflection->createNewObject();
-   }
+ }else{
+     
+     # autowiring
+     $reflection = new Reflection($key);
+     $constructorParams = $this->populateParams($reflection->parameters());
+     $reflection->setArguments($constructorParams);
+     return $reflection->createNewObject();
+ }
 
 }
+
+
 
 
 
@@ -214,21 +216,6 @@ private function call($key)
   }
 
   return $this->container[$key];
-}
-
-
-/**
-* Determine if output is instance of closure
-* @param mixed $parsed 
-* @return mixed
-*/
-protected function check($parsed)
-{
-   if($parsed instanceof \Closure)
-   {
-        return call_user_func($parsed);
-   }
-   return $parsed;
 }
 
 
