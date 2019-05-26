@@ -1,13 +1,4 @@
-<?php 
-/*
-  |------------------------------------------------------------------
-  |         WEB ROUTES OF APPLICATION
-  |         In this file you can register all lists routes
-  |------------------------------------------------------------------
-*/
 
-# SITE
-/*
 $options = [
 	'prefix' => [
 	  'path' => '/admin',
@@ -36,17 +27,4 @@ Route::get('/test', function () {
     echo 'Привет друзья!';
 }, 'test.page');
 
-*/
-
-
-$options = [
-  'path' => '/admin',
-  'controller' => 'admin'
-];
-
-Route::prefix($options, function () {
-    Route::get('/', 'HomeController@index', 'welcome.page');
-    Route::get('/about', 'HomeController@about');
-    Route::get('/contact', 'HomeController@contact');
-    Route::post('/contact', 'HomeController@contact');
-});
+================================================================================

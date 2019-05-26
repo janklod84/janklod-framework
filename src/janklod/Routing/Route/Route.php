@@ -85,6 +85,21 @@ public static function group($options = [], \Closure $callback)
 
 
 /**
+* Add routes group
+* 
+* @param array $options
+* @param \Closure $callback
+* @return void
+*/
+public static function prefix($options = [], \Closure $callback)
+{  
+    self::$options['prefix'] = $options;
+    call_user_func($callback); 
+    self::$options['prefix'] = [];
+}
+
+
+/**
  * Get URL Named route
  * @param string $name 
  * @param array $params 
@@ -114,17 +129,17 @@ $method = 'GET'
 {
      # route custom
      $route = new RouteCustomer(self::$options);
-     $route->setPath($path);
-     $route->setCallback($callback);
-     $route->setName($name);
-     $route->setMethod($method);
-     $route->setOption('prefix');
+     $route->path($path);
+     $route->callback($callback);
+     $route->name($name);
+     $route->method($method);
+     $route->option('prefix');
 
      
      # route filter
      if(is_string($callback) && $name === null)
      {
-          $route->setName($callback);
+          $route->name($callback);
      }
 
      if($name)
@@ -133,7 +148,7 @@ $method = 'GET'
      }
 
      # prepare callback
-     $route->prepareCallback($callback);
+     $route->mapCallback($callback);
 
 
      # store route by method

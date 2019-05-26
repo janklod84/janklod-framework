@@ -3,7 +3,7 @@ namespace JK\Routing\Route;
 
 
 /**
- * Route Handler
+ * This class is a handler of route
  * @package JK\Routing\Route\RouteCustomer
 */ 
 class RouteCustomer
@@ -36,29 +36,24 @@ public function __construct($options=[])
  * @param string $path
  * @return void
 */
-public function setPath($path)
+public function path($path)
 {
 	$this->params['path'] = $this->preparePath($path);
 }
 
 
+
+
 /**
- * Prepare path
- * @param string $path 
- * @return string
+ * Set regex in params
+ * @param string $param
+ * @param mixed $regex
+ * @return void
 */
-public function preparePath(string $path)
+public function regex($param, $regex)
 {
-	 $path = trim($path, '/');
-	 if($this->hasOption('prefix.path'))
-	 {
-	 	  $prefix = $this->getOption('prefix.path');
- 	  	  $path = trim($prefix, '/').'/'. $path;
-	 }
-
-	 return sprintf('^%s$', trim($path, '/'));
+	$this->regex[$param] = $regex;
 }
-
 
 
 /**
@@ -66,7 +61,7 @@ public function preparePath(string $path)
  * @param string $path
  * @return void
 */
-public function setOption($key)
+public function option($key)
 {
 	$this->params[$key] = $this->getOption($key);
 }
@@ -77,7 +72,7 @@ public function setOption($key)
  * @param string $callback
  * @return void
 */
-public function setCallback($callback)
+public function callback($callback)
 {
 	$this->params['callback'] = $callback;
 }
@@ -89,7 +84,7 @@ public function setCallback($callback)
  * @param string $name
  * @return void
 */
-public function setName($name)
+public function name($name)
 {
 	$this->params['name'] = $name;
 }
@@ -101,7 +96,7 @@ public function setName($name)
  * @param string $method
  * @return void
 */
-public function setMethod($method='GET')
+public function method($method='GET')
 {
 	$this->params['method'] = $method;
 }
@@ -114,13 +109,13 @@ public function setMethod($method='GET')
  * @param string $key 
  * @return mixed
 */
-public function getParam($key='')
+public function param($key='')
 {
- if($this->hasParam($key))
- {
- 	return $this->params[$key];
- }
- return null;
+	 if($this->hasParam($key))
+	 {
+	 	return $this->params[$key];
+	 }
+	 return null;
 }
 
 
@@ -142,6 +137,24 @@ public function hasParam($key): bool
 public function parameters()
 {
 	return $this->params ?? [];
+}
+
+
+/**
+ * Prepare path
+ * @param string $path 
+ * @return string
+*/
+public function preparePath(string $path)
+{
+	 $path = trim($path, '/');
+	 if($this->hasOption('prefix.path'))
+	 {
+	 	  $prefix = $this->getOption('prefix.path');
+ 	  	  $path = sprintf('%s/%s', trim($prefix, '/'), $path);
+	 }
+
+	 return sprintf('^%s$', trim($path, '/'));
 }
 
 
@@ -180,17 +193,19 @@ public function getOption($parsed='')
 		$part = explode('.', $parsed);
 		$parent  = $part[0];
 		$result = null;
+
 	    if(array_key_exists($parent, $this->options))
 	    {
-	         $result = $this->options[$parent];
-	         foreach($part as $item)
-	         {
-             	 if(isset($result[$item]))
-                 {
+         	$result = $this->options[$parent];
+         	foreach($part as $item)
+         	{
+         	 	if(isset($result[$item]))
+             	{
          	        $result = $result[$item];
-                 }
-	         }
+             	}
+         	}
 	    }
+
         return $result;
 	}
 }
@@ -198,26 +213,28 @@ public function getOption($parsed='')
 
 
 /**
- * prepare callback
+ * prepare and map callback
  * @param mixed $callback 
+ * @param string $divider '@'
  * @return 
 */
-public function prepareCallback($callback)
+public function mapCallback($callback, $divider='@')
 {
   if(is_string($callback))
   {
-	 if(strpos($callback, '@') !== false)
+	 if(strpos($callback, $divider) !== false)
 	 {
 	      list($controller, $action) = 
-	      explode('@', $callback);
+	      explode($divider, $callback);
 	      $callback = [
 	         'controller' => $this->getController($controller),
 	         'action'     => $action
 	      ];
-	      $this->setCallback($callback);
+	      $this->callback($callback);
 	 }
   }
 }
+
 
 /**
 * Get controller if with or without prefix
@@ -235,6 +252,32 @@ public function getController($controller)
 }	
 
 
+/**
+* Add regex
+* @param mixed $param 
+* @param mixed $regex 
+* @return $this
+*/
+public function with($param, $regex = null)
+{
+     if(is_array($param) && is_null($regex))
+     {
+          foreach($param as $index => $exp)
+          {
+               # recursive
+               $this->with($index, $exp);
+          }
+
+     }else{
+         
+         $this->regex(
+         	$param, 
+         	str_replace('(', '(?:', $regex)
+         );
+     }
+     
+     return $this;
+}
 
 
 }
