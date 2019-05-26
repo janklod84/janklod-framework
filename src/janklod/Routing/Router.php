@@ -11,18 +11,16 @@ class Router
        
 
 /**
+ * @var array  $matches
+ * @var array  $routes
+ * @var array  $route
  * @var string $url
 */
-private $url;
-
-
-
-/**
- * @var array
- * @var mixed $route
-*/
+private $matches = [];
 private $routes = [];
 private $route;
+private $url;
+
 
 
 /**
@@ -83,20 +81,6 @@ public function run()
    debug($this->routes);
 }
 
-/**
- * Run routing
- * @return mixed
-*/
-public function dispatch($method='')
-{
-	$routes = $this->getRoutes($method);
-	foreach($routes as $route)
-	{
-         $this->route = $route;
-	}
-
-	return $this;
-}
 
 
 /**
@@ -104,7 +88,7 @@ public function dispatch($method='')
  * @param string $url 
  * @return bool
 */
-public function match()
+public function matched()
 {
     foreach($this->routes as $pattern => $route)
     {
@@ -125,6 +109,62 @@ public function dispatcher($callback, $matches=[])
 {
     return new Dispatcher($callback, $matches);
 }
+
+/**
+ * Determine if parsed url match current route
+ * @param string $url 
+ * @return bool
+*/
+public function match($url)
+{
+     $url   = trim($url, '/');
+     $path  = $this->replacePattern();
+     $regex = "#^$path$#i";
+
+     if(!preg_match($regex, $url, $matches))
+     {
+          return false;
+     }
+    
+     array_shift($matches);
+     $this->set('matches', $matches);
+     return true;
+}
+
+
+
+/**
+  * Return match param
+  * @param string $match 
+  * @return string 
+*/
+public function paramMatch($match)
+{
+     if(isset($this->regex[$match[1]]))
+     {
+          return '('. $this->regex[$match[1]] . ')';
+     }
+     return '([^/]+)';
+}
+
+
+
+/**
+ * Run routing
+ * @return mixed
+*/
+public function dispatch($method='')
+{
+	$routes = $this->getRoutes($method);
+	foreach($routes as $route)
+	{
+         $this->route = $route;
+	}
+
+	return $this;
+}
+
+
 
 
 }

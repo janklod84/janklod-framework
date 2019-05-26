@@ -167,7 +167,7 @@ public function preparePath(string $path)
  	  	  $path = sprintf('%s/%s', trim($prefix, '/'), $path);
 	 }
 
-	 return sprintf('^%s$', trim($path, '/'));
+	 return sprintf('#^%s$#i', trim($path, '/'));
 }
 
 
