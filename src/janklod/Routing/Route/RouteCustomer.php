@@ -145,37 +145,14 @@ public function parameters()
 }
 
 
-
-
 /**
-* Add name of route
+* Add named  route
 * @param string $name 
 * @return void
 */
 public function namedRoute($name)
 {
     self::$namedRoutes[$name] = $this;
-}
-
-
-/**
- * Before storage
- * @return void
-*/
-public function beforeStorage()
-{
- // Filter route
- if(is_string($this->getParam('callback'))
- 	&& $this->getParam('name') === null)
- {
-      $this->setName($this->getParam('callback'));
- }
-
- if($name = $this->getParam('name'))
- {
-      $this->namedRoute($name);
- }
- $this->prepareCallback();
 }
 
 
@@ -213,10 +190,9 @@ public function getOption($parsed='')
          	        $result = $result[$item];
                  }
 	         }
-	         return $result;
 	    }
+        return $result;
 	}
-
 }
 
 
@@ -226,14 +202,14 @@ public function getOption($parsed='')
  * @param mixed $callback 
  * @return 
 */
-public function prepareCallback()
+public function prepareCallback($callback)
 {
-  if(is_string($this->getParam('callback')))
+  if(is_string($callback))
   {
-	 if(strpos($this->getParam('callback'), '@') !== false)
+	 if(strpos($callback, '@') !== false)
 	 {
 	      list($controller, $action) = 
-	      explode('@', $this->getParam('callback'));
+	      explode('@', $callback);
 	      $callback = [
 	         'controller' => $this->getController($controller),
 	         'action'     => $action

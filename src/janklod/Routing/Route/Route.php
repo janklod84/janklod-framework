@@ -121,11 +121,20 @@ $method = 'GET'
      $route->setOption('prefix');
 
      
-     # do some actions before storage
-     if(method_exists($route, 'beforeStorage'))
+     # route filter
+     if(is_string($callback) && $name === null)
      {
-          $route->beforeStorage();
+          $route->setName($callback);
      }
+
+     if($name)
+     {
+         $route->namedRoute($name);
+     }
+
+     # prepare callback
+     $route->prepareCallback($callback);
+
 
      # store route by method
      RouteCollection::store($method, $route->parameters());
