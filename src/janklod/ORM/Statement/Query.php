@@ -219,7 +219,7 @@ $arguments = []
  * @param array $queries
  * @return mixed
 */
-public function multi($queries = [])
+public function many($queries = [])
 {
     try
     {   

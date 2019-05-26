@@ -42,9 +42,9 @@ private $headers = [];
  * @return void
 */
 public function __construct(
-    string $content = null, 
-    int $status = 200, 
-    array $headers = []
+string $content = '', 
+int $status = 200, 
+array $headers = []
 )
 {
   $this->content  = $content;
@@ -76,20 +76,26 @@ public function setBody(string $content = '')
 
 /**
  * set header
+ * Exemple:
+ * 
+ * $this->setHeader('Location: /admin');
+ * $this->setHeader('Location', 'site');
+ * $this->setHeader([
+ *   'Location1' => 'admin1',
+ *   'Location2' => 'admin2',
+ *  ]);
+ * 
  * @param string|array $header 
+ * @param mixed value
  * @return void
 */
-public function setHeader($header = null)
+public function setHeader($header = null, $value=null)
 {
- if(is_array($header))
- {
-     $this->headers = array_merge($this->headers, $header);
-
- }else{
-   
+    if($header && !is_null($value))
+    {
+         $header .= ': '. $value;
+    }
     array_push($this->headers, $header);
- }
-     
 }
 
 
@@ -118,14 +124,21 @@ public function withBody(string $content = null)
 
 /**
  * Return response with setted header
- * ->withHeader('Location: /to/dd')
- * ->withHeader(['Content: HtttpX1', 'Content: HtttpX2', 'Content: HtttpX3']);
+ * Exemple:
+ * $this->withHeader('Location: /to/dd')
+ * $this->withHeader(['Content: HtttpX1', 'Content: HtttpX2', 'Content: HtttpX3']);
+ * $this->withHeader('Location: /admin');
+ * $this->withHeader('Location', 'site');
+ * $this->withHeader([
+ *   'Location1' => 'admin1',
+ *   'Location2' => 'admin2',
+ *  ]);
  * @param string $header 
  * @return void
 */
-public function withHeader($header = null)
+public function withHeader($header = null, $value=null)
 {
-  $this->setHeader($header);
+  $this->setHeader($header, $value);
   return $this;
 }
 
@@ -179,11 +192,13 @@ public static function redirect(string $to = '/')
 /**
  * Set http header code
  * @param int $code 
+ * @param bool $exit
  * @return void
 */
-public function setCode(int $code)
+public function setCode(int $code, $exit=false)
 {
     http_response_code($code);
+    if($exit) exit;
 }
 
 
@@ -211,13 +226,21 @@ public function send()
  * Send all setted headers to server
  * @return void
 */
-private function sendHeaders()
+public function sendHeaders()
 {
     if(!empty($this->headers))
     {
         foreach($this->headers as $header)
         {
-            header($header); 
+             if(is_array($header))
+             {
+                foreach($header as $k => $v)
+                {
+                    header($k .': '.$v);
+                }
+             }else{
+                 header($header);
+             }  
         }
     }
 }
@@ -227,7 +250,7 @@ private function sendHeaders()
  * Send body to server
  * @return void
 */
-private function sendBody()
+public function sendBody()
 {
     echo $this->content;
 }

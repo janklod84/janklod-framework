@@ -202,6 +202,55 @@ public function isMethod($type='get'): bool
 }
 
 
+
+/**
+ * Determine if is POST request
+ * @return bool
+*/
+public function isPost()
+{
+     return $this->isMethod('post');
+}
+
+
+/**
+ * Determine if is PATCH request
+ * @return bool
+*/
+public function isPatch()
+{
+     return $this->isMethod('patch');
+}
+
+
+/**
+ * Determine if is PUT request
+ * @return bool
+*/
+public function isPut()
+{
+     return $this->isMethod('put');
+}
+
+
+/**
+ * Determine if is OPTIONS request
+ * @return bool
+*/
+public function isOptions()
+{
+     return $this->isMethod('options');
+}
+
+
+/**
+ * Determine if is an XHR request
+ * @return bool
+*/
+public function isXhr() {}
+
+
+
 /**
 * Get Base Url
 * @param bool $uri

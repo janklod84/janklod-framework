@@ -72,6 +72,16 @@ private static function connect()
           Config::get('database.password'),
           Config::get('database.options')
     );
+    
+    /*
+    $driver = Config::get('database.driver');
+    if($driver === '')
+    {
+       die('Error driver');
+    }
+
+    call_user_func([$this, $driver]);
+    */
 }
 
 
@@ -109,5 +119,17 @@ public static function instance()
      return self::$instance;
 }
 
-     
+
+public function mysql()
+{
+    return new \JK\Drivers\MySQL('mysql', []);
+}
+
+
+public function sqlite()
+{
+    return new \JK\Drivers\SQLite('sqlite', []);
+}
+
+
 }

@@ -68,6 +68,7 @@ private function __construct($root)
 */
 public function run()
 {
+   /*
    $pdo = \JK\Database\DB::instance();
    \JK\ORM\QQ::setup($pdo, 'users');
    $selects = [
@@ -97,9 +98,10 @@ public function run()
    */
 
    // $router = $this->router->run();
+
    
-   debug(Config::all());
-   debug(Config::files());
+   // debug(Config::all());
+   // debug(Config::files());
 }
 
 
