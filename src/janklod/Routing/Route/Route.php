@@ -103,7 +103,7 @@ public static function url(string $name, array $params = [])
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteObject
+* @return RouteCustomer
 */
 public static function add(
 $path, 
