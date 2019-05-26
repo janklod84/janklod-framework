@@ -94,9 +94,9 @@ public static function group($options = [], \Closure $callback)
 public static function prefix($options = [], \Closure $callback)
 {  
     self::$options['prefix'] = $options;
-    self::group(self::$options, $callback);
+    call_user_func($callback); 
+    self::$options['prefix'] = [];
 }
-
 
 
 /**

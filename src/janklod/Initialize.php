@@ -67,7 +67,11 @@ public static function providers($app)
 */
 public static function functions($functions=[])
 {
-    self::$functions = array_merge(Definition::CONFIG['functions'], self::$functions);
+    self::$functions = array_merge(
+      Definition::CONFIG['functions'], 
+      self::$functions
+    );
+    
     foreach(self::$functions as $function)
     {
           $functionPath = $function;
