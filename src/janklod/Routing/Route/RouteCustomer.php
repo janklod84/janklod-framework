@@ -250,7 +250,7 @@ public function prepareCallback()
 */
 public function getController($controller)
 {
- 	if($this->hasPrefix('controller'))
+ 	if($this->hasOption('prefix.controller'))
  	{
  		$prefix = $this->getOption('prefix.controller');
         $controller = $prefix.'\\'. $controller; 
