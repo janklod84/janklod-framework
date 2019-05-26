@@ -17,7 +17,7 @@ class Router
  * @var string $url
 */
 private $matches = [];
-private $routes = [];
+private $routes  = [];
 private $route;
 private $url;
 
@@ -30,7 +30,7 @@ private $url;
 */
 public function __construct($url = '')
 {
-      $this->url = trim($url, '/');
+      $this->setUrl($url);
 }
 
 
@@ -43,6 +43,18 @@ public function addRoute($routes=[])
 {
      $this->routes = $routes;
 }
+
+
+/**
+ * Set Url
+ * @param string $url
+ * @return void
+*/
+public function setUrl($url)
+{
+     $this->url = trim($url, '/');
+}
+
 
 
 /**
