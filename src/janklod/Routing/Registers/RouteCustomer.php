@@ -49,13 +49,13 @@ public function setPath($path)
 */
 public function preparePath($path)
 {
-	 $path = trim($path, '/');
-	 if($prefix = $this->getOption('prefix.path'))
-	 {
-	 	  $path = trim($prefix, '/').'/'. $path;
-	 }
+ $path = trim($path, '/');
+ if($prefix = $this->getOption('prefix.path'))
+ {
+ 	  $path = trim($prefix, '/').'/'. $path;
+ }
 
-	 return sprintf('^%s$', trim($path, '/'));
+ return sprintf('^%s$', trim($path, '/'));
 }
 
 
@@ -99,7 +99,7 @@ public function setName($name)
  * @param string $method
  * @return void
 */
-public function setMethod($method)
+public function setMethod($method='GET')
 {
 	$this->params['method'] = $method;
 }
@@ -114,11 +114,11 @@ public function setMethod($method)
 */
 public function getParam($key='')
 {
- 	 if($this->hasParam($key))
- 	 {
- 	 	return $this->params[$key];
- 	 }
- 	 return null;
+ if($this->hasParam($key))
+ {
+ 	return $this->params[$key];
+ }
+ return null;
 }
 
 
@@ -162,18 +162,18 @@ public function namedRoute($name)
 */
 public function beforeStorage()
 {
-	 // Filter route
-	 if(is_string($this->getParam('callback'))
-	 	&& $this->getParam('name') === null)
-	 {
-        $this->setName($this->getParam('callback'));
-	 }
+ // Filter route
+ if(is_string($this->getParam('callback'))
+ 	&& $this->getParam('name') === null)
+ {
+      $this->setName($this->getParam('callback'));
+ }
 
-	 if($name = $this->getParam('name'))
-	 {
-          $this->namedRoute($name);
-	 }
-     $this->prepareCallback();
+ if($name = $this->getParam('name'))
+ {
+      $this->namedRoute($name);
+ }
+ $this->prepareCallback();
 }
 
 
@@ -184,24 +184,25 @@ public function beforeStorage()
 */
 public function getOption($parsed='')
 {
-    if($parsed)
-    {
-    	$part = explode('.', $parsed);
-    	$key  = $part[0];
-        if(array_key_exists($key, $this->options))
-        {
-             $result = $this->options[$key];
-             foreach($part as $item)
-             {
-                  if(isset($result[$item]))
-                  {
-                  	 $result = $result[$item];
-                  }
-             }
+	if($parsed)
+	{
+		$part = explode('.', $parsed);
+		$key  = $part[0];
+	    if(array_key_exists($key, $this->options))
+	    {
+	         $result = $this->options[$key];
+	         foreach($part as $item)
+	         {
+	              if(isset($result[$item]))
+	              {
+	              	 $result = $result[$item];
+	              }
+	         }
 
-             return $result;
-        }
-    }
+	         return $result;
+	    }
+	}
+
 }
 
 
@@ -213,18 +214,19 @@ public function getOption($parsed='')
 */
 public function prepareCallback()
 {
-	if(is_string($this->getParam('callback'))
-       && strpos($this->getParam('callback'), '@') !== false
-     )
-	{
-		      list($controller, $action) = 
-		      explode('@', $this->getParam('callback'));
-		      $callback = [
-                 'controller' => $this->getController($controller),
-                 'action'     => $action
-		      ];
-		      $this->setCallback($callback);
-	}
+  if(is_string($this->getParam('callback')))
+  {
+	 if(strpos($this->getParam('callback'), '@') !== false)
+	 {
+	      list($controller, $action) = 
+	      explode('@', $this->getParam('callback'));
+	      $callback = [
+	         'controller' => $this->getController($controller),
+	         'action'     => $action
+	      ];
+	      $this->setCallback($callback);
+	 }
+  }
 }
 
 /**
@@ -234,11 +236,11 @@ public function prepareCallback()
 */
 public function getController($controller)
 {
-	 if($prefix = $this->getOption('prefix.controller'))
-     {
- 	     $controller = $prefix.'\\'. $controller; 
-     }
-     return $controller;
+ 	if($prefix = $this->getOption('prefix.controller'))
+ 	{
+        $controller = $prefix.'\\'. $controller; 
+ 	}
+ 	return $controller;
 }	
 
 
