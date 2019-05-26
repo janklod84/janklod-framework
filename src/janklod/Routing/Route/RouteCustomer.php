@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Routing\Registers;
+namespace JK\Routing\Route;
 
 
 /**
  * Route Handler
- * @package JK\Routing\Registers\RouteCustomer
+ * @package JK\Routing\Route\RouteCustomer
 */ 
 class RouteCustomer
 {
@@ -47,16 +47,18 @@ public function setPath($path)
  * @param string $path 
  * @return string
 */
-public function preparePath($path)
+public function preparePath(string $path)
 {
- $path = trim($path, '/');
- if($prefix = $this->getOption('prefix.path'))
- {
- 	  $path = trim($prefix, '/').'/'. $path;
- }
+	 $path = trim($path, '/');
+	 if($this->hasOption('prefix.path'))
+	 {
+	 	  $prefix = $this->getOption('prefix.path');
+ 	  	  $path = trim($prefix, '/').'/'. $path;
+	 }
 
- return sprintf('^%s$', trim($path, '/'));
+	 return sprintf('^%s$', trim($path, '/'));
 }
+
 
 
 /**
@@ -178,6 +180,18 @@ public function beforeStorage()
 
 
 /**
+ * Determine if has option
+ * @param string $parsed 
+ * @return bool
+*/
+public function hasOption($parsed='')
+{
+    $part = explode('.', $parsed);
+    return ! empty($this->options[$part[0]][$part[1]]);
+}
+
+
+/**
 * Get option
 * @param string $parsed 
 * @return mixed
@@ -187,18 +201,18 @@ public function getOption($parsed='')
 	if($parsed)
 	{
 		$part = explode('.', $parsed);
-		$key  = $part[0];
-	    if(array_key_exists($key, $this->options))
+		$parent  = $part[0];
+		$result = null;
+	    if(array_key_exists($parent, $this->options))
 	    {
-	         $result = $this->options[$key];
+	         $result = $this->options[$parent];
 	         foreach($part as $item)
 	         {
-	              if(isset($result[$item]))
-	              {
-	              	 $result = $result[$item];
-	              }
+             	 if(isset($result[$item]))
+                 {
+         	        $result = $result[$item];
+                 }
 	         }
-
 	         return $result;
 	    }
 	}
@@ -236,8 +250,9 @@ public function prepareCallback()
 */
 public function getController($controller)
 {
- 	if($prefix = $this->getOption('prefix.controller'))
+ 	if($this->hasPrefix('controller'))
  	{
+ 		$prefix = $this->getOption('prefix.controller');
         $controller = $prefix.'\\'. $controller; 
  	}
  	return $controller;
