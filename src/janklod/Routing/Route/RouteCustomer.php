@@ -243,12 +243,12 @@ public function mapCallback($callback, $divider='@')
 */
 public function getController($controller)
 {
-    if($this->hasOption('prefix.controller'))
-	{
-	  $prefix = $this->getOption('prefix.controller');
-      $controller = $prefix.'\\'. $controller; 
-	}
-	return $controller;
+if($this->hasOption('prefix.controller'))
+{
+   $prefix = $this->getOption('prefix.controller');
+   $controller = $prefix.'\\'. $controller; 
+}
+return $controller;
 }	
 
 
