@@ -31,6 +31,19 @@ public function __construct($options=[])
 }
 
 
+
+/**
+ * Set param item
+ * @param string $key 
+ * @param mixed $value 
+ * @return void
+*/
+public function setParam($key, $value)
+{
+	 $this->param[$key] = $value;
+}
+
+
 /**
  * Set path param
  * @param string $path
@@ -243,12 +256,12 @@ public function mapCallback($callback, $divider='@')
 */
 public function getController($controller)
 {
-if($this->hasOption('prefix.controller'))
-{
-   $prefix = $this->getOption('prefix.controller');
-   $controller = $prefix.'\\'. $controller; 
-}
-return $controller;
+  if($this->hasOption('prefix.controller'))
+  {
+    $prefix = $this->getOption('prefix.controller');
+    $controller = $prefix.'\\'. $controller; 
+  }
+  return $controller;
 }	
 
 
@@ -277,6 +290,42 @@ public function with($param, $regex = null)
 	 }
 	 
 	 return $this;
+}
+
+
+/**
+ * Get Url
+ * @param type $name 
+ * @param type|array $params 
+ * @return type
+*/
+public static function url($name, $params = [])
+{
+     if(!isset(self::$namedRoutes[$name]))
+     {
+           return false;
+     }
+
+     return self::$namedRoutes[$name]->getUrl($params);
+}
+
+
+
+
+/**
+  * Get Url
+  * @param array $params 
+  * @return string
+*/
+private function getUrl($params)
+{
+    $path = $this->param('path');
+
+    foreach($params as $k => $v)
+    {
+        $path = str_replace(":$k", $v, $path);
+    } 
+    return $path;
 }
 
 

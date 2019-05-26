@@ -7,5 +7,5 @@ $posts = [
 
 debug($posts);
 
-echo base_url().'/admin'; // http://project.loc
+echo base_url().'/admin'; 
  
