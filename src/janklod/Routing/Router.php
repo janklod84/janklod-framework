@@ -61,7 +61,7 @@ public function setUrl($url)
  * Get routes
  * @return array
 */
-public function getRoutes($method='')
+public function routes($method='')
 {
 	if($method !== '')
 	{
@@ -81,7 +81,7 @@ public function getRoutes($method='')
  * Run routing
  * @return mixed
 */
-public function getRoute()
+public function route()
 {
     return $this->route;
 }
@@ -123,7 +123,7 @@ public function dispatch($method='')
  * @param string $url 
  * @return bool
 */
-public function matched()
+public function isMatched()
 {
     foreach($this->routes as $pattern => $route)
     {
@@ -142,9 +142,9 @@ public function matched()
  * @param string $url 
  * @return bool
 */
-public function match($url)
+public function match($url='')
 {
-     $url   = trim($url, '/');
+     $url   = $url ?: $this->url;
      $path  = $this->replacePattern();
      $regex = "#^$path$#i";
 
@@ -173,6 +173,27 @@ public function paramMatch($match)
      }
      return '([^/]+)';
 }
+
+
+/**
+  * Replace param in path
+  * 
+  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+  * 
+  * @param string $replace 
+  * @param callable $callback 
+  * @return string
+*/
+ private function replacePattern()
+ {
+      return preg_replace_callback(
+                     '#:([\w]+)#', 
+                     [$this, 'paramMatch'], 
+                     $this->get('path')
+            );
+ }
+
+
 
 
 
