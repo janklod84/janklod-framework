@@ -14,32 +14,61 @@ class RouteCustomer
  * @var array  $params [ Route params ]
  * @var array  $namedRoutes [ Named Routes ]
 */ 
-private $regex = [];
-private $params = [];
+private $regex   = [];
+private $params  = [];
+private $options = [];
 private static $namedRoutes = [];
 
 
 /**
- * Set Path
+ * Constructor
+ * @param array $options
+ * @return void
+*/
+public function __construct($options=[])
+{
+	 $this->options = $options;
+}
+
+
+/**
+ * Set path param
  * @param string $path
  * @return void
 */
 public function setPath($path)
 {
-    $this->params['path'] = 
-    $this->preparePath($path);
+	$this->params['path'] = $this->preparePath($path);
 }
 
 
 /**
- * Set Path
+ * Prepare path
+ * @param string $path 
+ * @return string
+*/
+public function preparePath($path)
+{
+	 $path = trim($path, '/');
+	 if($prefix = $this->getOption('prefix.path'))
+	 {
+	 	  $path = trim($prefix, '/').'/'. $path;
+	 }
+
+	 return sprintf('^%s$', trim($path, '/'));
+}
+
+
+/**
+ * add option in params
  * @param string $path
  * @return void
 */
-public function getPath()
+public function setOption($key)
 {
-    return $this->params['path'];
+	$this->params[$key] = $this->getOption($key);
 }
+
 
 /**
  * Set callback
@@ -48,53 +77,34 @@ public function getPath()
 */
 public function setCallback($callback)
 {
-    $this->params['callback'] = $callback;
-}
-
-
-/**
- * get Path
- * @param string $path
- * @return void
-*/
-public function getCallback()
-{
-    return $this->params['path'];
+	$this->params['callback'] = $callback;
 }
 
 
 
 /**
- * Set Name
+ * Set name 
  * @param string $name
  * @return void
 */
 public function setName($name)
 {
-    $this->params['name'] = $name;
+	$this->params['name'] = $name;
 }
 
 
+
 /**
- * Set method
+ * Set method 
  * @param string $method
  * @return void
 */
 public function setMethod($method)
 {
-    $this->params['method'] = $method;
+	$this->params['method'] = $method;
 }
 
 
-/**
- * Set prefix
- * @param string $prefix
- * @return void
-*/
-public function setPrefix($prefix)
-{
-    $this->params['prefix'] = $prefix;
-}
 
 
 /**
@@ -102,13 +112,13 @@ public function setPrefix($prefix)
  * @param string $key 
  * @return mixed
 */
-public function get($key)
+public function getParam($key='')
 {
-    if($this->hasParam($key))
-    {
-    	 return $this->params[$key];
-    }
-    return null;
+ 	 if($this->hasParam($key))
+ 	 {
+ 	 	return $this->params[$key];
+ 	 }
+ 	 return null;
 }
 
 
@@ -122,6 +132,7 @@ public function hasParam($key): bool
 	return isset($this->params[$key]);
 }
 
+
 /**
  * Get route parameters
  * @return array
@@ -132,27 +143,6 @@ public function parameters()
 }
 
 
-/**
- * Before storage
- * @return void
-*/
-public function beforeStorage()
-{
-	 if(is_string($this->get('callback'))
-	 	&& $this->get('name') === null)
-	 {
-          $this->setName(
-          	 $this->get('callback')
-          );
-	 }
-
-	 if($name = $this->get('name'))
-	 {
-         $this->addNamedRoute($name);
-	 }
-
-	 $this->prepareCallback();
-}
 
 
 /**
@@ -160,42 +150,98 @@ public function beforeStorage()
 * @param string $name 
 * @return void
 */
-public function addNamedRoute($name)
+public function namedRoute($name)
 {
     self::$namedRoutes[$name] = $this;
 }
 
+
 /**
- * Prepare path
- * @param string $path 
- * @return string
+ * Before storage
+ * @return void
 */
-private function preparePath($path)
+public function beforeStorage()
 {
-   return sprintf('^%s$', trim($path, '/'));
+	 // Filter route
+	 if(is_string($this->getParam('callback'))
+	 	&& $this->getParam('name') === null)
+	 {
+        $this->setName($this->getParam('callback'));
+	 }
+
+	 if($name = $this->getParam('name'))
+	 {
+          $this->namedRoute($name);
+	 }
+     $this->prepareCallback();
 }
+
+
+/**
+* Get option
+* @param string $parsed 
+* @return mixed
+*/
+public function getOption($parsed='')
+{
+    if($parsed)
+    {
+    	$part = explode('.', $parsed);
+    	$key  = $part[0];
+        if(array_key_exists($key, $this->options))
+        {
+             $result = $this->options[$key];
+             foreach($part as $item)
+             {
+                  if(isset($result[$item]))
+                  {
+                  	 $result = $result[$item];
+                  }
+             }
+
+             return $result;
+        }
+    }
+}
+
+
 
 /**
  * prepare callback
  * @param mixed $callback 
  * @return 
 */
-private function prepareCallback()
+public function prepareCallback()
 {
-	$callback = $this->get('callback');
-	if(is_string($this->get('callback')))
+	if(is_string($this->getParam('callback'))
+       && strpos($this->getParam('callback'), '@') !== false
+     )
 	{
-		 if(strpos($this->get('callback'), '@') !== false)
-	     {
-		      list($controller, $action) = explode('@', $this->get('callback'));
+		      list($controller, $action) = 
+		      explode('@', $this->getParam('callback'));
 		      $callback = [
-                 'controller' => $controller,
+                 'controller' => $this->getController($controller),
                  'action'     => $action
 		      ];
-	     }
+		      $this->setCallback($callback);
 	}
-    $this->setCallback($callback);
 }
+
+/**
+* Get controller if with or without prefix
+* @param string $controller 
+* @return string
+*/
+public function getController($controller)
+{
+	 if($prefix = $this->getOption('prefix.controller'))
+     {
+ 	     $controller = $prefix.'\\'. $controller; 
+     }
+     return $controller;
+}	
+
+
 
 
 }

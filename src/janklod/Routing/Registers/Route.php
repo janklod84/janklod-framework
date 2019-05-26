@@ -23,9 +23,9 @@ private static $options = [];
 * @return RouteCustomer
 */
 public static function get(
-	string $path, 
-	$callback, 
-  string $name = null
+string $path, 
+$callback, 
+string $name = null
 )
 {
     return self::add($path, $callback, $name, 'GET');
@@ -40,8 +40,8 @@ public static function get(
 * @return RouteCustomer
 */
 public static function post(
-	string $path, 
-	$callback, 
+string $path, 
+$callback, 
   string $name = null
 )
 {
@@ -73,7 +73,7 @@ public static function package(string $path, string $controller)
 * Add routes group
 * 
 * @param array $options
-* @param Closure $callback
+* @param \Closure $callback
 * @return void
 */
 public static function group($options = [], \Closure $callback)
@@ -92,7 +92,7 @@ public static function group($options = [], \Closure $callback)
 */
 public static function url(string $name, array $params = [])
 {
-       return RouteCustomer::url($name, $params);
+    return RouteCustomer::url($name, $params);
 }
 
 
@@ -112,16 +112,14 @@ $name = null,
 $method = 'GET'
 )
 {
-     # get prefix param
-     $prefix = self::getOption('prefix');
-
      # route custom
-     $route = new RouteCustomer();
+     $route = new RouteCustomer(self::$options);
      $route->setPath($path);
      $route->setCallback($callback);
      $route->setName($name);
      $route->setMethod($method);
-     $route->setPrefix($prefix);
+     $route->setOption('prefix');
+
      
      # do some actions before storage
      if(method_exists($route, 'beforeStorage'))
@@ -134,16 +132,6 @@ $method = 'GET'
      return $route;
 }
 
-
-/**
-* Get option
-* @param string $key 
-* @return mixed
-*/
-protected static function getOption($key)
-{
-    return self::$options[$key] ?? '';
-}
 
 
 

@@ -8,15 +8,25 @@
 
 # SITE
 
-Route::get('/', 'HomeController@index', 'welcome.page');
-Route::get('/about', 'HomeController@about');
-Route::get('/contact', 'HomeController@contact');
-Route::post('/contact', 'HomeController@contact');
+$options = [
+	'prefix' => [
+	  'path' => '/admin',
+	  'controller' => 'admin'
+	]
+];
+
+Route::group($options, function () {
+    Route::get('/', 'HomeController@index', 'welcome.page');
+    Route::get('/about', 'HomeController@about');
+    Route::get('/contact', 'HomeController@contact');
+    Route::post('/contact', 'HomeController@contact');
+});
 
 
 Route::get('/me', [
    'controller' => 'HomeController',
-   'action' => 'me'
+   'action' => 'me', 
+   'fromArray' => 'Jean-Claude'
 ]);
 
 
@@ -24,12 +34,3 @@ Route::get('/test', function () {
     echo 'Привет друзья!';
 }, 'test.page');
 
-
-
-Route::get('/admin', function () {
-    echo 'Привет админ';
-});
-
-Route::post('/admin/contact', function () {
-    echo 'Contact admin';
-});
