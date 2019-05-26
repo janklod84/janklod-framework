@@ -189,7 +189,7 @@ public function is($key='xxx'): bool
 
 
 /**
-* Determine type of method [ GET, POST, PUT, PUTCH]
+* Determine type of method [ GET, POST, PUT, PATCH...]
 * @param string $type 
 * @return bool
 */

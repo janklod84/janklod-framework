@@ -115,6 +115,6 @@ $app->file->call('routes/app.php');
 */
 
 $app->router->addRoute(
-	\JK\Routing\RH\RouteCollection::all()
+	\JK\Routing\Registers\RouteCollection::all()
 );
 

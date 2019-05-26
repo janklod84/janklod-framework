@@ -78,6 +78,11 @@ public function getRoute()
 
 
 
+public function run()
+{
+   debug($this->routes);
+}
+
 /**
  * Run routing
  * @return mixed

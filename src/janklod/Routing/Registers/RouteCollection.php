@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Routing\RH;
+namespace JK\Routing\Registers;
 
 
 
 /**
- * @package JK\Routing\RH\RouteCollection
+ * @package JK\Routing\Registers\RouteCollection
 */ 
 class RouteCollection 
 {
@@ -17,13 +17,13 @@ private static $routes = [];
 
 /**
  * Add collection route
- * @param mixed $route
- * @param string $key 
+ * @param string $key
+ * @param mixed $route 
  * @return void
 */
 public static function store($key, $route)
 {
- 	self::$routes[$key] = $route;
+ 	self::$routes[$key][] = $route;
 }
 
 

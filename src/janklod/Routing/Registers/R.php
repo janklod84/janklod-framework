@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Routing\RH;
+namespace JK\Routing\Registers;
 
 
 /**
- * @package JK\Routing\RH\Route 
+ * @package JK\Routing\Registers\Route 
 */ 
 class Route 
 {
@@ -117,6 +117,12 @@ $method = 'GET'
      $params = compact('path', 'callback', 'name', 'method', 'prefix');
      $route = new RouteCustomer($params);
      
+     # do some actions before storage
+     if(method_exists($route, 'beforeStorage'))
+     {
+          $route->beforeStorage();
+     }
+
      # store route
      RouteCollection::store($method, $route->parameters());
      return $route;

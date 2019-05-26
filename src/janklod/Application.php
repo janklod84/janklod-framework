@@ -2,8 +2,7 @@
 namespace JK;
 
 
-use JK\FileSystem\File;
-use JK\DI\ContainerBuilder;
+
 use JK\Helper\MicroTimer;
 use JK\Config\Config;
 
@@ -33,16 +32,10 @@ private $containerBuilder;
 
 /**
  * Container Dependency Injection Interface
- * @var $app JK\Container\ContainerInterface
+ * @var  JK\Container\ContainerInterface $app
 */
 private $app;
 
-
-
-/**
- * @var string $root [ root of Application ]
-*/
-private $root;
 
 
 
@@ -54,10 +47,9 @@ private $root;
 */
 private function __construct($root)
 {
-     $this->root = $root;
-     $this->containerBuilder = new ContainerBuilder();
+     $this->containerBuilder = new \JK\DI\ContainerBuilder();
      $this->app = $this->getContainer();
-     $this->bind('file', new File($root));
+     $this->bind('file', new \JK\FileSystem\File($root));
      Config::basePath($root.'app/config');
 }
 
@@ -68,40 +60,8 @@ private function __construct($root)
 */
 public function run()
 {
-   /*
-   $pdo = \JK\Database\DB::instance();
-   \JK\ORM\QQ::setup($pdo, 'users');
-   $selects = [
-     'username', 'password', 'role'
-   ];
-   echo \JK\ORM\QQ::select($selects)
-                  ->from('orders') // for exemple
-                  ->where('id', 3)
-                  ->orderBy('username');
-   
-   echo '<br/>';
-   echo \JK\ORM\QQ::select($selects)
-                  ->where('address', 'city');
-   
-   
-
-   /*
-   $posts = [
-      'name' => 'Jean Claude',
-      'username' => 'Brown',
-      'password' => 'xxxx'
-   ];   
-
-   debug($posts);
-
-   echo base_url().'/admin'; // http://project.loc
-   */
-
-   // $router = $this->router->run();
-
-   
-   // debug(Config::all());
-   // debug(Config::files());
+  
+   $this->router->run();
 }
 
 

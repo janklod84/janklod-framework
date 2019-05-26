@@ -23,7 +23,7 @@ const CONFIG = [
 */
 ],
 'alias' => [
- 'Route'    => 'JK\\Routing\\RH\\Route',
+ 'Route'    => 'JK\\Routing\\Registers\\Route',
  'Asset'    => 'JK\\Template\\Asset',
  'HTML'     => 'JK\\Template\\HTML', 
  'Config'   => 'JK\\Config\\Config',
