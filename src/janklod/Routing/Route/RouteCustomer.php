@@ -14,7 +14,7 @@ class RouteCustomer
  * @var array  $params [ Route params ]
  * @var array  $namedRoutes [ Named Routes ]
 */ 
-private $regex   = [];
+// private $regex   = [];
 private $params  = [];
 private $options = [];
 private static $namedRoutes = [];
@@ -65,7 +65,8 @@ public function path($path)
 */
 public function regex($param, $regex)
 {
-	$this->regex[$param] = $regex;
+	// $this->regex[$param] = $regex;
+	$this->param[$param] = $regex;
 }
 
 

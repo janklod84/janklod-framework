@@ -87,10 +87,33 @@ public function getRoute()
 }
 
 
+/**
+ * Run routing
+ * @return mixed
+*/
+public function dispatched($method='')
+{
+  $routes = $this->getRoutes($method);
+  foreach($routes as $route)
+  {
+         $this->route = $route;
+  }
 
-public function run()
+  return $this;
+}
+
+
+
+/**
+ * Dispatcher routes
+ * @param string $method 
+ * @return \JK\Routing\Dispatcher
+*/
+public function dispatch($method='')
 {
    debug($this->routes);
+
+   /* return new Dispatcher($callback, $matches); */
 }
 
 
@@ -113,14 +136,6 @@ public function matched()
     }
 }
 
-
-/**
- * @return 
-*/
-public function dispatcher($callback, $matches=[])
-{
-    return new Dispatcher($callback, $matches);
-}
 
 /**
  * Determine if parsed url match current route
@@ -158,24 +173,6 @@ public function paramMatch($match)
      }
      return '([^/]+)';
 }
-
-
-
-/**
- * Run routing
- * @return mixed
-*/
-public function dispatch($method='')
-{
-	$routes = $this->getRoutes($method);
-	foreach($routes as $route)
-	{
-         $this->route = $route;
-	}
-
-	return $this;
-}
-
 
 
 

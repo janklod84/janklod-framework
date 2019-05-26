@@ -60,8 +60,7 @@ private function __construct($root)
 */
 public function run()
 {
-  
-   $this->router->run();
+     $this->router->dispatch();
 }
 
 
