@@ -69,7 +69,8 @@ public static function providers($app)
 */
 public static function functions(string $parsed=null)
 {
-    $parsed = $parsed ?: __DIR__.'/Functions/*';
+    $parsed  = $parsed ?: __DIR__.'/Functions/';
+    $parsed .= '/*';
     foreach(glob($parsed) as $functionPath)
     {
            if(is_file($functionPath))
@@ -78,7 +79,10 @@ public static function functions(string $parsed=null)
                 {
                      if($path = realpath($functionPath))
                      {
-                         array_push(self::$functions, $functionPath);
+                         array_push(
+                          self::$functions, 
+                          $functionPath
+                         );
                          require_once($path);
                      }
                 }   
@@ -87,14 +91,6 @@ public static function functions(string $parsed=null)
 
 }
 
-
-public static function d($arr, $die=false)
-{
-  echo '<pre>';
-  print_r($arr);
-  echo '</pre>';
-  if($die) die;
-}
 
 /**
  * Merge data

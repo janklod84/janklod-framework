@@ -61,18 +61,8 @@ private function __construct($root)
 public function run()
 {
      
-      session()->put('jean4', 'Brown');
-      session()->put('jean1', 'Brown2');
-      session()->put('jean3', 'Brown4');
-      session()->put('test', 'Brown6');
-     
-      echo session()->get('jean1');
-     // session()->remove('user1');
-     // echo '<h4>Sessions</h4>';
-     debug(session()->all());
-
      echo '<h4>Routes</h4>';
-     //$this->router->dispatch();
+     $this->router->dispatch();
 }
 
 
