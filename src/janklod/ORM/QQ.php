@@ -102,11 +102,20 @@ $password='',
 $options=[]
 ): \PDO
 {
-    if(is_null(self::$connection))
+
+    try
     {
-         self::$connection = new PDO($dsn, $user, $password, $options);
+          if(is_null(self::$connection))
+          {
+               self::$connection = new PDO($dsn, $user, $password, $options);
+          }
+          self::setup(self::$connection);     
+
+    }catch(\PDOException $e){
+
+        throw new \Exception($e->getMessage(), 404);
+        
     }
-    return self::$connection;
 }
 
 
@@ -339,7 +348,17 @@ public function update($params=[], $value, $field='id')
 */
 public function store()
 {
-   
+     // get columns 
+    // and determine if has id 
+    // or determine if isset property
+    // if isset we will be update otherwise we'll create new record
+}
+
+
+// 
+private function isNewRecord()
+{
+
 }
 
 

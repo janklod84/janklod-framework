@@ -13,9 +13,10 @@ abstract class Model
 
   /**
    * Constructor
+   * @param \JK\Container\ContainerInterface $app
    * @return void
   */
-  public function __construct()
+  public function __construct($app=null)
   {
       $db = DB::instance();
       QQ::setup($db);

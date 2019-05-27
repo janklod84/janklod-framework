@@ -58,6 +58,16 @@ public function setUrl($url)
 
 
 /**
+ * Get url
+ * @return string
+*/
+public function url()
+{
+   return $this->url;
+}
+
+
+/**
  * Get routes
  * @return array
 */
@@ -65,15 +75,15 @@ public function routes($method='')
 {
 	if($method !== '')
 	{
-		if(!isset($this->routes[$method]))
-		{
-			 exit(
-			 	sprintf('Method <strong>%s</strong> does not match!', $method)
-			 );
-		}
-		return $this->routes[$method];
-	}
-    return $this->routes;
+  		if(!isset($this->routes[$method]))
+  		{
+  			 exit(
+  			 	sprintf('Method <strong>%s</strong> does not match!', $method)
+  			 );
+  		}
+		  return $this->routes[$method];
+	 }
+   return $this->routes;
 }
 
 
@@ -93,13 +103,7 @@ public function route()
 */
 public function dispatched($method='')
 {
-  $routes = $this->getRoutes($method);
-  foreach($routes as $route)
-  {
-         $this->route = $route;
-  }
-
-  return $this;
+   // return $this->getRoutes($method);
 }
 
 
@@ -125,14 +129,17 @@ public function dispatch($method='')
 */
 public function isMatched()
 {
-    foreach($this->routes as $pattern => $route)
+    foreach($this->routes as $route)
     {
-	  if(!preg_match($this->url, $route['path'], $matches))
-      {
-	        return false;
-      }
-
-      return true;
+	      if(!preg_match($this->url, $route['path'], $matches))
+        {
+	            return false;
+        }
+        
+        array_shift($matches);
+        $this->matches = $matches;
+        $this->route   = $route;
+        return true;
     }
 }
 

@@ -60,8 +60,20 @@ private function __construct($root)
 */
 public function run()
 {
+     $session = $this->request->session();
+     $session->put('jean', 'Brown');
+     $session->put('user1', 'Brown1');
+     $session->put('user2', 'Brown2');
+     
+     echo $session->get('jean');
+     $session->remove('user1');
+     echo '<h4>Sessions</h4>';
+     debug($session->all());
+
+     echo '<h4>Routes</h4>';
      $this->router->dispatch();
 }
+
 
 
 
@@ -235,6 +247,20 @@ public function loadProviders()
 }
 
 
+/**
+ * 
+ * @param RequestInterface $request 
+ * @param Response $response 
+ * @return type
+ */
+public function terminate(
+RequestInterface $request, 
+Response $response
+)
+{
+     //
+}
+
 
 /**
 * Show development microtimer
@@ -262,18 +288,6 @@ private function __clone(){}
 * prevent instance from being unserialized
 */
 private function __wakeup(){}
-
-
-
-
-/**
- * Close application
- * @return void
-*/
-public function terminate()
-{
-     $this->microtimer();
-}
 
 
 }
