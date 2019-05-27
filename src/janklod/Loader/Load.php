@@ -12,6 +12,8 @@ class Load
    * @var \JK\Container\ContainerInterface
   */
   private $app;
+  private $controller;
+
 
 
  /**
@@ -83,45 +85,64 @@ class Load
   * @param \JK\Container\ContainerInterface $app
   * @return mixed
  */
- public function callAction($callback, $action, $matches=[])
+ public function callAction($callback, $matches=[])
  {
         if(is_array($callback))
         {
-             $controllerObj = $this->getController($app);
+             $this->controller = $this->getController($this->app);
              $action = strtolower($callback['action']);
-             $callback = [$controllerObj , $action];
+             $callback = [$this->controller , $action];
         }
         
         if(!is_callable($callback))
         {
             die('No callable'); // redirect to 404 page
         }
-
-        return call_user_func_array($callback, $this->matches);
-            
+        
+        $this->call($this->controller, 'before');
+        call_user_func_array($callback, $this->matches);
+        $this->call($this->controller, 'after');
+        
  }
 
 
- /**
-  * Get controller
-  * 
-  * @var mixed $argument
-  * @return object
-  * @throws \Exception
- */
-  private function getController($argument)
-  {
-        $controller_name = $this->callback['controller'];
-        $controllerClass = sprintf('app\\controllers\\%s', $controller_name);
+/**
+ * Call before or after how we want
+ * @return void
+*/
+public function call($object, $method='before')
+{
+   if(method_exists($object, $method) || $object->{$method} !== false)
+   {
+      call_user_func($object, $method);
+   }
 
-        if(!class_exists($controllerClass))
-        {
-             throw new Exception(
-               sprintf('class <strong>%s</strong> does not exit!', $controllerClass), 
-               404
-            );
-        }
+}
 
-        return new $controllerClass($argument);
-  }
+
+
+/**
+* Get controller
+* 
+* @var mixed $argument
+* @return object
+* @throws \Exception
+*/
+private function getController($argument)
+{
+    $controller = $this->callback['controller'];
+    $controllerClass = sprintf('app\\controllers\\%s', $controller);
+
+    if(!class_exists($controllerClass))
+    {
+         throw new Exception(
+           sprintf('class <strong>%s</strong> does not exit!', $controllerClass), 
+           404
+        );
+    }
+
+    return new $controllerClass($argument);
+}
+
+
 }

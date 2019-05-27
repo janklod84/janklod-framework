@@ -14,11 +14,13 @@ class Router
  * @var array  $matches
  * @var array  $routes
  * @var array  $route
+ * @var \JK\Routing\Dispatcher
  * @var string $url
 */
 private $matches = [];
 private $routes  = [];
 private $route;
+private $dispatcher;
 private $url;
 
 
@@ -30,7 +32,7 @@ private $url;
 */
 public function __construct($url = '')
 {
-      $this->setUrl($url);
+      $this->addUrl($url);
 }
 
 
@@ -50,7 +52,7 @@ public function addRoute($routes=[])
  * @param string $url
  * @return void
 */
-public function setUrl($url)
+public function addUrl($url)
 {
      $this->url = trim($url, '/');
 }
@@ -98,26 +100,22 @@ public function route()
 
 
 /**
- * Run routing
- * @return mixed
-*/
-public function dispatched($method='')
-{
-   // return $this->getRoutes($method);
-}
-
-
-
-/**
  * Dispatcher routes
  * @param string $method 
  * @return \JK\Routing\Dispatcher
 */
-public function dispatch($method='')
+public function dispatch($method='GET')
 {
    debug($this->routes);
 
-   /* return new Dispatcher($callback, $matches); */
+    if($this->match($method))
+    {
+          if(is_null($this->dispatcher))
+          {
+              $this->dispatcher = new Dispatcher($this->route['callback'], $this->matches);
+          }
+    }
+    return $this->dispatcher;
 }
 
 
@@ -127,10 +125,12 @@ public function dispatch($method='')
  * @param string $url 
  * @return bool
 */
-public function isMatched()
+public function match($method='')
 {
-    foreach($this->routes as $route)
+    foreach($this->routes($method) as $route)
     {
+        debug($route['path']);
+        /*
 	      if(!preg_match($this->url, $route['path'], $matches))
         {
 	            return false;
@@ -140,6 +140,7 @@ public function isMatched()
         $this->matches = $matches;
         $this->route   = $route;
         return true;
+        */
     }
 }
 
@@ -149,7 +150,8 @@ public function isMatched()
  * @param string $url 
  * @return bool
 */
-public function match($url='')
+/*
+public function matched($url='')
 {
      $url   = $url ?: $this->url;
      $path  = $this->replacePattern();
@@ -171,7 +173,7 @@ public function match($url='')
   * Return match param
   * @param string $match 
   * @return string 
-*/
+
 public function paramMatch($match)
 {
      if(isset($this->regex[$match[1]]))
@@ -190,7 +192,7 @@ public function paramMatch($match)
   * @param string $replace 
   * @param callable $callback 
   * @return string
-*/
+
  private function replacePattern()
  {
       return preg_replace_callback('#:([\w]+)#', 
@@ -199,7 +201,7 @@ public function paramMatch($match)
             );
  }
 
-
+*/
 
 
 
