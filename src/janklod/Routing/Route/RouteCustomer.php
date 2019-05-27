@@ -28,30 +28,22 @@ private static $namedRoutes = [];
 */
 public function __construct($parameters = [])
 {
-   /*
-	 extract($parameters);
-	 $this->setOption($options);
-	 $this->setParam('path', $this->preparePath($path));
-	 $this->setParam('callback', $callback);
-	 $this->setParam('name', $name);
-	 $this->setParam('method', $method);
-   $this->setPrefix('prefix');
-   */
+    if($parameters)
+    {
+        $this->addParams($paraneters);
+    }
 }
-
 
 
 /**
- * Set param
- * @param string $key 
- * @param mixed $value 
+ * Add Params
+ * @param array $options 
  * @return void
  */
-public function setParam($key, $value)
+public function addParams($params=[])
 {
-	  $this->params[$key] = $value;
+   $this->params = array_merge($this->params, $params);
 }
-
 
 /**
  * Set option
@@ -63,6 +55,17 @@ public function addOptions($options)
 	 $this->options = $options;
 }
 
+
+/**
+ * Set param
+ * @param string $key 
+ * @param mixed $value 
+ * @return void
+ */
+public function setParam($key, $value)
+{
+    $this->params[$key] = $value;
+}
 
 
 /**
@@ -85,7 +88,7 @@ public function regex($param, $regex)
 */
 public function setOption($key)
 {
-	$this->params[$key] = $this->getOption($key);
+	  $this->params[$key] = $this->getOption($key);
 }
 
 
@@ -289,7 +292,8 @@ public function with($parameter, $regex = null)
    }else{
        $this->regex[$parameter] = str_replace('(', '(?:', $regex);
    }
-  
+   
+   $this->setParam('regex', $this->regex);
    return $this;
 }
 
