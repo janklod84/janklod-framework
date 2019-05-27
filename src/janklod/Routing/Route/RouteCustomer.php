@@ -26,8 +26,9 @@ private static $namedRoutes = [];
  * @param array $parameters;
  * @return void
 */
-public function __construct($parameters)
+public function __construct($parameters = [])
 {
+   /*
 	 extract($parameters);
 	 $this->setOption($options);
 	 $this->setParam('path', $this->preparePath($path));
@@ -35,15 +36,16 @@ public function __construct($parameters)
 	 $this->setParam('name', $name);
 	 $this->setParam('method', $method);
    $this->setPrefix('prefix');
+   */
 }
 
 
 
 /**
  * Set param
- * @param type $key 
- * @param type $value 
- * @return type
+ * @param string $key 
+ * @param mixed $value 
+ * @return void
  */
 public function setParam($key, $value)
 {
@@ -56,7 +58,7 @@ public function setParam($key, $value)
  * @param array $options 
  * @return void
  */
-public function setOption($options)
+public function addOptions($options)
 {
 	 $this->options = $options;
 }
@@ -81,7 +83,7 @@ public function regex($param, $regex)
  * @param string $path
  * @return void
 */
-public function setPrefix($key)
+public function setOption($key)
 {
 	$this->params[$key] = $this->getOption($key);
 }

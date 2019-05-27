@@ -128,9 +128,13 @@ $method = 'GET'
 )
 {
      # route custom
-     $options = self::$options;
-     $params  = compact('path', 'callback', 'name', 'method', 'options');
-     $route = new RouteCustomer($params);
+     $route = new RouteCustomer();
+     $route->addOptions(self::$options);
+     $route->setParam('path', $route->preparePath($path));
+     $route->setParam('callback', $callback);
+     $route->setParam('name', $name);
+     $route->setParam('method', $method);
+     $route->setOption('prefix');
 
      # route filter
      if(is_string($callback) && $name === null)
