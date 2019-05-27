@@ -7,7 +7,7 @@
 */
 
 # SITE
-
+/*
 $options = [
   'path' => '/admin',
   'controller' => 'admin'
@@ -16,17 +16,23 @@ $options = [
 
 Route::prefix($options, function () {
     Route::get('/', 'HomeController@index', 'welcome.page');
-    Route::get('/about/:slug-:id', 'HomeController@about')
-    ->with('slug', '([a-z\-0-9]+)')->with(['id' => '[0-9+]', 'slug' => '([a-z\-0-9]+)']);
+    Route::get('/about/:slug-:id', 'HomeController@about');
     Route::get('/contact', 'HomeController@contact');
     Route::post('/contact', 'HomeController@contact');
 });
+*/
 
 
-Route::get('/about/:test-:id', [
+Route::get('/test', function () {
+    echo 'Salut les amis! <br>';
+});
+
+// Route::get('/', 'HomeController@index', 'welcome.page');
+
+Route::get('/about/:id', [
    'controller' => 'HomeController',
-   'action' => 'index'
-])->with('test', '([a-z\-0-9]+)')->with(['id' => '[0-9+]']);
+   'action' => 'about'
+])->with('id','[0-9+]');
 
 
 Route::get('/test/:slug-:id', function () {

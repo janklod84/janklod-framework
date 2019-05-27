@@ -19,7 +19,6 @@ class Router
 */
 private $matches = [];
 private $routes  = [];
-private $params  = [];
 private $route;
 private $dispatcher;
 private $url;
@@ -64,9 +63,9 @@ public function addUrl($url)
  * Get url
  * @return string
 */
-public function params()
+public function url()
 {
-    return $this->params;
+   return $this->url;
 }
 
 
@@ -110,9 +109,7 @@ public function dispatch($method='GET')
     $method = $method ?: $_SERVER['REQUEST_METHOD'];
     foreach($this->routes($method) as $route)
     {
-        $this->route = $route;
-
-        if($this->match())
+        if($this->match($route->replacePattern()))
         {
             if(is_null($this->dispatcher))
             {
@@ -136,20 +133,25 @@ public function dispatch($method='GET')
 */
 public function match($regex='')
 {
-   if(!is_null($this->route))
-   {
-      $regex = $regex ?: $this->route->replacePattern(); 
-      if(!preg_match($regex, $this->url, $matches))
-      {
-            return false;
-      }
-      array_shift($matches);
-      $this->matches = $matches;
-      $this->params  = $this->route->parameters();
-      return true;
-   }else{
-       exit('No routes dispatched for routing!');
-   }
+  if(!preg_match($regex, $this->url, $matches))
+  {
+        $html  = 'NO Match <br>';
+        $html .= 'Regex [ '. $regex . ' ]';
+        $html .= ' And ';
+        $html .= 'Url [ '. $this->url . ' ]';
+        echo $html .' <br>';
+        return false;
+  }
+  
+  $html  = 'Match <br>';
+  $html .= 'Regex [ '. $regex . ' ]';
+  $html .= ' And ';
+  $html .= 'Url [ '. $this->url . ' ]';
+  echo $html . '<br>';
+
+  array_shift($matches);
+  $this->matches = $matches;
+  return true;
 }
 
 

@@ -14,4 +14,9 @@ class HomeController
      	  echo __METHOD__;
      }
 
+     public function about()
+     {
+     	  echo __METHOD__;
+     }
+
 }
