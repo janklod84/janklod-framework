@@ -22,20 +22,25 @@ private static $namedRoutes = [];
 
 /**
  * Constructor
- * @param array $parameters;
+ * @param array $options
  * @return void
 */
-public function __construct($parameters)
+public function __construct($options=[])
 {
-	 extract($parameters);
-	 $this->setOption($options); // set in first options
-	 $this->setParam('path', $this->preparePath($path));
-	 $this->setParam('callback', $callback);
-	 $this->setParam('name', $name);
-	 $this->setParam('method', $method);
-     $this->option('prefix');
+	 $this->options = $options;
 }
 
+
+
+/**
+ * Set path param
+ * @param string $path
+ * @return void
+*/
+public function path($path)
+{
+	$this->params['path'] = $this->preparePath($path);
+}
 
 
 /**
@@ -51,18 +56,6 @@ public function setParam($key, $value)
 
 
 /**
- * Set option
- * @param array $options 
- * @return void
- */
-public function setOption($options)
-{
-	$this->options = $options;
-}
-
-
-
-/**
  * Set regex in params
  * @param string $param
  * @param mixed $regex
@@ -71,6 +64,17 @@ public function setOption($options)
 public function regex($param, $regex)
 {
 	$this->regex[$param] = $regex;
+}
+
+
+/**
+ * Set regex
+ * @param string $regex 
+ * @return void
+*/
+public function getRegex()
+{
+	 return $this->regex;
 }
 
 
@@ -94,6 +98,43 @@ public function option($key)
 {
 	$this->params[$key] = $this->getOption($key);
 }
+
+
+/**
+ * Set callback
+ * @param string $callback
+ * @return void
+*/
+public function callback($callback)
+{
+	$this->params['callback'] = $callback;
+}
+
+
+
+/**
+ * Set name 
+ * @param string $name
+ * @return void
+*/
+public function name($name)
+{
+	$this->params['name'] = $name;
+}
+
+
+
+/**
+ * Set method 
+ * @param string $method
+ * @return void
+*/
+public function method($method='GET')
+{
+	$this->params['method'] = $method;
+}
+
+
 
 
 /**
@@ -222,7 +263,7 @@ public function mapCallback($callback, $divider='@')
 	         'controller' => $this->getController($controller),
 	         'action'     => $action
 	      ];
-	      $this->setParam('callback', $callback);
+	      $this->callback($callback);
 	 }
   }
 }
@@ -246,15 +287,15 @@ public function getController($controller)
 
 /**
 * Add regex
-* @param mixed $parameter 
+* @param mixed $param 
 * @param mixed $regex 
 * @return $this
 */
-public function with($parameter, $regex = null)
+public function with($param, $regex = null)
 {
-	 if(is_array($parameter) && is_null($regex))
+	 if(is_array($param) && is_null($regex))
 	 {
-		  foreach($parameter as $index => $exp)
+		  foreach($param as $index => $exp)
 		  {
 		       # recursive
 		       $this->with($index, $exp);
@@ -262,7 +303,10 @@ public function with($parameter, $regex = null)
 
 	 }else{
 	     
-	     $this->regex[$parameter] = str_replace('(', '(?:', $regex);
+	     $this->regex(
+	     	$param, 
+	     	str_replace('(', '(?:', $regex)
+	     );
 	 }
 	 
 	 $this->setParam('regex', $this->regex);

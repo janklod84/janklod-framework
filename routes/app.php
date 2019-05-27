@@ -36,6 +36,7 @@ Route::get('/test', function () {
     echo 'Привет друзья!';
 }, 'test.page');
 
+
 */
 
 
@@ -56,9 +57,7 @@ Route::get('/me', [
    'controller' => 'HomeController',
    'action' => 'me', 
    'fromArray' => 'Jean-Claude'
-])
-->with(['id'=> '([0-9+])'])
-->with('slug', '([a-z-_A-Z])');
+])->with(['id'=> '([0-9+])'])->with('slug', '([a-z-_A-Z])');
 
 
 Route::get('/test', function () {
