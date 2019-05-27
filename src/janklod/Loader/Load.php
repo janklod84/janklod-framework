@@ -34,7 +34,7 @@ class Load
  */
  public function model($name)
  {
-     $model = $this->getModel($name);
+     $model = $this->model_name($name);
      $this->{$name} = new $model();
  }  
 
@@ -45,7 +45,7 @@ class Load
  */
  public function entity($entity)
  {
-    $entityName = $this->getModel(sprintf('Entity\\%s', $entity));
+    $entityName = $this->model_name(sprintf('Entity\\%s', $entity));
     $entity = strtolower($entity);
     $this->{$entity} = new $entityName();
  }
@@ -58,7 +58,7 @@ class Load
  */
  public function manager($manager)
  {
-      $managerName = $this->getModel(sprintf('Manager\\%s', $manager));
+      $managerName = $this->model_name(sprintf('Manager\\%s', $manager));
       $entity = strtolower($entity);
       $this->{$entity} = new $managerName();
  }
@@ -68,7 +68,7 @@ class Load
   * @param string $name 
   * @return string
  */
- public function getModel($name)
+ public function model_name($name)
  {
      $model = sprintf('\\app\\models\\%s', $name);
      if(!class_exists($model))
@@ -89,7 +89,7 @@ class Load
  {
         if(is_array($callback))
         {
-             $this->controller = $this->getController($this->app);
+             $this->controller = $this->getController();
              $action = strtolower($callback['action']);
              $callback = [$this->controller , $action];
         }
@@ -100,9 +100,17 @@ class Load
         }
         
         $this->call($this->controller, 'before');
-        call_user_func_array($callback, $this->matches);
+        $output = call_user_func_array($callback, $this->matches);
         $this->call($this->controller, 'after');
         
+        // response
+        if(is_string($output))
+        {
+            response()->setBody($output);
+        }
+
+        // send headers to server
+        response()->send();
  }
 
 
@@ -123,16 +131,17 @@ public function call($object, $method='before')
 
 /**
 * Get controller
-* 
-* @var mixed $argument
 * @return object
 * @throws \Exception
 */
-private function getController($argument)
+private function getController()
 {
     $controller = $this->callback['controller'];
     $controllerClass = sprintf('app\\controllers\\%s', $controller);
+    
+    // add here fonctionalites for loading Module classes
 
+    // ...
     if(!class_exists($controllerClass))
     {
          throw new Exception(
@@ -140,8 +149,8 @@ private function getController($argument)
            404
         );
     }
-
-    return new $controllerClass($argument);
+   
+    return new $controllerClass($this->app);
 }
 
 
