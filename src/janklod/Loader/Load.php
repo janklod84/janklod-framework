@@ -2,6 +2,9 @@
 namespace JK\Loader;
 
 
+use \Exception;
+
+
 /**
  * @package JK\Loader\Load
 */ 
@@ -9,7 +12,8 @@ class Load
 {
       
   /**
-   * @var \JK\Container\ContainerInterface
+   * @var \JK\Container\ContainerInterface $app
+   * @var  
   */
   private $app;
   private $controller;
@@ -89,9 +93,10 @@ class Load
  {
         if(is_array($callback))
         {
-             $this->controller = $this->getController();
+             $controller = $this->getController($callback['controller']);
              $action = strtolower($callback['action']);
-             $callback = [$this->controller , $action];
+             $callback = [$controller , $action];
+             $this->controller = $controller;
         }
         
         if(!is_callable($callback))
@@ -100,7 +105,7 @@ class Load
         }
         
         $this->call($this->controller, 'before');
-        $output = call_user_func_array($callback, $this->matches);
+        $output = call_user_func_array($callback, $matches);
         $this->call($this->controller, 'after');
         
         // response
@@ -120,7 +125,7 @@ class Load
 */
 public function call($object, $method='before')
 {
-   if(method_exists($object, $method) || $object->{$method} !== false)
+   if(method_exists($object, $method))
    {
       call_user_func($object, $method);
    }
@@ -131,13 +136,13 @@ public function call($object, $method='before')
 
 /**
 * Get controller
+* @param string $name
 * @return object
 * @throws \Exception
 */
-private function getController()
+private function getController(string $name)
 {
-    $controller = $this->callback['controller'];
-    $controllerClass = sprintf('app\\controllers\\%s', $controller);
+    $controllerClass = sprintf('app\\controllers\\%s', $name);
     
     // add here fonctionalites for loading Module classes
 

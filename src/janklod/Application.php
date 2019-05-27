@@ -60,9 +60,16 @@ private function __construct($root)
 */
 public function run()
 {
-     
      echo '<h4>Routes</h4>';
-     $this->router->dispatch();
+     $method = $this->request->method();
+     $dispatcher = $this->router->dispatch($method);
+     if(is_null($dispatcher))
+     {
+        exit('Error 404');
+     }
+     $callback   = $dispatcher->getCallback();
+     $matches    = $dispatcher->getMatches();
+     $this->load->callAction($callback, $matches);
 }
 
 

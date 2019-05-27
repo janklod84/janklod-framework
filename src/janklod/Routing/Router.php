@@ -110,10 +110,9 @@ public function dispatch($method='GET')
 
     if($this->match($method))
     {
-          debug($this->route);
+          // debug($this->route);
           if(is_null($this->dispatcher))
           {
-              die('Yes, Dispatcher Is Null');
               $this->dispatcher = new Dispatcher(
                  $this->route['callback'], 
                  $this->matches
@@ -132,9 +131,10 @@ public function dispatch($method='GET')
 */
 public function match($method='')
 {
+    $method = $method ?: $_SERVER['REQUEST_METHOD'];
     foreach($this->routes($method) as $route)
     {
-        // debug($route['path']);
+        debug($this->routes($method));
         $this->route = $route;
         return true;
         /*
@@ -148,6 +148,29 @@ public function match($method='')
         $this->route   = $route;
         return true;
         */
+    }
+}
+
+
+public function mk()
+{
+  $method = $method ?: $_SERVER['REQUEST_METHOD'];
+  foreach($this->routes($method) as $route)
+  {
+      // debug($route['path']);
+      $this->route = $route;
+      return true;
+      /*
+      if(!preg_match($this->url, $route['path'], $matches))
+      {
+            return false;
+      }
+      
+      array_shift($matches);
+      $this->matches = $matches;
+      $this->route   = $route;
+      return true;
+      */
     }
 }
 
