@@ -261,9 +261,15 @@ RequestInterface $request
 }
 
 
+/**
+ * terminate request
+ * @param RequestInterface $request 
+ * @param ResponseInterface $response 
+ * @return 
+*/
 public function terminate(
 RequestInterface $request, 
-ResponseInterface $request
+ResponseInterface $response
 )
 {
 

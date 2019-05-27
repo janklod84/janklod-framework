@@ -18,3 +18,16 @@ if(!function_exists('response'))
      	  return new Response($content, $status, $headers);
      }
 }
+
+
+if(!function_exists('send'))
+{
+     
+     /**
+      * Method for sending headers and content ...
+     */
+     function send()
+     {
+         return response()->send();
+     }
+}

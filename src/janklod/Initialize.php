@@ -24,7 +24,7 @@ private static $functions = [];
 */
 public static function alias()
 {
-	 self::$aliases =  self::get('alias');
+	   self::$aliases =  self::get('alias');
      
      foreach(self::$aliases as $alias => $class_name)
      {
