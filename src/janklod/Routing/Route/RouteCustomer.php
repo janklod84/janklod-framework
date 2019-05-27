@@ -197,23 +197,23 @@ public function getOption($parsed='')
 {
 	if($parsed)
 	{
-		  $part = explode('.', $parsed);
-		  $parent  = $part[0];
-		  $result = null;
+	  $part = explode('.', $parsed);
+	  $parent = $part[0];
+	  $result = null;
 
-	    if(array_key_exists($parent, $this->options))
-	    {
-         	$result = $this->options[$parent];
-         	foreach($part as $item)
+    if(array_key_exists($parent, $this->options))
+    {
+     	$result = $this->options[$parent];
+     	foreach($part as $item)
+     	{
+     	 	  if(isset($result[$item]))
          	{
-         	 	  if(isset($result[$item]))
-             	{
-         	        $result = $result[$item];
-             	}
+     	        $result = $result[$item];
          	}
-	    }
+     	}
+    }
 
-      return $result;
+    return $result;
 	}
 }
 

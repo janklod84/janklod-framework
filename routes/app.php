@@ -17,7 +17,7 @@ $options = [
 Route::prefix($options, function () {
     Route::get('/', 'HomeController@index', 'welcome.page');
     Route::get('/about/:slug-:id', 'HomeController@about')
-    ->with('slug', '([a-z\-0-9]+)')->with(['id' => '[0-9+]']);
+    ->with('slug', '([a-z\-0-9]+)')->with(['id' => '[0-9+]', 'slug' => '([a-z\-0-9]+)']);
     Route::get('/contact', 'HomeController@contact');
     Route::post('/contact', 'HomeController@contact');
 });
