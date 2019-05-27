@@ -76,7 +76,7 @@ public function setParam($key, $value)
 */
 public function regex($param, $regex)
 {
-	   $this->regex[$param] = $regex;
+	 $this->regex[$param] = $regex;
 }
 
 
@@ -298,28 +298,6 @@ public function with($parameter, $regex = null)
 }
 
 
-/**
-* Add regex
-* @param mixed $parameter 
-* @param mixed $regex 
-* @return $this
-*/
-public function where($parameter, $regex = null)
-{
-   if(is_array($parameter) && is_null($regex))
-   {
-      foreach($parameter as $index => $exp)
-      {
-           # recursive
-           $this->with($index, $exp);
-      }
-
-   }else{
-       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
-   }
-  
-   return $this;
-}
 
 /**
  * Get Url
