@@ -101,7 +101,7 @@ public function param($key='')
 {
 	 if($this->hasParam($key))
 	 {
-	 	return $this->params[$key];
+	 	  return $this->params[$key];
 	 }
 	 return null;
 }
