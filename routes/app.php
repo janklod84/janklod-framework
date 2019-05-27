@@ -24,11 +24,10 @@ Route::prefix($options, function () {
 
 Route::get('/about/:slug-:id', [
    'controller' => 'HomeController',
-   'action' => 'index', 
-   'fromArray' => 'Jean-Claude'
-])->with(['id'=> '([0-9+])'])->with('slug', '([a-z-_A-Z])');
+   'action' => 'index'
+])->with('slug', '([a-z\-0-9]+)'); //->with(['id','[0-9+]']);
 
 
-Route::get('/test', function () {
+Route::get('/test/:slug-:id', function () {
     echo 'Привет друзья!';
-}, 'test.page');
+}, 'test.page')->with('slug', '[a-z\-0-9]+'); //->with(['id','[0-9+]']);;

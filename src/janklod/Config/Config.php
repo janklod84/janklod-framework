@@ -35,6 +35,29 @@ public static function basePath(string $configPath='')
 
 
 /**
+ * Load many files 
+ * @return 
+*/
+public function map()
+{
+      $path = self::$configPath ."/*";
+      foreach(glob($path) as $configPath)
+      {
+         if(is_file($configPath))
+         {
+            $infoFile = pathinfo($configPath);
+            if($infoFile['extension'] === 'php')
+            {
+                $name = $infoFile['filename'];
+                self::saveFile($name, $configPath);
+            }
+         }
+      }
+
+}
+
+
+/**
 * Store configuration
 * @param array $data 
 * @return void
@@ -145,33 +168,14 @@ public static function saveFile($group='', $file='')
 {
    if($path = realpath($file))
    {
-       self::store([$group => require($path)]);
+       if(!in_array($group, self::$stored))
+       {
+           self::store([$group => require($path)]);
+       }
        self::addFile($path);
    }
 }
 
-
-/**
- * Load many files 
- * @return 
-*/
-public function map()
-{
-      $path = self::$configPath ."/*";
-      foreach(glob($path) as $configPath)
-      {
-         if(is_file($configPath))
-         {
-            $infoFile = pathinfo($configPath);
-            if($infoFile['extension'] === 'php')
-            {
-                $name = $infoFile['filename'];
-                self::saveFile($name, $configPath);
-            }
-         }
-      }
-
-}
 
 
 /**

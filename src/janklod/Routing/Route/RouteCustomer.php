@@ -14,7 +14,7 @@ class RouteCustomer
  * @var array  $params [ Route params ]
  * @var array  $namedRoutes [ Named Routes ]
 */ 
-private $regex   = [];
+// private $regex   = [];
 private $params  = [];
 private $options = [];
 private static $namedRoutes = [];
@@ -33,7 +33,7 @@ public function __construct($parameters)
 	 $this->setParam('callback', $callback);
 	 $this->setParam('name', $name);
 	 $this->setParam('method', $method);
-     $this->option('prefix');
+   $this->option('prefix');
 }
 
 
@@ -70,7 +70,7 @@ public function setOption($options)
 */
 public function regex($param, $regex)
 {
-	$this->regex[$param] = $regex;
+	   $this->params[$param] = $regex;
 }
 
 
@@ -133,12 +133,52 @@ public function preparePath(string $path)
 	 if($this->hasOption('prefix.path'))
 	 {
 	 	  $prefix = $this->getOption('prefix.path');
- 	  	  $path = sprintf('%s/%s', trim($prefix, '/'), $path);
+ 	  	$path = sprintf('%s/%s', trim($prefix, '/'), $path);
 	 }
-
+   
+   /*
+    $path = str_replace([':slug', ':id'], ['([0-9]+)', '[a-z_A-Z]'], $path);
+   */
+   $path = $this->replacePattern($path);
 	 return sprintf('#^%s$#i', trim($path, '/'));
 }
 
+
+
+/**
+  * Return match param
+  * @param string $match 
+  * @return string 
+*/
+public function paramMatch($match)
+{
+     debug($match);
+
+     if(isset($this->params[$match[1]]))
+     {
+          return '('. $this->params[$match[1]] . ')';
+     }
+     return '([^/]+)';
+}
+
+
+/**
+  * Replace param in path
+  * 
+  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+  * 
+  * @param string $replace 
+  * @param callable $callback 
+  * @return string
+*/
+ public function replacePattern($path)
+ {
+      return preg_replace_callback(
+                     '#:([\w]+)#', 
+                     [$this, 'paramMatch'], 
+                     $path
+            );
+ }
 
 /**
 * Add named  route
@@ -242,6 +282,8 @@ public function getController($controller)
 */
 public function with($parameter, $regex = null)
 {
+
+   /*
 	 if(is_array($parameter) && is_null($regex))
 	 {
 		  foreach($parameter as $index => $exp)
@@ -257,6 +299,11 @@ public function with($parameter, $regex = null)
 	     	str_replace('(', '(?:', $regex)
 	     );
 	 }
+   */
+   $this->regex(
+        $parameter, 
+        str_replace('(', '(?:', $regex)
+   );
 	 
 	 return $this;
 }
@@ -298,67 +345,6 @@ private function getUrl($params)
 }
 
 
-/**
- * Je dois remplacer dans $path = $this->replacePattern($path);
- * 
-*/
 
-
-/**
- * Determine if parsed url match current route
- * @param string $url 
- * @return bool
-
-public function match($url='')
-{
-     $url   = $url ?: $this->url;
-     $path  = $this->replacePattern();
-     $regex = "#^$path$#i";
-
-     if(!preg_match($regex, $url, $matches))
-     {
-          return false;
-     }
-    
-     array_shift($matches);
-     $this->set('matches', $matches);
-     return true;
-}
-
-
-
-/**
-  * Return match param
-  * @param string $match 
-  * @return string 
-
-public function paramMatch($match)
-{
-     if(isset($this->regex[$match[1]]))
-     {
-          return '('. $this->regex[$match[1]] . ')';
-     }
-     return '([^/]+)';
-}
-
-
-/**
-  * Replace param in path
-  * 
-  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
-  * 
-  * @param string $replace 
-  * @param callable $callback 
-  * @return string
-
- private function replacePattern()
- {
-      return preg_replace_callback(
-                     '#:([\w]+)#', 
-                     [$this, 'paramMatch'], 
-                     $this->get('path')
-            );
- }
-*/
 
 }
