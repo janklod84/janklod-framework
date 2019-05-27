@@ -7,7 +7,6 @@
 */
 
 # SITE
-/*
 $options = [
   'path' => '/admin',
   'controller' => 'admin'
@@ -20,11 +19,15 @@ Route::prefix($options, function () {
     Route::get('/contact', 'HomeController@contact');
     Route::post('/contact', 'HomeController@contact');
 });
-*/
 
+
+
+Route::get('/', function () {
+    echo 'Salut les amis! <br>';
+});
 
 Route::get('/test', function () {
-    echo 'Salut les amis! <br>';
+    echo 'Juste un test! <br>';
 });
 
 // Route::get('/', 'HomeController@index', 'welcome.page');

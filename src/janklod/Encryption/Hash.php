@@ -41,11 +41,25 @@ public static function unique()
  
  
 /**
-* @ hash password 
+ * Hash password
+ * @param string $char 
+ * @param string $type 
+ * @return string
 */
-public static function password($char='', $type=PASSWORD_DEFAULT)
+public static function pwd($char='', $type=PASSWORD_DEFAULT)
 {
    return password_hash($char, $type); 
+}
+
+/**
+ * Determine if password matches
+ * @param string $handle 
+ * @param $verify 
+ * @return bool
+*/
+public static function ispwd($handle='', $verify)
+{
+   return password_verify($handle, $verify); 
 }
      
 }

@@ -1,5 +1,5 @@
 <?php 
-use JK\Helper\Url;
+use JK\Http\Url;
 
 
 if(!function_exists('base_url'))
@@ -10,6 +10,20 @@ if(!function_exists('base_url'))
        * @return mixed
       */
       function base_url()
+      {
+         return Url::base();
+      }
+}
+
+
+if(!function_exists('back'))
+{
+      
+      /**
+       * Return current base URL
+       * @return mixed
+      */
+      function back()
       {
          return Url::base();
       }

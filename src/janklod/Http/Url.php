@@ -1,16 +1,10 @@
 <?php 
-namespace JK\Helper;
-
-
-// use JK\Http\{Request, Response};
-use JK\Http\Request;
-use JK\Http\Response;
-use JK\Routing\Route;
+namespace JK\Http;
 
 
 
 /**
- * @package \JK\Helper\Url 
+ * @package \JK\Http\Url
 */
 class Url
 {
