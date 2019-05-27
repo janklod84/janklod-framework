@@ -16,16 +16,30 @@ if(!function_exists('base_url'))
 }
 
 
+if(!function_exists('url'))
+{
+      
+      /**
+       * Return current url
+       * @return mixed
+      */
+      function url($part='', $params=[])
+      {
+         return Url::to($part, $params);
+      }
+}
+
+
 if(!function_exists('back'))
 {
       
       /**
-       * Return current base URL
+       * Redirect to base URL
        * @return mixed
       */
       function back()
       {
-         return Url::base();
+          return Url::back();
       }
 }
 

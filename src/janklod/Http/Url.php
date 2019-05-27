@@ -19,7 +19,7 @@ public static function to($uri = '', $params = []): string
 {
     if($uri && !empty($params))
     {
-       if($namedRoute = Route::url($uri, $params))
+       if($namedRoute = \Route::url($uri, $params))
        {
             return $namedRoute;
        }

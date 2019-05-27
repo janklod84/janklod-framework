@@ -11,16 +11,15 @@ class Router
        
 
 /**
- * @var array  $params
  * @var array  $matches
  * @var array  $routes
  * @var array  $route
- * @var \JK\Routing\Dispatcher $dispatcher
+ * @var \JK\Routing\Dispatcher
  * @var string $url
 */
-private $params  = [];
 private $matches = [];
 private $routes  = [];
+private $params  = [];
 private $route;
 private $dispatcher;
 private $url;
@@ -106,6 +105,8 @@ public function match($regex='')
 */
 public function dispatch($method='GET')
 {
+    $method = $method ?: $_SERVER['REQUEST_METHOD'];
+
     foreach($this->routes($method) as $route)
     {
         if($this->match($route->replacePattern()))
@@ -128,23 +129,14 @@ public function dispatch($method='GET')
 
 
 /**
- * Get route params
- * @return array
+ * Get url
+ * @return string
 */
 public function params()
 {
     return $this->params ?: [];
 }
 
-
-/**
- * Get matches params
- * @return array
-*/
-public function matches()
-{
-    return $this->matches ?: [];
-}
 
 
 }

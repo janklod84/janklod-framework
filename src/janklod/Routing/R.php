@@ -11,16 +11,15 @@ class Router
        
 
 /**
- * @var array  $params
  * @var array  $matches
  * @var array  $routes
  * @var array  $route
- * @var \JK\Routing\Dispatcher $dispatcher
+ * @var \JK\Routing\Dispatcher
  * @var string $url
 */
-private $params  = [];
 private $matches = [];
 private $routes  = [];
+private $params  = [];
 private $route;
 private $dispatcher;
 private $url;
@@ -62,39 +61,32 @@ public function addUrl($url)
 
 
 /**
+ * Get url
+ * @return string
+*/
+public function params()
+{
+    return $this->params ?: [];
+}
+
+
+/**
  * Get routes
  * @return array
 */
 public function routes($method='')
 {
-  if($method !== '')
-  {
-      if(!isset($this->routes[$method]))
-      {
-         exit(
-          sprintf('Method <strong>%s</strong> does not match!', $method)
-         );
-      }
-      return $this->routes[$method];
-   }
+	if($method !== '')
+	{
+  		if(!isset($this->routes[$method]))
+  		{
+  			 exit(
+  			 	sprintf('Method <strong>%s</strong> does not match!', $method)
+  			 );
+  		}
+		  return $this->routes[$method];
+	 }
    return $this->routes;
-}
-
-
-/**
- * Determine if route match URL
- * @param string $regex
- * @return bool
-*/
-public function match($regex='')
-{
-    if(!preg_match($regex, $this->url, $matches))
-    {
-          return false;
-    }
-    array_shift($matches);
-    $this->matches = $matches;
-    return true;
 }
 
 
@@ -106,12 +98,13 @@ public function match($regex='')
 */
 public function dispatch($method='GET')
 {
+    $method = $method ?: $_SERVER['REQUEST_METHOD'];
+
     foreach($this->routes($method) as $route)
     {
         if($this->match($route->replacePattern()))
         {
-              $this->route  = $route;
-              $this->params = $route->parameters();
+              $this->route = $route;
 
               if(is_null($this->dispatcher))
               {
@@ -127,23 +120,23 @@ public function dispatch($method='GET')
 
 
 
-/**
- * Get route params
- * @return array
-*/
-public function params()
-{
-    return $this->params ?: [];
-}
-
 
 /**
- * Get matches params
- * @return array
+ * Determine if route match URL
+ * @param string $regex
+ * @param string $url
+ * @return bool
 */
-public function matches()
+public function match($regex='', $url='')
 {
-    return $this->matches ?: [];
+      $url = $url ?: $this->url;
+      if(!preg_match($regex, $url, $matches))
+      {
+            return false;
+      }
+      array_shift($matches);
+      $this->matches = $matches;
+      return true;
 }
 
 
