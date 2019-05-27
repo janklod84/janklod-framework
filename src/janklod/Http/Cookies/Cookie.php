@@ -1,30 +1,14 @@
 <?php 
-namespace JK\Http;
+namespace JK\Http\Cookies;
 
 
 use JK\Collections\Collection;
 
 /**
- * @package JK\Http\Cookie 
+ * @package JK\Http\Cookies\Cookie 
 */ 
 class Cookie 
 {
-
-/**
-* @var JK\Collections\Collection $collection
-*/
-private $collection;
-
-
-/**
-* Constructor
-* @param array $cookies 
-* @return void
-*/
-public function __construct()
-{
-   $this->collection = new Collection($_COOKIE);
-}
 
 
 /**
@@ -54,8 +38,7 @@ $httpOnly = false)
 */
 public function has($key): bool
 {
-   return $this->collection  
-              ->has($key);
+   return isset($_COOKIE[$key]);
 }
 
 
@@ -66,11 +49,11 @@ public function has($key): bool
 */
 public function get($key)
 {
-    if($this->collection->has($key))
+    if($this->has($key))
     {
-    	 return $this->collection 
-    	             ->get($key);
+        return $_COOKIE[$key];
     }
+    return null;
 }
 
 
@@ -80,10 +63,10 @@ public function get($key)
 */
 public static function delete($key)
 {
-	if($this->collection->has($key)))
+	if($this->has($key))
 	{
 		 $this->set($key, '', -3600);
-		 return $this->collection->remove($key);
+		 return unset($_COOKIE[$key]);
 	}
 }
 
@@ -95,7 +78,6 @@ public static function delete($key)
 */
 public function all()
 {
-	  return $this->collection
-                ->all();
+	  return $_COOKIE ?? [];
 }
 }

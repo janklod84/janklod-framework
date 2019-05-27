@@ -10,21 +10,6 @@ use JK\Collections\Collection;
 class Session 
 {
       
-/**
-* @var JK\Collections\Collection $collection
-*/
-private $collection;
-
-
-/**
-* Constructor
-* @return void
-*/
-public function __construct()
-{
-    $this->collection = new Collection($_SESSION);
-}
-
 
 /**
  * Ensure if session is started
@@ -48,8 +33,7 @@ public static function start()
 */
 public function put($name, $value)
 {
-    return $this->collection
-                ->set($name, $value);
+    return $_SESSION[$name] = $value;
 }
 
 
@@ -60,8 +44,7 @@ public function put($name, $value)
 */
 public function has($key): bool
 {
-   return $this->collection
-               ->has($key);
+   return isset($_SESSION[$key]);
 }
 
 
@@ -72,8 +55,11 @@ public function has($key): bool
 */
 public function get($key)
 {
-    return $this->collection
-                ->get($key);
+    if($this->has($key))
+    {
+        return $_SESSION[$key];
+    }
+    return null;
 }
 
 
@@ -84,12 +70,23 @@ public function get($key)
 */
 public function remove($key)
 {
-	if($this->collection->has($key))
+	if($this->has($key))
 	{
-	   return $this->collection
-	               ->remove($key);
+	   unset($_SESSION[$key]);
 	}
 }
+
+
+/**
+ * Unset all data
+ * @return void
+*/
+public function clear()
+{
+    $_SESSION = [];
+    session_destroy();
+}
+
 
 
 /**
@@ -98,8 +95,7 @@ public function remove($key)
 */
 public function all()
 {
-	 return $this->collection
-	             ->all();
+	 return $_SESSION ?? [];
 }
 
 

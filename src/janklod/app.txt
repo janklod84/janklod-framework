@@ -32,3 +32,16 @@
    
    // debug(Config::all());
    // debug(Config::files());
+===================================================================
+
+$session = $this->request->session();
+$session->put('jean', 'Brown');
+$session->put('user1', 'Brown1');
+$session->put('user2', 'Brown2');
+
+echo $session->get('jean');
+$session->remove('user1');
+echo '<h4>Sessions</h4>';
+debug($session->all());
+
+echo '<h4>Routes</h4>';

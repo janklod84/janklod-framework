@@ -35,7 +35,7 @@ class Load
  public function model($name)
  {
      $model = $this->model_name($name);
-     $this->{$name} = new $model();
+     $this->{$name} = new $model($this->app);
  }  
 
  /**

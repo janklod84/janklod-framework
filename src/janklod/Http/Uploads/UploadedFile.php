@@ -12,9 +12,9 @@ class UploadedFile
 {
 	  
       /**
-       * @var \JK\Collections\Collection $collection
+       * @var array $files
       */
-	  private $collection;
+	  private $files = [];
 
 
 	  /**
@@ -24,6 +24,6 @@ class UploadedFile
 	  */
 	  public function __construct($key = null)
 	  {
-            $this->collection = new Collection($_FILES);
+            $this->files = $_FILES;
 	  }
 }

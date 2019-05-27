@@ -64,36 +64,37 @@ public static function providers($app)
 
 /**
  * Load all functions
+ * @param string $parsed
  * @return 
 */
-public static function functions($functions=[])
+public static function functions(string $parsed=null)
 {
-    self::$functions = array_merge(
-      Definition::CONFIG['functions'], 
-      self::$functions
-    );
-    
-    foreach(self::$functions as $function)
+    $parsed = $parsed ?: __DIR__.'/Functions/*';
+    foreach(glob($parsed) as $functionPath)
     {
-          $functionPath = $function;
-          if(!is_file($function))
-          {
-              $functionPath = realpath(
-                __DIR__.'/Functions/' . mb_strtolower($function) . '.php'
-              );
-          }
-          if(!$functionPath)
-          {
-              exit(
-                sprintf('Function file <strong>%s</strong> does not exist!',
-                $functionPath)
-              );
-          }
-          require_once($functionPath);
+           if(is_file($functionPath))
+           {
+                if(pathinfo($functionPath)['extension'] === 'php')
+                {
+                     if($path = realpath($functionPath))
+                     {
+                         array_push(self::$functions, $functionPath);
+                         require_once($path);
+                     }
+                }   
+           }
     }
+
 }
 
 
+public static function d($arr, $die=false)
+{
+  echo '<pre>';
+  print_r($arr);
+  echo '</pre>';
+  if($die) die;
+}
 
 /**
  * Merge data

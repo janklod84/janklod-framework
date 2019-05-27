@@ -29,7 +29,8 @@ protected static $group='';
 */
 public static function basePath(string $configPath='')
 {
-     self::$configPath = $configPath;
+     self::$configPath = trim($configPath, '/');
+     return new static;
 }
 
 
@@ -136,16 +137,40 @@ public static function retrieveGroup()
 
 /**
  * Save data file in container
+ * @param string $group
  * @param string $file
  * @return void
 */
-public static function saveFile($file='')
+public static function saveFile($group='', $file='')
 {
    if($path = realpath($file))
    {
-       self::store([self::$group => require($path)]);
+       self::store([$group => require($path)]);
        self::addFile($path);
    }
+}
+
+
+/**
+ * Load many files 
+ * @return 
+*/
+public function map()
+{
+      $path = self::$configPath ."/*";
+      foreach(glob($path) as $configPath)
+      {
+         if(is_file($configPath))
+         {
+            $infoFile = pathinfo($configPath);
+            if($infoFile['extension'] === 'php')
+            {
+                $name = $infoFile['filename'];
+                self::saveFile($name, $configPath);
+            }
+         }
+      }
+
 }
 
 
@@ -190,7 +215,7 @@ private static function load($parsed='')
            
             if(is_file($file))
             {
-                self::saveFile($file);
+                self::saveFile(self::$group, $file);
             }
         }
         

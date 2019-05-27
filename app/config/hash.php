@@ -7,10 +7,7 @@ return [
     |   Hash Key [Salt hash.key]
     |------------------------------------------------------------------
    */
-    'hash' => [
-         'salt' =>  md5('QwYhswY&HyuijWOpbTgdz$YpsgbrvckUl')
-    ],
-
+    'encrypt' => '',
    /*
     |------------------------------------------------------------------
     |   Algorithme for hashing data

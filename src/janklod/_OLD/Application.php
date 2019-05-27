@@ -50,7 +50,7 @@ private function __construct($root)
      $this->containerBuilder = new \JK\DI\ContainerBuilder();
      $this->app = $this->getContainer();
      $this->bind('file', new \JK\FileSystem\File($root));
-     Config::basePath($root.'/app/config')->map();
+     Config::basePath($root.'app/config');
 }
 
 
@@ -60,13 +60,16 @@ private function __construct($root)
 */
 public function run()
 {
+      Config::basePath(ROOT.'/app/config')->map();
+      
+      echo Config::get('app.timezone');
+      debug(Config::all());
+
+      die;
+      debug(request()->session());
+      request()->session()->put('jean', 'Brown');
      
-      session()->put('jean4', 'Brown');
-      session()->put('jean1', 'Brown2');
-      session()->put('jean3', 'Brown4');
-      session()->put('test', 'Brown6');
-     
-      echo session()->get('jean1');
+      echo request()->session()->get('jean');
      // session()->remove('user1');
      // echo '<h4>Sessions</h4>';
      debug(session()->all());

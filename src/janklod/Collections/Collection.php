@@ -48,7 +48,11 @@ public function set($key, $value)
 */
 public function get($key = null)
 {
-   return $this->has($key) ? $this->items[$key] : null;
+   if($this->has($key))
+   {
+       return $this->items[$key];
+   }
+   return null;
 }
 
 
