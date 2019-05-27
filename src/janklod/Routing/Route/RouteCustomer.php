@@ -22,24 +22,10 @@ private static $namedRoutes = [];
 
 
 /**
- * Constructor
- * @param array $parameters;
- * @return void
-*/
-public function __construct($parameters = [])
-{
-    if($parameters)
-    {
-        $this->addParams($paraneters);
-    }
-}
-
-
-/**
  * Add Params
  * @param array $options 
  * @return void
- */
+*/
 public function addParams($params=[])
 {
    $this->params = array_merge($this->params, $params);
@@ -211,23 +197,23 @@ public function getOption($parsed='')
 {
 	if($parsed)
 	{
-		$part = explode('.', $parsed);
-		$parent  = $part[0];
-		$result = null;
+		  $part = explode('.', $parsed);
+		  $parent  = $part[0];
+		  $result = null;
 
 	    if(array_key_exists($parent, $this->options))
 	    {
          	$result = $this->options[$parent];
          	foreach($part as $item)
          	{
-         	 	if(isset($result[$item]))
+         	 	  if(isset($result[$item]))
              	{
          	        $result = $result[$item];
              	}
          	}
 	    }
 
-        return $result;
+      return $result;
 	}
 }
 
@@ -301,9 +287,9 @@ public function with($parameter, $regex = null)
 
 /**
  * Get Url
- * @param type $name 
- * @param type|array $params 
- * @return type
+ * @param string $name 
+ * @param array $params 
+ * @return mixed
 */
 public static function url($name, $params = [])
 {
