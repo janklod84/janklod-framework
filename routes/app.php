@@ -47,13 +47,13 @@ $options = [
 
 Route::prefix($options, function () {
     Route::get('/', 'HomeController@index', 'welcome.page');
-    Route::get('/about', 'HomeController@about');
+    Route::get('/about/:slug-:id', 'HomeController@about');
     Route::get('/contact', 'HomeController@contact');
     Route::post('/contact', 'HomeController@contact');
 });
 
 
-Route::get('/me', [
+Route::get('/me/:id-:slug', [
    'controller' => 'HomeController',
    'action' => 'me', 
    'fromArray' => 'Jean-Claude'

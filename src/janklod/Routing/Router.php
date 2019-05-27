@@ -186,8 +186,7 @@ public function paramMatch($match)
 */
  private function replacePattern()
  {
-      return preg_replace_callback(
-                     '#:([\w]+)#', 
+      return preg_replace_callback('#:([\w]+)#', 
                      [$this, 'paramMatch'], 
                      $this->get('path')
             );
