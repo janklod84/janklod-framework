@@ -20,11 +20,12 @@ private static $functions = [];
 
 /**
  * Initialize all alias
+ * @param array $aliases
  * @return void
 */
-public static function alias()
+public static function alias($aliases = [])
 {
-	   self::$aliases =  self::get('alias');
+	   self::$aliases =  $aliases ?: self::get('alias');
      
      foreach(self::$aliases as $alias => $class_name)
      {
