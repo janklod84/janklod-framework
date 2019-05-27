@@ -65,11 +65,13 @@ public function run()
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
      {
-        exit('Error 404');
+         // exit('Error 404');
      }
+     /*
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      $this->load->callAction($callback, $matches);
+     */
 }
 
 

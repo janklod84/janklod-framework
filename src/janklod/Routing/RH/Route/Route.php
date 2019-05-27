@@ -148,7 +148,7 @@ $method = 'GET'
 
 
      # store route by method
-     RouteCollection::store($method, $route);
+     RouteCollection::store($route);
      return $route;
 }
 

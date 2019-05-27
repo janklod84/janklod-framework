@@ -106,8 +106,8 @@ public function route()
 */
 public function dispatch($method='GET')
 {
-     debug($this->routes);
-    /*
+   // debug($this->routes);
+
     if($this->match($method))
     {
           // debug($this->route);
@@ -120,9 +120,7 @@ public function dispatch($method='GET')
           }
     }
     return $this->dispatcher;
-    */
 }
-
 
 
 

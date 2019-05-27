@@ -10,9 +10,8 @@ class RouteCustomer
 {
        
 /**
- * @var array  $regex   [ Route regex  ]
- * @var array  $params  [ Route params ]
- * @var array  $options [ Route options ]
+ * @var array  $regex  [ Route regex  ]
+ * @var array  $params [ Route params ]
  * @var array  $namedRoutes [ Named Routes ]
 */ 
 private $regex   = [];
@@ -23,20 +22,25 @@ private static $namedRoutes = [];
 
 /**
  * Constructor
- * @param array $parameters;
+ * @param array $options
  * @return void
 */
-public function __construct($parameters)
+public function __construct($options=[])
 {
-	 extract($parameters);
-	 $this->setOption($options);
-	 $this->setParam('path', $this->preparePath($path));
-	 $this->setParam('callback', $callback);
-	 $this->setParam('name', $name);
-	 $this->setParam('method', $method);
-   $this->setPrefix('prefix');
+	 $this->options = $options;
 }
 
+
+
+/**
+ * Set path param
+ * @param string $path
+ * @return void
+*/
+public function path($path)
+{
+	$this->params['path'] = $this->preparePath($path);
+}
 
 
 /**
@@ -47,20 +51,8 @@ public function __construct($parameters)
  */
 public function setParam($key, $value)
 {
-	  $this->params[$key] = $value;
+	$this->params[$key] = $value;
 }
-
-
-/**
- * Set option
- * @param array $options 
- * @return void
- */
-public function setOption($options)
-{
-	 $this->options = $options;
-}
-
 
 
 /**
@@ -71,9 +63,30 @@ public function setOption($options)
 */
 public function regex($param, $regex)
 {
-	   $this->regex[$param] = $regex;
+	$this->regex[$param] = $regex;
 }
 
+
+/**
+ * Set regex
+ * @param string $regex 
+ * @return void
+*/
+public function getRegex()
+{
+	 return $this->regex;
+}
+
+
+/**
+ * Add regex
+ * @param string $regex 
+ * @return void
+*/
+public function addRegex($regex)
+{
+	 $this->params['regex'] = $regex;
+}
 
 
 /**
@@ -81,10 +94,47 @@ public function regex($param, $regex)
  * @param string $path
  * @return void
 */
-public function setPrefix($key)
+public function option($key)
 {
 	$this->params[$key] = $this->getOption($key);
 }
+
+
+/**
+ * Set callback
+ * @param string $callback
+ * @return void
+*/
+public function callback($callback)
+{
+	$this->params['callback'] = $callback;
+}
+
+
+
+/**
+ * Set name 
+ * @param string $name
+ * @return void
+*/
+public function name($name)
+{
+	$this->params['name'] = $name;
+}
+
+
+
+/**
+ * Set method 
+ * @param string $method
+ * @return void
+*/
+public function method($method='GET')
+{
+	$this->params['method'] = $method;
+}
+
+
 
 
 /**
@@ -134,45 +184,12 @@ public function preparePath(string $path)
 	 if($this->hasOption('prefix.path'))
 	 {
 	 	  $prefix = $this->getOption('prefix.path');
- 	  	$path = sprintf('%s/%s', trim($prefix, '/'), $path);
+ 	  	  $path = sprintf('%s/%s', trim($prefix, '/'), $path);
 	 }
+
 	 return sprintf('#^%s$#i', trim($path, '/'));
 }
 
-
-
-/**
-  * Return match param
-  * @param string $match 
-  * @return string 
-*/
-public function paramMatch($match)
-{
-     if(isset($this->regex[$match[1]]))
-     {
-          return '('. $this->regex[$match[1]] . ')';
-     }
-     return '([^/]+)';
-}
-
-
-/**
-  * Replace param in path
-  * 
-  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
-  * 
-  * @param string $replace 
-  * @param callable $callback 
-  * @return string
-*/
- public function replacePattern($path)
- {
-      return preg_replace_callback(
-                     '#:([\w]+)#', 
-                     [$this, 'paramMatch'], 
-                     $path
-            );
- }
 
 /**
 * Add named  route
@@ -246,7 +263,7 @@ public function mapCallback($callback, $divider='@')
 	         'controller' => $this->getController($controller),
 	         'action'     => $action
 	      ];
-	      $this->setParam('callback', $callback);
+	      $this->callback($callback);
 	 }
   }
 }
@@ -270,50 +287,32 @@ public function getController($controller)
 
 /**
 * Add regex
-* @param mixed $parameter 
+* @param mixed $param 
 * @param mixed $regex 
 * @return $this
 */
-public function with($parameter, $regex = null)
+public function with($param, $regex = null)
 {
-   if(is_array($parameter) && is_null($regex))
-   {
-      foreach($parameter as $index => $exp)
-      {
-           # recursive
-           $this->with($index, $exp);
-      }
+	 if(is_array($param) && is_null($regex))
+	 {
+		  foreach($param as $index => $exp)
+		  {
+		       # recursive
+		       $this->with($index, $exp);
+		  }
 
-   }else{
-       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
-   }
-  
-   return $this;
+	 }else{
+	     
+	     $this->regex(
+	     	$param, 
+	     	str_replace('(', '(?:', $regex)
+	     );
+	 }
+	 
+	 $this->setParam('regex', $this->regex);
+	 return $this;
 }
 
-
-/**
-* Add regex
-* @param mixed $parameter 
-* @param mixed $regex 
-* @return $this
-*/
-public function where($parameter, $regex = null)
-{
-   if(is_array($parameter) && is_null($regex))
-   {
-      foreach($parameter as $index => $exp)
-      {
-           # recursive
-           $this->with($index, $exp);
-      }
-
-   }else{
-       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
-   }
-  
-   return $this;
-}
 
 /**
  * Get Url
@@ -349,8 +348,6 @@ private function getUrl($params)
     } 
     return $path;
 }
-
-
 
 
 }

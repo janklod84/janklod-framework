@@ -94,9 +94,9 @@ public static function group($options = [], \Closure $callback)
 public static function prefix($options = [], \Closure $callback)
 {  
     self::$options['prefix'] = $options;
-    self::group(self::$options, $callback);
+    call_user_func($callback); 
+    self::$options['prefix'] = [];
 }
-
 
 
 /**
@@ -128,14 +128,18 @@ $method = 'GET'
 )
 {
      # route custom
-     $options = self::$options;
-     $params  = compact('path', 'callback', 'name', 'method', 'options');
-     $route = new RouteCustomer($params);
+     $route = new RouteCustomer(self::$options);
+     $route->path($path);
+     $route->callback($callback);
+     $route->name($name);
+     $route->method($method);
+     $route->option('prefix');
 
+     
      # route filter
      if(is_string($callback) && $name === null)
      {
-          $route->setParam('name', $callback);
+          $route->name($callback);
      }
 
      if($name)
@@ -148,19 +152,11 @@ $method = 'GET'
 
 
      # store route by method
-     RouteCollection::store($method, $route);
+     RouteCollection::store($method, $route->parameters());
      return $route;
 }
 
 
-/**
-* Get option
-* @param string $key 
-* @return mixed
-*/
-protected static function getOption($key='')
-{
-     return self::$options[$key] ?? '';
-}
+
 
 }
