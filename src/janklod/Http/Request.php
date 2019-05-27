@@ -272,6 +272,7 @@ public function url($uri = false)
 
 
 /**
+  * Determine current path from server
   * Get Url from global $_SERVER
   * @return string
 */   
