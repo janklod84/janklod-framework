@@ -38,51 +38,15 @@ class Load
  */
  public function model($name)
  {
-     $model = $this->model_name($name);
-     $this->{$name} = new $model($this->app);
- }  
-
- /**
-  * entity name
-  * @param string $entity 
-  * @return void
- */
- public function entity($entity)
- {
-    $entityName = $this->model_name(sprintf('Entity\\%s', $entity));
-    $entity = strtolower($entity);
-    $this->{$entity} = new $entityName();
- }
-
-
- /**
-  * manager name
-  * @param string $manager 
-  * @return object
- */
- public function manager($manager)
- {
-      $managerName = $this->model_name(sprintf('Manager\\%s', $manager));
-      $entity = strtolower($entity);
-      $this->{$entity} = new $managerName();
- }
-
- /**
-  * Get model name
-  * @param string $name 
-  * @return string
- */
- public function model_name($name)
- {
      $model = sprintf('\\app\\models\\%s', $name);
      if(!class_exists($model))
      {
          exit(sprintf('Sorry class <b>%s</b> does not exist!'. $model)); 
      }
-     return $model;
- }
+     $this->{$name} = new $model($this->app);
+ }  
 
-
+ 
 
  /**
   * Call controller and action
@@ -140,13 +104,9 @@ public function call($object, $method='before')
 * @return object
 * @throws \Exception
 */
-private function getController(string $name)
+public function getController(string $name)
 {
     $controllerClass = sprintf('app\\controllers\\%s', $name);
-    
-    // add here fonctionalites for loading Module classes
-
-    // ...
     if(!class_exists($controllerClass))
     {
          throw new Exception(
@@ -156,6 +116,18 @@ private function getController(string $name)
     }
    
     return new $controllerClass($this->app);
+}
+
+
+/**
+* Load module [To add more functionalites letter]
+* @param string $name
+* @return string
+* @throws \Exception
+*/
+public function module(string $name)
+{
+    return sprintf('modules\\%s', $name);
 }
 
 

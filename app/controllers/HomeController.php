@@ -19,4 +19,10 @@ class HomeController
      	  echo __METHOD__;
      }
 
+
+     public function contact()
+     {
+     	  echo __METHOD__;
+     }
+
 }

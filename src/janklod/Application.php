@@ -64,7 +64,7 @@ public function run()
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
      {
-         exit('Error 404');
+         exit('Error 404'); // redirect to 404
      }
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
@@ -77,15 +77,6 @@ public function run()
 public function boot()
 {
     /*
-    require_once __DIR__.'/Test.php';
-    $dispatcher = $this->router->dispatch($this->request->method());
-    $output = $dispatcher->callAction($this->app);
-    if(is_string($output))
-    {
-      $this->response->setBody($output);
-    }
-    $this->response->send();
-   
     // Print out executed queries
     \JK\ORM\QQ::output(false);
     */
@@ -124,7 +115,7 @@ public function bind(string $key, $resolver)
 
 
 /**
-* Create new instance and inject automatically
+* Create new instance and inject params automatically
 * Create new object [ex: (new \JK\Application())->make(Blog::class) ]
 * $obj = $this->app->make('JanKlod\\Test', ['id' => 1, 'slug' => 'jean']);
 * $this->make('JanKlod\\Test', [1, jean']);
@@ -247,7 +238,6 @@ public function loadProviders()
 /**
  * 
  * @param \JK\Http\RequestInterface  $request 
- * @param \JK\Http\ResponseInterface $response 
  * @return \JK\Http\ResponseInterface 
  */
 public function handle(
@@ -270,20 +260,6 @@ ResponseInterface $response
 )
 {
 
-}
-
-
-/**
-* Show development microtimer
-* @return string
-*/
-public function microtimer()
-{
-   if(defined('DEV') && DEV)
-   {
-      $microtimer = new MicroTimer(\Config::get('app.microtime'));
-      $microtimer->show(\Config::get('app.language'));
-   }
 }
 
 

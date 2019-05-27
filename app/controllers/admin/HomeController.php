@@ -9,15 +9,21 @@ namespace app\controllers\admin;
 class HomeController
 {
      
+
      public function index()
      {
      	  echo __METHOD__;
      }
 
-
-     public function add()
+     public function about()
      {
-     	 echo __METHOD__;
+     	  echo __METHOD__;
+     }
+
+
+     public function contact()
+     {
+     	  echo __METHOD__;
      }
 
 }

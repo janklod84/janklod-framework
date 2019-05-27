@@ -25,6 +25,12 @@ class Request implements RequestInterface
    'head'
 ];
 
+private $globalParams = [
+  'REQUEST_URI', 
+  'PATH_INFO', 
+  'QUERY_STRING'
+];
+
 
 /**
 * Contain all requests by POST, GET, PUT, HEAD, DELETE ...
@@ -264,7 +270,23 @@ public function url($uri = false)
   return $url;
 }
 
-    
 
+/**
+  * Get Url from global $_SERVER
+  * @return string
+*/   
+public function fromGlobals()
+{
+    $url = '';
+    foreach($this->globalParams as $param)
+    {
+       if($path = $this->server($param))
+       {
+           $url = $path;
+           break;
+       }
+    }
+    return trim($url, '/');
+}
        
 }
