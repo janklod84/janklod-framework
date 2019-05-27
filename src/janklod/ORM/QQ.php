@@ -194,6 +194,23 @@ public static function exec($sql='')
 }
 
 
+
+
+/**
+ * Map item
+ * @param null $item 
+ * @return mixed
+*/
+public static function map($item=null)
+{
+   if(!array_key_exists($item, self::$register))
+   {
+       exit(sprintf('No <b>%s</b> added for mapping !', $item));
+   }
+   return self::$register[$item];
+}
+
+
 /**
  * Add Table
  * @param string $table 
@@ -205,24 +222,10 @@ public static function addTable($table='')
 }
 
 
-/**
- * Map type
- * @param null $type 
- * @return void
-*/
-public static function map($type=null)
-{
-   if(!array_key_exists($type, self::$register))
-   {
-       exit(sprintf('No <b>%s</b> added for mapping !', $type));
-   }
-   return self::$register[$type];
-}
-
 
 /**
  * Get Table
- * @return string
+ * @return mixed
 */
 public static function getTable($return=false)
 {

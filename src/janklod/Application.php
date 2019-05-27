@@ -249,16 +249,24 @@ public function loadProviders()
 
 /**
  * 
- * @param RequestInterface $request 
- * @param Response $response 
- * @return type
+ * @param \JK\Http\RequestInterface  $request 
+ * @param \JK\Http\ResponseInterface $response 
+ * @return \JK\Http\ResponseInterface 
  */
-public function terminate(
-RequestInterface $request, 
-Response $response
-)
+public function handle(
+RequestInterface $request
+): ResponseInterface
 {
      //
+}
+
+
+public function terminate(
+RequestInterface $request, 
+ResponseInterface $request
+)
+{
+
 }
 
 
