@@ -39,7 +39,9 @@ public function before()
 public function index()
 {
    
-   debug($this->user);
+   // debug($this->user);
+
+   debug($this->user->findAll());
    return $this->render('home/index');
 }
 

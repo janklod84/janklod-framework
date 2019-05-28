@@ -18,7 +18,6 @@ class Load
 private $app;
 private $controller;
 private $models = [];
-private $controllers = [];
 private $callback;
 
 
@@ -35,7 +34,7 @@ public function __construct($app)
 
 
 /**
-* Call controller and action
+* Call action
 * @param \JK\Container\ContainerInterface $app
 * @return mixed
 */
@@ -56,7 +55,6 @@ public function callAction($callback, $matches=[])
     
     if(!is_callable($callback))
     {
-        // redirect to 404 page
         die('No callable'); 
     }
     
@@ -65,15 +63,18 @@ public function callAction($callback, $matches=[])
     $this->call($this->controller, 'after');
     
     // response send headers to server
-    $output  = (string) $output;
+    $output = (string) $output;
     response()->setBody($output);
     response()->send();
 }
 
 
+
 /**
 * Call before or after 
 * how we want
+* @param object $object
+* @param string $method
 * @return void
 */
 public function call($object, $method='before')
@@ -89,7 +90,6 @@ public function call($object, $method='before')
 }
 
 
-
 /**
 * Get controller
 * @param string $name
@@ -98,16 +98,16 @@ public function call($object, $method='before')
 */
 public function getController($name)
 {
-    $controllerClass = sprintf('app\\controllers\\%s', $name);
-    if(!class_exists($controllerClass))
+    $controller = sprintf('app\\controllers\\%s', $name);
+    if(!class_exists($controller))
     {
          throw new Exception(
-           sprintf('class <strong>%s</strong> does not exit!', $controllerClass), 
+           sprintf('class <strong>%s</strong> does not exit!', $controller), 
            404
         );
     }
 
-    return new $controllerClass($this->app);
+    return new $controller($this->app);
 }
 
 

@@ -13,7 +13,7 @@ use \Config;
 */ 
 final class DB
 {
-    
+
 /**
 * @var \PDO $instance 
 * @var  \JK\Database\DB $instance
