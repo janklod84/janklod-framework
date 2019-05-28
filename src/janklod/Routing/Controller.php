@@ -13,6 +13,7 @@ abstract class Controller
        
 /**
 * @var \JK\DI\ContainerInterface $app
+* @var \JK\Loader\Load $load
 * @var \JK\Template\View $view
 * @var \JK\Http\Request $request
 * @var string $layout
@@ -21,6 +22,7 @@ abstract class Controller
 * [ set automatically view by using controller and action ]
 */
 protected $app;
+protected $load;
 protected $view;
 protected $request;
 protected $layout;
@@ -37,6 +39,7 @@ public function __construct($app)
      $this->app     = $app;
      $this->view    = $app->view;
      $this->request = $app->request;
+     $this->load    = $app->load;
 }
 
  
@@ -48,6 +51,17 @@ public function __construct($app)
 protected function set($data = [])
 {
     $this->view->setData($data);
+}
+
+
+/**
+ * 
+ * @param type $name 
+ * @return type
+*/
+public function __get($name)
+{
+
 }
 
 

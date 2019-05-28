@@ -14,15 +14,32 @@ use JK\Database\DatabaseManager;
 class HomeController extends AppController
 {
      
+
+/**
+ * @var \app\models\User $user
+*/
+protected $user;
+
+
+/**
+ * Do action before callback
+ * @return 
+*/
+public function before()
+{
+     $this->user = $this->load
+                        ->model('User');
+}
+
+
 /**
 * Action index
 * @return void
 */
 public function index()
 {
-   $user = new User();
-  
-   // 
+   
+   debug($this->user);
    return $this->render('home/index');
 }
 
