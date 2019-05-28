@@ -120,10 +120,15 @@ public static function isStored()
 */
 public static function hasChild($item='')
 {
-    $finded = array_key_exists(self::$group, self::$stored);
+    $finded = array_key_exists(
+                self::$group, 
+                self::$stored
+            );
     if(!is_null($item))
     {
-        $finded = array_key_exists($item, self::$stored[self::$group]);
+        $finded = array_key_exists($item, 
+          self::$stored[self::$group]
+        );
     }
     return $finded;
 }

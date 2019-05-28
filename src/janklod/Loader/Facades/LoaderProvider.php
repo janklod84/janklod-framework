@@ -10,14 +10,14 @@ use JK\Loader\Load;
 class LoaderProvider extends ServiceProvider
 {
         
-        /**
-         * Register service
-         * @return void
-        */
-	    public function register()
-	    {
-            $this->app->singleton('load', function () {
-                 return new Load($this->app);
-            });
-	    }
+/**
+ * Register service
+ * @return void
+*/
+public function register()
+{
+    $this->app->singleton('load', function () {
+         return new Load($this->app);
+    });
+}
 }
