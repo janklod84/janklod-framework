@@ -2,7 +2,6 @@
 namespace JK\Template;
 
 
-use \Url;
 use \Config;
 
 /**
@@ -90,11 +89,37 @@ public static function render(string $type = '')
 }
 
 
+
+/**
+* Render all type format OLD
+* @param string $type 
+* @return string
+*/
+private static function renderType($data = [], $type)
+{
+   $config = Config::get('asset.'. $type) ?? [];
+   $data = array_merge($config, $data);
+   if(!empty($data))
+   {
+   	   $asset = '';
+   	   foreach($data as $path)
+       {
+          $asset .= sprintf(self::FORMAT_TYPE[$type], 
+                            base_url() . trim($path, '/')
+                    );
+       }
+       return $asset;
+   }
+}
+
+
+/*
+I Want
 /**
 * Render all type format
 * @param string $type 
 * @return string
-*/
+
 private static function renderType($data = [], $type)
 {
    self::$data = array_merge($data, self::$data);
@@ -111,20 +136,19 @@ private static function renderType($data = [], $type)
    }
 }
 
-
 /**
 * Render all type format OLD
 * @param string $type 
 * @return string
-*/
+
 private static function renderTypeOLD($data = [], $type)
 {
    $config = Config::get('asset.'. $type) ?? [];
    $data = array_merge($config, $data);
    if(!empty($data))
    {
-   	   $asset = '';
-   	   foreach($data as $path)
+       $asset = '';
+       foreach($data as $path)
        {
           $asset .= sprintf(self::FORMAT_TYPE[$type], 
                             Url::base() . '/'.  trim($path, '/')
@@ -133,6 +157,7 @@ private static function renderTypeOLD($data = [], $type)
        return $asset;
    }
 }
+*/
 
 
 }
