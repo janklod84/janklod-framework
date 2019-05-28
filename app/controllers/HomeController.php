@@ -11,13 +11,13 @@ class HomeController extends AppController
      
      public function index()
      {
-     	  echo __METHOD__, '<br>';
-            $this->render('home/index');
+         /* echo request()->ip(); */
+         $this->render('home/index');
      }
 
      public function about()
      {
-     	  echo __METHOD__;
+	     echo __METHOD__;
      }
 
 

@@ -31,6 +31,12 @@ private $globalParams = [
   'QUERY_STRING'
 ];
 
+private $ipIndexes = [
+  'HTTP_CLIENT_IP',
+  'HTTP_X_FORWARDED_FOR',
+  'HTTP_X_FORWARDED_FOR'
+];
+
 
 /**
 * Contain all requests by POST, GET, PUT, HEAD, DELETE ...
@@ -164,10 +170,22 @@ public function host()
 
 
 /**
- * Get User ip
- * @return string
+* Get User ip [if user uses proxy and so one ...]
+* @return string
 */
-public function ip(){}
+public function ip()
+{
+   $ip = $this->server('REMOTE_ADDR'); 
+   foreach($this->ipIndexes as $indexIp)
+   {
+       if($identified = $this->server($indexIp))
+       {
+           $ip = $identified;
+           break;
+       }
+   }
+   return $ip;
+}
 
 
 

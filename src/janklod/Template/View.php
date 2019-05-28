@@ -100,6 +100,21 @@ protected function runBuffer()
 
 
 /**
+* Show current view path
+* @return string
+*/ 
+public function currentViewPath($template=false)
+{
+    $html = '<div class="container text-center">';
+    $html .= '<p>';
+    $html .= '<small>Current view path :</small>'; 
+    $html .= '<code>'. $this->fullPath($this->view) . '</code>'; 
+    $html .= '</p>';
+    $html .= '</div>';
+    echo $template ?: $html;
+}
+
+/**
 * output view
 * @return mixed
 */

@@ -65,6 +65,7 @@ protected function render($view, $data = [])
         $this->mapLayout()
      );
      (new ViewAdapter($this->view))->render();
+     $this->view->currentViewPath(); // show current view path
 }
 
 /**
