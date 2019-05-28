@@ -83,7 +83,7 @@ public function render()
 * Buffering
 * @return void
 */
-public function runBuffer()
+protected function runBuffer()
 {
      if($this->output === null)
      {
@@ -124,7 +124,7 @@ public function __toString()
  * @param string $path 
  * @return string
 */
-protected function fullPath($path)
+public function fullPath($path)
 {
     $direction = sprintf('%s/%s.php', 
        trim($this->viewPath, '/'),  
