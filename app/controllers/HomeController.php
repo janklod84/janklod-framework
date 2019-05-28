@@ -21,10 +21,7 @@ class HomeController extends AppController
 public function index()
 {
    $user = new User();
-   
-
-
-
+  
    // 
    return $this->render('home/index');
 }

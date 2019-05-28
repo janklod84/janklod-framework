@@ -43,7 +43,10 @@ private function __wakeup(){}
 */
 private function __construct() 
 {
-     
+    if(!self::isConnected())
+    {
+         self::open();
+    }
 }
 
 
@@ -63,55 +66,14 @@ private static function isConnected()
 */
 private static function connect()
 {
-    try
-    {
-        $driver = self::config('driver'); 
-        
-        if(!in_array($driver, PDO::getAvailableDrivers(), true))
-        {
-            exit('Error Available driver');
-            throw new Exception(
-              'Error Driver, Cannot work without a proper database setting up', 
-              404
-            );
-        }
-
-        return call_user_func([new static, $driver]);
-
-     }catch(PDOException $pdoEx){
-
-           die($pdoEx->getMessage());
-     }
-
-    /*
     return Connection::make(
           Config::get('database.dsn'),
           Config::get('database.user'),
           Config::get('database.password'),
           Config::get('database.options')
     );
-
-    $driver = Config::get('database.driver');
-    if($driver === '')
-    {
-       die('Error driver');
-    }
-
-    call_user_func([$this, $driver]);
-    */
+    
 }
-
-/**
- * Get database configuration
- * @param  $key 
- * @return mixed
-*/
-public static function config($key='')
-{
-    if(!$key) { return false; }
-    return Config::get('database.'. $key);
-}
-
 
 
 /**
@@ -146,23 +108,6 @@ public static function instance()
          self::$instance = self::connect();
      }
      return self::$instance;
-}
-
-
-/**
- * Connection to mysql
- * @return \PDO connection
-*/
-public static function mysql()
-{
-    die('OK');
-    //return new \JK\Drivers\MySQL('mysql', []);
-}
-
-
-public static function sqlite()
-{
-    return new \JK\Drivers\SQLite('sqlite', []);
 }
 
 

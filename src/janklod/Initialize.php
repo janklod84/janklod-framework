@@ -68,8 +68,8 @@ public static function providers($app)
 */
 public static function functions()
 {
-    $parsed  = __DIR__.'/Functions/*';
-    foreach(glob($parsed) as $functionPath)
+    $maskPath  = __DIR__.'/Functions/*';
+    foreach(glob($maskPath) as $functionPath)
     {
            if(is_file($functionPath))
            {
