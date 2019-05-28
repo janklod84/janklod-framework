@@ -2,16 +2,6 @@
 
 /*
 |----------------------------------------------------------------------
-|   Autoloading classes and dependencies of application
-|----------------------------------------------------------------------
-*/
-
-require_once realpath(__DIR__ .'/../vendor/autoload.php');
-
-
-
-/*
-|----------------------------------------------------------------------
 |   Check compatibility php version user with that used application
 |----------------------------------------------------------------------
 */
@@ -23,6 +13,16 @@ if(version_compare(PHP_VERSION, '7.1', '<='))
      because This application use version more than 7.1!'
   );
 }
+
+
+/*
+|----------------------------------------------------------------------
+|   Autoloading classes and dependencies of application
+|----------------------------------------------------------------------
+*/
+
+require_once realpath(__DIR__ .'/../vendor/autoload.php');
+
 
 
 
@@ -106,6 +106,8 @@ $app->loadProviders();
 */
 
 $app->file->call('routes/app.php');
+
+
 
 
 /*
