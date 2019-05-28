@@ -25,15 +25,15 @@ private static $functions = [];
 */
 public static function alias($aliases = [])
 {
-	   self::$aliases =  $aliases ?: self::get('alias');
-     
-     foreach(self::$aliases as $alias => $class_name)
-     {
-         if(class_exists($class_name))
-         {
-              class_alias($class_name, $alias);
-         }
-     }
+self::$aliases =  $aliases ?: self::get('alias');
+
+foreach(self::$aliases as $alias => $class_name)
+{
+   if(class_exists($class_name))
+   {
+        class_alias($class_name, $alias);
+   }
+}
 }
 
 
@@ -44,21 +44,21 @@ public static function alias($aliases = [])
 */
 public static function providers($app)
 {
-	   self::$providers = self::get('providers');
-     
-     foreach(self::$providers as $service)
-     {
-       if(!class_exists($service))
-       {
-            exit(sprintf(
-                'class Provider <strong>%s</strong> does not exist!', 
-                $service)
-            );
-       }
+ self::$providers = self::get('providers');
+ 
+ foreach(self::$providers as $service)
+ {
+   if(!class_exists($service))
+   {
+        exit(sprintf(
+            'class Provider <strong>%s</strong> does not exist!', 
+            $service)
+        );
+   }
 
-       $provider = new $service($app);
-       call_user_func([$provider, 'register']);
-     }
+   $provider = new $service($app);
+   call_user_func([$provider, 'register']);
+ }
 }
 
 
@@ -69,8 +69,7 @@ public static function providers($app)
 */
 public static function functions(string $parsed=null)
 {
-    $parsed  = $parsed ?: __DIR__.'/Functions/';
-    $parsed .= '/*';
+    $parsed  = __DIR__.'/Functions/*';
     foreach(glob($parsed) as $functionPath)
     {
            if(is_file($functionPath))

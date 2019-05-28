@@ -43,10 +43,7 @@ private function __wakeup(){}
 */
 private function __construct() 
 {
-    if(!self::isConnected())
-    {
-         self::open();
-    }
+     
 }
 
 
@@ -66,14 +63,31 @@ private static function isConnected()
 */
 private static function connect()
 {
+    try
+    {
+        $driver = self::config('driver'); //?? 'mysql';
+        die($driver);
+        if(!in_array($driver, PDO::getAvailableDrivers(), true))
+        {
+            throw new Exception(
+              'Cannot work without a proper database setting up', 
+              404
+            );
+        }
+
+     }catch(PDOException $pdoEx){
+
+           die($pdoEx->getMessage());
+     }
+
+    /*
     return Connection::make(
           Config::get('database.dsn'),
           Config::get('database.user'),
           Config::get('database.password'),
           Config::get('database.options')
     );
-    
-    /*
+
     $driver = Config::get('database.driver');
     if($driver === '')
     {
@@ -83,6 +97,18 @@ private static function connect()
     call_user_func([$this, $driver]);
     */
 }
+
+/**
+ * Get database configuration
+ * @param  $key 
+ * @return mixed
+*/
+public static function config($key='')
+{
+    if(!$key) { return false; }
+    return Config::get('database.'. $key);
+}
+
 
 
 /**

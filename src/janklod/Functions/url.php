@@ -14,7 +14,7 @@ if(!function_exists('base_url'))
            $baseUrl = Config::get('app.base_url');
            if($baseUrl === false)
            {
-               return false;
+               return '/'; // or false;
            }
            $url = $baseUrl ? trim($baseUrl, '/') : Url::base();
            $url .= '/';

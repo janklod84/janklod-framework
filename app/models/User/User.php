@@ -8,7 +8,7 @@ use JK\Database\ActiveRecord;
 /**
  * @package app\models\User\User 
 */ 
-class User //extends ActiveRecord
+class User extends ActiveRecord
 {
 	  
 	  /**
