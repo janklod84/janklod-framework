@@ -36,8 +36,6 @@ abstract class Controller
 	   {
            $this->app = $app;
            $this->view = $app->view;
-
-           // debug($this->view);
 	   }
 
        
@@ -63,15 +61,21 @@ abstract class Controller
      {
            $this->view->setView($view);
            $this->view->setData($data);
-           if($this->layout === false)
-           {
-               $layout = false;
-           }else{
-             
-               $layout = $this->layout ?: \Config::get('view.layout');
-           }
-           $this->view->setLayout($layout);
+           $this->view->setLayout(
+              $this->mapLayout()
+           );
            (new ViewAdapter($this->view))->render();
+     }
+
+     /**
+      * map layout
+      * @return mixed
+     */
+     protected function mapLayout()
+     {
+         if($this->layout === false)
+         { return false; }
+         else{ return $this->layout ?: \Config::get('view.layout'); }
      }
 
 

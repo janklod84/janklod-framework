@@ -124,7 +124,7 @@ public function __toString()
  * @param string $path 
  * @return string
 */
-public function fullPath($path)
+protected function fullPath($path)
 {
     $direction = sprintf('%s/%s.php', 
        trim($this->viewPath, '/'),  
