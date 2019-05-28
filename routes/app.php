@@ -7,11 +7,26 @@
 */
 
 # SITE
+
+/*
 $options = [
   'path' => '/admin',
   'controller' => 'admin'
 ];
 
+Route::prefix($options, function () {
+    Route::get('/', 'HomeController@index', 'welcome.page');
+    Route::get('/about/:slug-:id', 'HomeController@about');
+    Route::get('/contact/:id', 'HomeController@contact', 'contact.me')->with('id','[0-9+]');
+    Route::post('/contact', 'HomeController@contact');
+});
+*/
+
+
+$options = [
+  'path' => '/admin',
+  'controller' => 'admin'
+];
 
 Route::prefix($options, function () {
     Route::get('/', 'HomeController@index', 'welcome.page');
@@ -21,8 +36,7 @@ Route::prefix($options, function () {
 });
 
 
-
 Route::get('/', 'HomeController@index', 'welcome.page');
-Route::get('/about/:slug-:id', 'HomeController@about');
-Route::get('/contact/:id', 'HomeController@contact', 'contact.me');
+Route::get('/about', 'HomeController@about');
+Route::get('/contact', 'HomeController@contact', 'contact.me');
 Route::post('/contact', 'HomeController@contact');

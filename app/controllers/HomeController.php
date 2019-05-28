@@ -9,21 +9,37 @@ namespace app\controllers;
 class HomeController extends AppController
 {
      
-     public function index()
-     {
-         /* echo request()->ip(); */
-         $this->render('home/index');
-     }
+/**
+* Action index
+* @return void
+*/
+public function index()
+{
+   return $this->render('home/index');
+}
 
-     public function about()
-     {
-	     echo __METHOD__;
-     }
-   
 
-     public function contact()
-     {
-     	  echo __METHOD__;
-     }
+/**
+* Action about
+* @return string
+*/
+public function about()
+{
+    $this->render('home/about');
+}
+
+
+/**
+* Action contact
+* @return void
+*/
+public function contact()
+{
+   if($this->request->isMethod('post'))
+   {
+       echo 'OK';
+   }
+   $this->render('home/contact');
+}
 
 }

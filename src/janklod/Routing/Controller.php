@@ -34,8 +34,9 @@ protected $autoview = true;
 */
 public function __construct($app)
 {
-     $this->app = $app;
-     $this->view = $app->view;
+     $this->app     = $app;
+     $this->view    = $app->view;
+     $this->request = $app->request;
 }
 
  

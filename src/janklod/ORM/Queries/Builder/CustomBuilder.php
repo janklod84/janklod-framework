@@ -10,10 +10,9 @@ abstract class CustomBuilder
      
 /**
 * @var array params
-* @var string $table
 */
 protected $params;
-protected $table;
+
 
 /**
 * Constructor

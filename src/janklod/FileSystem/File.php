@@ -128,6 +128,29 @@ public function map($path='')
 
 
 /**
+ * Make file
+ * @param string $filename
+ * @return bool
+*/
+public function make($filename='')
+{
+   
+}
+
+
+/**
+ * Make folder
+ * @param string $foldername
+ * @return bool
+*/
+public function makeFolder($foldername='')
+{
+    
+}
+
+
+
+/**
 * Prepare path 
 * @param string $path 
 * @return string
