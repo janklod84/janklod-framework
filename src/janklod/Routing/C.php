@@ -2,7 +2,10 @@
 namespace JK\Routing;
 
 
-use JK\Template\ViewAdapter;
+use JK\Template\{
+   View,
+   ViewAdapter
+};
 
 
 /**
@@ -13,12 +16,13 @@ abstract class Controller
        
      /**
       * @var \JK\DI\ContainerInterface $app
+      * @var \JK\Loader\Load $load
       * @var \JK\Template\View $view
       * @var \JK\Http\Request $request
       * @var string $layout
       * @var array $data
-      * @var string $autoview 
-      * [ set automatically view by using controller and action ]
+      * @var string $viewPath
+      * @var string $autoview [ set automatically view by using controller and action ]
      */
      protected $app;
      protected $view;
@@ -35,12 +39,29 @@ abstract class Controller
 	   public function __construct($app)
 	   {
            $this->app = $app;
-           $this->view = $app->view;
-
-           debug($this->view);
+           $this->request = $app->get('request');
+           $this->load = $app->get('load');
+           $this->view = new View();
 	   }
 
        
+    
+     /**
+      * Must to add later next functionnality
+      * Do something before calling action
+      * @return void
+     */
+     public function before() {}
+
+
+     /**
+      * Must to add later next functionnality
+      * Do something after calling action
+      * @return void
+     */
+     public function after() {}
+
+
      /**
       * Set data
       * @param array $data 
@@ -61,29 +82,14 @@ abstract class Controller
      */
      protected function render($view, $data = [])
      {
-           $this->view->setView($view);
-           $this->view->setData($data);
-           $this->view->setLayout($this->layout);
-           (new ViewAdapter($this->view))->render();
+         if($this->render)
+         {
+             $this->view->setView($view);
+             $this->view->setData($data);
+             $this->view->setLayout($this->layout);
+             (new ViewAdapter($this->view))->render();
+         }
      }
-
-
-     /**
-      * Must to add later next functionnality
-      * Do something before calling action
-      * @return void
-     */
-     public function before() {}
-
-
-     /**
-      * Must to add later next functionnality
-      * Do something after calling action
-      * @return void
-     */
-     public function after() {}
-
-
 
 
 }

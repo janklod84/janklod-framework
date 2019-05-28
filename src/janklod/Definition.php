@@ -16,9 +16,9 @@ const CONFIG = [
 \JK\Http\Facades\RequestProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
 \JK\Routing\Facades\RouterProvider::class, 
-\JK\Loader\Facades\LoaderProvider::class
-/*
+\JK\Loader\Facades\LoaderProvider::class,
 \JK\Template\Facades\ViewProvider::class,
+/*
 \JK\Validation\Facades\ValidationProvider::class,
 */
 ],

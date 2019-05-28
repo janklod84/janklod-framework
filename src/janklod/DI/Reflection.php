@@ -2,7 +2,7 @@
 namespace JK\DI;
 
 use \ReflectionClass;
-use \Exception
+use \Exception;
 
 
 /**

@@ -6,7 +6,7 @@ namespace app\controllers;
  * Base controller Back part of application
  * @package app\controllers\HomeController 
 */ 
-class HomeController
+class HomeController extends AppController
 {
      
      public function index()

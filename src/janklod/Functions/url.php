@@ -11,7 +11,14 @@ if(!function_exists('base_url'))
       */
       function base_url()
       {
-         return Url::base();
+           $baseUrl = Config::get('app.base_url');
+           if($baseUrl === false)
+           {
+               return false;
+           }
+           $url = $baseUrl ? trim($baseUrl, '/') : Url::base();
+           $url .= '/';
+           return $url;
       }
 }
 
@@ -20,6 +27,8 @@ if(!function_exists('url'))
 {
       
       /**
+       * Ex: http://project.loc/admin/login
+       * 
        * Return current url
        * @param string $part
        * @param array $params
@@ -27,7 +36,7 @@ if(!function_exists('url'))
       */
       function url($part='', $params=[])
       {
-         return Url::to($part, $params);
+           return base_url() . Url::to($part, $params);
       }
 }
 

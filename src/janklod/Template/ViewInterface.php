@@ -13,4 +13,11 @@ interface ViewInterface
    * @return mixed
   */
   public function output();
+
+  
+  /**
+   * stringify output
+   * @return string
+  */
+  public function __toString();
 }

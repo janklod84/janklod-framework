@@ -10,11 +10,15 @@ use \JK\Http\Request;
 class HomeController
 {
      
+     public function before()
+     {
+         echo '<h2>Привет друзья , я был вызван первый</h2>';
+     }
 
      public function index(Request $request)
      {
             debug($request);
-     	  echo __METHOD__;
+     	    echo __METHOD__;
      }
 
      public function about()
@@ -30,7 +34,7 @@ class HomeController
      }
 
 
-     public function contactFix(Request $request, int $id=null)
+     public function contactFix(Request $request, int $id = null)
      {
             debug($request);
             echo 'Contact number : '.$id;
@@ -43,6 +47,11 @@ class HomeController
             debug($request);
             echo 'Contact number : '. debug($arguments);
      	  echo __METHOD__;
+     }
+
+     public function after()
+     {
+         echo '<h2>Пока, пока ребята! </h2>';
      }
 
 }

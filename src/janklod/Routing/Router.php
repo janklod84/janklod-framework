@@ -86,7 +86,7 @@ public function routes($method='')
  * @param string $pattern
  * @return bool
 */
-public function match(string $pattern)
+public function match(string $pattern): bool
 {
     $regex = '#^'. $pattern . '$#i';
     if(!preg_match($regex, $this->url, $matches))
@@ -103,7 +103,7 @@ public function match(string $pattern)
 /**
  * Dispatcher routes
  * @param string $method 
- * @return \JK\Routing\Dispatcher
+ * @return null | \JK\Routing\Dispatcher
 */
 public function dispatch($method='GET')
 {

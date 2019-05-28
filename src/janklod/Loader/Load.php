@@ -92,7 +92,7 @@ public function call($object, $method='before')
 {
    if(method_exists($object, $method))
    {
-      call_user_func($object, $method);
+      call_user_func([$object, $method]);
    }
 
 }
