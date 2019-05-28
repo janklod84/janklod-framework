@@ -19,7 +19,7 @@ class HomeController extends AppController
      {
 	     echo __METHOD__;
      }
-
+   
 
      public function contact()
      {
