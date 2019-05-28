@@ -127,7 +127,7 @@ public function preparePath(string $path)
 	 	  $prefix = $this->getOption('prefix.path');
  	  	$path = sprintf('%s/%s', trim($prefix, '/'), $path);
 	 }
-   return sprintf('#^%s$#i', trim($path, '/'));
+   return trim($path, '/');
 }
 
 
@@ -287,6 +287,9 @@ public function with($parameter, $regex = null)
 
 /**
  * Get Url
+ * RouteCustomer::url('named.route', 
+ * ['param1' => value1, 'param2' => value2 ...]
+ * )
  * @param string $name 
  * @param array $params 
  * @return mixed

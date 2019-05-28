@@ -93,6 +93,41 @@ public function to($path)
 
 
 /**
+ * Get path info of file
+ * Ex: debug($this->file->info('routes/app.php'), true);
+ * $file = new File(ROOT); 
+ * $file->info('routes/app.php', 'basename');
+ * 
+ * @param string $path [dirname, basename, extension, filename]
+ * @return array
+*/
+public function info($path, $key='')
+{
+   $pathInfo = pathinfo($this->to($path));
+   if($key !== '')
+   {
+      return $pathInfo[$key];
+   }
+   return $pathInfo ?? [];
+}
+
+
+/**
+ * Map many files
+ * $this->map('routes')
+ * $this->map('directory/you/want/to/map')
+ * @param string $path 
+ * @return array
+*/
+public function map($path='')
+{
+   $path = str_replace('*', '', $path);
+   $path = trim($path, '/');
+   return glob($this->to($path.'/*'));
+}
+
+
+/**
 * Prepare path 
 * @param string $path 
 * @return string

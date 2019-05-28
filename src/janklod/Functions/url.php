@@ -21,6 +21,8 @@ if(!function_exists('url'))
       
       /**
        * Return current url
+       * @param string $part
+       * @param array $params
        * @return mixed
       */
       function url($part='', $params=[])

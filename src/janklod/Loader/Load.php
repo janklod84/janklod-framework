@@ -69,6 +69,7 @@ class Load
         }
         
         $this->call($this->controller, 'before');
+        /* $output = call_user_func_array($callback, [$this->app->request, $matches]); */
         $output = call_user_func_array($callback, $matches);
         $this->call($this->controller, 'after');
         
@@ -120,7 +121,7 @@ public function getController(string $name)
 
 
 /**
-* Load module [To add more functionalites letter]
+* Load module [To add more functionalites later]
 * @param string $name
 * @return string
 * @throws \Exception

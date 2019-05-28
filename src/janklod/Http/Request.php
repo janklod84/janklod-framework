@@ -259,14 +259,14 @@ public function isXhr() {}
 
 /**
 * Get Base Url
-* @param bool $uri
+* @param bool $path
 * @return string
 */
-public function url($uri = false)
+public function url($path = false)
 {
   $url = $this->is('secure') ? 'https' : 'http';
   $url .= '://' . $this->host();
-  $url .= $uri ? $this->uri() : '';
+  $url .= $path ?? '';
   return $url;
 }
 

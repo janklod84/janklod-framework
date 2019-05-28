@@ -83,11 +83,12 @@ public function routes($method='')
 
 /**
  * Determine if route match URL
- * @param string $regex
+ * @param string $pattern
  * @return bool
 */
-public function match($regex='')
+public function match(string $pattern)
 {
+    $regex = '#^'. $pattern . '$#i';
     if(!preg_match($regex, $this->url, $matches))
     {
           return false;
