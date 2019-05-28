@@ -10,14 +10,14 @@ use JK\Template\View;
 class ViewProvider extends ServiceProvider
 {
         
-        /**
-         * Register service
-         * @return void
-        */
-	    public function register()
-	    {
-            $this->app->singleton('view', function () {
-                 return new View(ROOT.'app/views/');
-            });
-	    }
+    /**
+     * Register service
+     * @return void
+    */
+    public function register()
+    {
+        $this->app->singleton('view', function () {
+             return new View(ROOT.'app/views/');
+        });
+    }
 }
