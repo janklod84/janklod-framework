@@ -127,7 +127,7 @@ public function preparePath(string $path)
 	 	  $prefix = $this->getOption('prefix.path');
  	  	$path = sprintf('%s/%s', trim($prefix, '/'), $path);
 	 }
-   return trim($path, '/');
+     return trim($path, '/');
 }
 
 
@@ -201,17 +201,17 @@ public function getOption($parsed='')
 	  $parent = $part[0];
 	  $result = null;
 
-    if(array_key_exists($parent, $this->options))
-    {
-     	$result = $this->options[$parent];
-     	foreach($part as $item)
-     	{
-     	 	  if(isset($result[$item]))
-         	{
-     	        $result = $result[$item];
-         	}
-     	}
-    }
+		if(array_key_exists($parent, $this->options))
+		{
+			$result = $this->options[$parent];
+			foreach($part as $item)
+			{
+				  if(isset($result[$item]))
+				{
+					$result = $result[$item];
+				}
+			}
+		}
 
     return $result;
 	}

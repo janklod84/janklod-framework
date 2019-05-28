@@ -134,6 +134,8 @@ public function fullPath($path)
         $direction)
        );
     }
+
+    echo realpath($direction), '<br>';
     return realpath($direction);
 }
 

@@ -27,10 +27,9 @@ public function __construct(ViewInterface $view)
 
 /**
  * Render view
- * @param \JK\Template\ViewInterface $view 
  * @return string
 */
- public function output()
+ public function render()
  {
       return $this->view->output();
  }

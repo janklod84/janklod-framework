@@ -63,7 +63,14 @@ abstract class Controller
      {
            $this->view->setView($view);
            $this->view->setData($data);
-           $this->view->setLayout($this->layout);
+           if($this->layout === false)
+           {
+                $this->view->setLayout(false);
+           }else{
+             
+               $layout = $this->layout ?: \Config::get('view.layout');
+           }
+           $this->view->setLayout('layouts/'. $layout);
            (new ViewAdapter($this->view))->render();
      }
 
