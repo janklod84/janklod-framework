@@ -80,6 +80,7 @@ public function render()
 
 /**
 * Buffering
+* @param bool $layout
 * @return void
 */
 public function runBuffer($layout = true)
@@ -111,7 +112,7 @@ public function output()
 */
 public function __toString()
 {
-
+   return $this->output();
 }
 
 
@@ -122,13 +123,16 @@ public function __toString()
 */
 public function fullPath($path)
 {
-    $direction = trim($this->viewPath, '/') . '/'. trim($path, '/') . '.php';
+    $direction = sprintf('%s/%s.php', 
+       trim($this->viewPath, '/'),  
+       trim($path, '/')
+    );
     if(!file_exists($direction))
     {
        exit(sprintf(
         'Sorry view file <strong>%s</strong> does not exist!', 
         $direction)
-       )
+       );
     }
     return realpath($direction);
 }
