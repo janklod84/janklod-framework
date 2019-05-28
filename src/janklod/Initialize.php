@@ -64,10 +64,9 @@ public static function providers($app)
 
 /**
  * Load all functions
- * @param string $parsed
  * @return 
 */
-public static function functions(string $parsed=null)
+public static function functions()
 {
     $parsed  = __DIR__.'/Functions/*';
     foreach(glob($parsed) as $functionPath)

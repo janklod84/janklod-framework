@@ -65,15 +65,18 @@ private static function connect()
 {
     try
     {
-        $driver = self::config('driver'); //?? 'mysql';
-        die($driver);
+        $driver = self::config('driver'); 
+        
         if(!in_array($driver, PDO::getAvailableDrivers(), true))
         {
+            exit('Error Available driver');
             throw new Exception(
-              'Cannot work without a proper database setting up', 
+              'Error Driver, Cannot work without a proper database setting up', 
               404
             );
         }
+
+        return call_user_func([new static, $driver]);
 
      }catch(PDOException $pdoEx){
 
@@ -146,13 +149,18 @@ public static function instance()
 }
 
 
-public function mysql()
+/**
+ * Connection to mysql
+ * @return \PDO connection
+*/
+public static function mysql()
 {
-    return new \JK\Drivers\MySQL('mysql', []);
+    die('OK');
+    //return new \JK\Drivers\MySQL('mysql', []);
 }
 
 
-public function sqlite()
+public static function sqlite()
 {
     return new \JK\Drivers\SQLite('sqlite', []);
 }
