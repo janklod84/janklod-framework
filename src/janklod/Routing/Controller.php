@@ -37,7 +37,7 @@ abstract class Controller
            $this->app = $app;
            $this->view = $app->view;
 
-           debug($this->view);
+           // debug($this->view);
 	   }
 
        
@@ -65,12 +65,12 @@ abstract class Controller
            $this->view->setData($data);
            if($this->layout === false)
            {
-                $this->view->setLayout(false);
+               $layout = false;
            }else{
              
                $layout = $this->layout ?: \Config::get('view.layout');
            }
-           $this->view->setLayout('layouts/'. $layout);
+           $this->view->setLayout($layout);
            (new ViewAdapter($this->view))->render();
      }
 

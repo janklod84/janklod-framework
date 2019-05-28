@@ -20,6 +20,7 @@ private $layout;
 private $view;
 private $data = [];
 private $viewPath = ''; 
+private $output;
 
 
 /**
@@ -80,18 +81,20 @@ public function render()
 
 /**
 * Buffering
-* @param bool $layout
 * @return void
 */
-public function runBuffer($layout = true)
+public function runBuffer()
 {
-     extract($this->data);
-     ob_start();
-     require_once $this->fullPath($this->view);
-     $content = ob_get_clean();
-     if($layout === true)
+     if($this->output === null)
      {
-         require_once $this->fullPath($this->layout);
+         extract($this->data);
+         ob_start();
+         require_once $this->fullPath($this->view);
+         $content = ob_get_clean();
+         if($this->layout != false)
+         {
+             require_once $this->fullPath('layouts/'. $this->layout);
+         }
      }
 }
 

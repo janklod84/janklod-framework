@@ -15,7 +15,7 @@ class HomeController
          echo '<h2>Привет друзья , я был вызван первый</h2>';
      }
 
-     public function index(Request $request)
+     public function index(Request $request=null)
      {
             debug($request);
      	    echo __METHOD__;
@@ -27,7 +27,7 @@ class HomeController
      }
      
 
-     public function contact(int $id)
+     public function contact(int $id=null)
      {
             echo '<br>Contact number : '.$id, '<br>';
             echo __METHOD__;
