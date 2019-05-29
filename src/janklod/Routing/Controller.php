@@ -2,8 +2,6 @@
 namespace JK\Routing;
 
 
-use JK\Template\ViewAdapter;
-
 
 /**
  * @package 
