@@ -84,15 +84,6 @@ public function file($key=null)
 }
 
 
-/*
-Get item from $_FILES request
-public function files($key = null)
-{
-   $data = $_FILES;
-   if($key){ return new UploadedFile($data[$key]); }
-   return new UploadedFile($data);
-}
-*/
 
 /**
 * Get item from $_COOKIE
