@@ -23,6 +23,7 @@ protected $user;
 
 /**
  * Do action before callback
+ * Do all behaviours before actions
  * @return 
 */
 public function before()
@@ -38,9 +39,6 @@ public function before()
 */
 public function index()
 {
-   
-   // debug($this->user);
-
    debug($this->user->findAll());
    return $this->render('home/index');
 }

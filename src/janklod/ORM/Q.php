@@ -189,7 +189,7 @@ public static function execute($sql, $params=[])
  * @param string $sql 
  * @return bool
  */
-public static function exec($sql='')
+public static function exec($sql)
 {		 
 	self::ensureSetup();
 	return self::$query->exec($sql);
