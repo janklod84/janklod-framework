@@ -442,31 +442,31 @@ public static function output($show=true)
 */
 public static function html($queries=[])
 {
-	   self::ensureSetup();
-     $i = 1;
-     $template = '<table class="table">';
-     $template .= '<thead>';
-     $template .= '<tr>';
-     $template .= '<th scope="col">#</th>';
-     $template .= '<th scope="col">Executed Queries :</th>';
-     $template .= '</tr>';
-     $template .= '<tbody>';
-     $template .= '<tr>';
-     if(!empty($queries)):
-     foreach($queries as $query):
-     $template .= '<td>'. $i++ .'</td>';
-     $template .= '<td>'. $query .'</td>';
-     $template .= '</tr>';
-     endforeach;
-     else:
-     $template .= '<td></td>';
-     $template .= '<td col="2">No Query Executed!</td>';
-     endif;
-     $template .= '</tr>';
-     $template .= '</tbody>';
-     $template .= '</table>';
-     $template .= '<strong>Count executed queries : </strong>'. count($queries);
-     echo $template;
+ self::ensureSetup();
+ $i = 1;
+ $template = '<table class="table">';
+ $template .= '<thead>';
+ $template .= '<tr>';
+ $template .= '<th scope="col">#</th>';
+ $template .= '<th scope="col">Executed Queries :</th>';
+ $template .= '</tr>';
+ $template .= '<tbody>';
+ $template .= '<tr>';
+ if(!empty($queries)):
+ foreach($queries as $query):
+ $template .= '<td>'. $i++ .'</td>';
+ $template .= '<td>'. $query .'</td>';
+ $template .= '</tr>';
+ endforeach;
+ else:
+ $template .= '<td></td>';
+ $template .= '<td col="2">No Query Executed!</td>';
+ endif;
+ $template .= '</tr>';
+ $template .= '</tbody>';
+ $template .= '</table>';
+ $template .= '<strong>Count executed queries : </strong>'. count($queries);
+ echo $template;
 }
 
 
