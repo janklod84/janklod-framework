@@ -13,11 +13,7 @@ if(!function_exists('view'))
      */
      function view($path='', $data=[])
      {
-         # exemple path will be loaded dynamically
-          $view = new View(ROOT.'app/views/');
-          $view->setPath($path);
-          $view->setData($data);
-     	    return $view->render();
+         
      }
 }
 

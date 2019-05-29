@@ -2,7 +2,7 @@
 namespace JK\Database;
 
 
-use JK\ORM\QQ;
+use JK\ORM\Q;
 
 
 /**
@@ -19,7 +19,7 @@ abstract class Model
   public function __construct($app=null)
   {
       $db = DB::instance();
-      QQ::setup($db);
+      Q::setup($db);
   }
 
 }

@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Database;
 
-use JK\ORM\QQ;
+use JK\ORM\Q;
 
 /**
  * @package JK\Database\ActiveRecord 
@@ -38,10 +38,10 @@ protected $id;
 public function __construct($id=null)
 {
     parent::__construct();
-    QQ::addTable($this->table);
+    Q::addTable($this->table);
     if($this->entity)
     {
-         QQ::fetchClass(get_class($this));
+         Q::fetchClass(get_class($this));
     }
  
     if($id){ $this->id = $id; }
@@ -56,7 +56,7 @@ public function __construct($id=null)
  * Do some action before storage data
  * @return void
 */
-protected function before(){}
+public function before(){}
 protected function beforeSave(){}
 
 
@@ -65,7 +65,7 @@ protected function beforeSave(){}
  * Do some action after storage data
  * @return void
 */
-protected function after(){}
+public function after(){}
 protected function afterSave(){}
 
 
@@ -76,7 +76,7 @@ protected function afterSave(){}
 */
 public function getTable(): string
 {
-    return QQ::getTable(true);
+    return Q::getTable(true);
 }
 
 
@@ -95,7 +95,7 @@ public function columnMap()
 */
 public function findAll()
 {
-    return QQ::getTable()->all();
+    return Q::getTable()->all();
 }
 
 
@@ -105,7 +105,7 @@ public function findAll()
 */
 public function findById()
 {
-    return QQ::getTable()->read($this->id);
+    return Q::getTable()->read($this->id);
 }
 
 
@@ -118,7 +118,7 @@ public function findById()
 */
 public function findBy($value=null, $field='id')
 {
-     return QQ::getTable()->read($value, $field);
+     return Q::getTable()->read($value, $field);
 }
 
 
@@ -129,7 +129,7 @@ public function findBy($value=null, $field='id')
 */
 public function insert($params = [])
 {
-     return QQ::getTable()->create($params);
+     return Q::getTable()->create($params);
 }
 
 
@@ -140,7 +140,7 @@ public function insert($params = [])
 */
 public function update($params = [])
 {
-    return QQ::getTable()->update($params, $this->id);
+    return Q::getTable()->update($params, $this->id);
 }
 
 
@@ -151,7 +151,7 @@ public function update($params = [])
 */
 public function delete($id=null)
 {
-   return QQ::getTable()->delete($this->id);
+   return Q::getTable()->delete($this->id);
 }
 
 

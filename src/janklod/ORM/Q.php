@@ -8,9 +8,9 @@ use JK\ORM\Statement\Query;
 
 
 /**
- * @package JK\ORM\QQ
+ * @package JK\ORM\Q
 */ 
-class QQ
+class Q
 {
      
 /**
