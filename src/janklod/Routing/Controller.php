@@ -54,17 +54,6 @@ protected function set($data = [])
 }
 
 
-/**
- * 
- * @param type $name 
- * @return type
-*/
-public function __get($name)
-{
-
-}
-
-
 
 /**
 * View render
@@ -79,7 +68,7 @@ protected function render($view, $data = [])
      $this->view->setLayout(
         $this->mapLayout()
      );
-     (new ViewAdapter($this->view))->render();
+     $this->view->render();
      $this->showCurrencies();
 }
 

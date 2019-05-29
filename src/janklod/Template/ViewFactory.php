@@ -8,22 +8,6 @@ namespace JK\Template;
 */ 
 abstract class ViewFactory 
 {
-      
-/**
- * @var \JK\Container\ContainerInterface
-*/
-protected $app;
-
-
-/**
- * Constructor
- * @param \JK\Container\ContainerInterface $view 
- * @return void
-*/
-public function __construct(ContainerInterface $app)
-{
-     $this->app = $app;
-}
 
 
 /**
@@ -32,5 +16,5 @@ public function __construct(ContainerInterface $app)
  * @param array $data
  * @return 
 */
- abstract public function render($viewPath, $data=[]);
+ abstract public function render($viewPath='', $data=[]);
 }
