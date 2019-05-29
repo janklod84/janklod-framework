@@ -115,6 +115,8 @@ public function dispatch(...$args)
         {
               $this->route  = $route;
               $this->params = $route->parameters();
+              
+              /* register()->set('route', $this->params); */
 
               if(is_null($this->dispatcher))
               {

@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Routing\Debug;
+namespace JK\Routing;
 
 /**
- * @package JK\Routing\Debug\Printer
+ * @package JK\Routing\RoutingDebogger
 */ 
-class Printer
+class RoutingDebogger
 {
    
 
@@ -81,6 +81,7 @@ public function output()
 private function getStyle()
 {
    $style  = 'position:fixed;';
+   $style .= 'z-index:9999;';
    $style .= 'bottom:0;';
    $style .= 'left:0;';
    $style .= 'right:0;';

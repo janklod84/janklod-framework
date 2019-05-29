@@ -41,8 +41,7 @@ protected $user;
 */
 public function before()
 {
-     $this->user = $this->load
-                        ->model('User');
+     $this->user = $this->load->model('User');
 }
 
 
@@ -52,8 +51,7 @@ public function before()
 */
 public function index()
 {
-   /* debug($this->user->findAll()); */
-    
+   // debug($this->user->findAll()); 
    return $this->render('home/index');
 }
 

@@ -2,7 +2,7 @@
 namespace JK\Routing;
 
 use \Config;
-use JK\Routing\Debug\Printer;
+use JK\Routing\RoutingDebogger;
 
 
 
@@ -47,7 +47,28 @@ public function __construct($app)
      );
 }
 
- 
+
+/**
+* Must to add later next functionnality
+* Do something before calling action
+* @return void
+*/
+public function before() {}
+
+
+/**
+* Must to add later next functionnality
+* Do something after calling action
+* @return void
+*/
+public function after()
+{
+    if($this->debug)
+    { $this->info(); }
+}
+
+
+
 /**
 * Set data
 * @param array $data 
@@ -74,15 +95,6 @@ protected function render($view, $data = [])
 }
 
 
-/**
- * Get name current controller
- * @return string
-*/
-public function currentController()
-{
-    return $this->load->currentObject($this);
-}
-
 
 /**
 * map layout
@@ -102,26 +114,6 @@ protected function mapLayout()
 }
 
 
-/**
-* Must to add later next functionnality
-* Do something before calling action
-* @return void
-*/
-public function before() {}
-
-
-/**
-* Must to add later next functionnality
-* Do something after calling action
-* @return void
-*/
-public function after()
-{
-    if($this->debug)
-    { $this->info(); }
-}
-
-
 
 /**
 * Show currents view , layout, and controller
@@ -131,7 +123,9 @@ public function info()
 {
      if($this->hasPath())
      {
-         $printer = new Printer();
+          // register
+
+         $printer = new RoutingDebogger();
          $printer->data('controller', $this->currentController());
          $printer->data('view', $this->view->viewPath());
          $printer->data('layout', $this->view->layoutPath());
@@ -139,6 +133,16 @@ public function info()
      }
 }
 
+
+
+/**
+ * Get name current controller
+ * @return string
+*/
+private function currentController()
+{
+    return $this->load->currentObject($this);
+}
 
 /**
  * Determine if has isset path

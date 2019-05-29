@@ -29,7 +29,6 @@ protected $table;
 protected $id;
 
 
-
 /**
  * Constructor
  * @param int $id
@@ -41,9 +40,9 @@ public function __construct($id=null)
     Q::addTable($this->table);
     if($this->entity)
     {
-         Q::fetchClass(get_class($this));
+         Q::fetchClass($this->model);
     }
- 
+    
     if($id){ $this->id = $id; }
     if(method_exists($this, 'before'))
     {
@@ -209,5 +208,6 @@ protected function has($type='xxx'): bool
       }
 }
 
-    
+
+
 }

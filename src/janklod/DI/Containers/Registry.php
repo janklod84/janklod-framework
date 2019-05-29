@@ -64,7 +64,7 @@ public function get($key)
 */
 protected function has($key): bool
 {
- return isset(self::$registry[$key]);
+    return isset(self::$registry[$key]);
 }
 
 }

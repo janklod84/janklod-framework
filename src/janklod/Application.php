@@ -117,6 +117,7 @@ public function run()
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
      {
+         exit('Dispatcher NULL');
          // redirect to NotFoundController 404
          notFound(); 
      }
