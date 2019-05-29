@@ -5,6 +5,7 @@ namespace JK;
 
 use JK\Helper\MicroTimer;
 use JK\Config\Config;
+use JK\Http\Sessions\Session;
 
 
 /**
@@ -38,6 +39,20 @@ private $app;
 
 
 
+/**
+ * @var array $modules 
+*/ 
+private $modules = [];
+
+
+
+
+/**
+ * @var array $middlewares 
+*/ 
+private $middlewares = [];
+
+
 
 
 /**
@@ -52,6 +67,45 @@ private function __construct($root)
      $this->bind('file', new \JK\FileSystem\File($root));
      Config::basePath($root.'/app/config')->map();
 }
+
+
+
+/**
+* Add container you want to use
+* Exemple:
+* $this->addContainer(DI::class)
+* $this->addContainer(new DI())
+* 
+* @param string|object $container 
+* @return void
+*/
+public function addContainer($container='')
+{
+     $this->containerBuilder->addContainer($container);
+}
+
+
+
+/**
+* Add definition
+* $this->addDefinition(__DIR__.'/config.php')
+* $this->addDefinition([
+*   'JK\Helper\Test' => function () {
+*        return new Test();
+*    },
+*    'file' => new File(__DIR__),
+*    'newtest' => ...
+* ])
+* 
+* @param string|array $definition 
+* @return $this
+*/
+public function addDefinition($definition): self
+{
+     $this->containerBuilder->addDefinitions($definition);
+     return $this;
+}
+
 
 
 /**
@@ -73,13 +127,15 @@ public function run()
 
 
 
-
-public function boot()
+/**
+ * debug application
+ * @return 
+*/
+public function debug()
 {
-    /*
-    // Print out executed queries
     \JK\ORM\QQ::output(false);
-    */
+    Initialize::output();
+    exit;
 }
 
 
@@ -165,41 +221,6 @@ public function __get($key)
 }
 
 
-/**
-* Add container you want to use
-* Exemple:
-* $this->addContainer(DI::class)
-* $this->addContainer(new DI())
-* 
-* @param string|object $container 
-* @return void
-*/
-public function addContainer($container)
-{
-     $this->containerBuilder->addContainer($container);
-}
-
-
-
-/**
-* Add definition
-* $this->addDefinition(__DIR__.'/config.php')
-* $this->addDefinition([
-*   'JK\Helper\Test' => function () {
-*        return new Test();
-*    },
-*    'file' => new File(__DIR__),
-*    'newtest' => ...
-* ])
-* 
-* @param string|array $definition 
-* @return $this
-*/
-public function addDefinition($definition): self
-{
-     $this->containerBuilder->addDefinitions($definition);
-     return $this;
-}
 
 
 /**
@@ -213,10 +234,27 @@ public function getContainer()
 }
 
 
+/**
+ * Session start
+ * @return void
+*/
+public function session()
+{
+    Session::start();
+}
+
+
+/**
+* Initialize all functions
+* @return void
+*/
+public function loadFunctions()
+{
+   Initialize::functions();
+}
 
 /**
 * Initialize all alias
-* @param array $alias
 * @return void
 */
 public function loadAlias()

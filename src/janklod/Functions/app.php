@@ -1,17 +1,16 @@
 <?php 
-namespace JK\Application;
-
 
 if(!function_exists('app')) 
 { 
      
 	/**
 	 * Get the application instance
+	 * @param string $root
 	 * @return \JK\Application
 	*/
 	function app()
 	{
-	   return Application::instance();
+	   return \JK\Application::instance(ROOT);
 	}
 }
 

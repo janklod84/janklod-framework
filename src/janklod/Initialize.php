@@ -16,6 +16,8 @@ class Initialize
 private static $aliases   = [];
 private static $providers = [];
 private static $functions = [];
+private static $initialised = [];
+
 
 
 /**
@@ -27,11 +29,14 @@ public static function alias($aliases = [])
 {
 self::$aliases =  $aliases ?: self::get('alias');
 
-foreach(self::$aliases as $alias => $class_name)
+foreach(self::$aliases as $alias => $classname)
 {
-   if(class_exists($class_name))
+   if(class_exists($classname))
    {
-        class_alias($class_name, $alias);
+        if(class_alias($classname, $alias))
+        {
+            self::$initialised['alias'][] = compact('classname', 'alias');
+        }
    }
 }
 }
@@ -57,7 +62,10 @@ public static function providers($app)
    }
 
    $provider = new $service($app);
-   call_user_func([$provider, 'register']);
+   if(call_user_func([$provider, 'register']) !== false)
+   {
+       self::$initialised['providers'][] = $service;
+   }
  }
 }
 
@@ -77,18 +85,16 @@ public static function functions()
                 {
                      if($path = realpath($functionPath))
                      {
-                         array_push(
-                          self::$functions, 
-                          $functionPath
-                         );
-                         require_once($path);
+                         if(require_once($path))
+                         {
+                             self::$initialised['functions'][] = $path;
+                         }
                      }
                 }   
            }
     }
 
 }
-
 
 /**
  * Merge data
@@ -100,4 +106,18 @@ private static function get($key)
    $config = \JK\Config\Config::get('app.'.$key) ?: []; 
    return array_merge(Definition::CONFIG[$key], $config);
 }
+
+
+/**
+ * Get output all container initialised
+ * @return void
+*/
+public static function output()
+{
+    echo '<pre>';
+    print_r(self::$initialised);
+    echo '</pre>';
+}
+
+
 }
