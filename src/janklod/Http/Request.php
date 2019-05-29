@@ -79,11 +79,8 @@ public function file()
 }
 
 
-/**
-* Get item from $_FILES request
-* 
-* @var string $key
-* @return mixed
+/*
+Get item from $_FILES request
 public function files($key = null)
 {
    $data = $_FILES;
