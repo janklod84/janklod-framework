@@ -79,8 +79,8 @@ public static function query()
 */
 public static function sql()
 {
-	  self::ensureSetup();
-    return self::$builder;
+  self::ensureSetup();
+  return self::$builder;
 }
 
 
@@ -90,8 +90,8 @@ public static function sql()
 */
 public static function close()
 {
-	  self::ensureSetup();
-    self::$connection = null;
+  self::ensureSetup();
+  self::$connection = null;
 }
 
 
@@ -113,11 +113,11 @@ $options=[]
 
     try
     {
-          if(is_null(self::$connection))
-          {
-               self::$connection = new PDO($dsn, $user, $password, $options);
-          }
-          self::setup(self::$connection);     
+        if(is_null(self::$connection))
+        {
+             self::$connection = new PDO($dsn, $user, $password, $options);
+        }
+        self::setup(self::$connection);     
 
     }catch(\PDOException $e){
 
@@ -138,8 +138,8 @@ $options=[]
 */
 public static function fetchClass($entity, $arguments=[])
 {
-	  self::ensureSetup();
-    self::$query->fetchClass($entity, $arguments);
+  self::ensureSetup();
+  self::$query->fetchClass($entity, $arguments);
 }
 
 
@@ -151,8 +151,8 @@ public static function fetchClass($entity, $arguments=[])
 */
 public static function fetchColumn($colno=null, $arguments = [])
 {
-	  self::ensureSetup();
-    self::$query->fetchColumn($colno, $arguments);
+  self::ensureSetup();
+  self::$query->fetchColumn($colno, $arguments);
 }
 
 
@@ -164,8 +164,8 @@ public static function fetchColumn($colno=null, $arguments = [])
 */
 public static function fetchInto($object=null, $arguments = [])
 {
-	  self::ensureSetup();
-    self::$query->fetchColumn($object, $arguments);
+  self::ensureSetup();
+  self::$query->fetchColumn($object, $arguments);
 }
 
 
@@ -177,8 +177,8 @@ public static function fetchInto($object=null, $arguments = [])
 */
 public static function execute($sql, $params=[])
 {
-   self::ensureSetup();
-   return self::$query->execute($sql, $params);
+  self::ensureSetup();
+  return self::$query->execute($sql, $params);
 }
 
 
@@ -229,7 +229,7 @@ public static function addTable($table='')
 */
 public static function getTable($return=false)
 {
-	  self::ensureSetup();
+    self::ensureSetup();
     if($return === true)
     {
         return self::map('table');
@@ -250,8 +250,8 @@ public static function getTable($return=false)
 */
 public static function table($table='')
 {
-	  self::ensureSetup();
-    return self::assignTable($table);
+   self::ensureSetup();
+   return self::assignTable($table);
 }
 
 
@@ -280,17 +280,17 @@ public static function assignTable($table='')
 */
 public static function select(...$selects)
 {
-	   self::ensureSetup();
-     $sql = self::$builder->select($selects);
-     if(is_array($selects[0]))
-     {
+  self::ensureSetup();
+  $sql = self::$builder->select($selects);
+  if(is_array($selects[0]))
+  {
         $sql = self::$builder->select($selects[0]);
-     }
-     if($table = self::map('table'))
-     {
+  }
+  if($table = self::map('table'))
+  {
         return $sql->from($table);
-     }
-     return $sql;
+  }
+  return $sql;
 }
 
 
@@ -303,14 +303,14 @@ public static function select(...$selects)
 */
 public function create($params=[])
 {
-	  self::ensureSetup();
-    if($params)
-    {
-        $sql = self::$builder
+  self::ensureSetup();
+  if($params)
+  {
+      $sql = self::$builder
                   ->insert(self::$table)
                   ->set($params);
-        return self::execute($sql, self::$builder->values);
-    }
+      return self::execute($sql, self::$builder->values);
+  }
 }
 
 
@@ -322,17 +322,17 @@ public function create($params=[])
 */
 public function read($value='', $field='id')
 {     
-     self::ensureSetup();
-     if($value)
-     {
-         $sql = self::$builder
-                 ->select()
-                 ->from(self::$table)
-                 ->where($field, $value)
-                 ->limit(1);
-          return self::execute($sql, self::$builder->values)
-                 ->first();
-     }
+   self::ensureSetup();
+   if($value)
+   {
+       $sql = self::$builder
+               ->select()
+               ->from(self::$table)
+               ->where($field, $value)
+               ->limit(1);
+        return self::execute($sql, self::$builder->values)
+               ->first();
+   }
 }
 
 
@@ -345,15 +345,15 @@ public function read($value='', $field='id')
 */
 public function update($params=[], $value, $field='id')
 {
-	  self::ensureSetup();
-    if($params && $value)
-    {
-         $sql = self::$builder
-                ->update(self::$table)
-                ->set($params)
-                ->where($field, $value);
-         return self::execute($sql, self::$builder->values);
-    }
+  self::ensureSetup();
+  if($params && $value)
+  {
+       $sql = self::$builder
+              ->update(self::$table)
+              ->set($params)
+              ->where($field, $value);
+       return self::execute($sql, self::$builder->values);
+  }
 }
 
 
@@ -363,7 +363,7 @@ public function update($params=[], $value, $field='id')
 */
 public function store()
 {
-	  self::ensureSetup();
+  self::ensureSetup();
      // get columns 
     // and determine if has id 
     // or determine if isset property
@@ -387,9 +387,9 @@ private function isNewRecord()
 */
 public function delete($value, $field='id')
 {
-	  self::ensureSetup();
-    if($value)
-    {
+   self::ensureSetup();
+   if($value)
+   {
         $sql = self::$builder
                 ->delete(self::$table)
                 ->where($field, $value);
@@ -405,11 +405,11 @@ public function delete($value, $field='id')
 */
 public function all()
 {
-	  self::ensureSetup();
-    $sql = self::$builder 
+  self::ensureSetup();
+  $sql = self::$builder 
                 ->select()
                 ->from(self::$table);
-    return self::execute($sql)
+  return self::execute($sql)
                 ->results();
 }
 
@@ -421,17 +421,17 @@ public function all()
 */
 public static function output($show=true)
 {
-   self::ensureSetup();
-   if($show)
-   {
-       if(!is_null(self::$query))
-       {
-           $queries = self::$query->executed();
-           self::html($queries);
-       }else{
+  self::ensureSetup();
+  if($show)
+  {
+      if(!is_null(self::$query))
+      {
+         $queries = self::$query->executed();
+         self::html($queries);
+      }else{
           self::html();
-       }
-   }
+      }
+  }
 }
 
 
