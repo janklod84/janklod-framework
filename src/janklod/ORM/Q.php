@@ -39,16 +39,16 @@ private static $setup = false;
 */
 public static function setup(\PDO $connection = null, $table='')
 {
-    if(is_null($connection))
-    {
-       exit('You can to set up connection!');
-    }
-    self::addConnection($connection);
-    self::$query   = new Query($connection);
-    self::$builder = new QueryBuilder();
-    self::$register['table'] = $table;
-	  self::$setup = true;
-	  return new static;
+if(is_null($connection))
+{
+   exit('You can to set up connection!');
+}
+self::addConnection($connection);
+self::$query   = new Query($connection);
+self::$builder = new QueryBuilder();
+self::$register['table'] = $table;
+self::$setup = true;
+return new static;
 }
 
 
