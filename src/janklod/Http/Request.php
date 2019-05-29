@@ -73,9 +73,14 @@ public function post($key = null)
 * @var string $key
 * @return mixed
 */
-public function file()
+public function file($key=null)
 {
-   return new UploadedFile($_FILES);
+   $data = $_FILES;
+   if(!is_null($key))
+   {
+      $data = $_FILES[$key];
+   }
+   return new UploadedFile($data);
 }
 
 
