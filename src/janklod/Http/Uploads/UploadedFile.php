@@ -19,11 +19,11 @@ class UploadedFile
 
 	  /**
 	   * Constructor
-	   * @param mixed $key
+	   * @param array $files
 	   * @return void
 	  */
-	  public function __construct($key = null)
+	  public function __construct($files = [])
 	  {
-            $this->files = $_FILES;
+            $this->files = $files;
 	  }
 }

@@ -73,13 +73,24 @@ public function post($key = null)
 * @var string $key
 * @return mixed
 */
-public function file($key = null)
+public function file()
 {
-   $fileObj = new UploadedFile($_FILES);
-   if($key){ return $fileObj->get($key); }
-   return $fileObj;
+   return new UploadedFile($_FILES);
 }
 
+
+/**
+* Get item from $_FILES request
+* 
+* @var string $key
+* @return mixed
+public function files($key = null)
+{
+   $data = $_FILES;
+   if($key){ return new UploadedFile($data[$key]); }
+   return new UploadedFile($data);
+}
+*/
 
 /**
 * Get item from $_COOKIE
