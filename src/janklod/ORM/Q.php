@@ -20,14 +20,13 @@ class Q
 * @var \JK\ORM\Quseries\QueryBuilder $builder
 * @var array $register
 * @var \JK\ORM\Statement\Query $query
-* @var string $sql;
+* @var bool $setup;
 */
 private static $connection;
 private static $table = '';
 private static $builder;
 private static $register = [];
 private static $query;
-private static $sql = ' ';
 private static $setup = false;
 
 
@@ -39,16 +38,16 @@ private static $setup = false;
 */
 public static function setup(\PDO $connection = null, $table='')
 {
-if(is_null($connection))
-{
-   exit('You can to set up connection!');
-}
-self::addConnection($connection);
-self::$query   = new Query($connection);
-self::$builder = new QueryBuilder();
-self::$register['table'] = $table;
-self::$setup = true;
-return new static;
+  if(is_null($connection))
+  {
+     exit('You can to set up connection!');
+  }
+  self::addConnection($connection);
+  self::$query   = new Query($connection);
+  self::$builder = new QueryBuilder();
+  self::$register['table'] = $table;
+  self::$setup = true;
+  return new static;
 }
 
 
@@ -59,7 +58,7 @@ return new static;
 */
 public static function addConnection(\PDO $connection)
 {
-     self::$connection = $connection;
+  self::$connection = $connection;
 }
 
 
@@ -69,8 +68,8 @@ public static function addConnection(\PDO $connection)
 */
 public static function query()
 {
-	 self::ensureSetup();
-     return self::$query;
+  self::ensureSetup();
+  return self::$query;
 }
 
 
@@ -80,7 +79,7 @@ public static function query()
 */
 public static function sql()
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     return self::$builder;
 }
 
@@ -91,7 +90,7 @@ public static function sql()
 */
 public static function close()
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     self::$connection = null;
 }
 
@@ -139,7 +138,7 @@ $options=[]
 */
 public static function fetchClass($entity, $arguments=[])
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     self::$query->fetchClass($entity, $arguments);
 }
 
@@ -152,7 +151,7 @@ public static function fetchClass($entity, $arguments=[])
 */
 public static function fetchColumn($colno=null, $arguments = [])
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     self::$query->fetchColumn($colno, $arguments);
 }
 
@@ -165,7 +164,7 @@ public static function fetchColumn($colno=null, $arguments = [])
 */
 public static function fetchInto($object=null, $arguments = [])
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     self::$query->fetchColumn($object, $arguments);
 }
 
@@ -230,7 +229,7 @@ public static function addTable($table='')
 */
 public static function getTable($return=false)
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     if($return === true)
     {
         return self::map('table');
@@ -251,7 +250,7 @@ public static function getTable($return=false)
 */
 public static function table($table='')
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     return self::assignTable($table);
 }
 
@@ -281,7 +280,7 @@ public static function assignTable($table='')
 */
 public static function select(...$selects)
 {
-	 self::ensureSetup();
+	   self::ensureSetup();
      $sql = self::$builder->select($selects);
      if(is_array($selects[0]))
      {
@@ -304,7 +303,7 @@ public static function select(...$selects)
 */
 public function create($params=[])
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     if($params)
     {
         $sql = self::$builder
@@ -346,7 +345,7 @@ public function read($value='', $field='id')
 */
 public function update($params=[], $value, $field='id')
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     if($params && $value)
     {
          $sql = self::$builder
@@ -364,7 +363,7 @@ public function update($params=[], $value, $field='id')
 */
 public function store()
 {
-	self::ensureSetup();
+	  self::ensureSetup();
      // get columns 
     // and determine if has id 
     // or determine if isset property
@@ -388,7 +387,7 @@ private function isNewRecord()
 */
 public function delete($value, $field='id')
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     if($value)
     {
         $sql = self::$builder
@@ -406,7 +405,7 @@ public function delete($value, $field='id')
 */
 public function all()
 {
-	self::ensureSetup();
+	  self::ensureSetup();
     $sql = self::$builder 
                 ->select()
                 ->from(self::$table);
@@ -443,7 +442,7 @@ public static function output($show=true)
 */
 public static function html($queries=[])
 {
-	 self::ensureSetup();
+	   self::ensureSetup();
      $i = 1;
      $template = '<table class="table">';
      $template .= '<thead>';
