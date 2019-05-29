@@ -127,6 +127,49 @@ public function dispatch($method='GET')
 }
 
 
+/**
+ * преобразует имена к виду CamelCase
+ * Transform name to CamelCase
+ * @param string $name string for transform
+ * @return string
+*/
+protected static function upperCamelCase($name) 
+{
+    return str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+}
+
+  
+/**
+ * Transform name to lowerCase 
+ * Ex: name => Name
+ * @param string $name string for transform
+ * @return string
+*/
+protected static function lowerCamelCase($name) 
+{
+   return lcfirst(self::upperCamelCase($name));
+}
+
+
+/**
+ * Return string without GET parameters
+ * @param string $url request URL
+ * @return string
+*/
+protected static function removeQueryString($url='') 
+{
+    $url = $url ?: $this->url;
+    if($url)
+    {
+        $params = explode('&', $url, 2);
+        if(false === strpos($params[0], '='))
+        {
+            return rtrim($params[0], '/');
+        }else{
+            return '';
+        }
+    }
+}
 
 /**
  * Get route params
