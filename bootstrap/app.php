@@ -6,11 +6,11 @@
 |----------------------------------------------------------------------
 */
 
-if(version_compare(PHP_VERSION, '7.1', '<='))
+if(!version_compare(PHP_VERSION, '7.1', '>='))
 {
    exit(
-     'You must to check version php >= 7.1, 
-     because This application use version more than 7.1!'
+     'This application use <b> version php >= 7.1 </b>.
+      But your version php is <b> '. PHP_VERSION . '</b>'
   );
 }
 
