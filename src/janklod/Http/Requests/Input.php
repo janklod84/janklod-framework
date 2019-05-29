@@ -43,14 +43,13 @@ public function get($key = null, $sanitize = false)
 }
 
 
-
 /**
 * Get all input data
 * @return mixed
 */
 public function parameters()
 {
-	  return $this->data ?? [];
+  return $this->data ?? [];
 }
 
 
