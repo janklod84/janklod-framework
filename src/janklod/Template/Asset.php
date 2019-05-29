@@ -23,7 +23,6 @@ const FORMAT_TYPE = [
 */
 private static $css  = [];
 private static $js   = [];
-private static $data = [];
 private static $basePath = '';
 
 
@@ -41,13 +40,25 @@ public static function basePath($basePath='')
 
 /**
  * Add config data NEW METHOD
- * @param array $config
+ * @param array $js
  * @return void
 */
-public static function config($config=[])
+public static function addJs($js=[])
 {
-    self::$data = array_merge($config, self::$data);
+    self::$js = array_merge($js, self::$js);
 }
+
+
+/**
+ * Add css
+ * @param array $css 
+ * @return void
+*/
+public static function addCss($css=[])
+{
+    self::$css = array_merge($css, self::$css);
+}
+
 
 
 /**
@@ -124,28 +135,6 @@ private static function renderType($data = [], $type)
 {
    self::$data = array_merge($data, self::$data);
    if(!empty(self::$data))
-   {
-       $asset = '';
-       foreach($data as $path)
-       {
-          $asset .= sprintf(self::FORMAT_TYPE[$type], 
-                            Url::base() . '/'.  trim($path, '/')
-                    );
-       }
-       return $asset;
-   }
-}
-
-/**
-* Render all type format OLD
-* @param string $type 
-* @return string
-
-private static function renderTypeOLD($data = [], $type)
-{
-   $config = Config::get('asset.'. $type) ?? [];
-   $data = array_merge($config, $data);
-   if(!empty($data))
    {
        $asset = '';
        foreach($data as $path)

@@ -106,9 +106,31 @@ public static function files()
  * Determine if has group stored
  * @return bool
 */
-public static function isStored()
+public static function isStored($group='')
 {
+     if($group !== '')
+     {
+        self::$group = $group;
+     }
+     
      return !empty(self::$stored[self::$group]);
+}
+
+
+/**
+ * Get config group
+ * @param string $name 
+ * @return mixed
+*/
+public static function group($name)
+{
+    if(!self::isStored())
+    {
+        exit(
+          sprintf('Sorry this [%s] config group does not stored!', $name)
+        );
+    }
+    return self::retrieveGroup();
 }
 
 
