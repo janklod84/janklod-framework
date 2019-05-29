@@ -229,7 +229,6 @@ public static function addTable($table='')
 */
 public static function getTable($return=false)
 {
-    self::ensureSetup();
     if($return === true)
     {
         return self::map('table');
@@ -250,7 +249,6 @@ public static function getTable($return=false)
 */
 public static function table($table='')
 {
-   self::ensureSetup();
    return self::assignTable($table);
 }
 
