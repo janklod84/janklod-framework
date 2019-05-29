@@ -3,9 +3,9 @@ namespace JK\Encryption;
 
 
 /**
- * @package JK\Encryption\Token
+ * @package JK\Encryption\CsrfToken
 */
-class Token 
+class CsrfToken 
 {
 
             
