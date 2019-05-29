@@ -4,6 +4,8 @@ namespace JK;
 
 
 use JK\Helper\MicroTimer;
+use JK\DI\ContainerBuilder;
+use JK\FileSystem\File;
 use JK\Config\Config;
 use JK\Http\Sessions\Session;
 
@@ -62,9 +64,9 @@ private $middlewares = [];
 */
 private function __construct($root)
 {
-     $this->containerBuilder = new \JK\DI\ContainerBuilder();
+     $this->containerBuilder = new ContainerBuilder();
      $this->app = $this->getContainer();
-     $this->bind('file', new \JK\FileSystem\File($root));
+     $this->bind('file', new File($root));
      Config::basePath($root.'/app/config')->map();
 }
 
