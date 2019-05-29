@@ -21,8 +21,9 @@ class Request implements RequestInterface
    'get', 
    'post', 
    'put', 
-   'delete', 
-   'head'
+   'patch',
+   'head',
+   // 'delete', 
 ];
 
 private $globalParams = [
@@ -213,6 +214,16 @@ public function is($key='xxx'): bool
 
 
 /**
+ * Determine if request is Ajax
+ * @return bool
+*/
+public function isAjax()
+{
+     return $this->is('ajax');
+}
+
+
+/**
 * Determine type of method [ GET, POST, PUT, PATCH...]
 * @param string $type 
 * @return bool
@@ -224,6 +235,7 @@ public function isMethod($type='get'): bool
          return $this->method() === strtoupper($type);
     }
 }
+
 
 
 

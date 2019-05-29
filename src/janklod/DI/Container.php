@@ -106,13 +106,13 @@ public function singleton($key, $resolver)
 
 /**
 * Create new object by given name
-* @param string $className
+* @param string $classname
 * @param mixed $arguments
 * @return object
 */
-public function create($className, $arguments = null)
+public function create($classname, $arguments = null)
 {
-    $reflection = new Reflection($className);
+    $reflection = new Reflection($classname);
     $reflection->setArguments($arguments);
     return $reflection->createNewObject();
 }

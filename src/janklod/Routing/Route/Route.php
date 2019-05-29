@@ -13,6 +13,7 @@ class Route
 * @var  bool  $notFound
 */
 private static $options = [];
+private static $notFound = false;
 
 
 /**
@@ -111,6 +112,25 @@ public static function url(string $name, array $params = [])
 }
 
 
+/**
+* Add not found path
+* @param string $path
+* @return void
+*/
+public static function notFound(string $path)
+{
+     self::$notFound = $path;
+}
+
+
+/**
+* Get Not Found page
+* @return string
+*/
+public static function getNotFound()
+{
+    return self::$notFound;
+}
 
 
 /**

@@ -6,22 +6,9 @@
   |------------------------------------------------------------------
 */
 
-# SITE
-
-/*
-$options = [
-  'path' => '/admin',
-  'controller' => 'admin'
-];
-
-Route::prefix($options, function () {
-    Route::get('/', 'HomeController@index', 'welcome.page');
-    Route::get('/about/:slug-:id', 'HomeController@about');
-    Route::get('/contact/:id', 'HomeController@contact', 'contact.me')->with('id','[0-9+]');
-    Route::post('/contact', 'HomeController@contact');
-});
-*/
-
+/***********************************
+| BACKEND CONTROLLERS
+************************************/
 
 $options = [
   'path' => '/admin',
@@ -37,7 +24,21 @@ Route::prefix($options, function () {
 });
 
 
+/***********************************
+| FRONTEND CONTROLLERS
+************************************/
+
+
 Route::get('/', 'HomeController@index', 'welcome.page');
 Route::get('/about', 'HomeController@about');
 Route::get('/contact', 'HomeController@contact');
 Route::post('/contact', 'HomeController@contact');
+
+
+
+/***********************************
+| NOT FOUND CONTROLLER
+************************************/
+
+Route::get('/404', 'NotFoundController@index');
+Route::notFound(404);
