@@ -61,10 +61,14 @@ public function about()
 */
 public function contact()
 {
+   // if method is post
    if($this->request->isPost())
    {
-       echo 'OK';
+       // fetch post data
+       $data = $this->request->post();
+       debug($data);
    }
+   // show render
    $this->render('home/contact');
 }
 

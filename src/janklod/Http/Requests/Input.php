@@ -40,6 +40,7 @@ public function get($key = null, $sanitize = false)
   {
  	   return $this->findItem($key);
   } 
+  return $this->parameters();
 }
 
 
