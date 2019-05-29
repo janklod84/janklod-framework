@@ -2,7 +2,6 @@
 namespace JK\Routing;
 
 
-
 /**
  * @package JK\Routing\Router
 */ 
@@ -151,26 +150,10 @@ public function matches()
 
 
 /**
- * Transform name to CamelCase
- * @param string $name string for transform
- * @return string
+ * Run routing or dispatching
+ * @return mixed
 */
-protected static function upperCamelCase($name) 
-{
-    return str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
-}
-
-  
-/**
- * Transform name to lowerCase 
- * Ex: name => Name
- * @param string $name string for transform
- * @return string
-*/
-protected static function lowerCamelCase($name) 
-{
-   return lcfirst(self::upperCamelCase($name));
-}
+public function run() {}
 
 
 /**
@@ -180,7 +163,6 @@ protected static function lowerCamelCase($name)
 */
 protected static function removeQueryString($url='') 
 {
-    $url = $url ?: $this->url;
     if($url)
     {
         $params = explode('&', $url, 2);
@@ -192,6 +174,7 @@ protected static function removeQueryString($url='')
         }
     }
 }
+
 
 
 }

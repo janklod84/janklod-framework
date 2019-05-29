@@ -4,16 +4,16 @@ namespace JK\Helper;
 
 class Cache
 {
-
+     
      const CACHE = 'temp/cache';
      
      private $dir;
 
      private $file;
 
-     public function __construct()
+     public function __construct($file='')
      {
-          $this->file = App::$app->get('file');
+          $this->file = new \JK\FileSystem\File($file);
      }
      
      
@@ -68,8 +68,6 @@ class Cache
      {
         $crypt = md5($key);
         $this->dir = self::CACHE.'/'.$crypt;
-        return $this->file->set($this->dir, 'txt');
+        return $this->file->to($this->dir.'txt');
      }
-
-
 }
