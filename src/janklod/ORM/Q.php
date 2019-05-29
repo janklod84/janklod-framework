@@ -16,8 +16,11 @@ class Q
 /**
 * @var $instance;
 * @var \PDO $connection
-* @var \JK\ORM\Statement\Query $query
+* @var string $table;
 * @var \JK\ORM\Quseries\QueryBuilder $builder
+* @var array $register
+* @var \JK\ORM\Statement\Query $query
+* @var string $sql;
 */
 private static $connection;
 private static $table = '';
@@ -25,6 +28,7 @@ private static $builder;
 private static $register = [];
 private static $query;
 private static $sql = ' ';
+private static $setup = false;
 
 
 /**
@@ -43,6 +47,8 @@ public static function setup(\PDO $connection = null, $table='')
     self::$query   = new Query($connection);
     self::$builder = new QueryBuilder();
     self::$register['table'] = $table;
+	self::$setup = true;
+	return new static;
 }
 
 
@@ -63,6 +69,7 @@ public static function addConnection(\PDO $connection)
 */
 public static function query()
 {
+	 self::ensureSetup();
      return self::$query;
 }
 
@@ -73,6 +80,7 @@ public static function query()
 */
 public static function sql()
 {
+	self::ensureSetup();
     return self::$builder;
 }
 
@@ -83,6 +91,7 @@ public static function sql()
 */
 public static function close()
 {
+	self::ensureSetup();
     self::$connection = null;
 }
 
@@ -119,27 +128,18 @@ $options=[]
 }
 
 
-/**
- * Determine if type has registred
- * @param string $type 
- * @return bool
-*/
-public static function isRegistred($type=''): bool
-{
-   return ! empty(self::$register[$type]); // not empty
-}
-
 
 
 
 /**
  * Fetch class
- * @param  $entity 
+ * @param  $entity [name class : app\\models\\MyModel]
  * @param  array $arguments 
  * @return Query
 */
 public static function fetchClass($entity, $arguments=[])
 {
+	self::ensureSetup();
     self::$query->fetchClass($entity, $arguments);
 }
 
@@ -152,6 +152,7 @@ public static function fetchClass($entity, $arguments=[])
 */
 public static function fetchColumn($colno=null, $arguments = [])
 {
+	self::ensureSetup();
     self::$query->fetchColumn($colno, $arguments);
 }
 
@@ -164,6 +165,7 @@ public static function fetchColumn($colno=null, $arguments = [])
 */
 public static function fetchInto($object=null, $arguments = [])
 {
+	self::ensureSetup();
     self::$query->fetchColumn($object, $arguments);
 }
 
@@ -176,6 +178,7 @@ public static function fetchInto($object=null, $arguments = [])
 */
 public static function execute($sql, $params=[])
 {
+   self::ensureSetup();
    return self::$query->execute($sql, $params);
 }
 
@@ -188,12 +191,10 @@ public static function execute($sql, $params=[])
  * @return bool
  */
 public static function exec($sql='')
-{
-      return self::$connection 
-                 ->exec($sql);
+{		 
+	self::ensureSetup();
+	return self::$query->exec($sql);
 }
-
-
 
 
 /**
@@ -229,6 +230,7 @@ public static function addTable($table='')
 */
 public static function getTable($return=false)
 {
+	self::ensureSetup();
     if($return === true)
     {
         return self::map('table');
@@ -249,6 +251,7 @@ public static function getTable($return=false)
 */
 public static function table($table='')
 {
+	self::ensureSetup();
     return self::assignTable($table);
 }
 
@@ -267,21 +270,28 @@ public static function assignTable($table='')
 
 
 /**
- * Make select query
- * @return QueryBuilder
+ * Make select query without from 
+ *
+ * Ex: Q::select('column1', 'column2', 'column3'..)->where('id', '4')->.... 
+ * Ex: $columns = ['field1', 'field2', ...]; Q::select($columns)->where()...
+ *
+ *
+ * @param mixed ...$selects
+ * @return \JK\ORM\Queries\QueryBuilder
 */
 public static function select(...$selects)
 {
-     $query = self::$builder->select($selects);
+	 self::ensureSetup();
+     $sql = self::$builder->select($selects);
      if(is_array($selects[0]))
      {
-        $query = self::$builder->select($selects[0]);
+        $sql = self::$builder->select($selects[0]);
      }
      if($table = self::map('table'))
      {
-        return $query->from($table);
+        return $sql->from($table);
      }
-     return $query;
+     return $sql;
 }
 
 
@@ -294,6 +304,7 @@ public static function select(...$selects)
 */
 public function create($params=[])
 {
+	self::ensureSetup();
     if($params)
     {
         $sql = self::$builder
@@ -311,7 +322,8 @@ public function create($params=[])
  * @return 
 */
 public function read($value='', $field='id')
-{
+{     
+     self::ensureSetup();
      if($value)
      {
          $sql = self::$builder
@@ -334,6 +346,7 @@ public function read($value='', $field='id')
 */
 public function update($params=[], $value, $field='id')
 {
+	self::ensureSetup();
     if($params && $value)
     {
          $sql = self::$builder
@@ -351,6 +364,7 @@ public function update($params=[], $value, $field='id')
 */
 public function store()
 {
+	self::ensureSetup();
      // get columns 
     // and determine if has id 
     // or determine if isset property
@@ -374,6 +388,7 @@ private function isNewRecord()
 */
 public function delete($value, $field='id')
 {
+	self::ensureSetup();
     if($value)
     {
         $sql = self::$builder
@@ -391,6 +406,7 @@ public function delete($value, $field='id')
 */
 public function all()
 {
+	self::ensureSetup();
     $sql = self::$builder 
                 ->select()
                 ->from(self::$table);
@@ -406,6 +422,7 @@ public function all()
 */
 public static function output($show=true)
 {
+   self::ensureSetup();
    if($show)
    {
        if(!is_null(self::$query))
@@ -426,6 +443,7 @@ public static function output($show=true)
 */
 public static function html($queries=[])
 {
+	 self::ensureSetup();
      $i = 1;
      $template = '<table class="table">';
      $template .= '<thead>';
@@ -451,5 +469,36 @@ public static function html($queries=[])
      $template .= '<strong>Count executed queries : </strong>'. count($queries);
      echo $template;
 }
+
+
+/**
+ * Make sure has setting up [setup]
+ * @return void
+*/
+private static function ensureSetup($message='')
+{
+	$output = 'Sorry you must to setup [Q (ORM) ]';
+	if($message !== '')
+	{
+		$output .= $message;
+	}
+	
+	if(self::$setup === false)
+	{
+		exit($output);
+	}
+}
+
+
+/**
+ * Determine if type has registred
+ * @param string $type 
+ * @return bool
+*/
+private static function isRegistred($type=''): bool
+{
+   return ! empty(self::$register[$type]); // not empty
+}
+
 
 }

@@ -64,7 +64,7 @@ public function __construct(PDO $connection = null)
  * @param string $sql 
  * @return bool
  */
-public function exec($sql)
+public function exec($sql='')
 {
     return $this->connection 
                ->exec($sql);
