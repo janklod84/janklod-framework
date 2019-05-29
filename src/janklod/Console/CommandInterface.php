@@ -8,16 +8,16 @@ namespace JK\Console;
 interface CommandInterface 
 {
 
-	  /**
-	   * Execute command
-	   * @return mixed
-	  */
-	  public function execute();
-      
+/**
+* Execute command
+* @return mixed
+*/
+public function execute();
 
-      /**
-       * Roolback command
-       * @return void
-      */
-	  public function undo();
+
+/**
+* Roolback command
+* @return void
+*/
+public function undo();
 }

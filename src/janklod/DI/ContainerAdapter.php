@@ -5,14 +5,14 @@ namespace JK\DI;
 /**
  * @package JK\DI\ContainerAdapter 
 */ 
-class ContainerAdapter 
+abstract class ContainerAdapter 
 {
 	  
 
 /**
 * @var ContainerInterface
 */
-private $container;
+protected $container;
 
 
 
@@ -55,7 +55,7 @@ public function set($key, $value)
 */
 public function has($key): bool
 {
-  return $this->container->has($key);
+   return $this->container->has($key);
 }
 
 
