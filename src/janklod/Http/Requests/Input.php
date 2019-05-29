@@ -2,10 +2,6 @@
 namespace JK\Http\Requests;
 
 
-use JK\Collections\Collection;
-use JK\Helper\Common;
-
-
 /**
  * @package JK\Http\Requests\Input
 */ 
@@ -16,7 +12,8 @@ class Input
 /**
 * @var array $data
 */
-private $collection;
+private $data;
+
 
 
 /**
@@ -26,24 +23,25 @@ private $collection;
 */
 public function __construct($data = [])
 {
-     $this->collection = new Collection($data);
+      $this->data = $data;
 }
-
 
 /**
 * Get item from $_COOKIE
 * @param string $key 
 * @return mixed
 */
-public function get($key = null)
+public function get($key = null, $sanitize = false)
 {
-  $result = $this->parameters();
+  if($sanitize === true) 
+  { return $this->clean($key); }
+
   if(!is_null($key))
   {
- 	  $result = $this->collection->get($key);
-  }
-  return $result;    
+ 	   return $this->findItem($key);
+  } 
 }
+
 
 
 /**
@@ -52,48 +50,84 @@ public function get($key = null)
 */
 public function parameters()
 {
-	  return $this->collection->all();
+	  return $this->data ?? [];
+}
+
+
+/**
+ * Determine if has item in data
+ * @param string $key 
+ * @return bool
+ */
+public function hasItem($key): bool
+{
+    return isset($this->data[$key]);
+}
+
+
+/**
+ * Retrieve item data
+ * @param string $key 
+ * @return mixed
+*/
+public function findItem($key)
+{
+    if($this->hasItem($key))
+    {
+        return $this->data[$key];
+    }
+    return null;
 }
 
 
 /**
 * Sanitize input data
 * 
-* @param array $data
 * @param string $input
 * @return mixed
 */
-public function sanitize($input = null)
+public function clean($input = null)
 {
     if(is_null($input))
     {
-        $data = $this->parameters();
-      	return $this->populated($data);
+      	return $this->populated();
     }
     
     $sanitized = '';
-    if(isset($data[$input]))
+    if(isset($this->data[$input]))
     {
-        $sanitized = trim(Common::sanitize($data[$input]));
+        $sanitized = trim(
+          self::sanitize($this->data[$input])
+        );
     }
     return $sanitized;
 }
 
 
 /**
- * Populate and sanitize full data
- * @param array $data 
+ * Populate and sanitize current data
  * @return mixed
- */
-public function populated($data=[])
+*/
+public function populated()
 {
     $populated = [];
-    foreach($data as $field => $value)
+    foreach($this->data as $field => $value)
     {
-          $populated[$field] = trim(Common::sanitize($value));
+          $populated[$field] = trim(self::sanitize($value));
     }
     return $populated;
 }
 
+
+/**
+* Sanitize input data 
+* 
+* @param string $input
+* @return 
+*/
+public static function sanitize($input)
+{
+    return htmlentities($input, ENT_QUOTES, 'UTF-8');
+}
 
 }

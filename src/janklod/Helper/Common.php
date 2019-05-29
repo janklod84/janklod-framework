@@ -15,7 +15,7 @@ class Common
 */
 public static function sanitize($input)
 {
-    return htmlentities($parsed, ENT_QUOTES, 'UTF-8');
+    return htmlentities($input, ENT_QUOTES, 'UTF-8');
 }
 
 /**

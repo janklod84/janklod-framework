@@ -15,17 +15,6 @@ use JK\Http\Uploads\UploadedFile;
 class Request implements RequestInterface
 {
       
-   
- // Type methods
- const METHOD_TYPES = [
-   'get', 
-   'post', 
-   'put', 
-   'patch',
-   'head',
-   // 'delete', 
-];
-
 private $globalParams = [
   'REQUEST_URI', 
   'PATH_INFO', 
@@ -48,7 +37,7 @@ private $ipIndexes = [
 public function input($key = null)
 {
     return (new Input($_REQUEST))
-           ->get($key);
+           ->get($key, true);
 }
 
 
@@ -61,7 +50,7 @@ public function input($key = null)
 public function get($key = null)
 {
    return (new Input($_GET))
-          ->get($key);
+          ->get($key, true);
 }
 
 
@@ -74,7 +63,7 @@ public function get($key = null)
 public function post($key = null)
 {
     return (new Input($_POST))
-           ->get($key);
+           ->get($key, true);
 }
 
 
@@ -230,13 +219,19 @@ public function isAjax()
 */
 public function isMethod($type='get'): bool
 {
-    if(in_array($type, self::METHOD_TYPES))
-    {
-         return $this->method() === strtoupper($type);
-    }
+     return $this->method() === strtoupper($type);
 }
 
 
+
+/**
+ * Determine if is GET request
+ * @return bool
+*/
+public function isGet()
+{
+     return $this->isMethod();
+}
 
 
 /**

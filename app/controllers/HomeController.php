@@ -61,7 +61,7 @@ public function about()
 */
 public function contact()
 {
-   if($this->request->isMethod('post'))
+   if($this->request->isPost())
    {
        echo 'OK';
    }
