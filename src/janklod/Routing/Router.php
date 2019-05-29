@@ -151,7 +151,6 @@ public function matches()
 
 
 /**
- * преобразует имена к виду CamelCase
  * Transform name to CamelCase
  * @param string $name string for transform
  * @return string
