@@ -75,7 +75,9 @@ public function post($key = null)
 */
 public function file($key = null)
 {
-   return new UploadedFile($_FILES);
+   $fileObj = new UploadedFile($_FILES);
+   if($key){ return $fileObj->get($key); }
+   return $fileObj;
 }
 
 
