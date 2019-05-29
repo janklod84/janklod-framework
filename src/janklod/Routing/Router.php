@@ -6,7 +6,7 @@ namespace JK\Routing;
 /**
  * @package JK\Routing\Router
 */ 
-class Router
+class Router implements RouterInterface
 {
        
 
@@ -43,14 +43,14 @@ public function __construct($url = '')
  * @param array $routes 
  * @return void
 */
-public function addRoute($routes=[])
+public function addRoute($routes)
 {
      $this->routes = $routes;
 }
 
 
 /**
- * Set Url
+ * Add Url
  * @param string $url
  * @return void
 */
@@ -83,11 +83,12 @@ public function routes($method='')
 
 /**
  * Determine if route match URL
- * @param string $pattern
+ * @param string ...$args
  * @return bool
 */
-public function match(string $pattern): bool
+public function match(...$args): bool
 {
+    $pattern = $args[0];
     $regex = '#^'. $pattern . '$#i';
     if(!preg_match($regex, $this->url, $matches))
     {
@@ -102,11 +103,12 @@ public function match(string $pattern): bool
 
 /**
  * Dispatcher routes
- * @param string $method 
+ * @param string ...$args 
  * @return null | \JK\Routing\Dispatcher
 */
-public function dispatch($method='GET')
+public function dispatch(...$args)
 {
+    $method = $args[0] ?: 'GET';
     foreach($this->routes($method) as $route)
     {
         if($this->match($route->replacePattern()))
@@ -124,6 +126,26 @@ public function dispatch($method='GET')
        }
     }
     return $this->dispatcher;
+}
+
+
+/**
+ * Get route params
+ * @return array
+*/
+public function params()
+{
+    return $this->params ?: [];
+}
+
+
+/**
+ * Get matches params
+ * @return array
+*/
+public function matches()
+{
+    return $this->matches ?: [];
 }
 
 
@@ -169,25 +191,6 @@ protected static function removeQueryString($url='')
             return '';
         }
     }
-}
-
-/**
- * Get route params
- * @return array
-*/
-public function params()
-{
-    return $this->params ?: [];
-}
-
-
-/**
- * Get matches params
- * @return array
-*/
-public function matches()
-{
-    return $this->matches ?: [];
 }
 
 
