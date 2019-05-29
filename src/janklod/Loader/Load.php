@@ -93,6 +93,17 @@ public function call($object, $method='before')
 
 
 /**
+ * Get current object
+ * @param object $obj 
+ * @return type
+*/
+public function currentObject(object $obj)
+{
+    return get_class($obj);
+}
+
+
+/**
 * Get controller
 * @param string $name
 * @return object

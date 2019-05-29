@@ -1,9 +1,6 @@
 <?php 
 namespace JK;
 
-
-
-use JK\Helper\MicroTimer;
 use JK\DI\ContainerBuilder;
 use JK\FileSystem\File;
 use JK\Config\Config;

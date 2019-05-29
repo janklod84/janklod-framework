@@ -93,7 +93,7 @@ public function showCurrencies()
     $html  = '<div class="container text-center">';
     $html .= '<h5>Currencies: </h5>';
     $html .= '<small>Current Controller:</small>'; 
-    $html .= '<code>'. get_class($this) . '</code>'; 
+    $html .= '<code>'. $this->currentController() . '</code>'; 
     $html .= '<br>';
     $html .= '<small>Current View path :</small>'; 
     $html .= '<code>'. $this->view->viewPath() .'</code>'; 
@@ -102,6 +102,16 @@ public function showCurrencies()
     $html .= '<code>'. $this->view->layoutPath() .'</code>'; 
     $html .= '</div>';
     echo $html;
+}
+
+
+/**
+ * Get name current controller
+ * @return string
+*/
+public function currentController()
+{
+    return $this->load->currentObject($this);
 }
 
 
