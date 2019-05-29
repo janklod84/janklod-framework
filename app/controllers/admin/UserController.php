@@ -23,6 +23,6 @@ class UserController extends AppController
 
 
 
-     public function after(){}
+     //public function after(){}
 
 }

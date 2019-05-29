@@ -64,6 +64,11 @@ public function callAction($callback, $matches=[])
     $output = call_user_func_array($callback, $matches);
     $this->call($this->controller, 'after');
     
+    if(!is_null($this->controller))
+    {
+        call_user_func([$this->controller, 'info']);
+    }
+
     // response send headers to server
     $output = (string) $output;
     response()->setBody($output);

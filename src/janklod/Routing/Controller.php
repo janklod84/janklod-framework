@@ -61,11 +61,7 @@ public function before() {}
 * Do something after calling action
 * @return void
 */
-public function after()
-{
-    if($this->debug)
-    { $this->info(); }
-}
+public function after(){}
 
 
 
@@ -121,7 +117,7 @@ protected function mapLayout()
 */ 
 public function info()
 {
-     if($this->hasPath())
+     if($this->hasPath() && $this->debug)
      {
           // register
 
