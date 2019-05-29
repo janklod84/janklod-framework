@@ -20,6 +20,34 @@ if(!function_exists('response'))
 }
 
 
+if(!function_exists('redirect'))
+{
+     
+     /**
+      * Function for redirect
+      * Ex: redirect('/admin/login')
+      * @param string $to 
+     */
+     function redirect($to='/')
+     {
+         return response()->redirect($to);
+     }
+}
+
+
+if(!function_exists('notFound'))
+{
+     
+     /**
+      * Redirect to NotFoundController
+     */
+     function notFound($to='/')
+     {
+         return redirect(404);
+     }
+}
+
+
 if(!function_exists('send'))
 {
      

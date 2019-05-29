@@ -55,7 +55,8 @@ public function callAction($callback, $matches=[])
     
     if(!is_callable($callback))
     {
-        die('No callable'); 
+        // redirect to NotFoundController 404
+         notFound();
     }
     
     $this->call($this->controller, 'before');
@@ -81,12 +82,13 @@ public function call($object, $method='before')
 {
     if(!is_null($object))
     {
-        if(!method_exists($object, $method))
+        if(method_exists($object, $method))
         {
-            exit('Can not call method .'. $method);
+            call_user_func([$object, $method]);
         }
-        call_user_func([$object, $method]);
+        return false;
     }
+    return false;
 }
 
 
@@ -98,7 +100,7 @@ public function call($object, $method='before')
 */
 public function getController($name)
 {
-    $controller = sprintf('app\\controllers\\%s', $name);
+    $controller = $this->getModule('\\app\\controllers', $name);
     if(!class_exists($controller))
     {
          throw new Exception(
@@ -110,6 +112,17 @@ public function getController($name)
     return new $controller($this->app);
 }
 
+/**
+ * Get module name
+ * @param string $directory 
+ * @param string $name 
+ * @return string
+*/
+public function getModule($directory='', $name='')
+{
+   return sprintf('%s\\%s', $directory, $name);
+}
+
 
 /**
 * Load module [To add more functionalites later]
@@ -119,8 +132,9 @@ public function getController($name)
 */
 public function module(string $name)
 {
-     return sprintf('modules\\%s', $name);
+     return $this->getModule('\\modules', $name);
 }
+
 
 
 /**
@@ -188,7 +202,7 @@ private function getModel($model)
 */
 private function getModelName($name)
 {
-   $model = sprintf('\\app\\models\\%s', $name);
+   $model = $this->getModule('\\app\\models', $name);
    if(!class_exists($model))
    {
        exit(sprintf(

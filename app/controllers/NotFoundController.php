@@ -14,7 +14,7 @@ class NotFoundController
        */
 	   public function index()
 	   {
-	   	   exit('404 Not Found');
+	   	   exit('404 Not Found <br>'. __METHOD__);
 	   }
 
 }

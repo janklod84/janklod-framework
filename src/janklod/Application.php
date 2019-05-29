@@ -118,7 +118,8 @@ public function run()
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
      {
-         exit('Error 404'); // redirect to 404
+         // redirect to NotFoundController 404
+         notFound(); 
      }
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();

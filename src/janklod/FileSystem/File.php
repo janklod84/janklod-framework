@@ -121,7 +121,10 @@ public function info($path, $key='')
 */
 public function map($path='')
 {
-   $path = str_replace('*', '', $path);
+   if(strpos($path, '*') === true)
+   {
+      return;
+   }
    $path = trim($path, '/');
    return glob($this->to($path.'/*'));
 }
