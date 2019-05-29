@@ -54,8 +54,8 @@ public function output()
     $html .= '<table class="table table-striped">';
     $html .= '<thead>';
     $html .= '<tr>';
-    $html .= '<th scope="col">Current controller</th>';
-    $html .= '<th scope="col">Current view path</th>';
+    $html .= '<th scope="col">Current Controller</th>';
+    $html .= '<th scope="col">Current View</th>';
     $html .= '<th scope="col">Current Layout</th>';
     $html .= '</tr>';
     $html .= '</thead>';

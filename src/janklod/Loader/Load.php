@@ -64,9 +64,10 @@ public function callAction($callback, $matches=[])
     $output = call_user_func_array($callback, $matches);
     $this->call($this->controller, 'after');
     
-    if(!is_null($this->controller))
+    $debugCallback = [$this->controller, 'debug'];
+    if(!is_null($this->controller) && is_callable($debugCallback))
     {
-        call_user_func([$this->controller, 'info']);
+        call_user_func($debugCallback);
     }
 
     // response send headers to server

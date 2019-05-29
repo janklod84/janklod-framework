@@ -115,17 +115,15 @@ protected function mapLayout()
 * Show currents view , layout, and controller
 * @return void
 */ 
-public function info()
+public function debug()
 {
      if($this->hasPath() && $this->debug)
      {
-          // register
-
-         $printer = new RoutingDebogger();
-         $printer->data('controller', $this->currentController());
-         $printer->data('view', $this->view->viewPath());
-         $printer->data('layout', $this->view->layoutPath());
-         $printer->output();
+         $debogger = new RoutingDebogger();
+         $debogger->data('controller', $this->currentController());
+         $debogger->data('view', $this->view->viewPath());
+         $debogger->data('layout', $this->view->layoutPath());
+         $debogger->output();
      }
 }
 
