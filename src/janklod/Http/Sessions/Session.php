@@ -11,6 +11,8 @@ class Session
 {
       
 
+private static $status = false;
+
 /**
  * Ensure if session is started
  * 
@@ -21,6 +23,7 @@ public static function start()
       if(session_status() === PHP_SESSION_NONE)
       {
       	   session_start();
+           self::$status = true;
       }
 }
 
@@ -33,6 +36,7 @@ public static function start()
 */
 public function put($name, $value)
 {
+    $this->ensureStarted();
     return $_SESSION[$name] = $value;
 }
 
@@ -44,6 +48,7 @@ public function put($name, $value)
 */
 public function has($key): bool
 {
+   $this->ensureStarted();
    return isset($_SESSION[$key]);
 }
 
@@ -55,6 +60,7 @@ public function has($key): bool
 */
 public function get($key)
 {
+    $this->ensureStarted();
     if($this->has($key))
     {
         return $_SESSION[$key];
@@ -70,6 +76,7 @@ public function get($key)
 */
 public function remove($key)
 {
+  $this->ensureStarted();
 	if($this->has($key))
 	{
 	   unset($_SESSION[$key]);
@@ -83,6 +90,7 @@ public function remove($key)
 */
 public function clear()
 {
+    $this->ensureStarted();
     $_SESSION = [];
     session_destroy();
 }
@@ -95,8 +103,21 @@ public function clear()
 */
 public function all()
 {
+   $this->ensureStarted();
 	 return $_SESSION ?? [];
 }
 
+
+/**
+ * Make sure has started session
+ * @return void
+ */
+private function ensureStarted()
+{
+    if(!self::$status)
+    {
+       exit('Sorry you must to start session !');
+    }
+}
 
 }

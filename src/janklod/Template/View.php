@@ -89,30 +89,36 @@ protected function runBuffer()
      {
          extract($this->data);
          ob_start();
-         require_once $this->fullPath($this->view);
+         require_once $this->viewPath();
          $content = ob_get_clean();
          if($this->layout != false)
          {
-             require_once $this->fullPath('layouts/'. $this->layout);
+             require_once $this->layoutPath();
          }
      }
 }
 
 
 /**
-* Show current view path
-* @return string
-*/ 
-public function currentViewPath($template=false)
+ * Render full path layout
+ * @return string
+*/
+public function layoutPath()
 {
-    $html = '<div class="container text-center">';
-    $html .= '<p>';
-    $html .= '<small>Current view path :</small>'; 
-    $html .= '<code>'. $this->fullPath($this->view) . '</code>'; 
-    $html .= '</p>';
-    $html .= '</div>';
-    echo $template ?: $html;
+    return $this->fullPath($this->layout);
 }
+
+
+/**
+ * Render full path view
+ * @return string
+*/
+public function viewPath()
+{
+    return $this->fullPath($this->view);
+}
+
+
 
 /**
 * output view

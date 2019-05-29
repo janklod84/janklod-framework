@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Admin Template</title>
+	<title>404 Not Found</title>
 	<?php Asset::render('css') ?>
 </head>
 <body>
-   <?php include 'partials/menu.php'; ?>
    <div class="container" style="margin-top:30px;">
    	  <?= $content ?>
    </div>

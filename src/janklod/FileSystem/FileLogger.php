@@ -6,7 +6,7 @@ namespace JK\FileSystem;
 /**
  * @package JK\FileSystem\FileLogger 
 */ 
-abstract class FileLogger 
+class FileLogger 
 {
 	   
 /**
@@ -27,12 +27,12 @@ protected function __construct($root = '')
 
 
 /**
-* Log file
+* Put content in file
 * @param string $content 
 * @param string $path 
 * @return void
 */
-protected function put($content, $path = '')
+public function put($content, $path = '')
 {
   $filename = $this->file->to($path);
   if(file_put_contents($filename, $content))

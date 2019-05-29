@@ -27,7 +27,7 @@ protected $view;
 protected $request;
 protected $layout;
 protected $autoview = true;
-
+private $output = '';
  
 /**
 * Constructor
@@ -80,8 +80,30 @@ protected function render($view, $data = [])
         $this->mapLayout()
      );
      (new ViewAdapter($this->view))->render();
-     $this->view->currentViewPath(); // show current view path
+     $this->showCurrencies();
 }
+
+
+/**
+* Show currents view , layout, and controller
+* @return void
+*/ 
+public function showCurrencies()
+{
+    $html  = '<div class="container text-center">';
+    $html .= '<h5>Currencies: </h5>';
+    $html .= '<small>Current Controller:</small>'; 
+    $html .= '<code>'. get_class($this) . '</code>'; 
+    $html .= '<br>';
+    $html .= '<small>Current View path :</small>'; 
+    $html .= '<code>'. $this->view->viewPath() .'</code>'; 
+    $html .= '<br>';
+    $html .= '<small>Current Layout path :</small>'; 
+    $html .= '<code>'. $this->view->layoutPath() .'</code>'; 
+    $html .= '</div>';
+    echo $html;
+}
+
 
 /**
 * map layout
@@ -91,7 +113,10 @@ protected function mapLayout()
 {
    if($this->layout === false)
    { return false; }
-   else{ return $this->layout ?: \Config::get('view.layout'); }
+   else{ 
+     $layout = $this->layout ?: \Config::get('view.layout'); 
+     return 'layouts/'. $layout;
+  }
 }
 
 
