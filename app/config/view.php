@@ -6,11 +6,12 @@ return [
     |------------------------------------------------------------------
     |   Here define global default layout
     |   You must set your view path 
-    |   - layout   : it's the name of your default layout 
+    |   - layout   : it's the name of global default layout 
+    |   - if you set name it'll used inside all template
     |   - compress : it's used for compressing page
     |------------------------------------------------------------------
    */
-    'layout'    => 'default',
+    'layout'    => '', // default
     'compress'  => false
 ];
 

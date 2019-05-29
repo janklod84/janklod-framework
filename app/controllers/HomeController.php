@@ -18,10 +18,11 @@ class HomeController extends AppController
      
 
 /**
- * Debug
  * @var bool $debug [Give use details currencies ]
+ * @var string $layout
 */
 // protected $debug = false;
+// protected $layout = '';
 
 
 /**
@@ -52,9 +53,8 @@ public function before()
 public function index()
 {
    /* debug($this->user->findAll()); */
-   
-    view('home/index');
-   // return $this->render('home/index');
+    
+   return $this->render('home/index');
 }
 
 
@@ -64,8 +64,7 @@ public function index()
 */
 public function about()
 {
-    view('home/about');
-    // $this->render('home/about');
+   return $this->render('home/about');
 }
 
 
@@ -75,16 +74,12 @@ public function about()
 */
 public function contact()
 {
-   // if method is post
    if($this->request->isPost())
    {
-       // fetch post data
        $data = $this->request->post();
        debug($data);
    }
-   // show render
-   view('home/contact');
-   // $this->render('home/contact');
+   return $this->render('home/contact');
 }
 
 }

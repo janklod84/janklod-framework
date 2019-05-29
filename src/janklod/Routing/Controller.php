@@ -1,6 +1,9 @@
 <?php 
 namespace JK\Routing;
 
+use \Config;
+use JK\Routing\Debug\Printer;
+
 
 
 /**
@@ -23,7 +26,7 @@ protected $app;
 protected $load;
 protected $view;
 protected $request;
-protected $layout;
+protected $layout = 'default';
 protected $autoview = true;
 protected $debug = true;
 
@@ -87,11 +90,14 @@ public function currentController()
 */
 protected function mapLayout()
 {
-   if($this->layout === false)
+   if(!$this->layout)
    { return false; }
    else{ 
-     $layout = $this->layout ?: \Config::get('view.layout'); 
-     return 'layouts/'. $layout;
+     if(Config::get('view.layout') !== '')
+     {
+          $this->layout = Config::get('view.layout');
+     }
+     return 'layouts/'. $this->layout;
   }
 }
 
@@ -112,7 +118,7 @@ public function before() {}
 public function after()
 {
     if($this->debug)
-    { $this->showCurrencies(); }
+    { $this->info(); }
 }
 
 
@@ -121,20 +127,27 @@ public function after()
 * Show currents view , layout, and controller
 * @return void
 */ 
-public function showCurrencies()
+public function info()
 {
-    $html  = '<div class="container text-center">';
-    $html .= '<h5>Currencies: </h5>';
-    $html .= '<small>Current Controller:</small>'; 
-    $html .= '<code>'. $this->currentController() . '</code>'; 
-    $html .= '<br>';
-    $html .= '<small>Current View path :</small>'; 
-    $html .= '<code>'. $this->view->viewPath() .'</code>'; 
-    $html .= '<br>';
-    $html .= '<small>Current Layout path :</small>'; 
-    $html .= '<code>'. $this->view->layoutPath() .'</code>'; 
-    $html .= '</div>';
-    echo $html;
+     if($this->hasPath())
+     {
+         $printer = new Printer();
+         $printer->data('controller', $this->currentController());
+         $printer->data('view', $this->view->viewPath());
+         $printer->data('layout', $this->view->layoutPath());
+         $printer->output();
+     }
+}
+
+
+/**
+ * Determine if has isset path
+ * @return bool
+*/
+private function hasPath()
+{
+    return $this->layout 
+           && $this->view->viewPath(); 
 }
 
 }
