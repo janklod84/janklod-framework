@@ -63,6 +63,7 @@ public function addUrl($url)
 
 /**
  * Get routes
+ * @param string $method
  * @return array
 */
 public function routes($method='')
