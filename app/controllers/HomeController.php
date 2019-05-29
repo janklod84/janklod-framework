@@ -7,6 +7,8 @@ use app\models\User\UserManager;
 use JK\ORM\QQ;
 use JK\Database\DatabaseManager;
 
+
+
 /**
  * Base controller Back part of application
  * @package app\controllers\HomeController 
@@ -16,9 +18,19 @@ class HomeController extends AppController
      
 
 /**
+ * Debug
+ * @var bool $debug [Give use details currencies ]
+*/
+// protected $debug = false;
+
+
+/**
+ * Availables properties
  * @var \app\models\User $user
+ * @var bool $debug [Give use details currencies ]
 */
 protected $user;
+
 
 
 /**
@@ -41,7 +53,8 @@ public function index()
 {
    /* debug($this->user->findAll()); */
    
-   return $this->render('home/index');
+    view('home/index');
+   // return $this->render('home/index');
 }
 
 
@@ -51,7 +64,8 @@ public function index()
 */
 public function about()
 {
-    $this->render('home/about');
+    view('home/about');
+    // $this->render('home/about');
 }
 
 
@@ -69,7 +83,8 @@ public function contact()
        debug($data);
    }
    // show render
-   $this->render('home/contact');
+   view('home/contact');
+   // $this->render('home/contact');
 }
 
 }

@@ -28,9 +28,9 @@ private $output;
 * @param string $viewPath
 * @return void
 */
-public function __construct(string $viewPath = '')
+public function __construct($viewPath = '')
 {
-    $this->viewPath = $viewPath;
+    $this->viewPath =  trim($viewPath, '/');
 }
 
 
@@ -85,16 +85,13 @@ public function render()
 */
 protected function runBuffer()
 {
-     if($this->output === null)
+     extract($this->data);
+     ob_start();
+     require_once $this->viewPath();
+     $content = ob_get_clean();
+     if($this->layout != false)
      {
-         extract($this->data);
-         ob_start();
-         require_once $this->viewPath();
-         $content = ob_get_clean();
-         if($this->layout != false)
-         {
-             require_once $this->layoutPath();
-         }
+         require_once $this->layoutPath();
      }
 }
 
@@ -147,18 +144,22 @@ public function __toString()
 */
 public function fullPath($path)
 {
-    $direction = sprintf('%s/%s.php', 
-       trim($this->viewPath, '/'),  
-       trim($path, '/')
-    );
-    if(!file_exists($direction))
+    if($this->viewPath && $path)
     {
-       exit(sprintf(
-        'Sorry view file <strong>%s</strong> does not exist!', 
-        $direction)
-       );
+         $direction = sprintf('%s/%s.php', 
+           $this->viewPath,  
+           trim($path, '/')
+         );
+        if(!file_exists($direction))
+        {
+           exit(sprintf(
+            'Sorry view file <strong>%s</strong> does not exist!', 
+            $direction)
+           );
+        }
+        return realpath($direction);
     }
-    return realpath($direction);
+    return false;
 }
 
 }

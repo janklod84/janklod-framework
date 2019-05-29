@@ -1,19 +1,21 @@
 <?php 
 use JK\Template\View;
 
-
 if(!function_exists('view'))
 {
      
      /**
       * render view
-      * @param string $path 
+      * @param string $view 
       * @param array $data
       * @return string
      */
-     function view($path='', $data=[])
+     function view($view='', $data=[])
      {
-         
+          $viewObj = app()->view;
+          $viewObj->setView($view);
+          $viewObj->setData($data);
+          $viewObj->render();
      }
 }
 

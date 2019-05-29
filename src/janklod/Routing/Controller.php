@@ -4,11 +4,11 @@ namespace JK\Routing;
 
 
 /**
- * @package 
+ * @package JK\Routing\Controller
 */
 abstract class Controller 
 {
-       
+     
 /**
 * @var \JK\DI\ContainerInterface $app
 * @var \JK\Loader\Load $load
@@ -25,8 +25,9 @@ protected $view;
 protected $request;
 protected $layout;
 protected $autoview = true;
-private $output = '';
- 
+protected $debug = true;
+
+
 /**
 * Constructor
 * @param \JK\DI\ContainerInterface $app 
@@ -38,6 +39,9 @@ public function __construct($app)
      $this->view    = $app->view;
      $this->request = $app->request;
      $this->load    = $app->load;
+     $this->view->setLayout(
+        $this->mapLayout()
+     );
 }
 
  
@@ -63,32 +67,7 @@ protected function render($view, $data = [])
 {
      $this->view->setView($view);
      $this->view->setData($data);
-     $this->view->setLayout(
-        $this->mapLayout()
-     );
      $this->view->render();
-     $this->showCurrencies();
-}
-
-
-/**
-* Show currents view , layout, and controller
-* @return void
-*/ 
-public function showCurrencies()
-{
-    $html  = '<div class="container text-center">';
-    $html .= '<h5>Currencies: </h5>';
-    $html .= '<small>Current Controller:</small>'; 
-    $html .= '<code>'. $this->currentController() . '</code>'; 
-    $html .= '<br>';
-    $html .= '<small>Current View path :</small>'; 
-    $html .= '<code>'. $this->view->viewPath() .'</code>'; 
-    $html .= '<br>';
-    $html .= '<small>Current Layout path :</small>'; 
-    $html .= '<code>'. $this->view->layoutPath() .'</code>'; 
-    $html .= '</div>';
-    echo $html;
 }
 
 
@@ -130,9 +109,32 @@ public function before() {}
 * Do something after calling action
 * @return void
 */
-public function after() {}
+public function after()
+{
+    if($this->debug)
+    { $this->showCurrencies(); }
+}
 
 
 
+/**
+* Show currents view , layout, and controller
+* @return void
+*/ 
+public function showCurrencies()
+{
+    $html  = '<div class="container text-center">';
+    $html .= '<h5>Currencies: </h5>';
+    $html .= '<small>Current Controller:</small>'; 
+    $html .= '<code>'. $this->currentController() . '</code>'; 
+    $html .= '<br>';
+    $html .= '<small>Current View path :</small>'; 
+    $html .= '<code>'. $this->view->viewPath() .'</code>'; 
+    $html .= '<br>';
+    $html .= '<small>Current Layout path :</small>'; 
+    $html .= '<code>'. $this->view->layoutPath() .'</code>'; 
+    $html .= '</div>';
+    echo $html;
+}
 
 }
