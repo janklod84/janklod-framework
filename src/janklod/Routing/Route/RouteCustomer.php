@@ -232,7 +232,7 @@ public function mapCallback($callback, $divider='@')
 	 if(strpos($callback, $divider) !== false)
 	 {
 	      list($controller, $action) = 
-	      explode($divider, $callback);
+	      explode($divider, $callback, 2);
 	      $callback = [
 	         'controller' => $this->getController($controller),
 	         'action'     => $action

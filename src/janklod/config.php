@@ -1,5 +1,5 @@
 <?php 
-
+/*
 return [
  'test' => 'tes20', 
  'ak' => [
@@ -8,3 +8,18 @@ return [
      'fileq3' => __DIR__.'/file3',
  ]
 ];
+*/
+$data = scandir(ROOT);
+// debug($data);
+
+foreach($data as $path)
+{
+    if(is_file($path))
+    {
+    	 echo 'File: '. $path, '<br>';
+    }
+    if(is_dir($path))
+    {
+    	echo 'Directory: '. $path, '<br>';
+    }
+}

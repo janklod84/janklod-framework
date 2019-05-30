@@ -64,10 +64,10 @@ public function callAction($callback, $matches=[])
     $output = call_user_func_array($callback, $matches);
     $this->call($this->controller, 'after');
     
-    $debugCallback = [$this->controller, 'debug'];
-    if(!is_null($this->controller) && is_callable($debugCallback))
+    $infoCallback = [$this->controller, 'getInfo'];
+    if(!is_null($this->controller) && is_callable($infoCallback))
     {
-        call_user_func($debugCallback);
+        call_user_func($infoCallback);
     }
 
     // response send headers to server
@@ -127,7 +127,7 @@ public function getController($name)
         );
     }
 
-    return new $controller($this->app);
+    return new $controller($this->app) ?: new \stdClass();
 }
 
 /**
@@ -163,7 +163,7 @@ public function module(string $name)
 */
 public function model($model)
 {
-    $model = $this->getModelName($model); 
+    $model = $this->getModelName($model) ?: new \stdClass();
     if(!$this->hasModel($model))
     {
         $this->addModel($model);

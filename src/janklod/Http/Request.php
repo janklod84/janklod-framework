@@ -314,10 +314,19 @@ public function fromGlobals()
     {
        if($path = $this->server($param))
        {
+           echo 'Param is : '. $param;
            $url = $path;
            break;
        }
     }
+
+    // parse_url($url);
+    // die($url);
+    if(strpos($url, '?') !== false)
+    {
+        $url = str_replace('?', '', $url);
+    }
+    
     return trim($url, '/');
 }
        

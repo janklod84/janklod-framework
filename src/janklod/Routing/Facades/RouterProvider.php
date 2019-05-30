@@ -19,6 +19,7 @@ class RouterProvider extends ServiceProvider
 	    public function register()
 	    {
             // $url = trim($_SERVER['QUERY_STRING'], '/');
+            // $url = $this->app->request->fromGlobals();
             $url = $_GET['url'];
             $this->app->singleton('router', function () use($url) {
                  return new Router($url);

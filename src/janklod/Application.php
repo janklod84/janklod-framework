@@ -87,6 +87,7 @@ public function addContainer($container='')
 
 /**
 * Add definition
+* Exemple:
 * $this->addDefinition(__DIR__.'/config.php')
 * $this->addDefinition([
 *   'JK\Helper\Test' => function () {
@@ -124,6 +125,9 @@ public function run()
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      $this->load->callAction($callback, $matches);
+
+
+     require_once 'config.php';
 }
 
 

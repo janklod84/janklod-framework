@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Routing;
+namespace JK\Routing\Output;
 
 /**
- * @package JK\Routing\RoutingDebogger
+ * @package JK\Routing\Output\PrettyPrint
 */ 
-class RoutingDebogger
+class PrettyPrint
 {
    
 
