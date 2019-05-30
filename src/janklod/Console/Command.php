@@ -8,32 +8,34 @@ namespace JK\Console;
 class Command 
 {
      
-      /**
-       * @var array $commands
-      */
-	  private static $commands = [];
-    
-      
-      /**
-       * Add command
-       * @param CommandInterface $command 
-       * @return void
-      */
-	  public static function add(CommandInterface $command)
-	  {
-             self::$commands[] = $command;
-	  }
+  /**
+   * @var array $commands
+  */
+  private static $commands = [];
 
-      
-      /**
-       * Execute command
-       * @return mixed
-      */
-	  public function execute()
-	  {
-	  	   foreach($this->commands as $command)
-	  	   {
-	  	   	    $command->execute();
-	  	   }
-	  }
+  
+  /**
+   * Add command
+   * @param CommandInterface $command 
+   * @return void
+  */
+  public static function add(CommandInterface $command)
+  {
+         self::$commands[] = $command;
+  }
+
+  
+  /**
+   * Execute command
+   * @return mixed
+  */
+  public function execute()
+  {
+  	   foreach($this->commands as $command)
+  	   {
+  	   	    $command->execute();
+  	   }
+  }
+
+  
 }

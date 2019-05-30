@@ -8,63 +8,63 @@ namespace JK\Console;
 class Console
 {
 	  
-	  /**
-	   * @var \JK\Console\Command
-	  */
-	  private $invoker;
+  /**
+   * @var \JK\Console\Command
+  */
+  private $invoker;
 
 
-	  /**
-	   * Constructor
-	   * @param \JK\Console\Command $invoker
-	   * @return void
-	  */
-	  public function __construct($invoker)
-	  {
-	  	    $this->invoker = $invoker;
-	  }
+  /**
+   * Constructor
+   * @param \JK\Console\Command $invoker
+   * @return void
+  */
+  public function __construct($invoker)
+  {
+  	    $this->invoker = $invoker;
+  }
 
-      
-      /**
-       * add input name
-       * @param string $name 
-       * @return 
-      */
-      public function addInput($name='')
-      {
-             
-      }
-
-
-      /**
-       * add text
-       * @param string $text 
-       * @return 
-      */
-      public function addText($text='')
-      {
-             
-      }
+  
+  /**
+   * add input name
+   * @param string $name 
+   * @return 
+  */
+  public function addInput($name='')
+  {
+         
+  }
 
 
-      /**
-       * Execute all commands
-       * @return mixed
-      */
-	  public function execute()
-	  {
-	  	   // echo __METHOD__;
-           
-           /*
-	  	   $msg = "\n";
+  /**
+   * add text
+   * @param string $text 
+   * @return 
+  */
+  public function addText($text='')
+  {
+         
+  }
 
-	  	   for($i = 1; $i < 5; $i++)
-	  	   {
-	  	   	  $msg .= 'Bonjour Mr ' . $i . "\n";
-	  	   }
-	  	   return $msg;
-	  	   */
-           $this->invoker->execute();
 
-	  }
+  /**
+   * Execute all commands
+   * @return mixed
+  */
+  public function execute()
+  {
+  	   // echo __METHOD__;
+       
+       /*
+  	   $msg = "\n";
+
+  	   for($i = 1; $i < 5; $i++)
+  	   {
+  	   	  $msg .= 'Bonjour Mr ' . $i . "\n";
+  	   }
+  	   return $msg;
+  	   */
+       $this->invoker->execute();
+
+  }
 }
