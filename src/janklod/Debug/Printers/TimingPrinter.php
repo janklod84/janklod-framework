@@ -30,19 +30,6 @@ public function output()
 }
 
 
-/**
- * Get output
- * @return void
-*/
-public function outputOLD()
-{
-    $html  = PHP_EOL;
-    $html .= sprintf('<div style="%s">%s</div>', 
-        $this->getStyle(), $this->rounder()
-     );
-    $html .= PHP_EOL;
-    return $html;
-}
 
 /**
 * Get message
@@ -68,19 +55,22 @@ public function getMessage($code = null)
 /**
 * Round value
 * @param int $times [How many times]
+* @param float $start
 * @return string
 */
-protected function rounder($times = 5)
+public function rounder($times = 5, float $start=null)
 {
-    return round(microtime(true) - JKSTART, $times);
+    $start = $start ?: JKSTART;
+    return round(microtime(true) - $start, $times);
 }
 
 
 /**
  * Get style
+ * @param string $styliser
  * @return string
 */
-protected function getStyle()
+public function getStyle($styliser=null)
 {
     $style  = 'background:#900;';
     $style .= 'color:#fff;';
@@ -91,22 +81,8 @@ protected function getStyle()
     $style .= 'padding-left:10px;';
     $style .= 'z-index:9999;';
     $style .= 'font-family:Arial;';
-    return $style;
+    return $styliser ?: $style;
 }
 
-/*
-$style  = 'position:fixed';
-$style .= 'bottom:0';
-$style .= 'background:#900;'; // #007BFF
-$style .= 'color:#fff;';
-$style .= 'line-height:30px;';
-$style .= 'height:30px';
-$style .= 'left:0;';
-$style .= 'right:0;';
-$style .= 'padding-left:10px;';
-$style .= 'z-index:9999;';
-$style .= 'font-family:Arial;';
-return $style;
-*/
 
 }
