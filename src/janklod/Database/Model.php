@@ -28,7 +28,7 @@ protected $app;
 public function __construct($app = null)
 {
 	$this->model = get_class($this);
-    $connection  = DB::instance();
+    $connection  = DatabaseManager::instance();
     if(!is_null($app))
     {
        $this->app  = $app;

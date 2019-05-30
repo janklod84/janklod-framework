@@ -127,7 +127,7 @@ public function preparePath(string $path)
 	 	  $prefix = $this->getOption('prefix.path');
  	  	$path = sprintf('%s/%s', trim($prefix, '/'), $path);
 	 }
-     return trim($path, '/');
+   return trim($path, '/');
 }
 
 

@@ -2,7 +2,7 @@
 namespace JK\Database\Facades;
 
 use JK\Service\ServiceProvider;
-use JK\Database\DB;
+use JK\Database\DatabaseManager;
 
 /**
  * @package JK\Database\Facades\DatabaseProvider
@@ -17,7 +17,7 @@ class DatabaseProvider extends ServiceProvider
 public function register()
 {
     $this->app->singleton('db', function () {
-         return DB::instance();
+         return DatabaseManager::instance();
     });
 }
 }

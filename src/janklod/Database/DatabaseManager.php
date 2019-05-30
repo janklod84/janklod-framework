@@ -9,14 +9,14 @@ use \Config;
 
 /**
  * Database Manager
- * @package JK\Database\DB
+ * @package JK\Database\DatabaseManager
 */ 
-final class DB
+final class DatabaseManager
 {
 
 /**
 * @var \PDO $instance 
-* @var  \JK\Database\DB $instance
+* @var  \JK\Database\DatabaseManager $instance
 */
 private static $connection;
 private static $instance;
@@ -66,7 +66,7 @@ private static function isConnected()
 */
 private static function connect()
 {
-    return Connection::make(
+    return DatabaseConnection::make(
           Config::get('database.dsn'),
           Config::get('database.user'),
           Config::get('database.password'),
@@ -99,7 +99,7 @@ public static function close()
 
 /**
  * Get instance of database
- * @return self
+ * @return \PDO
 */
 public static function instance()
 {

@@ -8,14 +8,11 @@ use \Exception;
 
 
 /**
- * @package JK\Database\Connection
+ * @package JK\Database\DatabaseConnection
 */ 
-class Connection
+class DatabaseConnection
 {
-     /**
-      * For SQLSTATE[HY000]: General error
-      * // It's very important [0 for exec(), 1 for execute()]
-    */
+  
      private static $options = [
          PDO::ATTR_PERSISTENT => false,
          PDO::ATTR_EMULATE_PREPARES => 0, 

@@ -360,5 +360,15 @@ public static function removeQueryString($url='')
         }
     }
 }
+
+
+/**
+ * Prepare URL
+ * @return string
+*/
+public function prepareURL()
+{
+    // TO Implements
+}
        
 }
