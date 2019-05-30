@@ -13,7 +13,7 @@ class Router
  * @var array  $params
  * @var array  $matches
  * @var array  $routes
- * @var array  $route
+ * @var object $route
  * @var \JK\Routing\Dispatcher $dispatcher
  * @var string $url
 */
@@ -114,9 +114,6 @@ public function dispatch($method='GET')
         {
               $this->route  = $route;
               $this->params = $route->parameters();
-              
-              /* register()->set('route', $this->params); */
-
               if(is_null($this->dispatcher))
               {
                   $this->dispatcher = new Dispatcher(
