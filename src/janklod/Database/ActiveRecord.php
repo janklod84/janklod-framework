@@ -38,17 +38,39 @@ public function __construct($id=null)
 {
     parent::__construct();
     Q::addTable($this->table);
-    if($this->entity)
-    {
-         Q::fetchClass($this->model);
-    }
-    
+    $this->mapFetch();
     if($id){ $this->id = $id; }
+    $this->callBefore();
+}
+
+
+/**
+ * Call method before
+ * @return 
+*/
+protected function callBefore()
+{
     if(method_exists($this, 'before'))
     {
          $this->before();
     }
 }
+
+
+/**
+ * Map Fetch
+ * @return 
+*/
+protected function mapFetch()
+{
+  if($this->entity)
+  {
+     Q::fetchClass($this->model);
+  }
+
+}
+
+
 
 /**
  * Do some action before next actions actions

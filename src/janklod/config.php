@@ -9,7 +9,9 @@ return [
  ]
 ];
 */
-$data = scandir(ROOT);
+
+/*
+$data = scandir(ROOT.'app/');
 // debug($data);
 
 foreach($data as $path)
@@ -23,3 +25,4 @@ foreach($data as $path)
     	echo 'Directory: '. $path, '<br>';
     }
 }
+*/
