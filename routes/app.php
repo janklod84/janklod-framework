@@ -6,6 +6,9 @@
   |------------------------------------------------------------------
 */
 
+
+
+
 /***********************************
 | BACKEND CONTROLLERS
 ************************************/
@@ -18,6 +21,12 @@ $options = [
 Route::prefix($options, function () {
     Route::get('/login', 'UserController@login'); // admin/login
 });
+
+/***********************************
+| NOT FOUND CONTROLLER
+************************************/
+
+Route::get('/admin/404', 'NotFoundController@index');
 
 
 /***********************************

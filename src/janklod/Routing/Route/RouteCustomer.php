@@ -207,9 +207,9 @@ public function getOption($parsed='')
 			foreach($part as $item)
 			{
 				  if(isset($result[$item]))
-				{
-					$result = $result[$item];
-				}
+				  {
+				  	$result = $result[$item];
+				  }
 			}
 		}
 
@@ -233,11 +233,14 @@ public function mapCallback($callback, $divider='@')
 	 {
 	      list($controller, $action) = 
 	      explode($divider, $callback, 2);
+        $controller = $this->getController($controller);
 	      $callback = [
-	         'controller' => $this->getController($controller),
+	         'controller' => $controller,
 	         'action'     => $action
 	      ];
 	      $this->setParam('callback', $callback);
+        $this->setParam('controller', $controller);
+        $this->setParam('action', $action);
 	 }
   }
 }

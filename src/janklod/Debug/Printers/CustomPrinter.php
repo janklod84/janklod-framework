@@ -11,8 +11,10 @@ abstract class CustomPrinter implements PrinterInterface
 
       /**
       * @param \JK\Container\Container $app 
+      * @param \JK\FileSystem\File $file
       */
       protected $app;
+      protected $file;
 
 
       /**
@@ -23,6 +25,7 @@ abstract class CustomPrinter implements PrinterInterface
       public function __construct($app)
       {
           $this->app = $app;
+          $this->file = $app->file;
       }
 
       /**

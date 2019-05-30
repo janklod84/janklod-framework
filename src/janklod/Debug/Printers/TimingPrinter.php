@@ -1,117 +1,67 @@
 <?php 
-namespace JK\Helper;
+namespace JK\Debug\Printers;
 
 
-use JK\FileSystem\File;
+use \Config;
 
 
 /**
- * This class map result time of loading current page
- * It's used in development
  * @package JK\Debug\Printers\TimingPrinter
 */ 
 class TimingPrinter extends CustomPrinter
 {
-            
- 
+      
 /**
-* Initial time when started page
-* @var int
+ * Get output
+ * @return void
 */
-private $start;
-
-
-/**
-* @var array $messages
-*/
-private $messages = [];
-
-
-/**
-* Style template
-* @var string
-*/
-private $style;
-
-
-
-/**
-* @const array 
-*/
-const DATA_STYLE = [
-'position'     => 'fixed',
-'bottom'       =>  0,
-'background'   => '#900', // #007BFF
-'color'        => '#fff',
-'line-height'  => '30px',
-'height'       => '30px',
-'left'         => 0,
-'right'        => 0,
-'padding-left' => '10px',
-'z-index'      => 9999,
-'font-family'  => 'Arial'
-];
-
-
-
-/**
-* Constructor
-* @param float $start
-* @param string $translate
-* @return string
-*/
-public function __construct($start)
+public function output()
 {
-  $this->start = $start;
-  $this->file  =  new File(ROOT);
-}
-
-
-/**
-* Add message
-* @param string $code 
-* @param string $message 
-* @return void
-*/
-public function addMessage($code, $message = null)
-{
-   $this->messages[$code] = $message;
-}
-
-
-/**
-* Microtimer
-* @param string $code [ code language we want to show messages ]
-* @param int $times 
-* @return string
-*/
-public function show($code = 'en', $times = 5)
-{
-    if($showMsg = $this->getMessage($code))
+    if($showMsg = $this->getMessage())
     {
+        $html  = PHP_EOL;
+        $html .= sprintf('<div style="%s">%s</div>', 
+            $this->getStyle(),
+            sprintf($showMsg, $this->rounder())
+         );
+        $html .= PHP_EOL;
+        return $html;
+    }
+}
+
+
+/**
+ * Get output
+ * @return void
+*/
+public function outputOLD()
+{
     $html  = PHP_EOL;
     $html .= sprintf('<div style="%s">%s</div>', 
-        $this->styleStringify(), 
-        sprintf($showMsg, $this->rounder($times))
+        $this->getStyle(), $this->rounder()
      );
     $html .= PHP_EOL;
-    echo $html;
+    return $html;
 }
-}
-
 
 /**
-* Get style
-* @return string
+* Get message
+* @param string $code 
+* @return mixed
 */
-private function styleStringify()
+public function getMessage($code = null)
 {
-    $style = '';
-    foreach (self::DATA_STYLE as $property => $value)
-    {
-       $style .= sprintf('%s:%s;', $property, $value);
-    }
-    return $style;
+   $code = $code ?: Config::get('app.language');
+   $path = 'app/lang/'. mb_strtolower($code) .'/microtimer.php';
+   if($this->file->exists($path))
+   {
+        $message = $this->file->call($path);
+        if(isset($message['msg']))
+        {
+           return $message['msg'];
+        }
+   }
+   return false;
 }
 
 
@@ -120,39 +70,43 @@ private function styleStringify()
 * @param int $times [How many times]
 * @return string
 */
-private function rounder($times)
+protected function rounder($times = 5)
 {
-  return round(microtime(true) - $this->start, $times);
+    return round(microtime(true) - JKSTART, $times);
 }
 
 
 /**
-* Get message
-* @param string $code 
-* @return mixed
+ * Get style
+ * @return string
 */
-private function getMessage($code)
+protected function getStyle()
 {
-$path = 'app/lang/'. mb_strtolower($code) .'/microtimer.php';
-
-if($this->file->exists($path))
-{
-    $message = $this->file->call($path);
-
-    if(isset($message['msg']))
-    {
-        return $message['msg'];
-    }
-
-    }elseif(isset($this->messages[$code])){
-
-        return $message[$code];
-
-    }else{
-
-        return false;
-    }
+    $style  = 'background:#900;';
+    $style .= 'color:#fff;';
+    $style .= 'line-height:30px;';
+    $style .= 'height:30px';
+    $style .= 'left:0;';
+    $style .= 'right:0;';
+    $style .= 'padding-left:10px;';
+    $style .= 'z-index:9999;';
+    $style .= 'font-family:Arial;';
+    return $style;
 }
 
+/*
+$style  = 'position:fixed';
+$style .= 'bottom:0';
+$style .= 'background:#900;'; // #007BFF
+$style .= 'color:#fff;';
+$style .= 'line-height:30px;';
+$style .= 'height:30px';
+$style .= 'left:0;';
+$style .= 'right:0;';
+$style .= 'padding-left:10px;';
+$style .= 'z-index:9999;';
+$style .= 'font-family:Arial;';
+return $style;
+*/
 
 }

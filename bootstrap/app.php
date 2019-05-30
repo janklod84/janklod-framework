@@ -15,14 +15,14 @@ if(!version_compare(PHP_VERSION, '7.1', '>='))
 }
 
 
+
 /*
-|----------------------------------------------------------------------
-|   Autoloading classes and dependencies of application
-|----------------------------------------------------------------------
+|-------------------------------------------------------------------
+|    Application starting time
+|-------------------------------------------------------------------
 */
 
-require_once realpath(__DIR__ .'/../vendor/autoload.php');
-
+define('JKSTART', microtime(true));
 
 
 
@@ -36,6 +36,7 @@ require_once realpath(__DIR__ .'/../vendor/autoload.php');
 define('ROOT', '../');
 
 
+
 /*
 |-------------------------------------------------------
 |    Development mode 
@@ -47,6 +48,14 @@ define('ROOT', '../');
 define('DEV', false);
 
 
+
+/*
+|----------------------------------------------------------------------
+|   Autoloading classes and dependencies of application
+|----------------------------------------------------------------------
+*/
+
+require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
 
 /*

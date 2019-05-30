@@ -28,6 +28,9 @@ const CONFIG = [
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
 ],
+'commands' => [
+
+]
 ];
 			
 }

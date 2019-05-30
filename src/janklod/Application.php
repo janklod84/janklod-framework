@@ -120,6 +120,7 @@ public function run()
      if(is_null($dispatcher))
      {
          echo '<div>Dispatcher NULL</div>';
+         // $this->response->redirect(404);
          notFound(); // redirect to NotFoundController 404
      }
      // set route parameters

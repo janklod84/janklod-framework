@@ -72,8 +72,8 @@ public function callAction($callback, $matches=[])
 
     // response send headers to server
     $output = (string) $output;
-    response()->setBody($output);
-    response()->send();
+    $this->app->response->setBody($output);
+    $this->app->response->send();
 }
 
 

@@ -169,7 +169,7 @@ public function getBody()
 */
 public function getHeaders()
 {
- return $this->headers;
+   return $this->headers;
 }
 
 
@@ -236,9 +236,11 @@ public function sendHeaders()
              {
                 foreach($header as $k => $v)
                 {
+                    // echo 'Sent : '. $k .': ' . $v .'<br>';
                     header($k .': '.$v);
                 }
              }else{
+                 // echo 'Sent : '. $header . '<br>';
                  header($header);
              }  
         }

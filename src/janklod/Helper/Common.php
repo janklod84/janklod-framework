@@ -7,7 +7,24 @@ namespace JK\Helper;
 */
 class Common
 {
-       
+
+
+/**
+* Get style
+* @param array $styles
+* @return string
+*/
+public static function strigifyCss(array $styles)
+{
+    $style = '';
+    foreach ($styles as $property => $value)
+    {
+       $style .= sprintf('%s:%s;', $property, $value);
+    }
+    return $style;
+}
+
+
 /**
 * Sanitize input data 
 * @param string $input

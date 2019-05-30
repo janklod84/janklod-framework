@@ -28,7 +28,6 @@ protected $view;
 protected $request;
 protected $layout = 'default';
 protected $autoview = true;
-protected $debug = true;
 
 
 /**
@@ -77,12 +76,16 @@ protected function set($data = [])
 
 
 /**
- * Get view
+ * Get view automatically by name controller
+ * 
  * @return void
 */
 public function getView()
 {
-    // 
+    if($autoview === true)
+    {
+         //
+    }
 }
 
 
@@ -133,7 +136,7 @@ public function pretty()
      ]);
 
      $pretty = new PrettyPrint($this->app);
-     $pretty->output();
+     $pretty->output(\Config::get('app.debug'));
 }
 
 
@@ -157,4 +160,10 @@ private function hasPath()
            && $this->view->viewPath(); 
 }
 
+
+
+private function getFolder()
+{
+
+}
 }

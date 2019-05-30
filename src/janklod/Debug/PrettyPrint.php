@@ -13,7 +13,8 @@ class PrettyPrint
 // all availables printers
 const PRINTERS = [
   'RoutingPrinter',
-  'ViewPrinter',
+  // 'ViewPrinter',
+  // 'DatabasePrinter',
 ];
 
 
@@ -23,18 +24,15 @@ const PRINTERS = [
 */
 private $app; 
 private $output = '';
-// private $output = '<div style="">';
-
 
 
 
 /**
  * @param \JK\Container\ContainerInterface $app 
 */
-public function __construct($app = null)
+public function __construct($app)
 {
-    if(!is_null($app))
-    {$this->app = $app;}
+    $this->app = $app;
 }
 
 
@@ -42,13 +40,20 @@ public function __construct($app = null)
  * Print
  * @return void
 */
-public function output()
+public function output($debug = false)
 {
-   foreach(self::PRINTERS as $printer)
+   if($debug === true)
    {
-       $this->output .= $this->mapPrinter($printer)->output();
+       $this->app->response->setHeader('Content-Type: text/html; charset=utf-8');
+       $this->output .= '<div style="'. $this->getStyle() . '">';
+       $this->output .= $this->mapPrinter('TimingPrinter')->output();
+       foreach(self::PRINTERS as $printer)
+       {
+           $this->output .= $this->mapPrinter($printer)->output();
+       }
+       $this->output .= '</div>';
+       echo $this->output;
    }
-   echo $this->output;
 }
 
 
@@ -69,5 +74,20 @@ public function mapPrinter(string $printer): PrinterInterface
    return new $printerClass($this->app);
 }
 
+
+/**
+ * Get style
+ * @return string
+*/
+protected function getStyle()
+{
+  $style  = 'position:fixed;';
+  $style .= 'z-index:9999;';
+  $style .= 'bottom:0;';
+  $style .= 'left:0;';
+  $style .= 'right:0;';
+  $style .= 'ligne-height:30px;';
+  return $style;
+}
 
 }
