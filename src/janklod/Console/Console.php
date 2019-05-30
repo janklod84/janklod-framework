@@ -14,7 +14,7 @@ class Console
 	  }
 
 
-	  public function run()
+	  public function execute()
 	  {
 	  	   // echo __METHOD__;
 
