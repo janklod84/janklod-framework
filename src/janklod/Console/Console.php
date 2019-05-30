@@ -8,16 +8,54 @@ namespace JK\Console;
 class Console
 {
 	  
-	  public function __construct()
+	  /**
+	   * @var \JK\Console\Command
+	  */
+	  private $invoker;
+
+
+	  /**
+	   * Constructor
+	   * @param \JK\Console\Command $invoker
+	   * @return void
+	  */
+	  public function __construct($invoker)
 	  {
-	  	   echo __METHOD__;
+	  	    $this->invoker = $invoker;
 	  }
 
+      
+      /**
+       * add input name
+       * @param string $name 
+       * @return 
+      */
+      public function addInput($name='')
+      {
+             
+      }
 
+
+      /**
+       * add text
+       * @param string $text 
+       * @return 
+      */
+      public function addText($text='')
+      {
+             
+      }
+
+
+      /**
+       * Execute all commands
+       * @return mixed
+      */
 	  public function execute()
 	  {
 	  	   // echo __METHOD__;
-
+           
+           /*
 	  	   $msg = "\n";
 
 	  	   for($i = 1; $i < 5; $i++)
@@ -25,5 +63,8 @@ class Console
 	  	   	  $msg .= 'Bonjour Mr ' . $i . "\n";
 	  	   }
 	  	   return $msg;
+	  	   */
+           $this->invoker->execute();
+
 	  }
 }
