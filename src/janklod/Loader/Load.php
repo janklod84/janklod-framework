@@ -64,10 +64,10 @@ public function callAction($callback, $matches=[])
     $output = call_user_func_array($callback, $matches);
     $this->call($this->controller, 'after');
     
-    $infoCallback = [$this->controller, 'pretty'];
-    if(!is_null($this->controller) && is_callable($infoCallback))
+    $prettyCallback = [$this->controller, 'pretty'];
+    if(!is_null($this->controller) && is_callable($prettyCallback))
     {
-        call_user_func($infoCallback);
+        call_user_func($prettyCallback);
     }
 
     // response send headers to server
@@ -87,15 +87,13 @@ public function callAction($callback, $matches=[])
 */
 public function call($object, $method='before')
 {
-    if(!is_null($object))
+    if(is_object($object))
     {
         if(method_exists($object, $method))
         {
             call_user_func([$object, $method]);
         }
-        return false;
     }
-    return false;
 }
 
 

@@ -14,62 +14,30 @@ class ActiveRecord extends Model
  * @var  array $guarded
  * @var  array $fillable
  * @var  bool  $softDelete
- * @var  bool $entity
- * @var  bool $softDelete
  * @var  string $table
- * @var  \JK\ORM\Query $query
- * @var  \JK\Database\DatabaseManager $connection
  * @var  int $id
+ * @var  \JK\Container\ContainerInterface $app
 */
 protected $guarded  = [];
 protected $fillable = [];
-protected $entity   = true;
 protected $softDelete = false;
 protected $table;
 protected $id;
+protected $app;
 
 
 /**
  * Constructor
- * @param int $id
+ * @param \JK\Container\ContainerInterface $app
  * @return void
 */
-public function __construct($id=null)
+public function __construct($app)
 {
-    parent::__construct();
-    Q::addTable($this->table);
-    $this->mapFetch();
-    if($id){ $this->id = $id; }
-    $this->callBefore();
+    parent::__construct($app);
+    $this->app = $app;
+    Q::fetchClass($this->model);
+    $this->app->load->call($this, 'before');
 }
-
-
-/**
- * Call method before
- * @return 
-*/
-protected function callBefore()
-{
-    if(method_exists($this, 'before'))
-    {
-         $this->before();
-    }
-}
-
-
-/**
- * Map Fetch
- * @return 
-*/
-protected function mapFetch()
-{
-  if($this->entity)
-  {
-     Q::fetchClass($this->model);
-  }
-
-}
-
 
 
 /**

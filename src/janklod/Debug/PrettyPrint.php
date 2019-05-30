@@ -26,9 +26,7 @@ private $data = [];
 public function __construct(ContainerInterface $app = null)
 {
     if(!is_null($app))
-	  {
-	     $this->app = $app;	
-	  }
+    {$this->app = $app;}
 }
 
 

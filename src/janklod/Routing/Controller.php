@@ -76,6 +76,15 @@ protected function set($data = [])
 }
 
 
+/**
+ * Get view
+ * @return void
+*/
+public function getView()
+{
+    // 
+}
+
 
 /**
 * View render

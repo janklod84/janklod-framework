@@ -24,7 +24,9 @@ Route::prefix($options, function () {
 | FRONTEND CONTROLLERS
 ************************************/
 
-
+Route::get('/test', function () {
+   echo 'Bonjour les amis!';
+});
 Route::get('/', 'HomeController@index', 'welcome.page');
 Route::get('/about', 'HomeController@about');
 Route::get('/contact', 'HomeController@contact');
