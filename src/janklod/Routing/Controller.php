@@ -132,17 +132,8 @@ public function pretty()
         'current.layout.path' => $this->view->layoutPath()
      ]);
 
-     // debug($this->app->all());
-     /*
-     if($this->hasPath() && $this->debug)
-     {
-         $printer = new PrettyPrint($this->app);
-         $printer->data('controller', $this->currentController());
-         $printer->data('view', $this->view->viewPath());
-         $printer->data('layout', $this->view->layoutPath());
-         $printer->output();
-     }
-     */
+     $pretty = new PrettyPrint($this->app);
+     $pretty->output();
 }
 
 

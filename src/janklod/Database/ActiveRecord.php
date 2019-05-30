@@ -36,25 +36,24 @@ public function __construct($app)
     parent::__construct($app);
     $this->app = $app;
     Q::fetchClass($this->model);
-    $this->app->load->call($this, 'before');
+    $this->app->load->call($this, 'onConstructor');
 }
 
 
 /**
- * Do some action before next actions actions
- * Do some action before storage data
+ * Do some action before next actions
  * @return void
 */
-public function before(){}
-protected function beforeSave(){}
+public function onConstructor(){}
+
 
 
 /**
- * Do some action after all actions
+ * Do some action before storage data
  * Do some action after storage data
  * @return void
 */
-public function after(){}
+protected function beforeSave(){}
 protected function afterSave(){}
 
 
@@ -70,13 +69,14 @@ public function getTable(): string
 
 
 /**
- * 
+ * Fetch columns
  * @return 
 */
 public function columnMap()
 {
 
 }
+
 
 /**
  * Find all records

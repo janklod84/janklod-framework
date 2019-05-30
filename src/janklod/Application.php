@@ -125,7 +125,8 @@ public function run()
      // set route parameters
      $this->push([
       'current.route'   => $this->router->parameters(),
-      'current.queries' => \JK\ORM\Q::queries()
+      'current.queries' => \JK\ORM\Q::queries(),
+      'config' => Config::all()
      ]);
 
      $callback   = $dispatcher->getCallback();

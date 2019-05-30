@@ -8,9 +8,9 @@ use JK\FileSystem\File;
 /**
  * This class map result time of loading current page
  * It's used in development
- * @package JK\Helper\MicroTimer
+ * @package JK\Debug\Printers\TimingPrinter
 */ 
-class MicroTimer 
+class TimingPrinter extends CustomPrinter
 {
             
  
