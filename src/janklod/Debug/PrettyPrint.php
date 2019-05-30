@@ -1,17 +1,35 @@
 <?php 
-namespace JK\Routing\Output;
+namespace JK\Debug;
+
+
+use JK\Container\ContainerInterface;
 
 /**
- * @package JK\Routing\Output\PrettyPrint
+ * @package JK\Debug\PrettyPrint
 */ 
 class PrettyPrint
 {
    
 
 /**
+ * @var \JK\Container\ContainerInterface $app
  * @var array $data
 */
+private $app; 
 private $data = [];
+
+
+
+/**
+ * @param \JK\Container\ContainerInterface $app 
+*/
+public function __construct(ContainerInterface $app = null)
+{
+    if(!is_null($app))
+	  {
+	     $this->app = $app;	
+	  }
+}
 
 
 /**

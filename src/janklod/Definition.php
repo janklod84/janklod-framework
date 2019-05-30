@@ -18,9 +18,8 @@ const CONFIG = [
 \JK\Routing\Facades\RouterProvider::class, 
 \JK\Loader\Facades\LoaderProvider::class,
 \JK\Template\Facades\ViewProvider::class,
-/*
+\JK\Database\Facades\DatabaseProvider::class,
 \JK\Validation\Facades\ValidationProvider::class,
-*/
 ],
 'alias' => [
  'Route'    => 'JK\\Routing\\Route\\Route',

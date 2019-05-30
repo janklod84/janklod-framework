@@ -2,7 +2,7 @@
 namespace JK\Routing;
 
 use \Config;
-use JK\Routing\Output\PrettyPrint;
+use JK\Debug\PrettyPrint;
 
 
 
@@ -115,16 +115,25 @@ protected function mapLayout()
 * Show currents view , layout, and controller
 * @return void
 */ 
-public function getInfo()
+public function pretty()
 {
+     $this->app->merge([
+        'current.controller'  => $this->currentController(),
+        'current.view.path'   => $this->view->viewPath(),
+        'current.layout.path' => $this->view->layoutPath()
+     ]);
+
+     // debug($this->app->all());
+     /*
      if($this->hasPath() && $this->debug)
      {
-         $printer = new PrettyPrint();
+         $printer = new PrettyPrint($this->app);
          $printer->data('controller', $this->currentController());
          $printer->data('view', $this->view->viewPath());
          $printer->data('layout', $this->view->layoutPath());
          $printer->output();
      }
+     */
 }
 
 

@@ -180,6 +180,15 @@ public function __get($key)
 }
 
 
+/**
+ * Return all container params
+ * @return array
+*/
+public function all()
+{
+     return $this->container;
+}
+
 
 /**
 * Populate / Filter constructor params

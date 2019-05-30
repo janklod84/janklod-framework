@@ -33,7 +33,7 @@ public static function instance(): self
 
 
 /**
-* register
+* set item
 * @param string $key 
 * @param mixed $value 
 * @return type
@@ -44,14 +44,26 @@ public function set($key='', $value='')
 }
 
 /**
-* register
+* push data in container
 * @param mixed $value 
 * @return void
 */
-public function push($key='', $value)
+public function push($value)
 {
-    self::$data[$key][] = $value;
+    array_push(self::$data, $value);
 }
+
+
+/**
+* merge data
+* @param array $data
+* @return void
+*/
+public function merge($data = [])
+{
+    self::$data = array_merge(self::$data, $data);
+}
+
 
 
 /**

@@ -55,7 +55,7 @@ public function callAction($callback, $matches=[])
     
     if(!is_callable($callback))
     {
-        exit('No callable');
+        echo '<div>NO CALLABLE</div>';
         // redirect to NotFoundController 404
          notFound();
     }
@@ -64,7 +64,7 @@ public function callAction($callback, $matches=[])
     $output = call_user_func_array($callback, $matches);
     $this->call($this->controller, 'after');
     
-    $infoCallback = [$this->controller, 'getInfo'];
+    $infoCallback = [$this->controller, 'pretty'];
     if(!is_null($this->controller) && is_callable($infoCallback))
     {
         call_user_func($infoCallback);
@@ -111,6 +111,19 @@ public function currentObject(object $obj)
 
 
 /**
+ * Get module name
+ * @param string $directory 
+ * @param string $name 
+ * @return string
+*/
+public function getModule($directory='', $name='')
+{
+  $directory = rtrim($directory, '\\');
+   return sprintf('%s\\%s', $directory, $name);
+}
+
+
+/**
 * Get controller
 * @param string $name
 * @return object
@@ -130,16 +143,7 @@ public function getController($name)
     return new $controller($this->app) ?: new \stdClass();
 }
 
-/**
- * Get module name
- * @param string $directory 
- * @param string $name 
- * @return string
-*/
-public function getModule($directory='', $name='')
-{
-   return sprintf('%s\\%s', $directory, $name);
-}
+
 
 
 /**

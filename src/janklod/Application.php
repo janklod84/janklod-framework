@@ -114,17 +114,24 @@ public function addDefinition($definition): self
 */
 public function run()
 {
+     \JK\ORM\Q::setup($this->app->db);
      $method = $this->request->method();
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
      {
-         exit('Dispatcher NULL');
-         // redirect to NotFoundController 404
-         notFound(); 
+         echo '<div>Dispatcher NULL</div>';
+         notFound(); // redirect to NotFoundController 404
      }
+     // set route parameters
+     $this->push([
+      'current.route'   => $this->router->parameters(),
+      'current.queries' => \JK\ORM\Q::queries()
+     ]);
+
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      $this->load->callAction($callback, $matches);
+     
 }
 
 
@@ -170,6 +177,16 @@ public function bind(string $key, $resolver)
      $this->app->registry($key, $resolver);
 }
 
+
+/**
+ * Add data to container
+ * @param array $data 
+ * @return void
+*/
+public function push($data=[])
+{
+    $this->app->merge($data);
+}
 
 
 /**

@@ -303,6 +303,18 @@ public function url($path = false)
 
 
 /**
+ * Get cleaner URI
+ * @return string
+*/
+public function getUri()
+{
+    $uri = $this->uri();
+    return trim(parse_url($uri, PHP_URL_PATH), '/');
+}
+
+
+
+/**
   * Determine current path from server
   * Get Url from global $_SERVER
   * @return string

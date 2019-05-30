@@ -40,7 +40,7 @@ public static function setup(\PDO $connection = null, $table='')
 {
   if(is_null($connection))
   {
-     exit('You can to set up connection!');
+     exit('You must to set up connection for [Q ORM]!');
   }
   self::addConnection($connection);
   self::$query   = new Query($connection);
@@ -413,6 +413,17 @@ public function all()
 
 
 /**
+ * All executed Queries
+ * @return array
+*/
+public static function queries()
+{
+   self::ensureSetup();
+   return self::$query->executed();
+}
+
+
+/**
  * Get html output executed queries
  * @param bool $show
  * @return void
@@ -424,7 +435,7 @@ public static function output($show=true)
   {
       if(!is_null(self::$query))
       {
-         $queries = self::$query->executed();
+         $queries = self::queries();
          self::html($queries);
       }else{
           self::html();

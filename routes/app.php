@@ -37,4 +37,3 @@ Route::post('/contact', 'HomeController@contact');
 ************************************/
 
 Route::get('/404', 'NotFoundController@index');
-Route::notFound(404);

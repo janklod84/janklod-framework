@@ -118,7 +118,7 @@ $app->file->call('routes/app.php');
 |-------------------------------------------------------------------
 */
 
-$app->router->addRoute(
+$app->router->addRoutes(
 	\JK\Routing\Route\RouteCollection::all()
 );
 

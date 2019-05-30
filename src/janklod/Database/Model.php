@@ -24,7 +24,6 @@ public function __construct($app=null)
     Q::setup($db);
     $this->model = get_class($this);
     register()->push('model', $this->model); 
-
 }
 
 }
