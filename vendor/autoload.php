@@ -7,8 +7,7 @@
  | dirname(__DIR__)
 */
 
-
-require_once realpath('../src/Autoloader.php');
-
-\JK\Autoloader::instance('../')->register();
+define('AUTOLOAD_DIR', __DIR__.'/../');
+require(AUTOLOAD_DIR.'src/Autoloader.php');
+\JK\Autoloader::instance(AUTOLOAD_DIR)->register();
 

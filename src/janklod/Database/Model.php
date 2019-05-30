@@ -25,19 +25,14 @@ protected $app;
  * @param \JK\Container\ContainerInterface $app
  * @return void
 */
-public function __construct($app = null)
+public function __construct($app)
 {
-	$this->model = get_class($this);
-    $connection  = DatabaseManager::instance();
-    if(!is_null($app))
-    {
-       $this->app  = $app;
-       $connection = $app->db;
-       $app->set('current.model', $this->model);
-    }
+	  $this->model = get_class($this);
+    $connection  = $app->db ?: DatabaseManager::instance();
+    $this->app  = $app;
+    $app->set('current.model', $this->model);
     Q::setup($connection);
-    if($this->table)
-    { Q::addTable($this->table); }
+    Q::addTable($this->table);
 }
 
 }

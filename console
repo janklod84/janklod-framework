@@ -1,7 +1,9 @@
 #!/usr/bin/env php
 <?php 
-define('JK', microtime(true));
+define('JKSTART', microtime(true));
+require(__DIR__.'/vendor/autoload.php');
 
-require_once realpath(__DIR__.'/vendor/autoload.php');
+$console = new \JK\Console\Console(); // Input / Output
+$output  = $console->run();
 
-// Part for execution command with console interface ....
+exit($output);

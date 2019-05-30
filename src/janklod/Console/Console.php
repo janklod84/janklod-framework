@@ -5,7 +5,25 @@ namespace JK\Console;
 /**
  * @package JK\Console\Console
 */ 
-abstract class Console
+class Console
 {
-	
+	  
+	  public function __construct()
+	  {
+	  	   echo __METHOD__;
+	  }
+
+
+	  public function run()
+	  {
+	  	   // echo __METHOD__;
+
+	  	   $msg = "\n";
+
+	  	   for($i = 1; $i < 5; $i++)
+	  	   {
+	  	   	  $msg .= 'Bonjour Mr ' . $i . "\n";
+	  	   }
+	  	   return $msg;
+	  }
 }
