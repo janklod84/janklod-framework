@@ -8,9 +8,11 @@ namespace JK\Console;
 class Console
 {
 	  
-  
-  private static $configPath;
-  private $invoker;
+  /**
+   * @var string $commandFile
+  */
+  private static $commandFile = '';
+
   
   /**
    * Constructor
@@ -21,6 +23,7 @@ class Console
   {
       $commandFile  = trim($path, '/');
       $commandFile .= $path.'.php';
+      self::$commandFile = $commandFile;
       if(!file_exists($commandFile))
       {
          exit(sprintf('Command File [ '. $commandFile . '] does not exist!')); 
@@ -30,24 +33,15 @@ class Console
 
   /**
    * Set base path config commands
-   * @param string $configPath 
-   * @return string
-  */
-  public static function basePath($configPath='')
-  {
-         self::$configPath = $configPath;
-  }
-
-
-  
-  /**
-   * Constructor
-   * @param \JK\Console\Command $invoker
+   * @param string $commandFile 
    * @return void
   */
-  public function addInvoker($invoker)
+  public static function basePath($commandFile ='')
   {
-  	    $this->invoker = $invoker;
+         if(self::$commandFile === '')
+         {
+             self::$commandFile = $commandFile;
+         }
   }
 
   
@@ -71,26 +65,17 @@ class Console
   {
          
   }
-
+  
 
   /**
-   * Execute all commands
-   * @return mixed
+   * add message
+   * @param string $message 
+   * @return 
   */
-  public function execute()
+  public function addMessage($message='')
   {
-  	   // echo __METHOD__;
-       
-       /*
-  	   $msg = "\n";
-
-  	   for($i = 1; $i < 5; $i++)
-  	   {
-  	   	  $msg .= 'Bonjour Mr ' . $i . "\n";
-  	   }
-  	   return $msg;
-  	   */
-       $this->invoker->run();
-
+         
   }
+ 
+ 
 }

@@ -13,35 +13,7 @@ class Command
    * @var string $configPath
   */
   private static $commands = [];
-  private static $configPath;
-
   
-  /**
-   * Constructor
-   * @param string $path 
-   * @return void
-  */
-  public function __construct($path='routes/console')
-  {
-      $commandFile  = trim($path, '/');
-      $commandFile .= $path.'.php';
-      if(!file_exists($commandFile))
-      {
-         exit(sprintf('Command File [ '. $commandFile . '] does not exist!')); 
-      }
-      require realpath($commandFile);
-  }
-
-  /**
-   * Set base path config commands
-   * @param string $configPath 
-   * @return string
-  */
-  public static function basePath($configPath='')
-  {
-         self::$configPath = $configPath;
-  }
-
 
   /**
    * Add command
@@ -53,8 +25,7 @@ class Command
          self::$commands[] = $command;
   }
 
-  
-  
+    
   /**
    * Execute command
    * @return mixed
@@ -67,6 +38,13 @@ class Command
 	   	    $command->execute();
 	   }
   }
+
+   
+  /**
+   * Roolback command
+   * @return void
+  */
+  public function undo(){}
 
   
 }
