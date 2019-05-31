@@ -99,5 +99,46 @@ $results = Q::getTable()->where(5, 'id')
 debug($results);
 
 ===============================================================
-QUERY READ
+CREATE RECORD
 ===============================================================
+Q::getTable()->create([
+ 'username' => 'NewBrowner',
+ 'password' => 'myNewBrower',
+ 'role' => 3
+]);
+
+===============================================================
+READ RECORD
+===============================================================
+Q::setup(\DB::instance(), 'users');
+$one = Q::getTable()->read(4);
+debug($one);
+
+
+===============================================================
+CREATE RECORD
+===============================================================
+Q::setup(\DB::instance(), 'users');
+Q::getTable()->create([
+ 'username' => 'NewBrowner',
+ 'password' => 'myNewBrower',
+ 'role' => 3
+]);
+
+
+===============================================================
+UPDATE RECORD
+===============================================================
+Q::setup(\DB::instance(), 'users');
+$one = Q::getTable()->update([
+  'username' => 'JK'
+], 8);
+debug($one);
+
+
+===============================================================
+DELETE RECORD
+===============================================================
+Q::setup(\DB::instance(), 'users');
+$one = Q::getTable()->delete(8);
+debug($one);

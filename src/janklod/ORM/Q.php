@@ -309,6 +309,37 @@ public function update($params=[], $value, $field='id')
 
 
 /**
+ * Delete one record
+ * @param array $params
+ * @param mixed $value 
+ * @param string $field
+ * @return 
+*/
+public function delete($value, $field='id')
+{
+   self::ensureSetup();
+   if($value)
+   {
+        $sql = self::$builder
+                ->delete(self::$table)
+                ->where($field, $value);
+        return self::execute($sql, self::$builder->values);
+   }
+}
+
+
+/**
+ * Get Last ID
+ * @return int
+*/
+public static function lastId()
+{
+    self::ensureSetup();
+    return self::$query->lastID();
+}
+
+
+/**
  * store data // update or insert
  * @return 
 */
@@ -329,24 +360,7 @@ private function isNewRecord()
 }
 
 
-/**
- * Delete one record
- * @param array $params
- * @param mixed $value 
- * @param string $field
- * @return 
-*/
-public function delete($value, $field='id')
-{
-   self::ensureSetup();
-   if($value)
-   {
-        $sql = self::$builder
-                ->delete(self::$table)
-                ->where($field, $value);
-        return self::execute($sql, self::$builder->values);
-   }
-}
+
 
 
 

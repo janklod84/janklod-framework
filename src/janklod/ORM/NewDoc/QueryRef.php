@@ -127,37 +127,36 @@ public function fetchInto($object=null, $arguments = [])
 */
 public function execute(string $sql, array $params = [])
 {
-  try
-  {
-     $this->statement = $this->connection->prepare($sql);
-     
+    
      try
      {
           // begin transaction ...
           $this->transaction();
+          
+          $this->statement = $this->connection->prepare($sql);
+
           // execute statement
           if($this->statement->execute($params))
           {
                $this->addQuery($sql);
+               
+               // set fetch mode
+               $this->setFetchMode();
 
+               // get results
+               $this->result = $this->statement->fetchAll();
+
+               // rows count
+               $this->count  = $this->statement->rowCount();
+
+               // last insert id
+               $this->lastID = $this->connection->lastInsertId();
           }
-         
+
+          // commit
+          $this->commit();
+
           
-          // set fetch mode
-           $this->setFetchMode();
-
-           // get results
-           $this->result = $this->statement->fetchAll();
-
-           // rows count
-           $this->count  = $this->statement->rowCount();
-
-          // last insert id
-           $this->lastID = $this->connection->lastInsertId();
-           
-           // commit
-           $this->commit();
-
      }catch(PDOException $e){
          
          // rollback ...
@@ -173,11 +172,6 @@ public function execute(string $sql, array $params = [])
          
          // exit;
      }
-
-    }catch(PDOException $e){
-
-         throw new StatementException($e->getMessage);
-    }
 
      return $this;
 }
@@ -213,6 +207,36 @@ $arguments = []
      $this->fetchHandler = $fetchHandler; 
      $this->arguments    = $arguments;
 }
+
+
+
+/**
+ * To Fix
+ * Execute many queries
+ * @param array $queries
+ * @return mixed
+*/
+public function many($queries = [])
+{
+    try
+    {   
+        // begin transaction ...
+        $this->transaction();
+        foreach($queries as $sql => $values)
+        {
+            $this->execute($sql, $values);
+        }
+        // commit ...
+        $this->commit();
+
+    }catch(\PDOException $e){
+        
+        // rollback ...
+        $this->rollback();
+        exit($e->getMessage());
+    }
+}
+
 
 
 

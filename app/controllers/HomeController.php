@@ -31,10 +31,14 @@ public function before()
    ];
 
    Q::setup(\DB::instance(), 'users');
-   $results = Q::getTable()->where(5, 'id')
-                           ->first();
-   debug($results);
-
+   $c = Q::getTable()->create([
+     'username' => 'NewBrowner9',
+     'password' => 'myNewBrower34',
+     'role' => 10
+   ]);
+   
+    debug($c);
+    echo Q::lastId();
 }
 
 
