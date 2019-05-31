@@ -44,6 +44,7 @@ const CONFIG_PARAMS = [
 */
 public static function setup(\PDO $connection = null, $table='')
 {
+  self::mapConnection();
   if(is_null($connection))
   {
      exit('You must to set up connection for [Q ORM]!');
@@ -97,7 +98,8 @@ public static function close()
 */
 public static function connect(array $config = [], string $table='')
 {
-    self::captureConfig($config);
+    self::mapConnection();
+    self::ensureConfigParams($config);
     extract($config);
     if(empty($options)){ $options = []; }
 
@@ -117,7 +119,18 @@ public static function connect(array $config = [], string $table='')
 }
 
 
-
+/**
+ * Map connection 
+ * Show message if connection already setted
+ * @return void
+*/
+public static function mapConnection()
+{
+    if(self::$setup === true)
+    {
+        exit('Q [ORM] already connected!');
+    }
+}
 
 /**
  * Map item
@@ -579,7 +592,7 @@ public static function html($queries=[])
  * @param array $config 
  * @return void
 */
-private static function captureConfig($config=[])
+private static function ensureConfigParams($config=[])
 {
     // to replace by array_filter !
     if(!empty($config))

@@ -25,7 +25,7 @@ class HomeController extends AppController
 public function before()
 {
    $config = [
-     'dsns' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
+     'dsn' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
      'user' => 'root',
      'password' => 'root'
    ];
