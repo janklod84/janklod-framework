@@ -28,17 +28,10 @@ private static $title;
 private static $metas = [];
 
 
-
-/**
- * set application name
- * @var string
-*/
-private static $name;
-
-
-
 /**
  * Set title
+ * if no $current [ <title>JK</title> ]
+ * if $current is not null [ <title>Article-1 | JK</title> ]
  * @param string $title 
  * @param string $current
  * @return string
@@ -51,7 +44,8 @@ public static function setTitle($title, $current = null)
 
 /**
  * Get title
- * <title>Our Title</title>
+ * <title>JK</title>
+ * <title>Article-1 | JK</title>
  * @return string
 */
 public static function title()
@@ -73,8 +67,8 @@ public static function lang($code = 'en')
 
 /**
  * Encode meta charset
- * @param type|string $encode 
- * @return type
+ * @param string $encode 
+ * @return string
 */
 public static function charset($encode = 'UTF-8')
 {
