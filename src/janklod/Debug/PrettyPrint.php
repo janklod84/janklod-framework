@@ -12,16 +12,9 @@ use JK\Capture;
 class PrettyPrint
 {
    
-// all availables printers
-const PRINTERS = [
-  'RoutingPrinter',
-  // 'ViewPrinter',
-  // 'DatabasePrinter',
-];
-
-
 /**
  * @var \JK\Container\ContainerInterface $app
+ * @var array $printers
  * @var string $output
 */
 private $app; 
