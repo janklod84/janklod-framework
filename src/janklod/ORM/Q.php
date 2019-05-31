@@ -46,7 +46,7 @@ public static function setup(\PDO $connection = null, $table='')
 
   self::$connection = $connection;
   self::$query   = new Query($connection);
-  self::$builder = new QueryBuilder();
+  self::$builder = new QueryBuilder($table);
   self::$register['table'] = $table;
   self::$setup = true;
   return new static;
