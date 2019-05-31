@@ -57,7 +57,7 @@ public static function pwd($char='', $type=PASSWORD_DEFAULT)
  * @param $verify 
  * @return bool
 */
-public static function validpwd($handle='', $verify)
+public static function pwdverify($handle='', $verify)
 {
    return password_verify($handle, $verify); 
 }

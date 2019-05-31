@@ -36,6 +36,7 @@ public function __construct($app)
     parent::__construct($app);
     $this->app = $app;
     Q::fetchClass($this->model);
+    Q::addTable($this->table);
     $this->app->load->call($this, 'onConstructor');
 }
 

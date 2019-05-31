@@ -15,16 +15,14 @@ class Query
 /**
 * @var \PDO $connection
 * @var \PDOStatement $statement
-* @var int $fetchHandler
-* @var array $result
-* @var array $options
+* @var string $fetchHandler
 * @var bool $error
 * @var array $queries
 * @var string $table
 * @var string $result
 * @var int $count
 * @var int $lastID
-* @var int $builder
+* @var array $arguments
 */
 private $connection;
 private $statement;
@@ -35,7 +33,6 @@ private $table = '';
 private $result;
 private $count;
 private $lastID;
-
 private $arguments = [];
 
 // fetch handler class name
@@ -171,7 +168,7 @@ public function execute(string $sql='', array $params = [])
          $html .= '<p>' . $sql . '</p>';
          echo $html;
 
-         throw new \Exception($e->getMessage());
+         throw new QueryException($e->getMessage());
          
          // exit;
      }

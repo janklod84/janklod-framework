@@ -27,12 +27,12 @@ protected $app;
 */
 public function __construct($app)
 {
-	  $this->model = get_class($this);
+	// debug($app);
+    $this->model = get_class($this);
     $connection  = $app->db ?: DatabaseManager::instance();
     $this->app  = $app;
     $app->set('current.model', $this->model);
     Q::setup($connection);
-    Q::addTable($this->table);
 }
 
 }

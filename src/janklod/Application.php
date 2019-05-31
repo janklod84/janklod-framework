@@ -70,51 +70,12 @@ private function __construct($root)
 
 
 /**
-* Add container you want to use
-* Exemple:
-* $this->addContainer(DI::class)
-* $this->addContainer(new DI())
-* 
-* @param string|object $container 
-* @return void
-*/
-public function addContainer($container='')
-{
-     $this->containerBuilder->addContainer($container);
-}
-
-
-
-/**
-* Add definition
-* Exemple:
-* $this->addDefinition(__DIR__.'/config.php')
-* $this->addDefinition([
-*   'JK\Helper\Test' => function () {
-*        return new Test();
-*    },
-*    'file' => new File(__DIR__),
-*    'newtest' => ...
-* ])
-* 
-* @param string|array $definition 
-* @return $this
-*/
-public function addDefinition($definition): self
-{
-     $this->containerBuilder->addDefinitions($definition);
-     return $this;
-}
-
-
-
-/**
   * Break Point of Application
   * @return mixed
 */
 public function run()
 {
-     \JK\ORM\Q::setup($this->app->db);
+     // \JK\ORM\Q::setup($this->app->db);
      $method = $this->request->method();
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
@@ -126,7 +87,7 @@ public function run()
      // set route parameters
      $this->push([
       'current.route'   => $this->router->parameters(),
-      'current.queries' => \JK\ORM\Q::queries(),
+      'current.queries' => '', //\JK\ORM\Q::queries(),
       'config' => Config::all()
      ]);
 
@@ -164,6 +125,56 @@ public static function instance($root = null): self
     }
 
     return self::$instance;
+}
+
+
+
+/**
+* Add container you want to use
+* Exemple:
+* $this->addContainer(DI::class)
+* $this->addContainer(new DI())
+* 
+* @param string|object $container 
+* @return void
+*/
+public function addContainer($container='')
+{
+     $this->containerBuilder->addContainer($container);
+}
+
+
+
+/**
+* Add definition
+* Exemple:
+* $this->addDefinition(__DIR__.'/config.php')
+* $this->addDefinition([
+*   'JK\Helper\Test' => function () {
+*        return new Test();
+*    },
+*    'file' => new File(__DIR__),
+*    'newtest' => ...
+* ])
+* 
+* @param string|array $definition 
+* @return $this
+*/
+public function addDefinition($definition): self
+{
+     $this->containerBuilder->addDefinitions($definition);
+     return $this;
+}
+
+
+/**
+* Get container
+* Dependency Injection Container
+* @return \JK\Container\ContainerInterface
+*/
+public function getContainer()
+{
+    return $this->containerBuilder->build();
 }
 
 
@@ -241,18 +252,6 @@ public function __get($key)
    return $this->get($key);
 }
 
-
-
-
-/**
-* Get container
-* Dependency Injection Container
-* @return \JK\Container\ContainerInterface
-*/
-public function getContainer()
-{
-    return $this->containerBuilder->build();
-}
 
 
 /**
