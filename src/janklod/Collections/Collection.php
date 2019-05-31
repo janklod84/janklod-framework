@@ -57,6 +57,44 @@ public function get($key = null)
 
 
 /**
+* Get collection keys
+*
+* @return array The collection's source data keys
+*/
+public function keys()
+{
+  return array_keys($this->items);
+}
+
+
+
+/**
+ * Has key
+ * @param string $key 
+ * @return bool
+*/
+public function hasKey($key)
+{
+     return array_key_exists($key, $this->items);
+}
+   
+
+
+/**
+ * Replace
+ * @param array $items 
+ * @return void
+*/
+public function replace($items)
+{
+   foreach($items as $key => $value)
+   {
+        $this->set($key, $value);
+   }
+}
+
+
+/**
 * Determine if item's setted
 * @param string $key 
 * @return bool
