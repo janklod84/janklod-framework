@@ -183,6 +183,8 @@ public static function query()
   return self::$query;
 }
 
+
+
 /**
  * Query builder create sql query
  * @param string $table
@@ -438,7 +440,7 @@ public function first()
  * @param  $entity [name class : app\\models\\MyModel]
  * @param  array $arguments 
  * @return Query
-*//*
+*/
 public static function fetchClass($entity, $arguments=[])
 {
   self::ensureSetup();
@@ -451,7 +453,7 @@ public static function fetchClass($entity, $arguments=[])
 * @param int $colno [number of column]
 * @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
 * @return 
-*//*
+*/
 public static function fetchColumn($colno=null, $arguments = [])
 {
   self::ensureSetup();
@@ -464,7 +466,7 @@ public static function fetchColumn($colno=null, $arguments = [])
 * @param object $object
 * @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
 * @return 
-*//*
+*/
 public static function fetchInto($object=null, $arguments = [])
 {
   self::ensureSetup();
@@ -497,8 +499,6 @@ public static function exec($sql)
 	  self::ensureSetup();
 	  return self::$query->exec($sql);
 }
-
-
 
 
 /**
