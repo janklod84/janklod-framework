@@ -50,4 +50,38 @@ public static function base()
    return call_user_func([new Request, 'url']);
 }
 
+
+/**
+ * Remove Query String
+ * Return string without GET parameters
+ * @param string $url request URL
+ * @return string
+*/
+public static function removeQS($url='') 
+{
+    if($url)
+    {
+        $params = explode('&', $url, 2);
+        if(false === strpos($params[0], '='))
+        {
+            return rtrim($params[0], '/');
+        }else{
+            return '';
+        }
+    }
+}
+
+
+/**
+ * Get cleaner URI
+ * @return string
+*/
+public static function prepareUri()
+{
+    $uri = call_user_func([new Request, 'uri']);
+    return trim(parse_url($uri, PHP_URL_PATH), '/');
+}
+
+
+
 }

@@ -303,18 +303,6 @@ public function url($path = false)
 
 
 /**
- * Get cleaner URI
- * @return string
-*/
-public function getUri()
-{
-    $uri = $this->uri();
-    return trim(parse_url($uri, PHP_URL_PATH), '/');
-}
-
-
-
-/**
   * Determine current path from server
   * Get Url from global $_SERVER
   * @return string
@@ -341,25 +329,6 @@ public function fromGlobals()
     return trim($url, '/');
 }
 
-
-/**
- * Return string without GET parameters
- * @param string $url request URL
- * @return string
-*/
-public static function removeQueryString($url='') 
-{
-    if($url)
-    {
-        $params = explode('&', $url, 2);
-        if(false === strpos($params[0], '='))
-        {
-            return rtrim($params[0], '/');
-        }else{
-            return '';
-        }
-    }
-}
 
 
 /**
