@@ -7,7 +7,15 @@ namespace JK;
 */ 
 class Definition 
 {
-	  
+
+/**
+* Name of Application
+* @const string
+*/
+const APP_NAME = 'JK'; // JanKlod [Жан-Клод]
+
+
+
 /**
 * Base Configuration of application
 */
@@ -30,7 +38,13 @@ const CONFIG = [
  'DI'       => 'JK\\DI\\Container'
 ],
 'commands' => [
-
+   'database' => [
+     \JK\Database\Migrations\Commands\CreateCommand::class,
+     \JK\Database\Migrations\Commands\DeleteCommand::class,
+     \JK\Database\Migrations\Commands\UpdateCommand::class,
+     \JK\Database\Migrations\Commands\RollbackCommand::class,
+     \JK\Database\Migrations\Commands\MigrateCommand::class,
+   ]
 ]
 ];
 			
