@@ -172,6 +172,17 @@ public static function getTable($return=false)
 }
 
 
+
+/**
+ * Close connection
+ * @return void
+*/
+public static function query()
+{
+  self::ensureSetup();
+  return self::$query;
+}
+
 /**
  * Query builder create sql query
  * @param string $table
@@ -328,16 +339,6 @@ public function delete($value, $field='id')
 }
 
 
-/**
- * Get Last ID
- * @return int
-*/
-public static function lastId()
-{
-    self::ensureSetup();
-    return self::$query->lastID();
-}
-
 
 /**
  * store data // update or insert
@@ -350,6 +351,51 @@ public function store()
     // and determine if has id 
     // or determine if isset property
     // if isset we will be update otherwise we'll create new record
+}
+
+
+/**
+ * Get Last ID
+ * @return int
+*/
+public static function lastId()
+{
+    self::ensureSetup();
+    return self::$query->lastID();
+}
+
+
+/**
+ * Get Row count
+ * @return int
+*/
+public static function count()
+{
+    self::ensureSetup();
+    return self::$query->count();
+}
+
+
+
+/**
+ * Make transaction
+ * @param \Closure $callback
+ * @return mixed
+*/
+public static function transaction(\Closure $callback)
+{
+    self::ensureSetup();
+    try
+    {
+        self::$query->transaction();
+        call_user_func($callback, self::$table);
+        self::$query->commit();
+
+    }catch(\PDOException $e){
+         self::$query->rollback();
+         throw new \Exception($e->getMessage());
+    }
+
 }
 
 
