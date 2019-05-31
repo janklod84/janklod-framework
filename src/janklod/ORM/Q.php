@@ -98,7 +98,6 @@ public static function close()
 */
 public static function connect(array $config = [], string $table='')
 {
-    self::mapConnection();
     self::ensureConfigParams($config);
     extract($config);
     if(empty($options)){ $options = []; }

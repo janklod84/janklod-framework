@@ -30,12 +30,12 @@ public function before()
      'password' => 'root'
    ];
 
-   // Q::setup(\DB::instance(), 'users');
+     Q::setup(\DB::instance(), 'users');
 
-   Q::connect($config, 'users');
+     // Q::connect($config, 'users');
 
 
-
+   /*
    $c = Q::getTable()->create([
      'username' => 'NewBrowner9',
      'password' => 'myNewBrower34',
@@ -44,6 +44,7 @@ public function before()
    
     debug($c);
     echo Q::lastId();
+    */
 }
 
 
