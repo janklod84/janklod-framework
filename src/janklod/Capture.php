@@ -29,6 +29,11 @@ const SRC = [
  'Url'      => 'JK\\Helper\\Url',
  'DI'       => 'JK\\DI\\Container'
 ],
+'printers' => [
+  'RoutingPrinter',
+  // 'ViewPrinter',
+  // 'DatabasePrinter'
+],
 'commands' => [
      // Database
      \JK\Database\Migrations\Commands\CreateCommand::class,

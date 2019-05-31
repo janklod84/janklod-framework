@@ -3,6 +3,8 @@ namespace JK\Debug;
 
 
 use JK\Container\ContainerInterface;
+use JK\Capture;
+
 
 /**
  * @package JK\Debug\PrettyPrint
@@ -23,6 +25,7 @@ const PRINTERS = [
  * @var string $output
 */
 private $app; 
+private $printers = [];
 private $output = '';
 
 
@@ -37,7 +40,37 @@ public function __construct($app)
 
 
 /**
- * Print
+ * Add printer name 
+ * [ \App\Blank\TestPrinter, \App\Blank\TestPrinter::class ]
+ * @param string $printer 
+ * @return void
+*/
+public function addPrinter(string $printer)
+{
+     array_push($this->printers, $printer);
+}
+
+
+/**
+ * Get printers
+ * @return array
+*/
+public function printers()
+{
+    if(!empty(Capture::SRC['printers']))
+    {
+        $this->printers = array_merge(
+          $this->printers, 
+          Capture::SRC['printers']
+        );
+    }
+    return $this->printers;
+}
+
+
+/**
+ * Print all output
+ * @param bool $debug
  * @return void
 */
 public function output($debug = false)
@@ -47,7 +80,7 @@ public function output($debug = false)
        $this->app->response->setHeader('Content-Type: text/html; charset=utf-8');
        $this->output .= '<div style="'. $this->getStyle() . '">';
        $this->output .= $this->mapPrinter('TimingPrinter')->output();
-       foreach(self::PRINTERS as $printer)
+       foreach($this->printers() as $printer)
        {
            $this->output .= $this->mapPrinter($printer)->output();
        }
