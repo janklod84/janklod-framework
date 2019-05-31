@@ -3,23 +3,15 @@ namespace JK;
 
 
 /**
- * @package JK\Definition 
+ * @package JK\Capture
 */ 
-class Definition 
+class Capture
 {
 
 /**
-* Name of Application
-* @const string
+* Configuration source of application
 */
-const APP_NAME = 'JK'; // JanKlod [Жан-Клод]
-
-
-
-/**
-* Base Configuration of application
-*/
-const CONFIG = [
+const SRC = [
 'providers' => [
 \JK\Http\Facades\RequestProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
@@ -38,13 +30,21 @@ const CONFIG = [
  'DI'       => 'JK\\DI\\Container'
 ],
 'commands' => [
-   'database' => [
+     // Database
      \JK\Database\Migrations\Commands\CreateCommand::class,
      \JK\Database\Migrations\Commands\DeleteCommand::class,
      \JK\Database\Migrations\Commands\UpdateCommand::class,
      \JK\Database\Migrations\Commands\RollbackCommand::class,
      \JK\Database\Migrations\Commands\MigrateCommand::class,
-   ]
+     // Routing
+     \JK\Routing\Commands\GenerateController::class,
+     // Model
+     \JK\Routing\Commands\GenerateModel::class
+],
+'locator' => [
+  'cache_dir' => '/temp/cache/',
+  'migration_dir' => '/temp/database/migrations/',
+  'log_file' => 'temp/log/error.txt'
 ]
 ];
 			

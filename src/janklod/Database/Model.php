@@ -28,9 +28,9 @@ protected $app;
 public function __construct($app)
 {
 	// debug($app);
-    $this->model = get_class($this);
-    $connection  = $app->db ?: DatabaseManager::instance();
-    $this->app  = $app;
+	$connection  = $app->db ?: DatabaseManager::instance();
+    $this->app   = $app;
+    $this->model = $app->load->currentObjectName($this);
     $app->set('current.model', $this->model);
     Q::setup($connection);
 }

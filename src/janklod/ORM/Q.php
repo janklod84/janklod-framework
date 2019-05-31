@@ -58,7 +58,7 @@ public static function setup(\PDO $connection = null, $table='')
 */
 public static function addConnection(\PDO $connection)
 {
-  self::$connection = $connection;
+     self::$connection = $connection;
 }
 
 
@@ -251,18 +251,6 @@ public static function table($table='')
 {
    return self::assignTable($table);
 }
-
-
-/**
- * Assign table
- * @return void
-*/
-public static function assignTable($table='')
-{
-   self::$table = $table;
-   return new self;
-}
-
 
 
 
@@ -476,6 +464,18 @@ public static function html($queries=[])
  $template .= '</table>';
  $template .= '<strong>Count executed queries : </strong>'. count($queries);
  echo $template;
+}
+
+
+
+/**
+ * Assign table
+ * @return void
+*/
+private static function assignTable($table='')
+{
+   self::$table = $table;
+   return new self;
 }
 
 

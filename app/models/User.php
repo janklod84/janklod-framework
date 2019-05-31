@@ -29,6 +29,8 @@ protected $password;
 protected $role = 1;
 
 
+
+
 /**
 * Set id
 * @param int $id 

@@ -98,11 +98,11 @@ public function call($object, $method='before')
 
 
 /**
- * Get current object
+ * Get current object object
  * @param object $obj 
  * @return type
 */
-public function currentObject(object $obj)
+public function currentObjectName(object $obj)
 {
     return get_class($obj);
 }

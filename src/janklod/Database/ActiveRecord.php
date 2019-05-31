@@ -23,7 +23,6 @@ protected $fillable = [];
 protected $softDelete = false;
 protected $table;
 protected $id;
-protected $app;
 
 
 /**
@@ -34,7 +33,6 @@ protected $app;
 public function __construct($app)
 {
     parent::__construct($app);
-    $this->app = $app;
     Q::fetchClass($this->model);
     Q::addTable($this->table);
     $this->app->load->call($this, 'onConstructor');

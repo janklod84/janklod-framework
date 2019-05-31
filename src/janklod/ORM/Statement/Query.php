@@ -125,9 +125,8 @@ public function fetchInto($object=null, $arguments = [])
 * @return mixed
 * @throws \Exception 
 */
-public function execute(string $sql='', array $params = [])
+public function execute(string $sql, array $params = [])
 {
-     if(!$sql) { exit('No Query sql added!'); }
      $this->statement = $this->connection->prepare($sql);
      try
      {

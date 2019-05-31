@@ -104,7 +104,7 @@ public static function functions()
 private static function get($key)
 {
    $config = \JK\Config\Config::get('app.'.$key) ?: []; 
-   return array_merge(Definition::CONFIG[$key], $config);
+   return array_merge(Capture::SRC[$key], $config);
 }
 
 

@@ -51,10 +51,15 @@ public function before()
 */
 public function index()
 {
-   /* debug($this->user->findAll()); */
+    // debug($this->user);
+
+    /*
+    TO FIX SQLSTATE[HY000]: General error: could not call class constructor
+    debug($this->user->findAll()); 
+    */
 
 
-   
+
    return $this->render('home/index');
 }
 

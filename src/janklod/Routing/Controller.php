@@ -147,7 +147,7 @@ public function pretty()
 */
 private function currentController()
 {
-    return $this->load->currentObject($this);
+    return $this->load->currentObjectName($this);
 }
 
 /**
