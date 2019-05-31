@@ -94,6 +94,7 @@ $config = []
 {
     
     extract($config);
+    $options = $options ?: [];
     try
     {
         if(is_null(self::$connection))
@@ -230,20 +231,6 @@ public function where($value, $field='id', $operator='=')
       return new static;
 }
 
-public function whereS($value, $field='id', $operator='=')
-{
-      self::ensureSetup();
-      $selectSql = self::$builder->select();
-      if(!self::$builder->getTable())
-      {
-          $selectSql = $selectSql->from(self::$table);
-      }
-      $selectSql->where($field, $value, $operator)
-                ->limit(1);
-      $values = self::$builder->values;
-      self::$query->execute($selectSql, $values);
-      return new static;
-}
 
 
 /**

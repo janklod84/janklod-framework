@@ -24,6 +24,12 @@ class HomeController extends AppController
 */
 public function before()
 {
+   $config = [
+     'dsn' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
+     'user' => 'root',
+     'password' => 'root'
+   ];
+
    Q::setup(\DB::instance(), 'users');
    $results = Q::getTable()->where(5, 'id')
                            ->first();
