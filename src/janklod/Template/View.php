@@ -21,6 +21,7 @@ private $layout;
 private $view;
 private $data = [];
 private $viewPath = ''; 
+private $partialDir;
 private $output;
 private $show = true;
 
@@ -44,6 +45,17 @@ public function __construct($viewPath = '')
 public function show(bool $show=true)
 {
     $this->show = $show;
+}
+
+
+/**
+* add layout
+* @param string $partialDir directory 
+* @return void
+*/
+public function partialDir($partialDir = '')
+{
+    $this->partialDir = $partialDir;
 }
 
 
@@ -178,5 +190,46 @@ public function fullPath($path)
     }
     return false;
 }
+
+
+/**
+ * Partials
+ * @param string $path 
+ * @return void
+*/
+public function partial($path='', $parent='layouts')
+{
+   $file = $this->partialPath($path, $parent);
+   include($file);
+}
+
+
+/**
+ * Get full partial path
+ * @param string $path 
+ * @param string $parent 
+ * @return string
+*/
+public function partialPath($path, $parent)
+{
+    $path = trim($path, '/');
+    $this->partialDir = trim($this->partialDir, '/');
+    if(!$this->partialDir){$this->partialDir = $path;}
+    else{$this->partialDir = $this->partialDir . '/'. $path; }
+     $file = sprintf(
+        '%s/%s/%s.php', 
+        $this->viewPath, 
+        trim($parent, '/'),
+        $this->partialDir
+     );
+     if(!file_exists($file))
+     {
+         exit(sprintf(
+            'Sorry Partial path <b>%s</b> does not exist!', $file
+         ));
+     }
+     return realpath($file);
+}
+
 
 }

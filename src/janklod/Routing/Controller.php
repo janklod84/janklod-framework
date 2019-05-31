@@ -111,7 +111,8 @@ private function beforeRender()
         Config::get('asset.js'),
         base_url()
      );
-
+     
+     $this->view->partialDir(Config::get('view.partial'));
      $this->view->setLayout(
         $this->mapLayout()
      );

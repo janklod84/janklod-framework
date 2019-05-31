@@ -46,11 +46,13 @@ public static function setTitle($title, $current = null)
  * Get title
  * <title>JK</title>
  * <title>Article-1 | JK</title>
+ * @param string $title
  * @return string
 */
-public static function title()
+public static function title(string $title='')
 {
-      return sprintf('<title>%s</title>', self::$title) . PHP_EOL;
+	  self::$title = $title ?: self::$title;
+      echo sprintf('<title>%s</title>', self::$title) . PHP_EOL;
 }
 
 
@@ -61,7 +63,7 @@ public static function title()
 */
 public static function lang($code = 'en')
 {
-    return sprintf('<html lang="%s">', $code) . PHP_EOL;
+    echo sprintf('<html lang="%s">', $code) . PHP_EOL;
 }
 
 
@@ -72,7 +74,28 @@ public static function lang($code = 'en')
 */
 public static function charset($encode = 'UTF-8')
 {
-     return sprintf(self::MASK_META['charset'], $encode) . PHP_EOL;
+     echo sprintf(self::MASK_META['charset'], $encode) . PHP_EOL;
 }
+
+
+/**
+ * Add meta refresh
+ * @param int $times 
+ * [indicate in seconds how many time you want to refresh content]
+ * @param string $url 
+ * [indicate concretly domain or path you want to refresh, by default content will ve refresh all them domain]
+ * @return string
+*/
+public static function refresh($times=5, $url='')
+{
+	 if($times === false) { return; }
+	 $content = trim($times, ';');
+	 if($url){ $content .= sprintf(';url="%s"', $url); }
+	 echo sprintf(
+	 	'<meta http-equiv="refresh" content="%s">', $content
+	 ). PHP_EOL;
+}
+
+
 
 }

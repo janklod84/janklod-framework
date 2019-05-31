@@ -11,8 +11,9 @@ return [
     |   - compress : it's used for compressing page
     |------------------------------------------------------------------
    */
-    'layout'    => '', // default
-    'compress'  => false
+    'layout'    => '', // name of default layout
+    'compress'  => false,
+    'partial'   => 'partials' // name of partials folders 
 ];
 
 
