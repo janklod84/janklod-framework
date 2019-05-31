@@ -15,7 +15,7 @@ class View  implements ViewInterface
 * @var string  $view
 * @var array   $data 
 * @var string  $viewPath
-* @var string  $show [ Determine if show render or not ]
+* @var bool  $show [ Determine if show render or not ]
 */
 private $layout;
 private $view;
