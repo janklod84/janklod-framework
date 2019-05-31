@@ -130,12 +130,11 @@ public function execute(string $sql, array $params = [])
   try
   {
      $this->statement = $this->connection->prepare($sql);
-
+     
      try
      {
           // begin transaction ...
-          $this->transaction(); // [always to the top before execution]
-
+          $this->transaction();
           // execute statement
           if($this->statement->execute($params))
           {
@@ -143,6 +142,7 @@ public function execute(string $sql, array $params = [])
 
           }
          
+          
           // set fetch mode
            $this->setFetchMode();
 
@@ -155,7 +155,7 @@ public function execute(string $sql, array $params = [])
           // last insert id
            $this->lastID = $this->connection->lastInsertId();
            
-           // commit [always to the end]
+           // commit
            $this->commit();
 
      }catch(PDOException $e){
