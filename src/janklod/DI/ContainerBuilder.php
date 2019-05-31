@@ -71,7 +71,7 @@ public function build(): ContainerInterface
     {
         $this->parsed = new $this->parsed($this->definitions);
     }
-    return $this->parsed ?: new Container($this->definitions);
+    return $this->parsed ?: Container::instance($this->definitions);
 }
 
 }

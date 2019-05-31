@@ -27,6 +27,7 @@ const CONFIG = [
  'HTML'     => 'JK\\Template\\HTML', 
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
+ 'DI'       => 'JK\\DI\\Container'
 ],
 'commands' => [
 

@@ -21,8 +21,25 @@ class Container implements ContainerInterface
          
 /**
 * @var array $container
+* @var self $instance
 */
 private $container = [];
+private static $instance;
+
+
+/**
+ * Get instance
+ * @param array $container 
+ * @return self
+*/
+public static function instance($container = [])
+{
+     if(is_null(self::$instance))
+     {
+          self::$instance = new self($container);
+     }
+     return self::$instance;
+}
 
 
 /**
@@ -30,7 +47,7 @@ private $container = [];
 * @param array $container 
 * @return void
 */
-public function __construct($container = [])
+private function __construct($container = [])
 {
     $this->merge($container);
 }
