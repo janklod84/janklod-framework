@@ -41,6 +41,7 @@ protected $user;
 */
 public function before()
 {
+     /* $this->view->show(false); */
      $this->user = $this->load->model('User');
 }
 
@@ -52,7 +53,7 @@ public function before()
 public function index()
 {
     // debug($this->user);
-
+    
     /*
     TO FIX SQLSTATE[HY000]: General error: could not call class constructor
     debug($this->user->findAll()); 

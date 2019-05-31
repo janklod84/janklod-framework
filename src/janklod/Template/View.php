@@ -15,12 +15,14 @@ class View  implements ViewInterface
 * @var string  $view
 * @var array   $data 
 * @var string  $viewPath
+* @var string  $show [ Determine if show render or not ]
 */
 private $layout;
 private $view;
 private $data = [];
 private $viewPath = ''; 
 private $output;
+private $show = true;
 
 
 /**
@@ -31,6 +33,17 @@ private $output;
 public function __construct($viewPath = '')
 {
     $this->viewPath =  trim($viewPath, '/');
+}
+
+
+/**
+* add layout
+* @param bool $status
+* @return void
+*/
+public function show(bool $show=true)
+{
+    $this->show = $show;
 }
 
 
@@ -75,6 +88,10 @@ public function setData($data = [])
 */
 public function render()
 {
+     if(!$this->show)
+     {
+         return false;
+     }
      $this->runBuffer();
 }
 
@@ -83,7 +100,7 @@ public function render()
 * Buffering
 * @return void
 */
-protected function runBuffer()
+public function runBuffer()
 {
      extract($this->data);
      ob_start();
