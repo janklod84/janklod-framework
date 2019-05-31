@@ -130,4 +130,3 @@ $app->file->call('routes/app.php');
 $app->router->addRoutes(
 	\JK\Routing\Route\RouteCollection::all()
 );
-

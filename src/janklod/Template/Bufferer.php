@@ -4,21 +4,22 @@ namespace JK\Template;
 
 
 /**
- * @package JK\Template\Layout
+ * @package JK\Template\Bufferer
 */
-class Layout
+class Bufferer
 {
 
   /**
    * @var string $head
    * @var string $body
    * @var string $foot
+   * @var 
   */
   private $head;
   private $body;
   private $foot;
-
-
+  private static $output;
+  private static $types = []; // 'head', 'body', 'foot'
 
  const TYPE_PART = ['head', 'body', 'foot'];
 
@@ -30,7 +31,7 @@ class Layout
  * @param string $type can be head or body
  * @return string returns the output buffer of head and body
 */
-public function content($type)
+public static function content($type)
 {
      if(!in_array($type, self::TYPE_PART))
      {
@@ -40,15 +41,24 @@ public function content($type)
 
 }
 
+/**
+ * Add type we want to add in buffer
+ * @param string $type
+ * @return void
+*/
+public static function addType($type)
+{
+    array_push(self::$types, $type);
+}
 
 /**
  * start the output buffer for the head or body
  * @param string 
  * @return void
 */
-public function start($type)
+public static function start($type)
 {
-	   $this->output = $type;
+	   self::$output = $type;
 	   ob_start();
 }
 
@@ -61,7 +71,7 @@ public function end()
 {
     foreach(self::TYPE_PART as $type)
     {
-         if($this->output == $type)
+         if(self::$output == $type)
          {
              $this->{$type} = ob_get_clean();
          }

@@ -41,9 +41,7 @@ public function __construct($app)
      $this->view    = $app->view;
      $this->request = $app->request;
      $this->load    = $app->load;
-     $this->view->setLayout(
-        $this->mapLayout()
-     );
+     $this->beforeRender();
 }
 
 
@@ -102,6 +100,22 @@ protected function render($view, $data = [])
      $this->view->render();
 }
 
+/**
+ * Do action before render
+ * @return void
+*/
+private function beforeRender()
+{
+     \Asset::map(
+        Config::get('asset.css'),
+        Config::get('asset.js'),
+        base_url()
+     );
+
+     $this->view->setLayout(
+        $this->mapLayout()
+     );
+}
 
 
 /**
