@@ -31,8 +31,8 @@ const CONFIG = [
 ],
 'alias' => [
  'Route'    => 'JK\\Routing\\Route\\Route',
- 'Asset'    => 'JK\\Template\\Asset',
- 'HTML'     => 'JK\\Template\\HTML', 
+ 'Asset'    => 'JK\\Template\\Components\\Asset',
+ 'HTML'     => 'JK\\Template\\Components\\HTML', 
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
  'DI'       => 'JK\\DI\\Container'

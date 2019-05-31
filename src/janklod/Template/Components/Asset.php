@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Template;
+namespace JK\Template\Components;
 
 
 use \Config;
 
 /**
- * @package JK\Template\Asset 
+ * @package JK\Template\Components\Asset 
 */
 class Asset 
 {
