@@ -88,7 +88,7 @@ public function run()
      $this->push([
       'current.route'   => $this->router->parameters(),
       'current.queries' => '', //\JK\ORM\Q::queries(),
-      'config' => Config::all()
+      'config' => '', // Config::all()
      ]);
 
      $callback   = $dispatcher->getCallback();

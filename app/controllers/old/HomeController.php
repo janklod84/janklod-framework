@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\models\User\User;
 use app\models\User\UserManager;
 use \Q;
-use \DB;
+use JK\Database\DatabaseManager;
 
 
 
@@ -18,17 +18,31 @@ class HomeController extends AppController
      
 
 /**
+ * @var bool $debug [Give use details currencies ]
+ * @var string $layout
+*/
+// protected $debug = false;
+// protected $layout = '';
+
+
+/**
+ * Availables properties
+ * @var \app\models\User $user
+ * @var bool $debug [Give use details currencies ]
+*/
+protected $user;
+
+
+
+/**
  * Do action before callback
  * Do all behaviours before actions
  * @return 
 */
 public function before()
 {
-   Q::setup(\DB::instance(), 'users');
-   $results = Q::getTable()->where(5, 'id')
-                           ->first();
-   debug($results);
-
+     /* $this->view->show(false); */
+     // $this->user = $this->load->model('User');
 }
 
 
@@ -38,8 +52,17 @@ public function before()
 */
 public function index()
 {
+    // debug($this->user);
+    
+    debug(Q::sql());
+    /*
+    TO FIX SQLSTATE[HY000]: General error: could not call class constructor
+    debug($this->user->findAll()); 
+    */
 
-    return $this->render('home/index');
+
+
+   return $this->render('home/index');
 }
 
 

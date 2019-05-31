@@ -10,15 +10,48 @@ class QueryBuilder
 {
 	  
 /**
- * @var array $sql
- * @var array $values
- * @var array $output
+ * @var array  $sql
+ * @var array  $values
+ * @var string $table
 */
 private $sql    = []; 
 public  $values = [];
+private $table  = '';
 const NBQuery = '\\JK\\ORM\\Queries\\Builder\\%sBuilder';
 
 
+
+/**
+ * Constructor
+ * @param string $table 
+ * @return void
+ */
+public function __construct($table='')
+{
+    $this->table = $table;
+}
+
+
+/**
+ * Add Table
+ * @param string $table 
+ * @return self
+*/
+public function addTable($table='')
+{
+    $this->table = $table;
+    return $this;
+}
+
+
+/**
+ * Get Table
+ * @return string
+*/
+public function getTable()
+{
+    return $this->table;
+}
 
 /**
  * Select 
@@ -41,6 +74,7 @@ public function select(...$selects)
 */
 public function from($table='', $alias='')
 {
+    if($this->table){ return $this; }
     $this->sql['from'] = compact('table', 'alias');
     return $this;
 }
@@ -395,6 +429,7 @@ protected function build($type, $params)
           die(sprintf('class <strong>%s</strong> does not exist!', $builderName));
       }
       $builderObj = new $builderName($params);
+      $builderObj->mapTable($this->table);
       return call_user_func([$builderObj, 'build']);
 }
   

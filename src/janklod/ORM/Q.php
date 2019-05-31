@@ -30,6 +30,7 @@ private static $query;
 private static $setup = false;
 
 
+// CONNECTION
 /**
 * Constructor
 * @param \PDO $connection
@@ -42,7 +43,8 @@ public static function setup(\PDO $connection = null, $table='')
   {
      exit('You must to set up connection for [Q ORM]!');
   }
-  self::addConnection($connection);
+
+  self::$connection = $connection;
   self::$query   = new Query($connection);
   self::$builder = new QueryBuilder();
   self::$register['table'] = $table;
@@ -50,38 +52,6 @@ public static function setup(\PDO $connection = null, $table='')
   return new static;
 }
 
-
-/**
- * Add connection
- * @param \PDO $connection 
- * @return void
-*/
-public static function addConnection(\PDO $connection)
-{
-     self::$connection = $connection;
-}
-
-
-/**
- * Query statement
- * @return \JK\ORM\Statement\Query
-*/
-public static function query()
-{
-  self::ensureSetup();
-  return self::$query;
-}
-
-
-/**
- * Query builder create sql query
- * @return \JK\ORM\Queries\QueryBuilder
-*/
-public static function sql()
-{
-  self::ensureSetup();
-  return self::$builder;
-}
 
 
 /**
@@ -97,20 +67,33 @@ public static function close()
 
 /**
  * Add connection if has not connection
- * @param string $dsn 
- * @param string $user 
- * @param string $password 
- * @param array $options 
+ * 
+ *  Ex: $config = [
+ * 'dsn'        => 'sqlite:database.db',
+ * 'driver'     => 'mysql', // sqlite
+ * 'host'       => 'localhost',
+ * 'port'       => 3306,
+ * 'charset'    => 'utf8',
+ * 'database'   => 'test', // database.db
+ * 'user'       => 'root',
+ * 'prefix_tbl' => '',
+ * 'password'   => 'Qwerty',
+ * 'collation'  => 'utf8mb4',
+ * 'engine'     => 'innoDB'
+ * ];
+ * 
+ * Q::connect($config);
+ * @param string $mysql
+ * @param array $config
  * @return \PDO
 */
 public static function connect(
-$dsn='', 
-$user='', 
-$password='', 
-$options=[]
+$driver ='mysql', 
+$config = []
 ): \PDO
 {
-
+    
+    extract($config);
     try
     {
         if(is_null(self::$connection))
@@ -124,75 +107,6 @@ $options=[]
         throw new \Exception($e->getMessage(), 404);
         
     }
-}
-
-
-
-
-
-/**
- * Fetch class
- * @param  $entity [name class : app\\models\\MyModel]
- * @param  array $arguments 
- * @return Query
-*/
-public static function fetchClass($entity, $arguments=[])
-{
-  self::ensureSetup();
-  self::$query->fetchClass($entity, $arguments);
-}
-
-
-/**
-* Fetch column
-* @param int $colno [number of column]
-* @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
-* @return 
-*/
-public static function fetchColumn($colno=null, $arguments = [])
-{
-  self::ensureSetup();
-  self::$query->fetchColumn($colno, $arguments);
-}
-
-
-/**
-* Fetch into
-* @param object $object
-* @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
-* @return 
-*/
-public static function fetchInto($object=null, $arguments = [])
-{
-  self::ensureSetup();
-  self::$query->fetchColumn($object, $arguments);
-}
-
-
-/**
- * Exceute Query
- * @param string $sql 
- * @param array $params 
- * @return mixed
-*/
-public static function execute($sql, $params=[])
-{
-  self::ensureSetup();
-  return self::$query->execute($sql, $params);
-}
-
-
-
-/**
- * Execute simple query
- * QQ::exec('DELETE FROM table ')
- * @param string $sql 
- * @return bool
- */
-public static function exec($sql)
-{		 
-	self::ensureSetup();
-	return self::$query->exec($sql);
 }
 
 
@@ -211,6 +125,20 @@ public static function map($item=null)
 }
 
 
+
+// SQL 
+/**
+ * Assign table
+ * @return void
+*/
+private static function assignTable($table='')
+{
+   self::$table = $table;
+   return new self;
+}
+
+
+
 /**
  * Add Table
  * @param string $table 
@@ -222,9 +150,10 @@ public static function addTable($table='')
 }
 
 
-
 /**
  * Get Table
+ * Q::getTable()->all();
+ * Q::getTable()->first();
  * @return mixed
 */
 public static function getTable($return=false)
@@ -235,7 +164,7 @@ public static function getTable($return=false)
     }else{
       if(!self::isRegistred('table')) // if empty
       {
-          exit(sprintf('Sorry no table yet setted!'));
+          exit('NO TABLE SETTED!');
       }
       return self::assignTable(self::map('table'));
     }
@@ -243,43 +172,92 @@ public static function getTable($return=false)
 
 
 /**
- * Add Table
- * @param string $table 
- * @return void
+ * Query builder create sql query
+ * @param string $table
+ * @return \JK\ORM\Queries\QueryBuilder
 */
-public static function table($table='')
+public static function sql($table='')
 {
-   return self::assignTable($table);
+   self::ensureSetup();
+   self::$table  = $table;
+   return self::$builder;
 }
-
 
 
 /**
- * Make select query without from 
- *
- * Ex: Q::select('column1', 'column2', 'column3'..)->where('id', '4')->.... 
- * Ex: $columns = ['field1', 'field2', ...]; Q::select($columns)->where()...
- *
- *
- * @param mixed ...$selects
+ * Get values from Query SQL
  * @return \JK\ORM\Queries\QueryBuilder
 */
-public static function select(...$selects)
+public static function values()
 {
-  self::ensureSetup();
-  $sql = self::$builder->select($selects);
-  if(is_array($selects[0]))
-  {
-        $sql = self::$builder->select($selects[0]);
-  }
-  if($table = self::map('table'))
-  {
-        return $sql->from($table);
-  }
-  return $sql;
+   self::ensureSetup();
+   return self::$builder->values;
 }
 
 
+/**
+ * Add Table
+ * Ex: Q::table('users')->where(3, 'id', '=');
+ * @param string $table 
+ * @return self
+*/
+public static function table($table='')
+{
+    self::ensureSetup();
+    return self::assignTable($table);
+}
+
+
+
+// RECORDS
+
+/**
+ * Where Query
+ * @param mixed $value 
+ * @param string $field 
+ * @param string $operator 
+ * @return type
+*/
+public function where($value, $field='id', $operator='=')
+{
+      self::ensureSetup();
+      $selectSql = self::$builder->select()
+                                 ->from(self::$table)
+                                 ->where($field, $value, $operator)
+                                 ->limit(1);
+      $values = self::$builder->values;
+      self::$query->execute($selectSql, $values);
+      return new static;
+}
+
+public function whereS($value, $field='id', $operator='=')
+{
+      self::ensureSetup();
+      $selectSql = self::$builder->select();
+      if(!self::$builder->getTable())
+      {
+          $selectSql = $selectSql->from(self::$table);
+      }
+      $selectSql->where($field, $value, $operator)
+                ->limit(1);
+      $values = self::$builder->values;
+      self::$query->execute($selectSql, $values);
+      return new static;
+}
+
+
+/**
+ * Select all records
+ * @return array
+*/
+public function all()
+{
+    self::ensureSetup();
+    $selectSql = self::$builder->select()
+                               ->from(self::$table);
+    return self::$query->execute($selectSql)
+                       ->results();
+}
 
 
 /**
@@ -290,18 +268,18 @@ public static function select(...$selects)
 public function create($params=[])
 {
   self::ensureSetup();
-  if($params)
+  if(!empty($params))
   {
       $sql = self::$builder
                   ->insert(self::$table)
                   ->set($params);
-      return self::execute($sql, self::$builder->values);
+      return self::$query->execute($sql, self::$builder->values);
   }
 }
 
 
 /**
- * Read data
+ * Read|Find data
  * @param string $value 
  * @param string $field 
  * @return 
@@ -385,19 +363,95 @@ public function delete($value, $field='id')
 
 
 
+// RECORD RESULTS
+
 /**
- * Get all records
+ * Get results
  * @return array
 */
-public function all()
+public function results()
+{
+     self::ensureSetup();
+     return self::$query->results();
+}
+
+
+/**
+ * Get first result
+ * @return array
+*/
+public function first()
+{
+     self::ensureSetup();
+     return self::$query->first();
+}
+
+/**
+ * Fetch class
+ * @param  $entity [name class : app\\models\\MyModel]
+ * @param  array $arguments 
+ * @return Query
+*//*
+public static function fetchClass($entity, $arguments=[])
 {
   self::ensureSetup();
-  $sql = self::$builder 
-                ->select()
-                ->from(self::$table);
-  return self::execute($sql)
-                ->results();
+  self::$query->fetchClass($entity, $arguments);
 }
+
+
+/**
+* Fetch column
+* @param int $colno [number of column]
+* @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
+* @return 
+*//*
+public static function fetchColumn($colno=null, $arguments = [])
+{
+  self::ensureSetup();
+  self::$query->fetchColumn($colno, $arguments);
+}
+
+
+/**
+* Fetch into
+* @param object $object
+* @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
+* @return 
+*//*
+public static function fetchInto($object=null, $arguments = [])
+{
+  self::ensureSetup();
+  self::$query->fetchColumn($object, $arguments);
+}
+
+
+/**
+ * Exceute Query
+ * @param string $sql 
+ * @param array $params 
+ * @return mixed
+*/
+public static function execute($sql, $params=[])
+{
+    self::ensureSetup();
+    return self::$query->execute($sql, $params);
+}
+
+
+
+/**
+ * Execute simple query
+ * QQ::exec('DELETE FROM table ')
+ * @param string $sql 
+ * @return bool
+ */
+public static function exec($sql)
+{		 
+	  self::ensureSetup();
+	  return self::$query->exec($sql);
+}
+
+
 
 
 /**
@@ -466,17 +520,6 @@ public static function html($queries=[])
  echo $template;
 }
 
-
-
-/**
- * Assign table
- * @return void
-*/
-private static function assignTable($table='')
-{
-   self::$table = $table;
-   return new self;
-}
 
 
 /**

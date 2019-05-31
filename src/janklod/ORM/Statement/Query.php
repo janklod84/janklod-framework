@@ -127,12 +127,13 @@ public function fetchInto($object=null, $arguments = [])
 */
 public function execute(string $sql, array $params = [])
 {
-     $this->statement = $this->connection->prepare($sql);
+    
      try
      {
-         
           // begin transaction ...
           $this->transaction();
+          
+          $this->statement = $this->connection->prepare($sql);
 
           // execute statement
           if($this->statement->execute($params))

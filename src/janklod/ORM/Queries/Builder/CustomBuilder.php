@@ -12,7 +12,7 @@ abstract class CustomBuilder
 * @var array params
 */
 protected $params;
-
+protected $table;
 
 /**
 * Constructor
@@ -23,6 +23,17 @@ protected $params;
 public function __construct($params)
 {
     $this->params = $params;
+}
+
+
+/**
+ * Map if has table already sette
+ * @param string $table 
+ * @return string
+*/
+public function mapTable($table='')
+{
+     $this->table = $table;
 }
 
 

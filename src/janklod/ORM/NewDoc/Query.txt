@@ -1,0 +1,103 @@
+SETUP Q
+=======================================================================
+Ex:
+Q::setup(\DB::instance());
+
+=======================================================================
+MAKE SIMPLE SELECT [ALL] QUERY
+=======================================================================
+SQL:
+$sql = SELECT * FROM `users`
+$results = Q::table('users')->all();
+debug($results);
+Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 1
+            [username] => newRecord1
+            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
+            [role] => 3
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 2
+            [username] => newRecord2
+            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
+            [role] => 5
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [username] => newRecord3
+            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
+            [role] => 4
+        )
+)
+
+
+EXEMPLE 2:
+
+Q::setup(\DB::instance(), 'users');
+SQL:
+SELECT * FROM `users`
+$results = Q::getTable()->all();
+debug($results);
+
+
+=======================================================================
+MAKE SIMPLE SELECT [WHERE] QUERY
+=======================================================================
+SQL: 
+$sql = SELECT * FROM `users` WHERE id = ?  
+$sql = SELECT * FROM `users` WHERE id = ? LIMIT 1
+$results = Q::table('users')->where(5, 'id')
+                            ->results();
+
+debug($results);
+
+Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 5
+            [username] => newRecord5
+            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
+            [role] => 9
+        )
+
+)
+
+
+=======================================================================
+MAKE SIMPLE SELECT [WHERE] QUERY FIND FIRST RESULT
+=======================================================================
+SQL: 
+$sql = SELECT * FROM `users` WHERE id = ?  
+$sql = SELECT * FROM `users` WHERE id = ? LIMIT 1
+
+$result = Q::table('users')->where(5, 'id')
+                               ->first();
+debug($result);
+
+stdClass Object
+(
+    [id] => 5
+    [username] => newRecord5
+    [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
+    [role] => 9
+)
+
+===========================================================
+OTHER TEST
+============================================================
+Q::setup(\DB::instance(), 'users');
+$results = Q::getTable()->where(5, 'id')
+                           ->first(); 
+debug($results);
+
+===============================================================
+QUERY READ
+===============================================================

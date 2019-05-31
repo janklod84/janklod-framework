@@ -1,0 +1,59 @@
+MAKE SIMPLE SQL
+===========================================
+Q::setup(\DB::instance());
+
+Q::sql()->select()
+        ->from('users')
+        ->where('id', '5')
+        ->where('username', 'Jean');
+debug(Q::values());
+
+SELECT * FROM `users` WHERE id = ? AND username = ?
+
+Array
+(
+    [0] => 5
+    [1] => Jean
+)
+
+
+===========================================
+MAKE SIMPLE SQL
+===========================================
+Q::setup(\DB::instance(), 'users');
+   
+$table = Q::getTable(true);
+echo Q::sql()->select()
+           ->from($table)
+           ->where('id', '5')
+           ->where('username', 'Jean');
+debug(Q::values());
+
+SELECT * FROM `users` WHERE id = ? AND username = ?
+
+Array
+(
+    [0] => 5
+    [1] => Jean
+)
+
+
+===========================================
+MAKE SIMPLE SQL
+IF TABLE ALREADY SETTED YOU DON'T 
+WANT TO SET THEM AGAIN
+===========================================
+Q::setup(\DB::instance(), 'users');
+echo Q::sql()->select()
+             ->where('id', '5')
+             ->where('username', 'Jean');
+debug(Q::values());
+
+
+=============================================
+EXECUTION QUERY
+=============================================
+Q::setup(\DB::instance(), 'users');
+$results = Q::getTable()->where(5, 'id')
+                           ->first();
+debug($results);

@@ -27,7 +27,9 @@ const SRC = [
  'HTML'     => 'JK\\Template\\Components\\HTML', 
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
- 'DI'       => 'JK\\DI\\Container'
+ 'DI'       => 'JK\\DI\\Container',
+ 'DB'       => 'JK\\Database\\DatabaseManager',
+ 'Q'        => 'JK\\ORM\\Q'
 ],
 'printers' => [
   'RoutingPrinter',

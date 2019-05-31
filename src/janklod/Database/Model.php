@@ -2,7 +2,8 @@
 namespace JK\Database;
 
 
-use JK\ORM\Q;
+use \Q;
+use \DB;
 
 
 /**
@@ -18,7 +19,7 @@ abstract class Model
 protected $model;
 protected $table;
 protected $app;
-
+protected $connection;
 
 /**
  * Constructor
@@ -27,12 +28,11 @@ protected $app;
 */
 public function __construct($app)
 {
-	// debug($app);
-	$connection  = $app->db ?: DatabaseManager::instance();
-    $this->app   = $app;
+    $this->app = $app;
+	$this->connection = $app->db ?: DB::instance();
     $this->model = $app->load->currentObjectName($this);
     $app->set('current.model', $this->model);
-    Q::setup($connection);
+    Q::setup($this->connection);
 }
 
 }
