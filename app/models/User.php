@@ -11,104 +11,104 @@ use JK\Database\ActiveRecord;
 class User extends ActiveRecord
 {
 	  
-	  /**
-	   * @var string $table
-	  */
-      protected $table = 'users';
-      
-
-	  /**
-	   * @var int    $id
-	   * @var string $username
-	   * @var string $password
-	   * @var mixed  $role
-	  */
-	  protected $id;
-	  protected $username;
-	  protected $password;
-	  protected $role = 1;
-
-      
-      /**
-       * Set id
-       * @param int $id 
-       * @return void
-      */
-	  public function setId($id)
-	  {
-	  	  $this->id = $id;
-	  }
+/**
+* @var string $table
+*/
+protected $table = 'users';
 
 
-	  /**
-       * Get id
-       * @return int
-      */
-	  public function getId()
-	  {
-	  	  return $this->id;
-	  }
+/**
+* @var int    $id
+* @var string $username
+* @var string $password
+* @var mixed  $role
+*/
+protected $id;
+protected $username;
+protected $password;
+protected $role = 1;
 
 
-	  /**
-       * Set username
-       * @param string $username 
-       * @return void
-      */
-	  public function setUsername($username)
-	  {
-	  	  $this->username = $username;
-	  }
+/**
+* Set id
+* @param int $id 
+* @return void
+*/
+public function setId($id)
+{
+	  $this->id = $id;
+}
 
 
-	  /**
-       * Get username
-       * @return string
-      */
-	  public function getUsername()
-	  {
-	  	  return $this->username;
-	  }
+/**
+* Get id
+* @return int
+*/
+public function getId()
+{
+	  return $this->id;
+}
 
 
-	  /**
-       * Set password
-       * @param string $password 
-       * @return void
-      */
-	  public function setPassword($password)
-	  {
-	  	  $this->password = $password;
-	  }
+/**
+* Set username
+* @param string $username 
+* @return void
+*/
+public function setUsername($username)
+{
+	  $this->username = $username;
+}
 
 
-	  /**
-       * Get password
-       * @return string
-      */
-	  public function getPassword()
-	  {
-	  	  return $this->password;
-	  }
+/**
+* Get username
+* @return string
+*/
+public function getUsername()
+{
+	  return $this->username;
+}
 
 
-	  /**
-       * Set role
-       * @param mixed $role 
-       * @return void
-      */
-	  public function setRole($role)
-	  {
-	  	  $this->role = $role;
-	  }
+/**
+* Set password
+* @param string $password 
+* @return void
+*/
+public function setPassword($password)
+{
+	  $this->password = $password;
+}
 
 
-	  /**
-       * Get role
-       * @return string
-      */
-	  public function getRole()
-	  {
-	  	  return $this->role;
-	  }
+/**
+* Get password
+* @return string
+*/
+public function getPassword()
+{
+	  return $this->password;
+}
+
+
+/**
+* Set role
+* @param mixed $role 
+* @return void
+*/
+public function setRole($role)
+{
+	  $this->role = $role;
+}
+
+
+/**
+* Get role
+* @return string
+*/
+public function getRole()
+{
+	  return $this->role;
+}
 }
