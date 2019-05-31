@@ -29,6 +29,11 @@ private static $register = [];
 private static $query;
 private static $setup = false;
 
+const CONFIG_PARAMS = [
+ 'dsn', 'driver', 'host', 'port', 
+ 'charset', 'database', 'user', 
+ 'prefix_tbl', 'password', 'collation', 'engine'
+];
 
 // CONNECTION
 /**
@@ -49,6 +54,7 @@ public static function setup(\PDO $connection = null, $table='')
   self::$builder = new QueryBuilder($table);
   self::$register['table'] = $table;
   self::$setup = true;
+  echo '<div><small>Connected to Q [ORM]</small></div>';
   return new static;
 }
 
@@ -83,32 +89,34 @@ public static function close()
  * ];
  * 
  * Q::connect($config);
- * @param string $mysql
+ * 
  * @param array $config
- * @return \PDO
+ * @param string $table
+ * @return void
+ * @throws \Exception 
 */
-public static function connect(
-$driver ='mysql', 
-$config = []
-): \PDO
+public static function connect(array $config = [], string $table='')
 {
-    
+    self::captureConfig($config);
     extract($config);
-    $options = $options ?: [];
+    if(empty($options)){ $options = []; }
+
     try
     {
         if(is_null(self::$connection))
         {
              self::$connection = new PDO($dsn, $user, $password, $options);
         }
-        self::setup(self::$connection);     
-
+        self::setup(self::$connection, $table);     
+        
     }catch(\PDOException $e){
 
         throw new \Exception($e->getMessage(), 404);
         
     }
 }
+
+
 
 
 /**
@@ -280,11 +288,11 @@ public function create($params=[])
 
 /**
  * Read|Find data
- * @param string $value 
+ * @param mixed $value 
  * @param string $field 
  * @return 
 */
-public function read($value='', $field='id')
+public function read($value=null, $field='id')
 {     
    self::ensureSetup();
    if($value)
@@ -307,7 +315,7 @@ public function read($value='', $field='id')
  * @param string $field
  * @return 
 */
-public function update($params=[], $value, $field='id')
+public function update($params=[], $value=null, $field='id')
 {
   self::ensureSetup();
   if($params && $value)
@@ -328,7 +336,7 @@ public function update($params=[], $value, $field='id')
  * @param string $field
  * @return 
 */
-public function delete($value, $field='id')
+public function delete($value=null, $field='id')
 {
    self::ensureSetup();
    if($value)
@@ -406,9 +414,6 @@ private function isNewRecord()
 {
 
 }
-
-
-
 
 
 
@@ -568,6 +573,31 @@ public static function html($queries=[])
 }
 
 
+
+/**
+ * Capture config
+ * @param array $config 
+ * @return void
+*/
+private static function captureConfig($config=[])
+{
+    // to replace by array_filter !
+    if(!empty($config))
+    {
+        foreach(array_keys($config) as $key)
+        {
+             if(!in_array($key, self::CONFIG_PARAMS))
+             {
+                  exit(
+                    sprintf(
+                    'Sorry This key <b>%s</b> does not in required config params',  
+                    $key
+                    )
+                  );
+             }
+        }
+    }
+}
 
 /**
  * Make sure has setting up [setup]
