@@ -14,6 +14,7 @@ class Q
 {
      
 /**
+* @var $instance;
 * @var \PDO $connection
 * @var string $table;
 * @var \JK\ORM\Quseries\QueryBuilder $builder
@@ -33,6 +34,46 @@ const CONFIG_PARAMS = [
  'charset', 'database', 'user', 
  'prefix_tbl', 'password', 'collation', 'engine'
 ];
+
+// CONNECTION
+/**
+* Constructor
+* @param \PDO $connection
+* @param string $table 
+* @return void
+*/
+public static function setup(\PDO $connection = null, $table='')
+{
+  self::mapConnection($connection);
+  self::$connection = $connection;
+  self::$query   = new Query($connection);
+  self::$builder = new QueryBuilder($table);
+  self::$register['table'] = $table;
+  self::$setup = true;
+  echo '<div><small>Connected to Q [ORM]</small></div>';
+  return new static;
+}
+
+
+/**
+ * Give use current status
+ * @return bool 
+*/
+public static function status(): bool
+{
+    return self::$setup;
+}
+
+
+/**
+ * Close connection
+ * @return void
+*/
+public static function close()
+{
+  self::ensureSetup();
+  self::$connection = null;
+}
 
 
 /**
@@ -72,7 +113,7 @@ public static function connect($driver, array $config = [], string $table='')
         {
              self::$connection = new PDO($dsn, $user, $password, $options);
         }
-        return self::setup(self::$connection, $table);     
+        self::setup(self::$connection, $table);     
         
     }catch(\PDOException $e){
 
@@ -84,86 +125,17 @@ public static function connect($driver, array $config = [], string $table='')
 
 
 /**
-* SetUp
-* Ex: Q::setup(\DB::instance());
-* Ex: $pdo = new PDO('dsn', 'user', 'password', [options]);
-* Q::setup($pdo);
-* 
-* @param \PDO $connection
-* @return self
-*/
-public static function setup(\PDO $connection = null)
-{
-  self::mapConnection($connection);
-  self::$connection = $connection;
-  self::$query   = new Query($connection);
-  self::$builder = new QueryBuilder();
-  self::mapEnd();
-  self::$register['msg'] = 'Connected to Q [ORM]';
-  return new static;
-}
-
-
-/**
- * Get item from register
- * @param string $item 
+ * Map registred item
+ * @param null $item 
  * @return mixed
 */
-public static function register($item=null)
+public static function mapRegistredItem($item=null)
 {
-    return self::mapRegistredItem($item);
-}
-
-
-/**
- * Add class alias
- * Ex:  Q::setup(\DB::instance())->addAlias('MyAlias');
- * @param string $class_alias 
- * @return void
-*/
-public function addAlias($class_alias='Q')
-{
-     self::ensureSetup();
-     class_alias(__CLASS__, $class_alias);
-     return $this;
-}
-
-
-/**
- * Add Table
- * Global setting for currents queries
- * Ex: Q::addTable('name_of_table')
- * @param string $table 
- * @return self
-*/
-public static function addTable($table='')
-{
-    self::ensureSetup();
-    self::$register['table'] = $table;
-    return new static;
-}
-
-
-/**
- * Give use current status
- * Ex: Q::status(); 
- * @return bool 
-*/
-public static function status(): bool
-{
-    return self::$setup;
-}
-
-
-/**
- * Close connection
- * Q::close();
- * @return void
-*/
-public static function close()
-{
-  self::ensureSetup();
-  self::$connection = null;
+   if(!array_key_exists($item, self::$register))
+   {
+       exit(sprintf('No <b>%s</b> added for mapping !', $item));
+   }
+   return self::$register[$item];
 }
 
 
@@ -178,6 +150,19 @@ private static function assignTable($table='')
    self::$table = $table;
    return new self;
 }
+
+
+
+/**
+ * Add Table
+ * @param string $table 
+ * @return void
+*/
+public static function addTable($table='')
+{
+    self::$register['table'] = $table;
+}
+
 
 /**
  * Get Table
@@ -282,8 +267,7 @@ public function where($value, $field='id', $operator='=')
 */
 public function find($value)
 {
-    return $this->where($value)
-                ->first();
+    return $this->where($value);
 }
 
 
@@ -295,8 +279,7 @@ public function find($value)
 */
 public function findBy($field='id', $value=null)
 {
-    return $this->where($value, $field)
-                ->first();
+    return $this->where($value, $field);
 }
 
 // RECORD RESULTS
@@ -371,7 +354,13 @@ public static function read($value=null, $field='id')
    self::ensureSetup();
    if($value)
    {
-       return $this->findBy($field, $value);
+       $sql = self::$builder
+               ->select()
+               ->from(self::$table)
+               ->where($field, $value)
+               ->limit(1);
+        return self::$query->execute($sql, self::$builder->values)
+                           ->first();
    }
 }
 
@@ -619,30 +608,6 @@ public static function html($queries=[])
 }
 
 
-
-/**
- * Map registred item
- * @param null $item 
- * @return mixed
-*/
-private static function mapRegistredItem($item=null)
-{
-   if(!array_key_exists($item, self::$register))
-   {
-       exit(sprintf('No <b>%s</b> added for mapping !', $item));
-   }
-   return self::$register[$item];
-}
-
-
-/**
- * Map end message
- * @return void
-*/
-private static function mapEnd()
-{
-    self::$setup = true;
-}
 
 
 /**

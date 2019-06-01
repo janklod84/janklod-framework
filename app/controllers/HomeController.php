@@ -6,7 +6,7 @@ use app\models\User\User;
 use app\models\User\UserManager;
 use \Q;
 use \DB;
-
+use \MyAlias;
 
 
 /**
@@ -30,21 +30,34 @@ public function before()
      'password' => 'root'
    ];
 
-     // Q::setup(\DB::instance(), 'users');
+     Q::setup(\DB::instance())->addAlias('MyAlias');
 
-     Q::connect($config, 'users');
+     //Q::connect('mysql', $config); //->addAlias('MyAlias');
 
+     // MyAlias::table('orders');
 
-   /*
-   $c = Q::getTable()->create([
-     'username' => 'NewBrowner9',
-     'password' => 'myNewBrower34',
-     'role' => 10
-   ]);
-   
-    debug($c);
-    echo Q::lastId();
-    */
+     /*
+     Q::transaction('users', function () {
+        /*
+         Q::create([
+           'username' => 'NewBrowner22',
+           'password' => 'myNewBrower3',
+           'role' => 15
+        ]);
+        *//*
+     });
+     */
+
+     /*
+     $c = Q::getTable()->create([
+       'username' => 'NewBrowner9',
+       'password' => 'myNewBrower34',
+       'role' => 10
+     ]);
+     
+      debug($c);
+      echo Q::lastId();
+      */
 }
 
 
