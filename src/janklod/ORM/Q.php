@@ -130,21 +130,6 @@ public function addAlias($class_alias='Q')
 
 
 /**
- * Add Table
- * Global setting for currents queries
- * Ex: Q::addTable('name_of_table')
- * @param string $table 
- * @return self
-*/
-public static function addTable($table='')
-{
-    self::ensureSetup();
-    self::$register['table'] = $table;
-    return new static;
-}
-
-
-/**
  * Give use current status
  * Ex: Q::status(); 
  * @return bool 
@@ -179,6 +164,23 @@ private static function assignTable($table='')
    /* self::$builder->addTable($table); */
    return new self;
 }
+
+
+
+/**
+ * Add Table
+ * Global setting for currents queries
+ * Ex: Q::addTable('name_of_table')
+ * @param string $table 
+ * @return self
+*/
+public static function addTable($table='')
+{
+    self::ensureSetup();
+    self::$register['table'] = $table;
+    return new static;
+}
+
 
 /**
  * Get Table
@@ -488,7 +490,7 @@ public function create($params=[])
  * @param string $field
  * @return 
 */
-public static function update($params=[], $value=null, $field='id')
+public function update($params=[], $value=null, $field='id')
 {
   self::ensureSetup();
   if($params && $value)
@@ -509,7 +511,7 @@ public static function update($params=[], $value=null, $field='id')
  * @param string $field
  * @return 
 */
-public static function delete($value=null, $field='id')
+public function delete($value=null, $field='id')
 {
    self::ensureSetup();
    if($value)
@@ -558,7 +560,8 @@ string $table=''
          $key = $column->Field;
          if(property_exists($classObj, $key))
          {
-            $fields[$key] = $classObj->{$key};
+            // if property is not setted , we'll give default value NULL
+            $fields[$key] = $classObj->{$key} ?: 'NULL';
          }
      }
      return $fields;
@@ -577,18 +580,38 @@ public function isFillable($key='', $properties = []): bool
 }
 
 
+/**
+ * Create new model of table
+ * @param type $name 
+ * @return type
+*/
+public static function model($name) // dispense
+{
+    // To implement
+}
+
 
 /**
  * store data // update or insert
- * @return 
+ * @param $object
+ * @return mixed
 */
-public static function store()
+public function store(object $object)
 {
     self::ensureSetup();
-     // get columns 
-    // and determine if has id 
-    // or determine if isset property
-    // if isset we will be update otherwise we'll create new record
+    if(self::$table)
+    {
+      $data = $this->setProperties($object, self::$table);
+      if(property_exists($object, 'id') && isset($object->id))
+      {
+          // Update
+          return $this->update($data, $object->id);
+      }
+      // 'Insert';
+      return $this->create($data);
+    }else{
+       exit('Data can not be stored because detected [ Empty Table ]');
+    }
 }
 
 

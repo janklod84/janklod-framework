@@ -27,17 +27,13 @@ public function before()
 {
      
      Q::setup(\DB::instance());
-     
-     // debug(Q::columns('users'));
+     Q::addTable('users');
      $user = new User($this->app);
-     debug($user);
-     
-     $user->setId(3);
-     $user->setUsername('MyFriend');
-     $user->setPassword(md5('qwerty'));
-     $fields = Q::setProperties($user, 'users');
-
-     debug($fields);
+  
+     $user->setId(8);
+     $user->setUsername('MyFriend Updated!');
+     $user->setPassword(md5('Merci!'));
+     Q::getTable()->store($user);
 } 
 
 
@@ -47,6 +43,7 @@ public function before()
 */
 public function index()
 {
+
     /*
      Q::table('users')->create([
          'username' => 'NewBrowner34'. $i,
