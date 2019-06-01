@@ -14,11 +14,14 @@ class RoutingPrinter extends CustomPrinter
   */
   public function output()
   {
+    debug($this->app->get('current.route'));
     $html  = '<table class="table table-striped">';
     $html .= '<thead>';
-    $html .= '<tr><th>Routing</th></tr>';
     $html .= '<tr>';
+    $html .= '<th>Routing</th>';
     $html .= '<th scope="col">Path</th>';
+    $html .= '<th scope="col">Route Name</th>';
+    $html .= '<th scope="col">Route Prefix</th>';
     $html .= '<th scope="col">Request Method</th>';
     $html .= '<th scope="col">Controller</th>';
     $html .= '<th scope="col">Action</th>';
@@ -27,12 +30,26 @@ class RoutingPrinter extends CustomPrinter
     $html .= '<tbody>';
     $html .= '<tr>';
     $html .= '<th scope="row">'; 
+    $html .= '#';
+    $html .= '</th>';
+    $html .= '<th scope="row">'; 
     $html .= '<code>/';
     $html .=  $this->app->get('current.route')['path'];
     $html .= '</code>'; 
     $html .= '</th>';
     $html .= '<th scope="row">'; 
-    $html .= '<code>/';
+    $html .= '<code>';
+    $html .=  $this->app->get('current.route')['name'];
+    $html .= '</code>'; 
+    $html .= '</th>';
+    $html .= '<th scope="row">'; 
+    $prefix = $this->app->get('current.route')['prefix'];
+    $html .= '<code>';
+    $html .=  !empty($prefix) ? '' : 'no prefixed';
+    $html .= '</code>'; 
+    $html .= '</th>';
+    $html .= '<th scope="row">'; 
+    $html .= '<code>';
     $html .=  $this->app->get('current.route')['method'];
     $html .= '</code>'; 
     $html .= '</th>';

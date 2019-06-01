@@ -17,6 +17,7 @@ abstract class Controller
 * @var \JK\Loader\Load $load
 * @var \JK\Template\View $view
 * @var \JK\Http\Request $request
+* @var \JK\Http\Response $response
 * @var string $layout
 * @var array $data
 * @var string $autoview 
@@ -26,6 +27,7 @@ protected $app;
 protected $load;
 protected $view;
 protected $request;
+protected $response;
 protected $layout = 'default';
 protected $autoview = true;
 
@@ -37,10 +39,11 @@ protected $autoview = true;
 */
 public function __construct($app)
 {
-     $this->app     = $app;
-     $this->view    = $app->view;
-     $this->request = $app->request;
-     $this->load    = $app->load;
+     $this->app      = $app;
+     $this->view     = $app->view;
+     $this->request  = $app->request;
+     $this->load     = $app->load;
+     $this->response = $app->response;
      $this->beforeRender();
 }
 
@@ -73,19 +76,6 @@ protected function set($data = [])
 }
 
 
-/**
- * Get view automatically by name controller
- * 
- * @return void
-*/
-public function getView()
-{
-    if($autoview === true)
-    {
-         //
-    }
-}
-
 
 /**
 * View render
@@ -99,6 +89,34 @@ protected function render($view, $data = [])
      $this->view->setData($data);
      $this->view->render();
 }
+
+
+/**
+ * Get Json Encoding datas
+ * 
+ * Ex: 
+ *  $this->json([
+ *      'Bonjour les amis' => 'Comment ca va ?', 
+ *      'error' => false,
+ *      'status' => 'OK'
+ *   ]);
+ * {"Bonjour les amis":"Comment ca va ?","error":false,"status":"OK"}
+ * 
+ * 
+ * @param array $response 
+ * @return void
+*/
+public function json($response=[])
+{
+      $this->response->withHeader([
+          "Access-Control-Allow-Origin: *",
+          "Content-Type: application/json; charset=UTF-8"
+      ]);
+      $this->response->setCode(200);
+      echo $this->response->asJson($response);
+      exit;
+}
+
 
 /**
  * Do action before render
@@ -175,10 +193,4 @@ private function hasPath()
            && $this->view->viewPath(); 
 }
 
-
-
-private function getFolder()
-{
-
-}
 }

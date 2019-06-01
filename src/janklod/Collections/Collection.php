@@ -77,7 +77,18 @@ public function hasKey($key)
 {
      return array_key_exists($key, $this->items);
 }
-   
+
+
+/**
+* Get count items
+* @return int
+*/
+public function count()
+{
+    return count($this->items);
+}
+
+
 
 
 /**

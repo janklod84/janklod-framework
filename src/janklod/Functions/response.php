@@ -15,7 +15,11 @@ if(!function_exists('response'))
      */
      function response($content='', $status = 200, $headers = [])
      {
-     	  return new Response($content, $status, $headers);
+     	   $response = app()->response;
+         $response->withBody($content)
+                  ->withStatus($status)
+                  ->withHeader($headers);
+         return $response;
      }
 }
 

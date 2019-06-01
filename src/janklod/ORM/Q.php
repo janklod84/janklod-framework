@@ -44,12 +44,7 @@ const CONFIG_PARAMS = [
 */
 public static function setup(\PDO $connection = null, $table='')
 {
-  self::mapConnection();
-  if(is_null($connection))
-  {
-     exit('You must to set up connection for [Q ORM]!');
-  }
-
+  self::mapConnection($connection);
   self::$connection = $connection;
   self::$query   = new Query($connection);
   self::$builder = new QueryBuilder($table);
@@ -118,25 +113,13 @@ public static function connect(array $config = [], string $table='')
 }
 
 
-/**
- * Map connection 
- * Show message if connection already setted
- * @return void
-*/
-public static function mapConnection()
-{
-    if(self::$setup === true)
-    {
-        exit('Q [ORM] already connected!');
-    }
-}
 
 /**
- * Map item
+ * Map registred item
  * @param null $item 
  * @return mixed
 */
-public static function map($item=null)
+public static function mapRegistredItem($item=null)
 {
    if(!array_key_exists($item, self::$register))
    {
@@ -181,13 +164,13 @@ public static function getTable($return=false)
 {
     if($return === true)
     {
-        return self::map('table');
+        return self::mapRegistredItem('table');
     }else{
       if(!self::isRegistred('table')) // if empty
       {
           exit('NO TABLE SETTED!');
       }
-      return self::assignTable(self::map('table'));
+      return self::assignTable(self::mapRegistredItem('table'));
     }
 }
 
@@ -247,6 +230,8 @@ public static function table($table='')
 
 /**
  * Where Query
+ * Ex: Q::table('users')->where(3, 'id', '=');
+ * SELECT * FROM users WHERE id = ?
  * @param mixed $value 
  * @param string $field 
  * @param string $operator 
@@ -262,6 +247,34 @@ public function where($value, $field='id', $operator='=')
       $values = self::$builder->values;
       self::$query->execute($selectSql, $values);
       return new static;
+}
+
+
+// RECORD RESULTS
+
+/**
+ * Get results
+ * Ex: Q::table('users')->where(3, 'id', '=')
+ *                        ->results()
+ * @return array
+*/
+public function results()
+{
+     self::ensureSetup();
+     return self::$query->results();
+}
+
+
+/**
+ * Get first result
+ * Ex: Q::table('users')->where(3, 'id', '=')
+ *                      ->first()
+ * @return array
+*/
+public function first()
+{
+     self::ensureSetup();
+     return self::$query->first();
 }
 
 
@@ -314,8 +327,8 @@ public function read($value=null, $field='id')
                ->from(self::$table)
                ->where($field, $value)
                ->limit(1);
-        return self::execute($sql, self::$builder->values)
-               ->first();
+        return self::$query->execute($sql, self::$builder->values)
+                           ->first();
    }
 }
 
@@ -424,33 +437,10 @@ public static function transaction(\Closure $callback)
 // 
 private function isNewRecord()
 {
-
+  
 }
 
 
-
-// RECORD RESULTS
-
-/**
- * Get results
- * @return array
-*/
-public function results()
-{
-     self::ensureSetup();
-     return self::$query->results();
-}
-
-
-/**
- * Get first result
- * @return array
-*/
-public function first()
-{
-     self::ensureSetup();
-     return self::$query->first();
-}
 
 /**
  * Fetch class
@@ -585,6 +575,27 @@ public static function html($queries=[])
 }
 
 
+
+
+/**
+ * Show message if connection already setted
+ * And Map connection 
+ * @param \PDO $connection
+ * @return void
+*/
+private static function mapConnection($connection)
+{
+    if(self::$setup === true)
+    {
+        exit('Q [ORM] already connected!');
+    }
+    
+    if(is_null($connection))
+    {
+       exit('You must to set up connection for [Q ORM]!');
+    }
+
+}
 
 /**
  * Capture config

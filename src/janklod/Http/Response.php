@@ -190,16 +190,27 @@ public static function redirect(string $to = '/')
 
 
 /**
- * Set http header code
+ * Set http header status code
  * @param int $code 
- * @param bool $exit
  * @return void
 */
-public function setCode(int $code, $exit=false)
+public function setCode(int $code)
 {
     http_response_code($code);
-    if($exit) exit;
 }
+
+
+
+/**
+ * Json encoding data [JsonFy]
+ * @param array $content 
+ * @return void
+*/
+public function asJson($content=[])
+{
+    return json_encode($content);
+}
+
 
 
 /**

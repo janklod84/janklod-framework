@@ -30,9 +30,9 @@ public function before()
      'password' => 'root'
    ];
 
-     Q::setup(\DB::instance(), 'users');
+     // Q::setup(\DB::instance(), 'users');
 
-     // Q::connect($config, 'users');
+     Q::connect($config, 'users');
 
 
    /*
