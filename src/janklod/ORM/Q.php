@@ -498,6 +498,34 @@ public static function delete($value=null, $field='id')
 }
 
 
+/**
+ * Fetch columns table
+ * @param string $table 
+ * @return 
+*/
+public static function columns($table='')
+{
+  $sqlColumn = self::$builder->showColumn($table);
+  return self::execute($sqlColumn)->results();
+}
+
+
+/**
+ * Get Table Fields for saving data
+ * @param string $table 
+ * @return array
+*/
+public static function fields($table='')
+{
+     $columns = static::columns($table);
+     $fields = [];
+     foreach($columns as $column)
+     {
+         $fields[] = $column->Field;
+     }
+
+     return $fields;
+}
 
 /**
  * store data // update or insert
@@ -513,25 +541,11 @@ public static function store()
 }
 
 
-/**
- * Get Last ID
- * @return int
-*/
-public static function lastId()
-{
-    self::ensureSetup();
-    return self::$query->lastID();
-}
 
-
-/**
- * Get Row count
- * @return int
-*/
-public static function count()
+// 
+public function isNewRecord()
 {
-    self::ensureSetup();
-    return self::$query->count();
+  
 }
 
 
@@ -559,10 +573,25 @@ public static function transaction(\Closure $callback)
 }
 
 
-// 
-private function isNewRecord()
+/**
+ * Get Last ID
+ * @return int
+*/
+public static function lastId()
 {
-  
+    self::ensureSetup();
+    return self::$query->lastID();
+}
+
+
+/**
+ * Get Row count
+ * @return int
+*/
+public static function count()
+{
+    self::ensureSetup();
+    return self::$query->count();
 }
 
 

@@ -18,7 +18,7 @@ return [
 |------------------------------------------------------------------
 */
 
-'debug' => true, //true, // false
+'debug' => false, //true or false
 
 
 

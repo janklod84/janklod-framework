@@ -195,6 +195,7 @@ public function fullPath($path)
 /**
  * Partials
  * @param string $path 
+ * @param string $parent
  * @return void
 */
 public function partial($path='', $parent='layouts')

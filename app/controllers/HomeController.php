@@ -27,14 +27,9 @@ public function before()
      
      Q::setup(\DB::instance());
      
-     $selects = [
-       'username',
-       'password',
-       'role'
-     ];
-     
-     $results = Q::table('users')->findAll($selects);
-     debug($results);
+     // debug(Q::columns('users'));
+
+     debug(Q::fields('users'));
 } 
 
 
