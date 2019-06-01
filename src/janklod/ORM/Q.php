@@ -561,7 +561,8 @@ string $table=''
          if(property_exists($classObj, $key))
          {
             // if property is not setted , we'll give default value NULL
-            $fields[$key] = $classObj->{$key} ?: 'NULL';
+            // $fields[$key] = $classObj->{$key} ?: 'NULL';
+            $fields[$key] = $classObj->{$key} ?: '';
          }
      }
      return $fields;

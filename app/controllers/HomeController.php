@@ -31,8 +31,8 @@ public function before()
      $user = new User($this->app);
   
      $user->setId(8);
-     $user->setUsername('MyFriend Updated!');
-     $user->setPassword(md5('Merci!'));
+     $user->setUsername('MyFriend Updated2!');
+     // $user->setPassword(md5('Merci!'));
      Q::getTable()->store($user);
 } 
 
