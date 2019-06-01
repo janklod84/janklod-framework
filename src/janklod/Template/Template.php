@@ -4,9 +4,9 @@ namespace JK\Template;
 
 
 /**
- * @package JK\Template\Bufferer
+ * @package JK\Template\Template
 */
-class Bufferer
+class Template
 {
 
   /**
