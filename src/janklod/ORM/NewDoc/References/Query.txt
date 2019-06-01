@@ -3,6 +3,19 @@ SETUP Q
 Ex:
 Q::setup(\DB::instance());
 
+ADD ALIAS
+=========================================================
+Q::setup(\DB::instance())->addAlias('MyAlias');
+
+$config = [
+       'dsn' => 'mysql:host=localhost;port=3306;dbname=dbxxxx;charset=utf8',
+       'user' => 'username',
+       'password' => 'password'
+ ];
+Q::connect('mysql', $config)->addAlias('MyAlias');
+
+debug(MyAlias::table('orders'));
+
 =======================================================================
 MAKE SIMPLE SELECT [ALL] QUERY
 =======================================================================

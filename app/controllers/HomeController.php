@@ -24,18 +24,8 @@ class HomeController extends AppController
 */
 public function before()
 {
-   $config = [
-     'dsn' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
-     'user' => 'root',
-     'password' => 'root'
-   ];
-
-     Q::setup(\DB::instance())->addAlias('MyAlias');
-
-     //Q::connect('mysql', $config); //->addAlias('MyAlias');
-
-     // MyAlias::table('orders');
-
+     
+     Q::setup(\DB::instance());
      /*
      Q::transaction('users', function () {
         /*

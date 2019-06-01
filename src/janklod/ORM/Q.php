@@ -106,6 +106,7 @@ public static function setup(\PDO $connection = null)
 
 /**
  * Get item from register
+ * Q::register('msg')
  * @param string $item 
  * @return mixed
 */
