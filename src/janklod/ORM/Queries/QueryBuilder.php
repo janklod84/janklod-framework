@@ -152,7 +152,7 @@ public function or($column = '', $value = '', $operator = '=')
   * @param string $operator
   * @return self
 */
-public function condition($condition, $value, $type='AND')
+public function condition($condition='', $value, $type='AND')
 {
    if(!$this->isBinded($condition)) 
    { exit('You must to bind param : '. $condition); }
@@ -168,7 +168,7 @@ public function condition($condition, $value, $type='AND')
  * @param string $sort 
  * @return $this
 */
-public function orderBy($field, $sort='ASC')
+public function orderBy($field='', $sort='ASC')
 {
     $this->sql['orderBy'][] = compact('field', 'sort');
     return $this;
