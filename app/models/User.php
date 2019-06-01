@@ -8,7 +8,7 @@ use JK\Database\ActiveRecord;
 /**
  * @package app\models\User
 */ 
-class User extends ActiveRecord
+class User // extends ActiveRecord
 {
 	  
 /**
@@ -23,10 +23,10 @@ protected $table = 'users';
 * @var string $password
 * @var mixed  $role
 */
-protected $id;
-protected $username;
-protected $password;
-protected $role = 1;
+public $id;
+public $username;
+public $password;
+public $role = 1;
 
 
 

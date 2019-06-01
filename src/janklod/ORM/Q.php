@@ -56,11 +56,10 @@ const CONFIG_PARAMS = [
  * 
  * @param string $driver
  * @param array $config
- * @param string $table
  * @return void
  * @throws \Exception 
 */
-public static function connect($driver, array $config = [], string $table='')
+public static function connect($driver, array $config = [])
 {
     self::ensureConfigParams($config);
     extract($config);
@@ -72,7 +71,7 @@ public static function connect($driver, array $config = [], string $table='')
         {
              self::$connection = new PDO($dsn, $user, $password, $options);
         }
-        return self::setup(self::$connection, $table);     
+        return self::setup(self::$connection);     
         
     }catch(\PDOException $e){
 
@@ -517,13 +516,36 @@ public static function columns($table='')
 */
 public static function fields($table='')
 {
+    
+}
+
+/**
+ * Set Fields 
+ * Add values properties
+ * 
+ * @param object $classObj
+ * @param string $table
+ * @param array $property 
+ * @return array
+*/
+public static function setProperties( 
+object $classObj = null,
+string $table='', 
+array $property = []
+)
+{
+     $table = $table ?: self::$table;
      $columns = static::columns($table);
      $fields = [];
      foreach($columns as $column)
      {
-         $fields[] = $column->Field;
+         $key = $column->Field;
+         if(property_exists($classObj, $key) 
+            || in_array($key, $property))
+         {
+            $fields[$key] = $classObj->{$key};
+         }
      }
-
      return $fields;
 }
 

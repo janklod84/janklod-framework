@@ -2,7 +2,8 @@
 namespace app\controllers;
 
 
-use app\models\User\User;
+// use app\models\User\User;
+use app\models\User;
 use app\models\User\UserManager;
 use \Q;
 use \DB;
@@ -28,8 +29,15 @@ public function before()
      Q::setup(\DB::instance());
      
      // debug(Q::columns('users'));
+     $user = new User($this->app);
+     debug($user);
+     
+     $user->setId(3);
+     $user->setUsername('MyFriend');
+     $user->setPassword(md5('qwerty'));
+     $fields = Q::setProperties($user, 'users');
 
-     debug(Q::fields('users'));
+     debug($fields);
 } 
 
 
