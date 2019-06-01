@@ -208,6 +208,7 @@ public static function getTable($return=false)
 */
 public static function beginTransaction()
 {
+   self::ensureSetup();
    return self::$query->beginTransaction();
 }
 
@@ -218,6 +219,7 @@ public static function beginTransaction()
 */
 public static function commit()
 {
+   self::ensureSetup();
    return self::$query->commit();
 }
 
@@ -228,6 +230,7 @@ public static function commit()
 */
 public static function rollback()
 {
+   self::ensureSetup();
    return self::$query->rollback();
 }
 
@@ -310,18 +313,40 @@ public function where($value, $field='id', $operator='=')
       return new static;
 }
 
+
+/**
+ * 
+ * @param type|string $column 
+ * @param type|null $value 
+ * @param type|string $operator 
+ * @return type
+ */
 public function whereNot($column='', $value=null, $operator='=')
 {
     // TO Implements
 }
 
 
+/**
+ * Description
+ * @param type|string $column 
+ * @param type|null $value 
+ * @param type|string $operator 
+ * @return type
+ */
 public function orWhere($column='', $value=null, $operator='=')
 {
      // TO Implements
 }
 
 
+/**
+ * Description
+ * @param type|string $column 
+ * @param type|null $value 
+ * @param type|string $operator 
+ * @return type
+ */
 public function orWhereNot($column='', $value=null, $operator='=')
 {
      // TO Implements
@@ -504,20 +529,11 @@ public static function delete($value=null, $field='id')
 */
 public static function columns($table='')
 {
-  $sqlColumn = self::$builder->showColumn($table);
-  return self::execute($sqlColumn)->results();
+   self::ensureSetup();
+   $sqlColumn = self::$builder->showColumn($table);
+   return self::execute($sqlColumn)->results();
 }
 
-
-/**
- * Get Table Fields for saving data
- * @param string $table 
- * @return array
-*/
-public static function fields($table='')
-{
-    
-}
 
 /**
  * Set Fields 
@@ -534,6 +550,7 @@ string $table='',
 array $property = []
 )
 {
+     self::ensureSetup();
      $table = $table ?: self::$table;
      $columns = static::columns($table);
      $fields = [];

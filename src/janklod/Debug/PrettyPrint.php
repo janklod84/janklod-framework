@@ -48,7 +48,7 @@ public function addPrinter(string $printer)
  * Get printers
  * @return array
 */
-public function printers()
+public function getPrinters()
 {
     if(!empty(Capture::SRC['printers']))
     {
@@ -73,7 +73,7 @@ public function output($debug = false)
        $this->app->response->setHeader('Content-Type: text/html; charset=utf-8');
        $this->output .= '<div style="'. $this->getStyle() . '">';
        $this->output .= $this->mapPrinter('TimingPrinter')->output();
-       foreach($this->printers() as $printer)
+       foreach($this->getPrinters() as $printer)
        {
            $this->output .= $this->mapPrinter($printer)->output();
        }

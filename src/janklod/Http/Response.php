@@ -33,6 +33,12 @@ private $status;
 private $headers = [];
 
 
+/**
+ * Register all sended params
+ * @var array
+*/
+private $sended = [];
+
 
 /**
  * Response constructor
@@ -149,7 +155,7 @@ public function withHeader($header = null, $value=null)
 */
 public function getStatus()
 {
-  return $this->status;
+    return $this->status;
 }
 
 
@@ -159,7 +165,7 @@ public function getStatus()
 */
 public function getBody()
 {
- return $this->content;
+   return $this->content;
 }
 
 
@@ -183,7 +189,9 @@ public static function redirect(string $to = '/')
 {
     if(!headers_sent())
     {
-        header(sprintf('Location: %s', $to));
+        $redirect = sprintf('Location: %s', $to);
+        $this->sended['redirects'][] = $redirect;
+        header($redirect);
         exit();
     }
 }
@@ -196,6 +204,7 @@ public static function redirect(string $to = '/')
 */
 public function setCode(int $code)
 {
+    $this->sended['codes'][] = $code;
     http_response_code($code);
 }
 
@@ -208,6 +217,7 @@ public function setCode(int $code)
 */
 public function asJson($content=[])
 {
+    $this->sended['asJson'][] = $content;
     return json_encode($content);
 }
 
@@ -247,12 +257,13 @@ public function sendHeaders()
              {
                 foreach($header as $k => $v)
                 {
-                    // echo 'Sent : '. $k .': ' . $v .'<br>';
-                    header($k .': '.$v);
+                    $parsed = sprintf('%s: %s', $k, $v);
+                    header($parsed);
+                    $this->sended['headers'][] = $parsed;
                 }
              }else{
-                 // echo 'Sent : '. $header . '<br>';
                  header($header);
+                 $this->sended['headers'][] = $header;
              }  
         }
     }
@@ -266,7 +277,17 @@ public function sendHeaders()
 public function sendBody()
 {
     echo $this->content;
+    $this->sended['content'][] = $this->content;
 }
 
+
+/**
+ * Sended
+ * @return array
+*/
+public function sended()
+{
+    return $this->sended;
+}
 
 }
