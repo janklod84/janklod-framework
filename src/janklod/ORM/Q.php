@@ -544,10 +544,9 @@ public static function columns($table='')
  * @param array $property 
  * @return array
 */
-public static function setProperties( 
-object $classObj = null,
-string $table='', 
-array $property = []
+public static function setProperties(
+object $classObj = null, 
+string $table=''
 )
 {
      self::ensureSetup();
@@ -557,14 +556,27 @@ array $property = []
      foreach($columns as $column)
      {
          $key = $column->Field;
-         if(property_exists($classObj, $key) 
-            || in_array($key, $property))
+         if(property_exists($classObj, $key))
          {
             $fields[$key] = $classObj->{$key};
          }
      }
      return $fields;
 }
+
+
+/**
+ * Determine if has property in data
+ * @param string $key 
+ * @param array $properties 
+ * @return bool
+*/
+public function isFillable($key='', $properties = []): bool
+{
+   return in_array($key, $properties);
+}
+
+
 
 /**
  * store data // update or insert
