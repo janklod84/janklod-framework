@@ -1,11 +1,13 @@
-SETUP Q
+MAKE SETUP Q AND ADD ALIAS
 =======================================================================
 Ex:
 Q::setup(\DB::instance());
-
-ADD ALIAS
-=========================================================
 Q::setup(\DB::instance())->addAlias('MyAlias');
+
+========================================================
+ADD CONNECTION AND CLASS ALIAS
+=========================================================
+
 
 $config = [
        'dsn' => 'mysql:host=localhost;port=3306;dbname=dbxxxx;charset=utf8',
@@ -17,7 +19,16 @@ Q::connect('mysql', $config)->addAlias('MyAlias');
 debug(MyAlias::table('orders'));
 
 =======================================================================
-MAKE SIMPLE SELECT [ALL] QUERY
+QUERY [FIND]
+=======================================================================
+Q::setup(\DB::instance());
+Q::addTable('users');
+$result = Q::getTable()->find(5);
+debug($result);
+
+
+=======================================================================
+QUERY [ALL]
 =======================================================================
 SQL:
 $sql = SELECT * FROM `users`
@@ -53,15 +64,57 @@ Array
 
 EXEMPLE 2:
 
-Q::setup(\DB::instance(), 'users');
+Q::setup(\DB::instance());
 SQL:
 SELECT * FROM `users`
 $results = Q::getTable()->all();
 debug($results);
 
+=======================================================================
+QUERY [ FINDALL ]
+=======================================================================
+Q::setup(\DB::instance());
+$result = Q::table('users')
+          ->findAll('username', 'password', 'role');
+$result = Q::table('users')->findAll();
+debug($result);
+
+Q::setup(\DB::instance());
+Q::addTable('users');
+$result = Q::getTable()->findAll('username', 'password', 'role');
+$result = Q::table('users')->findAll();
+debug($result);
+
 
 =======================================================================
-MAKE SIMPLE SELECT [WHERE] QUERY
+QUERY [ FIND BY ]
+=======================================================================
+Q::setup(\DB::instance());
+Q::addTable('users');
+$result = Q::getTable()->findBy('username', 'JK');
+debug($result);
+
+OR 
+Q::setup(\DB::instance());
+$result = Q::table('users')->findBy('username', 'JK');
+debug($result);
+
+=======================================================================
+QUERY [ READ ]
+=======================================================================
+Q::setup(\DB::instance());
+Q::addTable('users');
+$result = Q::getTable()->read('JK', 'username');
+debug($result);
+
+OR 
+Q::setup(\DB::instance());
+$result = Q::table('users')->read('JK', username');
+debug($result);
+
+
+=======================================================================
+QUERY [WHERE]
 =======================================================================
 SQL: 
 $sql = SELECT * FROM `users` WHERE id = ?  
@@ -85,7 +138,7 @@ Array
 
 
 =======================================================================
-MAKE SIMPLE SELECT [WHERE] QUERY FIND FIRST RESULT
+QUERY [WHERE] WITH FIRST RESULT
 =======================================================================
 SQL: 
 $sql = SELECT * FROM `users` WHERE id = ?  
@@ -106,14 +159,24 @@ stdClass Object
 ===========================================================
 OTHER TEST
 ============================================================
-Q::setup(\DB::instance(), 'users');
+Q::setup(\DB::instance());
 $results = Q::getTable()->where(5, 'id')
                            ->first(); 
 debug($results);
 
 ===============================================================
-CREATE RECORD
+QUERY [CREATE RECORD]
 ===============================================================
+Q::setup(\DB::instance());
+Q::table('users')->create([
+ 'username' => 'NewBrowner',
+ 'password' => 'myNewBrower',
+ 'role' => 3
+]);
+
+or 
+Q::setup(\DB::instance());
+Q::addTable('users');
 Q::getTable()->create([
  'username' => 'NewBrowner',
  'password' => 'myNewBrower',
@@ -121,46 +184,37 @@ Q::getTable()->create([
 ]);
 
 ===============================================================
-READ RECORD
+QUERY [READ RECORD]
 ===============================================================
-Q::setup(\DB::instance(), 'users');
-$one = Q::getTable()->read(4);
+Q::setup(\DB::instance());
+$one = Q::table('users')->read(4);
 debug($one);
 
 
 ===============================================================
-CREATE RECORD
+QUERY [ UPDATE RECORD ]
 ===============================================================
-Q::setup(\DB::instance(), 'users');
-Q::getTable()->create([
- 'username' => 'NewBrowner',
- 'password' => 'myNewBrower',
- 'role' => 3
-]);
-
-
-===============================================================
-UPDATE RECORD
-===============================================================
-Q::setup(\DB::instance(), 'users');
-$one = Q::getTable()->update([
+Q::setup(\DB::instance());
+$one = Q::table('users')->update([
   'username' => 'JK'
 ], 8);
+
 debug($one);
 
 
 ===============================================================
-DELETE RECORD
+QUERY [ DELETE RECORD ]  
 ===============================================================
-Q::setup(\DB::instance(), 'users');
-$one = Q::getTable()->delete(8);
+Q::setup(\DB::instance());
+$one = Q::table('users')->delete(8);
 debug($one);
 
 
 ===============================================================
 GET LAST ID & COUNT [ ROW COUNT ]
 ===============================================================
-Q::setup(\DB::instance(), 'users');
+Q::setup(\DB::instance());
+Q::addTable('users');
 $c = Q::getTable()->create([
  'username' => 'NewBrowner9',
  'password' => 'myNewBrower34',
@@ -170,3 +224,29 @@ $c = Q::getTable()->create([
 debug($c);
 echo Q::lastId();
 echo Q::count();
+--------------------------------------------
+Q::setup(\DB::instance());
+$c = Q::table('users')->create([
+ 'username' => 'NewBrowner9',
+ 'password' => 'myNewBrower34',
+ 'role' => 10
+]);
+
+debug($c);
+echo Q::lastId();
+echo Q::count();
+
+
+TRANSACTION
+====================================================================
+Q::setup(\DB::instance());
+Q::transaction('users', function () {
+
+ Q::create([
+   'username' => 'NewBrowner22',
+   'password' => 'myNewBrower3',
+   'role' => 15
+]);
+
+});
+

@@ -15,9 +15,7 @@ class SelectBuilder extends CustomBuilder
      public function build()
      {
      	 $selects = $this->params();
-         $select = '';
-
-         // if not empty selects
+         $select = '*';
          if(!empty($selects))
          {
              if(is_array($selects[0]))
@@ -27,11 +25,8 @@ class SelectBuilder extends CustomBuilder
                   $select = $this->fields($selects);
              }
 
-         }else{
-             
-             $select = '*';
          }
-         
+
          $select =  trim($select, ','); 
          if($this->table)
          {

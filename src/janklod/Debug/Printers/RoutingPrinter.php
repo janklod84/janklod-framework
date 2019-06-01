@@ -20,7 +20,7 @@ class RoutingPrinter extends CustomPrinter
     $html .= '<th>Routing</th>';
     $html .= '<th scope="col">Path</th>';
     $html .= '<th scope="col">Route Name</th>';
-    $html .= '<th scope="col">Route Prefix</th>';
+    $html .= '<th scope="col">Route Prefixes</th>';
     $html .= '<th scope="col">Request Method</th>';
     $html .= '<th scope="col">Controller</th>';
     $html .= '<th scope="col">Action</th>';

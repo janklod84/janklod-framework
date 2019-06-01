@@ -177,6 +177,7 @@ public static function close()
 private static function assignTable($table='')
 {
    self::$table = $table;
+   /* self::$builder->addTable($table); */
    return new self;
 }
 
@@ -200,6 +201,36 @@ public static function getTable($return=false)
     }
 }
 
+
+
+/**
+ * BeginTransaction
+ * @return 
+*/
+public static function beginTransaction()
+{
+   return self::$query->beginTransaction();
+}
+
+
+/**
+ * Commit transaction
+ * @return 
+*/
+public static function commit()
+{
+   return self::$query->commit();
+}
+
+
+/**
+ * Rollback transaction
+ * @return 
+*/
+public static function rollback()
+{
+   return self::$query->rollback();
+}
 
 
 /**
@@ -253,8 +284,13 @@ public static function table($table='')
 
 
 // RECORDS
-
 /**
+ * Q::table('my_table')
+ *  ->where('name', '=', 'usman')
+ *  ->whereNot('age', '>', 25)
+ *  ->orWhere('type', '=', 'admin')
+ *  ->orWhereNot('description', 'LIKE', '%query%')
+ * 
  * Where Query
  * Ex: Q::table('users')->where(3, 'id', '=');
  * SELECT * FROM users WHERE id = ?
@@ -271,36 +307,28 @@ public function where($value, $field='id', $operator='=')
                                  ->where($field, $value, $operator)
                                  ->limit(1);
       $values = self::$builder->values;
-      self::$query->execute($selectSql, $values);
+      self::execute($selectSql, $values);
       return new static;
 }
 
-
-/**
- * Find one record
- * @param mixed $value 
- * @return new static
-*/
-public function find($value)
+public function whereNot($column='', $value=null, $operator='=')
 {
-    return $this->where($value)
-                ->first();
+    // TO Implements
 }
 
 
-/**
- * Find By field name 
- * @param string $field
- * @param mixed $value 
- * @return new static
-*/
-public function findBy($field='id', $value=null)
+public function orWhere($column='', $value=null, $operator='=')
 {
-    return $this->where($value, $field)
-                ->first();
+     // TO Implements
 }
 
-// RECORD RESULTS
+
+public function orWhereNot($column='', $value=null, $operator='=')
+{
+     // TO Implements
+}
+
+
 
 /**
  * Get results
@@ -330,18 +358,81 @@ public function first()
 
 
 /**
- * Select all records
- * @return array
+ * Find all records by
+ * Ex: 
+ * Q::setup(\DB::instance());
+ * Q::addTable('users');
+ * $result = Q::getTable()->findAll('username', 'password', 'role'); 
+ * print_r($result);
+ * 
+ * OR
+ * Q::setup(\DB::instance());
+ * $result = Q::table('users')->findAll();
+ * print_r($result);
+ * 
+ * @param mixed ...$selects 
+ * @return 
 */
-public function all()
+public function findAll(...$selects)
 {
-    self::ensureSetup();
-    $selectSql = self::$builder->select()
+    $selectSql = self::$builder->select($selects)
                                ->from(self::$table);
-    return self::$query->execute($selectSql)
-                       ->results();
+    return self::execute($selectSql)->results();
 }
 
+
+
+/**
+ * Find one record
+ * @param mixed $value 
+ * @return new static
+*/
+public function find($value)
+{
+    return $this->where($value)
+                ->first();
+}
+
+
+
+/**
+ * Find By field name 
+ * Ex:
+ *  Q::setup(\DB::instance());
+ *  $result = Q::table('users')->findBy('username', 'JK');
+ *  debug($result);
+ * 
+ * @param string $field
+ * @param mixed $value 
+ * @return new static
+*/
+public function findBy($field='id', $value=null)
+{
+    return $this->where($value, $field)
+                ->first();
+}
+
+
+
+/**
+ * Read|Find data
+ * Ex:
+ *  Q::setup(\DB::instance());
+ *  $result = Q::table('users')->read('JK', username');
+ *  debug($result);
+ * 
+ * @param mixed $value 
+ * @param string $field 
+ * @return 
+*/
+public function read($value=null, $field='id')
+{     
+   self::ensureSetup();
+   if($value)
+   {
+       return $this->findBy($field, $value);
+   }
+}
 
 /**
  * Create new record
@@ -356,25 +447,10 @@ public function create($params=[])
       $sql = self::$builder
                   ->insert(self::$table)
                   ->set($params);
-      return self::$query->execute($sql, self::$builder->values);
+      return self::execute($sql, self::$builder->values);
   }
 }
 
-
-/**
- * Read|Find data
- * @param mixed $value 
- * @param string $field 
- * @return 
-*/
-public static function read($value=null, $field='id')
-{     
-   self::ensureSetup();
-   if($value)
-   {
-       return $this->findBy($field, $value);
-   }
-}
 
 
 /**
@@ -393,7 +469,7 @@ public static function update($params=[], $value=null, $field='id')
               ->update(self::$table)
               ->set($params)
               ->where($field, $value);
-       return self::$query->execute($sql, self::$builder->values);
+       return self::execute($sql, self::$builder->values);
   }
 }
 
@@ -413,7 +489,7 @@ public static function delete($value=null, $field='id')
         $sql = self::$builder
                 ->delete(self::$table)
                 ->where($field, $value);
-        return self::$query->execute($sql, self::$builder->values);
+        return self::execute($sql, self::$builder->values);
    }
 }
 
@@ -535,7 +611,15 @@ public static function fetchInto($object=null, $arguments = [])
 public static function execute($sql, $params=[])
 {
     self::ensureSetup();
-    return self::$query->execute($sql, $params);
+    if(!self::$query->execute($sql, $params)->executed())
+    {
+         echo 'Last Query: ' . $sql;
+         echo '<pre>';
+         print_r($params);
+         echo '<pre>';
+         exit('End');
+    }
+
 }
 
 

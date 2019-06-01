@@ -52,7 +52,11 @@ abstract public function build();
 */
 protected function fields($columns = null)
 {
-    return '`' . implode('`, `', $columns) . '`';
+    if(!empty($columns))
+    {
+        return '`' . implode('`, `', $columns) . '`';
+    }
+    return '*';
 }
 
 
@@ -63,7 +67,8 @@ protected function fields($columns = null)
 protected function table()
 {
    $tableString = '';
-   if($table = $this->get('table'))
+   $table = $this->get('table') ?: $this->table;
+   if($table)
    {
        $tableString .= sprintf('`%s`', $table);
        if($alias = $this->get('alias'))

@@ -28,12 +28,14 @@ private $connection;
 private $statement;
 private $fetchHandler = 'FetchObject';
 private $error = false;
+private $executed  = false;
 private $queries = [];
 private $table = '';
 private $result;
 private $count;
 private $lastID;
 private $arguments = [];
+
 
 // fetch handler class name
 const FH_NAME = '\\JK\\ORM\\Statement\\Fetch\\%s';
@@ -121,7 +123,6 @@ public function fetchInto($object=null, $arguments = [])
 * Execute query
 * @param string $sql 
 * @param array $params 
-* @param 
 * @return mixed
 * @throws \Exception 
 */
@@ -134,13 +135,13 @@ public function execute(string $sql, array $params = [])
      try
      {
           // begin transaction ...
-          $this->transaction(); // [always to the top before execution]
+          /* $this->beginTransaction(); */
 
           // execute statement
           if($this->statement->execute($params))
           {
                $this->addQuery($sql);
-
+               $this->executed = true;
           }
          
           // set fetch mode
@@ -156,12 +157,13 @@ public function execute(string $sql, array $params = [])
            $this->lastID = $this->connection->lastInsertId();
            
            // commit [always to the end]
-           $this->commit();
+           /* $this->commit(); */
 
      }catch(PDOException $e){
          
          // rollback ...
-         $this->rollback();
+         /* $this->rollback(); */
+
          $this->error = true;
          $html  = '<h4>Error Mysql: </h4>';
          $html .= '<p>' . $e->getMessage() . '</p>';
@@ -176,12 +178,21 @@ public function execute(string $sql, array $params = [])
 
     }catch(PDOException $e){
 
-         throw new StatementException($e->getMessage);
+         throw new StatementException($e->getMessage());
     }
 
-     return $this;
+    return $this;
 }
 
+
+/**
+ * return status execution
+ * @return bool
+*/
+public function executed(): bool
+{
+   return $this->executed;
+}
 
 /**
 * Set Fetch mode
@@ -220,7 +231,7 @@ $arguments = []
 * Begin Transaction
 * @return void
 */
-public function transaction()
+public function beginTransaction()
 {
     return $this->connection->beginTransaction(); 
 }
@@ -273,7 +284,7 @@ public function close()
  * Get all executed queries
  * @return array
 */
-public function executed()
+public function queries()
 {
     return $this->queries;
 } 

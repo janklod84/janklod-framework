@@ -26,29 +26,8 @@ public function before()
 {
      
      Q::setup(\DB::instance());
-     /*
-     Q::transaction('users', function () {
-        /*
-         Q::create([
-           'username' => 'NewBrowner22',
-           'password' => 'myNewBrower3',
-           'role' => 15
-        ]);
-        *//*
-     });
-     */
-
-     /*
-     $c = Q::getTable()->create([
-       'username' => 'NewBrowner9',
-       'password' => 'myNewBrower34',
-       'role' => 10
-     ]);
      
-      debug($c);
-      echo Q::lastId();
-      */
-}
+} 
 
 
 /**
@@ -57,7 +36,13 @@ public function before()
 */
 public function index()
 {
-
+    /*
+     Q::table('users')->create([
+         'username' => 'NewBrowner34'. $i,
+         'password' => 'myNewBrower3'. $i,
+         'role' => $i
+        ]);
+    */
     return $this->render('home/index');
 }
 

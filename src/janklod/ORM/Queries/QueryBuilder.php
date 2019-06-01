@@ -23,6 +23,8 @@ const NBQuery = '\\JK\\ORM\\Queries\\Builder\\%sBuilder';
 
 /**
  * Constructor
+ * Ex: $queryBuilder = new QueryBuilder('users');
+ * 
  * @param string $table 
  * @return void
  */
@@ -37,7 +39,7 @@ public function __construct($table='')
  * @param string $table 
  * @return self
 */
-public function addTable($table='')
+public function table($table='')
 {
     $this->table = $table;
     return $this;
@@ -55,6 +57,8 @@ public function getTable()
 
 /**
  * Select 
+ * Ex: $this->select('username', 'login', '...')
+ * Ex: $this->select() 'By default' all columns will be selected '*'
  * @param string ...$selects 
  * @return self
 */
@@ -97,6 +101,7 @@ public function where($column='', $value=null, $operator='=')
 {
     return $this->and($column, $value, $operator);
 }
+
 
 
 /**
