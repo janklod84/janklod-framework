@@ -26,53 +26,51 @@ Q::addTable('users');
 $result = Q::getTable()->find(5);
 debug($result);
 
+=======================================================================
+QUERY [ FINDALL ]
+=======================================================================
+Q::setup(\DB::instance());
+     
+ $selects = [
+   'username',
+   'password',
+   'role'
+ ];
+ 
+ $results = Q::table('users')->findAll($selects);
+ debug($results);
 
-=======================================================================
-QUERY [ALL]
-=======================================================================
-SQL:
-$sql = SELECT * FROM `users`
-$results = Q::table('users')->all();
-debug($results);
 Array
 (
     [0] => stdClass Object
         (
-            [id] => 1
-            [username] => newRecord1
-            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
-            [role] => 3
+            [username] => NewBrowner341
+            [password] => myNewBrower31
+            [role] => 1
         )
 
     [1] => stdClass Object
         (
-            [id] => 2
-            [username] => newRecord2
-            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
-            [role] => 5
+            [username] => NewBrowner342
+            [password] => myNewBrower32
+            [role] => 2
         )
 
     [2] => stdClass Object
         (
-            [id] => 3
-            [username] => newRecord3
-            [password] => d60cfaf43ac5f0eb62fe3de9057c2a77
+            [username] => NewBrowner343
+            [password] => myNewBrower33
+            [role] => 3
+        )
+
+    [3] => stdClass Object
+        (
+            [username] => NewBrowner344
+            [password] => myNewBrower34
             [role] => 4
         )
-)
+}
 
-
-EXEMPLE 2:
-
-Q::setup(\DB::instance());
-SQL:
-SELECT * FROM `users`
-$results = Q::getTable()->all();
-debug($results);
-
-=======================================================================
-QUERY [ FINDALL ]
-=======================================================================
 Q::setup(\DB::instance());
 $result = Q::table('users')
           ->findAll('username', 'password', 'role');

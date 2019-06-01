@@ -375,7 +375,9 @@ public function first()
 */
 public function findAll(...$selects)
 {
-    $selectSql = self::$builder->select($selects)
+    self::ensureSetup();
+    $columns = is_array($selects[0]) ? $selects[0] : $selects;
+    $selectSql = self::$builder->select($columns)
                                ->from(self::$table);
     return self::execute($selectSql)->results();
 }
@@ -389,6 +391,7 @@ public function findAll(...$selects)
 */
 public function find($value)
 {
+    self::ensureSetup();
     return $this->where($value)
                 ->first();
 }
@@ -408,6 +411,7 @@ public function find($value)
 */
 public function findBy($field='id', $value=null)
 {
+    self::ensureSetup();
     return $this->where($value, $field)
                 ->first();
 }
@@ -487,8 +491,8 @@ public static function delete($value=null, $field='id')
    if($value)
    {
         $sql = self::$builder
-                ->delete(self::$table)
-                ->where($field, $value);
+                   ->delete(self::$table)
+                   ->where($field, $value);
         return self::execute($sql, self::$builder->values);
    }
 }
@@ -619,7 +623,7 @@ public static function execute($sql, $params=[])
          echo '<pre>';
          exit('End');
     }
-
+    return self::$query;
 }
 
 

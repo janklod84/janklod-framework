@@ -190,13 +190,15 @@ public function limit($limit='', $offset = 0)
 
 /**
  * Join
- * join('orders', 'users.id = orders.user_id')
- * @param string $join 
+ * $this->table('users')->join('users.id = orders.user_id', 'LEFT')
+ * $this->join('users.id = orders.user_id', 'RIGHT', 'orders')
+ * 
  * @param string $condition
  * @param string $type 
+ * @param string $table
  * @return self
 */
-public function join($table='', $condition='', $type='INNER')
+public function join($condition='', $type='INNER', $table='')
 {
     $this->sql['join'][$type][] = compact('table', 'condition');
     return $this;
@@ -204,12 +206,12 @@ public function join($table='', $condition='', $type='INNER')
 
 
 /**
-  * Insert data
-  * @param string $table 
+  * Insert data 
   * @param array $params 
+  * @param string $table
   * @return self
  */
- public function insert($table, $params = [])
+ public function insert($params = [], $table='')
  {
   $this->clear();
   $columns = array_keys($params);
@@ -223,11 +225,11 @@ public function join($table='', $condition='', $type='INNER')
 
 /**
 * Update data
-* @param string $table 
 * @param array $params
+* @param string $table 
 * @return self
 */
-public function update($table, $params = [])
+public function update($params = [], $table='')
 {
   $this->clear();
   $columns = array_keys($params);
@@ -260,7 +262,7 @@ public function update($table, $params = [])
  * @param string $table 
  * @return self
 */
-public function delete($table)
+public function delete($table='')
 {
     $this->clear();
     $this->sql['delete'] = compact('table');
