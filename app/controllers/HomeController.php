@@ -25,15 +25,16 @@ class HomeController extends AppController
 */
 public function before()
 {
-     
      Q::setup(\DB::instance());
      Q::addTable('users');
      $user = new User($this->app);
   
-     $user->setId(8);
-     $user->setUsername('MyFriend Updated2!');
-     // $user->setPassword(md5('Merci!'));
-     Q::getTable()->store($user);
+     // $user->setId(10);
+     $user->setUsername('NEW Record JK!');
+     $user->setPassword(password_hash('DDWE', PASSWORD_BCRYPT));
+     
+     $lastId = Q::getTable()->store($user);
+     echo $lastId;
 } 
 
 

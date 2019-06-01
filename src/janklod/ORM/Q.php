@@ -97,8 +97,7 @@ public static function setup(\PDO $connection = null)
   self::$connection = $connection;
   self::$query   = new Query($connection);
   self::$builder = new QueryBuilder();
-  self::mapEnd();
-  self::$register['msg'] = 'Connected to Q [ORM]';
+  self::$setup   = true;
   return new static;
 }
 
@@ -560,9 +559,7 @@ string $table=''
          $key = $column->Field;
          if(property_exists($classObj, $key))
          {
-            // if property is not setted , we'll give default value NULL
-            // $fields[$key] = $classObj->{$key} ?: 'NULL';
-            $fields[$key] = $classObj->{$key} ?: '';
+            $fields[$key] = $classObj->{$key};
          }
      }
      return $fields;
@@ -602,27 +599,34 @@ public function store(object $object)
     self::ensureSetup();
     if(self::$table)
     {
-      $data = $this->setProperties($object, self::$table);
-      if(property_exists($object, 'id') && isset($object->id))
+      $data = $this->setProperties($object);
+      if($this->isNewRecord($object))
       {
-          // Update
-          return $this->update($data, $object->id);
+          echo 'Update';
+          $this->update($data, $object->id);
+      }else{
+          $this->create($data);
       }
-      // 'Insert';
-      return $this->create($data);
+      return $this->lastId();
     }else{
-       exit('Data can not be stored because detected [ Empty Table ]');
+       exit('
+        Data can not be stored because detected [ Empty Table ]
+      ');
     }
 }
 
 
 
-// 
-public function isNewRecord()
-{
-  
+/**
+ * Determine if record is new or not
+ * @param object $object
+ * @return bool
+*/
+public function isNewRecord(object $object)
+{ 
+   return property_exists($object, 'id') 
+          && isset($object->id);
 }
-
 
 
 /**
@@ -825,16 +829,6 @@ private static function mapRegistredItem($item=null)
        exit(sprintf('No <b>%s</b> added for mapping !', $item));
    }
    return self::$register[$item];
-}
-
-
-/**
- * Map end message
- * @return void
-*/
-private static function mapEnd()
-{
-    self::$setup = true;
 }
 
 
