@@ -30,7 +30,7 @@ public function before()
      $user = new User($this->app);
   
      // $user->setId(10);
-     // $user->setUsername('NEW Record JK!');
+     // $user->setUsername('NEW Record JK 111!');
      // $user->setPassword(password_hash('DDWE', PASSWORD_BCRYPT));
      
      // $lastId = Q::getTable()->store($user);
