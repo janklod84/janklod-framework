@@ -54,12 +54,14 @@ const CONFIG_PARAMS = [
  * 
  * Q::connect($config);
  * 
+ * TO ADD MANAGER DRIVER LATER..
+ * 
  * @param string $driver
  * @param array $config
  * @return void
  * @throws \Exception 
 */
-public static function connect($driver, array $config = [])
+public static function connect($driver='mysql', array $config = [])
 {
     self::ensureConfigParams($config);
     extract($config);
@@ -557,10 +559,16 @@ string $table=''
      foreach($columns as $column)
      {
          $key = $column->Field;
-         if(property_exists($classObj, $key))
+         if(!property_exists($classObj, $key))
          {
-            $fields[$key] = $classObj->{$key};
+             exit(sprintf(
+              'Sorry property <b>%s</b> does not exist in class <b>%s</b>',  
+              $key, 
+              $classObj
+            ));
          }
+         // FIX here if property has not data or not isset
+         $fields[$key] = $classObj->{$key};
      }
      return $fields;
 }
