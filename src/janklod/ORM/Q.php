@@ -602,9 +602,10 @@ public function store(object $object)
       $data = $this->setProperties($object);
       if($this->isNewRecord($object))
       {
-          echo 'Update';
+          // Update record
           $this->update($data, $object->id);
       }else{
+          // Create new record
           $this->create($data);
       }
       return $this->lastId();
