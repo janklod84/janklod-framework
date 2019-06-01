@@ -349,7 +349,7 @@ public function update($params=[], $value=null, $field='id')
               ->update(self::$table)
               ->set($params)
               ->where($field, $value);
-       return self::execute($sql, self::$builder->values);
+       return self::$query->execute($sql, self::$builder->values);
   }
 }
 
@@ -369,7 +369,7 @@ public function delete($value=null, $field='id')
         $sql = self::$builder
                 ->delete(self::$table)
                 ->where($field, $value);
-        return self::execute($sql, self::$builder->values);
+        return self::$query->execute($sql, self::$builder->values);
    }
 }
 
@@ -381,7 +381,7 @@ public function delete($value=null, $field='id')
 */
 public function store()
 {
-  self::ensureSetup();
+    self::ensureSetup();
      // get columns 
     // and determine if has id 
     // or determine if isset property
@@ -589,7 +589,7 @@ private static function mapConnection($connection)
     {
         exit('Q [ORM] already connected!');
     }
-    
+
     if(is_null($connection))
     {
        exit('You must to set up connection for [Q ORM]!');

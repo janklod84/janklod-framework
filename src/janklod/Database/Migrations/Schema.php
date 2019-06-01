@@ -7,5 +7,9 @@ namespace JK\Database;
 */ 
 class Schema 
 {
-	
+	  
+	  public function create($table, $callback = [])
+	  {
+
+	  }
 }

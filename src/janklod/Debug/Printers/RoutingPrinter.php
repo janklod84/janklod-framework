@@ -14,7 +14,6 @@ class RoutingPrinter extends CustomPrinter
   */
   public function output()
   {
-    debug($this->app->get('current.route'));
     $html  = '<table class="table table-striped">';
     $html .= '<thead>';
     $html .= '<tr>';
@@ -45,7 +44,7 @@ class RoutingPrinter extends CustomPrinter
     $html .= '<th scope="row">'; 
     $prefix = $this->app->get('current.route')['prefix'];
     $html .= '<code>';
-    $html .=  !empty($prefix) ? '' : 'no prefixed';
+    $html .=  !empty($prefix) ? 'Prefixes: '. implode(',', $prefix) : 'no prefixed';
     $html .= '</code>'; 
     $html .= '</th>';
     $html .= '<th scope="row">'; 
