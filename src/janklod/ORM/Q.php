@@ -607,16 +607,21 @@ public function store(object $object)
     self::ensureSetup();
     if(self::$table)
     {
-      $data = $this->setProperties($object);
-      if($this->isNewRecord($object))
-      {
-          // Update record
-          $this->update($data, $object->id);
-      }else{
-          // Create new record
-          $this->create($data);
-      }
-      return $this->lastId();
+       if(property_exists($object, 'id'))
+       {
+            $data = $this->setProperties($object);
+            if($this->isNewRecord($object))
+            {
+                // Update record
+                $this->update($data, $object->id);
+            }else{
+                // Create new record
+                $this->create($data);
+            }
+            return $this->lastId();
+       }else{
+          exit('You have not property named [id] try to set it please');
+       }
     }else{
        exit('
         Data can not be stored because detected [ Empty Table ]
@@ -633,8 +638,7 @@ public function store(object $object)
 */
 public function isNewRecord(object $object)
 { 
-   return property_exists($object, 'id') 
-          && isset($object->id);
+   return isset($object->id);
 }
 
 
