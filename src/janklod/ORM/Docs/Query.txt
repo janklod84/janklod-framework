@@ -236,17 +236,34 @@ debug($c);
 echo Q::lastId();
 echo Q::count();
 
-
+====================================================================
 TRANSACTION
 ====================================================================
 Q::setup(\DB::instance());
-Q::transaction('users', function () {
 
- Q::create([
-   'username' => 'NewBrowner22',
-   'password' => 'myNewBrower3',
-   'role' => 15
-]);
+Q::transaction(function($qb, $query) {
+    
+    // debug($qb);
+    // debug($query);
+    $select = $qb->select()
+                 ->from('users')
+                 ->where('id', 4, '>=')
+                 ->limit(1);
+    $values = $qb->values;
 
+    if($query->execute($select, $values)->executed());
+    {
+        $results = $query->results();
+
+        debug($results);
+    }
+
+    // Add Query insert 
+    // ....
+
+    // Add Query Update 
+    // ...
+
+    // ......
 });
 

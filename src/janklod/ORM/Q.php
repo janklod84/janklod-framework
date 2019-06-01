@@ -537,18 +537,18 @@ public static function count()
  * @param \Closure $callback
  * @return mixed
 */
-public static function transaction($table='', \Closure $callback)
+public static function transaction(\Closure $callback)
 {
     self::ensureSetup();
     try
     {
-        self::$query->transaction();
-        self::addTable($table);
-        call_user_func($callback);
-        self::$query->commit();
+        self::beginTransaction();
+        /* $callback(self::$builder, self::$query) */
+        call_user_func_array($callback, [self::$builder, self::$query]);
+        self::commit();
 
     }catch(\PDOException $e){
-         self::$query->rollback();
+         self::rollback();
          throw new \Exception($e->getMessage());
     }
 

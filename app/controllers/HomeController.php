@@ -27,6 +27,31 @@ public function before()
      
      Q::setup(\DB::instance());
      
+     Q::transaction(function($qb, $query) {
+          
+          // debug($qb);
+          // debug($query);
+          $select = $qb->select()
+                       ->from('users')
+                       ->where('id', 4, '>=')
+                       ->limit(1);
+          $values = $qb->values;
+          
+          if($query->execute($select, $values)->executed());
+          {
+              $results = $query->results();
+
+              debug($results);
+          }
+
+          // Add Query insert 
+          // ....
+
+          // Add Query Update 
+          // ...
+
+          // ......
+     });
 } 
 
 
