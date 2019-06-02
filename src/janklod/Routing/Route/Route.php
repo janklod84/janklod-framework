@@ -6,7 +6,10 @@ use JK\Routing\Route\Controls\{
     OptionControl,
     PathControl,
     NameControl,
-    CallbackControl
+    CallbackControl, 
+    MethodControl,
+    ModuleControl,
+    MiddlewareControl
 };
 
 /**
@@ -112,6 +115,34 @@ public static function prefix($prefixes = [], \Closure $callback)
 }
 
 
+/**
+* Add route modules
+* 
+* @param string $module [Module name]
+* @param \Closure $callback
+* @return void
+*/
+public static function module($module, \Closure $callback)
+{  
+    OptionControl::addOption('module', $module);
+    return self::group($module, $callback);
+}
+
+
+/**
+* Add route middlewares
+* 
+* @param array $middleware
+* @param \Closure $callback
+* @return void
+*/
+public static function middleware($middleware, \Closure $callback)
+{  
+    OptionControl::addOption('middleware', $middleware);
+    return self::group($middleware, $callback);
+}
+
+
 
 /**
  * Get URL Named route
@@ -142,14 +173,14 @@ $method = 'GET'
      # route custom
      $route = new RouteParameter([
         'path'               => $path, 
-        'pattern'            => PathControl::generatePattern($path),
+        'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::manage($callback),
         'name'               => NameControl::manage($callback, $name),
-        'method'             => $method,  
-        'prefix.path'        => OptionControl::getOption('prefix.path'),
-        'prefix.controller'  => OptionControl::getOption('prefix.controller'),
-        'middleware'         => false,   // to implements
-        'module'             => false // to implements
+        'method'             => MethodControl::toUpper($method),  
+        'prefix.path'        => OptionControl::get('prefix.path'),
+        'prefix.controller'  => OptionControl::get('prefix.controller'),
+        'middleware'         => OptionControl::get('middleware'),
+        'module'             => OptionControl::get('module')
      ]);
     
      # store route by method

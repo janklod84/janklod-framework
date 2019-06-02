@@ -81,7 +81,7 @@ public static function hasOption($key)
 * @param string $parsed 
 * @return mixed
 */
-public static function getOption($parsed='')
+public static function get($parsed='')
 {
     if($parsed)
     {

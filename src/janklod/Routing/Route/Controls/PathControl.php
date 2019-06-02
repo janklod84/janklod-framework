@@ -21,11 +21,11 @@ public static function sanitize($path)
 
 
 /**
- * Item maper
+ * Generate path pattern
  * @param string $path
- * @return mixed
+ * @return string
 */
-public static function generatePattern($path)
+public static function pattern($path)
 {
     return '#^'. self::path($path) . '$#';
 }
@@ -40,7 +40,7 @@ public static function generatePattern($path)
 public static function path($path)
 {
     $path = self::sanitize($path);
-    if($prefix = OptionControl::getOption('prefix.path'))
+    if($prefix = OptionControl::get('prefix.path'))
     {
          $path = trim($prefix, '/') .'/' . $path;
     }
