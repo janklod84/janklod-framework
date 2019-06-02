@@ -55,7 +55,7 @@ public function callAction($callback, $matches=[])
     
     if(!is_callable($callback))
     {
-        echo '<div>NO CALLABLE</div>';
+        die('NO CALLABLE');
         // redirect to NotFoundController 404
          notFound();
     }

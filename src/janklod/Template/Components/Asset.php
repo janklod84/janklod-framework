@@ -182,21 +182,6 @@ private static function renderType($data = [], $type)
        }
        return $asset;
    }
-   
-   /*
-   self::$data = array_merge($data, self::$data);
-   if(!empty(self::$data))
-   {
-       $asset = '';
-       foreach($data as $path)
-       {
-          $asset .= sprintf(
-              self::FORMAT_TYPE[$type], self::mapPath($path, self::$basePath)
-              );
-       }
-       return $asset;
-   }
-   */
 }
 
 

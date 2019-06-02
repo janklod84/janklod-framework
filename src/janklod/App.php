@@ -75,14 +75,12 @@ private function __construct($root)
 */
 public function run()
 {
-     # get dispatcher with currents params
      $method = $this->request->method();
      $dispatcher = $this->router->dispatch($method);
-     
-     die;
      if(is_null($dispatcher))
      {
          die('Dispatcher NULL');
+         // $this->response->redirect(404);
          // notFound();
      }
      // set route parameters

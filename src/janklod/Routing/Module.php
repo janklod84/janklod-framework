@@ -1,9 +1,9 @@
 <?php 
-namespace JK;
+namespace JK\Routing\Module;
 
 
 /**
- * @package JK\Module 
+ * @package JK\Routing\Module 
 */
 abstract class Module 
 {

@@ -37,7 +37,7 @@ private $headers = [];
  * Register all sended params
  * @var array
 */
-private $sended = [];
+private static $sended = [];
 
 
 /**
@@ -185,12 +185,12 @@ public function getHeaders()
  * @param string $to 
  * @return void
 */
-public static function redirect(string $to = '/')
+public static function redirect($to = '')
 {
     if(!headers_sent())
     {
         $redirect = sprintf('Location: %s', $to);
-        $this->sended['redirects'][] = $redirect;
+        self::$sended['redirects'][] = $redirect;
         header($redirect);
         exit();
     }
@@ -204,7 +204,7 @@ public static function redirect(string $to = '/')
 */
 public function setCode(int $code)
 {
-    $this->sended['codes'][] = $code;
+    self::$sended['codes'][] = $code;
     http_response_code($code);
 }
 
@@ -217,7 +217,7 @@ public function setCode(int $code)
 */
 public function asJson($content=[])
 {
-    $this->sended['asJson'][] = $content;
+    self::$sended['asJson'][] = $content;
     return json_encode($content);
 }
 
@@ -259,11 +259,11 @@ public function sendHeaders()
                 {
                     $parsed = sprintf('%s: %s', $k, $v);
                     header($parsed);
-                    $this->sended['headers'][] = $parsed;
+                    self::$sended['headers'][] = $parsed;
                 }
              }else{
                  header($header);
-                 $this->sended['headers'][] = $header;
+                 self::$sended['headers'][] = $header;
              }  
         }
     }
@@ -277,7 +277,7 @@ public function sendHeaders()
 public function sendBody()
 {
     echo $this->content;
-    $this->sended['content'][] = $this->content;
+    self::$sended['content'][] = $this->content;
 }
 
 
@@ -287,7 +287,7 @@ public function sendBody()
 */
 public function sended()
 {
-    return $this->sended;
+    return self::$sended;
 }
 
 }

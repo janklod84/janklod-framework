@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Database;
+namespace JK\Database\Migrations;
 
 
 /**

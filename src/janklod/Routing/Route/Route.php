@@ -10,18 +10,28 @@ class Route
       
 /**
 * @var  array $options
-* @var  bool  $notFound
 */
-private static $options = [];
-private static $notFound = false;
+private static $options  = [];
+
 
 
 /**
 * Add routes by method GET
+* 
+* Ex: Route::get('/', 'HomeController@index', 'welcome.page');
+* Ex: Route::get('/about', function() {
+*      echo 'HI Friends!';
+* });
+* 
+* Ex: Route::get('/contact', [
+*  'controller' => 'HomeController',
+*  'action'     => 'contact'
+* ], contact.me);
+* 
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteCustomer
+* @return RouteManager
 */
 public static function get(
 string $path, 
@@ -35,10 +45,13 @@ string $name = null
 
 /**
 * Add routes by method POST
+* 
+* Ex: Route::post('/contact', 'HomeController@send');
+* 
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteCustomer
+* @return RouteManager
 */
 public static function post(
 string $path, 
@@ -52,11 +65,10 @@ $callback,
 
 /**
 * Add new package or resources of routes
-* It's used for CRUD for example
 * 
 * @param string $path
 * @param string $controller
-* @return self
+* @return 
 */
 public static function package(string $path, string $controller)
 {
@@ -79,23 +91,23 @@ public static function package(string $path, string $controller)
 */
 public static function group($options = [], \Closure $callback)
 {  
-    self::$options = $options;
+    self::addOptions($options);
     call_user_func($callback); 
-    self::$options = [];
+    self::cleanOptions();
 }
 
 
 /**
 * Add routes group
 * 
-* @param array $options
+* @param array $prefixes
 * @param \Closure $callback
 * @return void
 */
-public static function prefix($options = [], \Closure $callback)
+public static function prefix($prefixes = [], \Closure $callback)
 {  
-    self::$options['prefix'] = $options;
-    self::group(self::$options, $callback);
+    self::addOption('prefix', $prefixes);
+    return self::group($prefixes, $callback);
 }
 
 
@@ -108,28 +120,7 @@ public static function prefix($options = [], \Closure $callback)
 */
 public static function url(string $name, array $params = [])
 {
-    return RouteCustomer::url($name, $params);
-}
-
-
-/**
-* Add not found path
-* @param string $path
-* @return void
-*/
-public static function notFound(string $path)
-{
-     self::$notFound = $path;
-}
-
-
-/**
-* Get Not Found page
-* @return string
-*/
-public static function getNotFound()
-{
-    return self::$notFound;
+       return RouteManager::url($name, $params);
 }
 
 
@@ -138,7 +129,7 @@ public static function getNotFound()
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteCustomer
+* @return RouteManager
 */
 public static function add(
 $path, 
@@ -148,14 +139,17 @@ $method = 'GET'
 )
 {
      # route custom
-     $route = new RouteCustomer();
-     $route->options(self::$options);
-     $route->setParam('path', $route->preparePath($path));
-     $route->setParam('callback', $callback);
-     $route->setParam('name', $name);
-     $route->setParam('method', $method);
-     $route->setOption('prefix');
-
+     $route = new RouteManager([
+        'path'        => $path, 
+        'pattern'     => self::generatePattern($path),
+        'callback'    => $callback,
+        'name'        => $name,
+        'method'      => $method,  
+        'prefix'      => self::getOption('prefix'),
+        'middleware'  => false,   
+        'module'      => false
+     ]);
+    
      # route filter
      if(is_string($callback) && $name === null)
      {
@@ -164,11 +158,11 @@ $method = 'GET'
 
      if($name)
      {
-         $route->namedRoute($name);
+         $route->namedRoutes($name);
      }
 
      # prepare callback
-     $route->mapCallback($callback);
+     // $route->mapCallback($callback);
 
 
      # store route by method
@@ -178,13 +172,98 @@ $method = 'GET'
 
 
 /**
-* Get option
-* @param string $key 
-* @return mixed
+ * Item maper
+ * @param string $path
+ * @return mixed
 */
-protected static function getOption($key='')
+public static function generatePattern($path)
 {
-     return self::$options[$key] ?? '';
+    return '#^'. trim($path, '/') . '$#';
 }
+
+
+/**
+ * Push Options
+ * @param array $options 
+ * @return void
+*/
+public static function addOptions($options = [])
+{
+      self::$options = array_merge(self::$options, $options);
+}
+
+
+/**
+ * Add Option
+ * @param string $key 
+ * @param string $value 
+ * @return void
+*/
+public static function addOption($key, $value)
+{
+      self::$options[$key] = $value;
+}
+
+
+/**
+ * remove Option item
+ * @param string $key  
+ * @return void
+*/
+public static function removeOption($key)
+{
+     if(self::hasOption($key))
+     {
+         unset(self::$options[$key]);
+     }
+}
+
+/**
+ * Clean all options
+ * @return void
+*/
+public static function cleanOptions()
+{
+      self::$options = [];
+}
+
+
+/**
+ * Determine if has option param
+ * @param string $key 
+ * @return bool
+*/
+public static function hasOption($key)
+{
+    return array_key_exists($key, self::$options);
+}
+
+
+/**
+ * Get options
+ * @param string $key 
+ * @return mixed
+*/
+public static function getOption($key)
+{
+     if(self::hasOption($key))
+     {
+         return self::$options[$key];
+     }
+     return null;
+}
+
+
+/**
+ * Map prefixed Path
+ * @param string $path 
+ * @return string
+*/
+public static function pathPrefixed($path)
+{
+    $prefix = $this->getOption('prefix.path');
+
+}
+
 
 }

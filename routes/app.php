@@ -20,13 +20,9 @@ $options = [
 
 Route::prefix($options, function () {
     Route::get('/login', 'UserController@login'); // admin/login
+    Route::get('/test', 'UserController@test'); // admin/test
 });
 
-/***********************************
-| NOT FOUND CONTROLLER
-************************************/
-
-Route::get('/admin/404', 'NotFoundController@index');
 
 
 /***********************************
@@ -50,3 +46,4 @@ Route::get('/test', function () {
 ************************************/
 
 Route::get('/404', 'NotFoundController@index');
+Route::notFound('/404');
