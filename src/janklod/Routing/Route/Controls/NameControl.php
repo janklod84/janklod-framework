@@ -3,7 +3,7 @@ namespace JK\Routing\Route\Controls;
 
 
 /**
- * @package JK\Routing\Route\Controls\CallBackControl 
+ * @package JK\Routing\Route\Controls\NameControl 
 */ 
 class NameControl
 {
@@ -19,12 +19,14 @@ public static function manage($callback, $name)
 	 # route filter
 	 if(is_string($callback) && $name === null)
 	 {
-	      return $callback;
+        return $callback;
 	 }
 
 	 if($name)
 	 {
-	 	 return $name;
+ 	    return $name;
 	 }
 }
+
+
 }

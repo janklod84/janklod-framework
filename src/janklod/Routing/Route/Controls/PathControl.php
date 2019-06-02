@@ -21,6 +21,17 @@ public static function sanitize($path)
 
 
 /**
+ * Give current path not prepared
+ * @param string $path 
+ * @return string
+*/
+public static function notPrepared($path)
+{
+   return self::path($path);
+}
+
+
+/**
  * Generate path pattern
  * @param string $path
  * @return string
@@ -31,7 +42,6 @@ public static function pattern($path)
 }
 
 
-
 /**
  * Map prefixed Path
  * @param string $path 
@@ -40,11 +50,12 @@ public static function pattern($path)
 public static function path($path)
 {
     $path = self::sanitize($path);
-    if($prefix = OptionControl::get('prefix.path'))
+    if(OptionControl::hasPrefix('path'))
     {
+    	 $prefix = OptionControl::prefix('path');
          $path = trim($prefix, '/') .'/' . $path;
     }
-    return trim($path, '/');
+    return $path;
 }
 
 }

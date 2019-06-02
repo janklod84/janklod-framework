@@ -172,15 +172,15 @@ $method = 'GET'
 {
      # route custom
      $route = new RouteParameter([
-        'path'               => $path, 
+        'path'               => PathControl::notPrepared($path), 
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::manage($callback),
         'name'               => NameControl::manage($callback, $name),
         'method'             => MethodControl::toUpper($method),  
-        'prefix.path'        => OptionControl::get('prefix.path'),
-        'prefix.controller'  => OptionControl::get('prefix.controller'),
-        'middleware'         => OptionControl::get('middleware'),
-        'module'             => OptionControl::get('module')
+        'prefix.path'        => OptionControl::retrieveItem('prefix', 'path'),
+        'prefix.controller'  => OptionControl::retrieveItem('prefix', 'controller'),
+        'middleware'         => OptionControl::retrieveGroup('middleware'),
+        'module'             => OptionControl::retrieveGroup('module')
      ]);
     
      # store route by method

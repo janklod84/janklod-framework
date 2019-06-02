@@ -77,34 +77,71 @@ public static function hasOption($key)
 
 
 /**
-* Get option
-* @param string $parsed 
-* @return mixed
+ * Determine if has option param
+ * @param string $group
+ * @param string $key 
+ * @return bool
 */
-public static function get($parsed='')
+public static function hasItem($group, $key)
 {
-    if($parsed)
+    if(self::hasOption($group))
     {
-          $part = explode('.', $parsed);
-          $parent = $part[0];
-          $result = null;
-
-            if(self::hasOption($parent))
-            {
-                $result = self::$options[$parent];
-                foreach($part as $item)
-                {
-                      if(isset($result[$item]))
-                      {
-                          $result = $result[$item];
-                      }
-                }
-            }
-
-        return $result;
+       $parent = self::retrieveGroup($group);
+       return array_key_exists($key, $parent);
     }
-} 
+}
 
-	     
+
+/**
+ * Retrieve Group
+ * @param string $group
+ * @return mixed
+*/
+public static function retrieveGroup($group)
+{
+    if(self::hasOption($group))
+    {
+         return self::$options[$group];
+    }
+
+    return null;
+}
+
+/**
+ * Retrieve item
+ * @param string $group
+ * @param string $item 
+ * @return mixed
+*/
+public static function retrieveItem($group, $item='')
+{
+     if(self::hasItem($group, $item))
+     {
+         return self::$options[$group][$item];
+     }
+     return null;
+}
+     
+
+/**
+ * Retrieve prefix item
+ * @param string $key 
+ * @return string
+*/
+public static function prefix($key)
+{
+    return self::retrieveItem('prefix', $key);
+}
+
+/**
+ * Determine if has prefix item
+ * @param string $key 
+ * @return string
+*/
+public static function hasPrefix($key)
+{
+    return self::hasItem('prefix', $key);
+}
+
 
 }

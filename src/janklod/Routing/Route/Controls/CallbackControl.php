@@ -54,8 +54,9 @@ public static function mapCallback($callback, $divider='@')
 */
 public static function controller($controller)
 {
-   if($prefix = OptionControl::get('prefix.controller'))
+   if(OptionControl::hasPrefix('controller'))
    {
+       $prefix = OptionControl::prefix('controller');
        $controller = $prefix.'\\'. $controller; 
    }
    return $controller;
