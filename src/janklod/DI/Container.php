@@ -28,18 +28,19 @@ private static $instance;
 
 
 /**
- * Get instance
- * @param array $container 
- * @return self
+* prevent instance from being cloned
+* @return void
 */
-public static function instance($container = [])
-{
-     if(is_null(self::$instance))
-     {
-          self::$instance = new self($container);
-     }
-     return self::$instance;
-}
+private function __clone(){}
+
+
+
+/**
+* prevent instance from being unserialized
+* @return void
+*/
+private function __wakeup(){}
+
 
 
 /**
@@ -54,7 +55,36 @@ private function __construct($container = [])
 
 
 /**
+ * Get instance
+ * 
+ * $app = Container::instance();
+ * 
+ * 
+ * @param array $container 
+ * @return self
+*/
+public static function instance($container = [])
+{
+     if(is_null(self::$instance))
+     {
+          self::$instance = new self($container);
+     }
+     return self::$instance;
+}
+
+
+
+/**
 * Merge data in storage
+* Ex:
+* $app = Container::instance();
+* $app->merge([
+*  'name' => 'Name',
+*  'item' => Item
+*  ...
+* ])
+* 
+* 
 * @param array $container 
 * @return void
 */
@@ -69,6 +99,15 @@ public function merge($container = [])
 
 /**
  * Add item in storage
+ * Ex:
+ * $app = Container::instance();
+ * $app->set('param1', 'value1');
+ * $app->set('kk1', function ($app) {
+ *    $app->set('ff', 'dwerr')
+ *    ..........
+ *    ..........
+ * })
+ * 
  * @param string $key 
  * @param mixed $resolver 
  * @return void
@@ -80,6 +119,13 @@ public function set($key, $resolver)
 
 
 /**
+* Set Instance
+* 
+* Ex:
+* $app  = Container::instance();
+* $app->setInstance(app\\models\\User);
+* $app->setInstance(BlogModule::class);
+* $app->setInstance(app\\controller\\BlogController);
 * 
 * @param mixed $instance 
 * @return type
@@ -94,6 +140,14 @@ public function setInstance($instance)
 
 /**
  * Add registry
+ * Ex:
+ * $app = Container::instance();
+ * $app->registry('articles', function () {
+ *    return Article::all();
+ * })
+ * 
+ * $app->registry('db', new Database::instance());
+ * 
  * @param string $key 
  * @param mixed $value 
  * @return void
@@ -109,6 +163,15 @@ public function registry($key, $resolver)
 
 /**
 * Add singleton
+* Ex:
+* $app = Container::instance();
+* $app->singleton('db', function () {
+*    return new Database::instance();
+* })
+* 
+* $app->singleton('db', new Database::instance());
+* 
+* 
 * @param string $key 
 * @param mixed $resolver 
 * @return void
@@ -123,6 +186,11 @@ public function singleton($key, $resolver)
 
 /**
 * Create new object by given name
+* 
+* $app->create(app\\models\\User);   => new User()
+* $app->create(User::class);         => new User()
+* $app->create(User::class, params); => new User($params)
+* 
 * @param string $classname
 * @param mixed $arguments
 * @return object
@@ -171,7 +239,7 @@ public function get($key)
 */
 public function has($key): bool
 {
-  return isset($this->container[$key]);
+    return isset($this->container[$key]);
 }
 
 
@@ -182,7 +250,10 @@ public function has($key): bool
 */
 public function remove($key)
 {
-   unset($this->container[$key]);
+   if($this->has($key))
+   {
+       unset($this->container[$key]);
+   }
 }
 
 
@@ -193,7 +264,7 @@ public function remove($key)
 */
 public function __get($key)
 {
-  return $this->get($key);
+   return $this->get($key);
 }
 
 
@@ -231,6 +302,7 @@ private function populateParams($parameters = [])
 
 /**
 * Determine data container
+* 
 * @param string $key
 * @return mixed
 */
