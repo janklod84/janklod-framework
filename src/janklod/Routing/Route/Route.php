@@ -9,8 +9,7 @@ use JK\Routing\Route\Controls\{
     CallbackControl, 
     MethodControl,
     ModuleControl,
-    MiddlewareControl,
-    RegexControl
+    MiddlewareControl
 };
 
 /**

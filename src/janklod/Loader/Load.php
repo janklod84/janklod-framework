@@ -47,9 +47,9 @@ public function callAction($callback, $matches=[])
      }else{
         if(is_array($callback))
         {
-           // gestion du cas ou callback est array
            $controller = $this->getController($callback['controller']);
            $action = strtolower($callback['action']);
+           $this->app->set('current.action', $action);
            $this->call($controller, 'before');
            $output = call_user_func_array([$controller , $action], $matches);
            $this->call($controller, 'after');
