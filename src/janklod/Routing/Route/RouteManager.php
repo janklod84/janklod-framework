@@ -16,9 +16,12 @@ class RouteManager
 {
        
 /**
- * @var array  $namedRoutes [ Named Routes ]
+ * @var array $params      [ Route Params   ]
+ * @var array $regex       [ Route patterns ]
+ * @var array $namedRoutes [ Named Routes   ]
 */ 
-private $params  = [];
+private $params = [];
+private $regex  = [];
 private static $namedRoutes = [];
 
 
@@ -68,6 +71,16 @@ public function getParam($key)
 
 
 /**
+ * Get route parameters
+ * @return array
+*/
+public function parameters()
+{
+  return $this->params ?? [];
+}
+
+
+/**
  * Add named routes
  * @param string $name 
  * @return void
@@ -76,5 +89,32 @@ public function namedRoutes($name)
 {
     self::$namedRoutes[$name] = $this;
 }
+
+
+/**
+* Add regex
+* @param mixed $parameter 
+* @param mixed $regex 
+* @return $this
+*/
+public function with($parameter, $regex = null)
+{
+   if(is_array($parameter) && is_null($regex))
+   {
+      foreach($parameter as $index => $exp)
+      {
+           # recursive
+           $this->with($index, $exp);
+      }
+
+   }else{
+       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
+   }
+   
+   // $this->setParam('regex', $this->regex);
+   return $this;
+}
+
+
 
 }

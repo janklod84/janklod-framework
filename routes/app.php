@@ -19,6 +19,7 @@ $options = [
 ];
 
 Route::prefix($options, function () {
+    Route::get('/page/:id', 'UserController@login')->with('id', '[0-9]+'); // admin/login
     Route::get('/login', 'UserController@login'); // admin/login
     Route::get('/test', 'UserController@test'); // admin/test
 });
@@ -46,4 +47,3 @@ Route::get('/test', function () {
 ************************************/
 
 Route::get('/404', 'NotFoundController@index');
-Route::notFound('/404');
