@@ -45,16 +45,11 @@ public function setProperties($params)
 {
 if(!empty($params))
 {
-   foreach($params as $key => $value)
-   {
-	  if(!property_exists($this, $key))
-	  {
-          exit(
-          sprintf('Sorry, Property <b>%s</b> does not exist in Column class!', $key)
-          )
-	  }
+	foreach($params as $key => $value)
+	{
+	  $this->ensureProperty($key);
 	  $this->{$key} = $value;
-   }
+	}
 }
 }
 
@@ -67,9 +62,23 @@ if(!empty($params))
 */
 public function nullable(): self
 {
-	 $this->nullable = true;
-	 return $this;
+   $this->nullable = true;
+   return $this;
 }
 
+/**
+ * Make sure has property inside class Column
+ * @param string $key 
+ * @return void
+*/
+private function ensureProperty($key)
+{
+	  if(!property_exists($this, $key))
+	  {
+	      exit(
+	      sprintf('Sorry, Property <b>%s</b> does not exist in Column class!', $key)
+	      )
+	  }
+}
 
 }
