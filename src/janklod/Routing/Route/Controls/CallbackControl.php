@@ -17,11 +17,7 @@ class CallBackControl
 */     
 public static function manage($callback, $divider='@')
 {
-  if(is_string($callback))
-  {
-        return self::mapCallback($callback, $divider);
-  }
-  return $callback;
+    return self::mapCallback($callback, $divider);
 }
 
 
@@ -34,16 +30,20 @@ public static function manage($callback, $divider='@')
 */
 public static function mapCallback($callback, $divider='@')
 {
-     if(strpos($callback, $divider) !== false)
+     if(is_string($callback)) 
      {
-          list($controller, $action) = 
-          explode($divider, $callback, 2);
-          $controller = self::controller($controller);
-          return [
-             'controller' => $controller,
-             'action'     => $action
-          ];
+         if(strpos($callback, $divider) !== false)
+         {
+              list($controller, $action) = 
+              explode($divider, $callback, 2);
+              $controller = self::controller($controller);
+              return [
+                 'controller' => $controller,
+                 'action'     => $action
+              ];
+         }
      }
+     return $callback;
 }
 
 

@@ -144,4 +144,23 @@ public static function hasPrefix($key)
 }
 
 
+/**
+ * Retrieve name of module
+ * @return string
+*/
+public static function module()
+{
+   return self::retrieveGroup('module');
+}
+
+
+/**
+ * Retrieve middleware
+ * @return mixed
+*/
+public static function middleware()
+{
+   return self::retrieveGroup('middleware');
+}
+
 }
