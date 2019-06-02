@@ -15,6 +15,7 @@ class RegexControl
 private static $regex  = [];
 
 
+
 /**
 * Add regex
 * @param mixed $parameter 
@@ -88,7 +89,7 @@ public static function paramMatch($match)
   * @param string $pattern
   * @return string
 */
- public static function getPattern($pattern)
+ public static function replacePattern($pattern)
  {
       return preg_replace_callback(
         '#:([\w]+)#', 
@@ -98,6 +99,13 @@ public static function paramMatch($match)
  }
 
 
-
+/**
+ * Return all setted regex
+ * @return array
+*/
+public static function all()
+{
+    return self::$regex;
+}
 
 }

@@ -9,7 +9,8 @@ use JK\Routing\Route\Controls\{
     CallbackControl, 
     MethodControl,
     ModuleControl,
-    MiddlewareControl
+    MiddlewareControl,
+    RegexControl
 };
 
 /**
@@ -18,6 +19,11 @@ use JK\Routing\Route\Controls\{
 class Route 
 {
       
+
+/**
+ * @var Current route
+*/
+private static $route;
 
 /**
 * Add routes by method GET
@@ -222,9 +228,26 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
     
      # store route collection by method
      RouteCollection::store($method, $route);
-     return $route;
+     return new static;
 }
 
 
+/**
+ * Add regex
+ * @param type $parameter 
+ * @param string $regex 
+ * @return self
+*/
+public function with($parameter, $regex = null)
+{
+    RegexControl::add($parameter, $regex);
+    return $this;
+}
+
+
+public static function regex()
+{
+    debug(RegexControl::all());
+}
 
 }

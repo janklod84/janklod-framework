@@ -2,7 +2,7 @@
 namespace JK\Routing\Route;
 
 use JK\Routing\Route\Controls\{
-	RegexControl,
+	// RegexControl,
 	NamedRouteControl
 };
 
@@ -79,22 +79,6 @@ public function parameters()
 }
 
 
-
-/**
-* Add regex
-* @param mixed $parameter 
-* @param mixed $regex 
-* @return $this
-*/
-public function with($parameter, $regex = null)
-{
-   RegexControl::add($parameter, $regex);
-   return $this;
-}
-
-
-
-
 /**
  * Add named routes
  * @param string $name 
@@ -102,7 +86,7 @@ public function with($parameter, $regex = null)
 */
 public function namedRoutes($name)
 {
-    self::$namedRoutes[$name] = $this;
+   self::$namedRoutes[$name] = $this;
 }
 
 

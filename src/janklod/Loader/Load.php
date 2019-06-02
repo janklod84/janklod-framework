@@ -46,20 +46,16 @@ public function callAction($callback, $matches=[])
           $output = call_user_func($callback, $matches);
 
      }else{
-          // gestion du cas ou callback est array
-         $controller = $this->getController(
-            $callback['controller']
-         );
-         $action = strtolower(
-            $callback['action']
-         );
-         $this->call($controller, 'before');
-         $output = call_user_func_array([$controller , $action], $matches);
-         $this->call($controller, 'after');
-         if(method_exists($controller, 'pretty'))
-         {
-              call_user_func([$controller, 'pretty']);
-         }
+        if(is_array($callback))
+        {
+           // gestion du cas ou callback est array
+           $controller = $this->getController($callback['controller']);
+           $action = strtolower($callback['action']);
+           $this->call($controller, 'before');
+           $output = call_user_func_array([$controller , $action], $matches);
+           $this->call($controller, 'after');
+           call_user_func([$controller, 'pretty']);
+        }
      }
 
      // response send headers to server
