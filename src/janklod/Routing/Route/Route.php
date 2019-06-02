@@ -143,7 +143,7 @@ $method = 'GET'
      $route = new RouteParameter([
         'path'               => $path, 
         'pattern'            => PathControl::generatePattern($path),
-        'callback'           => $callback,
+        'callback'           => CallbackControl::manage($callback),
         'name'               => NameControl::manage($callback, $name),
         'method'             => $method,  
         'prefix.path'        => OptionControl::getOption('prefix.path'),
@@ -152,69 +152,10 @@ $method = 'GET'
         'module'             => false // to implements
      ]);
     
-     # route filter
-     if(is_string($callback) && $name === null)
-     {
-          $route->setParam('name', $callback);
-     }
-
-     if($name)
-     {
-         $route->namedRoutes($name);
-     }
-
-     # prepare callback
-     // $route->mapCallback($callback);
-
-
      # store route by method
      RouteCollection::store($method, $route);
      return $route;
 }
-
-
-
-
-/**
-* Get controller if with or without prefix
-* @param string $controller 
-* @return string
-*/
-public function controller($controller)
-{
-   if($prefix = OptionControl::getOption('prefix.controller'))
-   {
-        $controller = $prefix.'\\'. $controller; 
-   }
-   return $controller;
-}  
-
-
-
-
-/**
- * prepare and map callback
- * @param mixed $callback 
- * @param string $divider '@'
- * @return 
-*/
-public static function mapCallback($callback, $divider='@')
-{
-  // if(is_string($callback))
-  // {
-  //    if(strpos($callback, $divider) !== false)
-  //    {
-  //         list($controller, $action) = 
-  //         explode($divider, $callback, 2);
-  //         $controller = self::getController($controller);
-  //         $callback = [
-  //            'controller' => $controller,
-  //            'action'     => $action
-  //         ];
-  //    }
-  // }
-}
-
 
 
 
