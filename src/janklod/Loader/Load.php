@@ -57,6 +57,7 @@ public function callAction($callback, $matches=[])
            $output = call_user_func_array([$controller , $action], $matches);
            $this->call($controller, 'after');
            $this->pretty();
+           $this->call('App\\Test', 'before');
         }
      }
 
@@ -93,16 +94,6 @@ public function call($object, $method='before')
     }
 }
 
-
-/**
- * Get current object object
- * @param object $obj 
- * @return type
-*/
-public function currentObjectName(object $obj)
-{
-    return get_class($obj);
-}
 
 
 /**

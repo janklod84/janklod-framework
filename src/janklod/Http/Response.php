@@ -185,7 +185,7 @@ public function getHeaders()
  * @param string $to 
  * @return void
 */
-public static function redirect($to = '')
+public static function redirect($to = '/')
 {
     if(!headers_sent())
     {

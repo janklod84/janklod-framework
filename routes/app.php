@@ -19,13 +19,16 @@ $options = [
 ];
 
 Route::prefix($options, function () {
-    Route::get('/page/:id', 'UserController@login')
+    Route::get('/page/:id', 'UserController@login', 'page.admin')
     ->with('id', '[0-9]+');
     Route::get('/login', 'UserController@login'); // admin/login
     Route::get('/test', 'UserController@test'); // admin/test
 });
 
-
+/* 
+http://project.loc/admin/page/4 
+echo url('page.admin', ['id' => 4]);
+*/
 
 /***********************************
 | FRONTEND CONTROLLERS
