@@ -74,39 +74,18 @@ private function __construct($root)
 */
 public function run()
 {
-     # get dispatcher with currents params
-     $method = $this->request->method();
-     $dispatcher = $this->router->dispatch($method);
+     $requestMethod = $this->request->method();
+     $dispatcher = $this->router->dispatch($requestMethod);
 
      if(is_null($dispatcher))
      {
          $dispatcher = $this->load->notFound();
      }
-
-     // set route parameters
-     $this->push([
-      'current.route'   => $this->router->params(),
-      'current.queries' => '', //\JK\ORM\Q::queries(),
-      'config' => '', // Config::all()
-     ]);
-
+     $this->bindParams();
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      $this->load->callAction($callback, $matches);
      
-}
-
-
-
-/**
- * debug application
- * @return 
-*/
-public function debug()
-{
-    \JK\ORM\QQ::output(false);
-    Initialize::output();
-    exit;
 }
 
 
@@ -320,6 +299,19 @@ ResponseInterface $response
 }
 
 
+/**
+ * Storage params for pretty print
+ * @return void
+*/
+private function bindParams()
+{
+    $this->push([
+      'current.route'   => $this->router->params(),
+      'current.queries' => '', //\JK\ORM\Q::queries(),
+      'config' => '', // Config::all()
+     ]);
+
+}
 
 /**
 * prevent instance from being cloned

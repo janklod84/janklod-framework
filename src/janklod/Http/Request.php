@@ -161,7 +161,7 @@ public function host()
  */
  public function cli($type = 'argv')
  {
-      return $this->server($type);
+    return $this->server($type);
  }
 
 
@@ -192,19 +192,19 @@ public function ip()
 */
 public function is($key='xxx'): bool
 {
-       switch($key)
-       {
-            case 'secure':
-              return $this->server('HTTPS') == 'on';
-            break;
-            case 'cli':
-              return $this->cli('argc') > 0 
-              || php_sapi_name() === 'cli';
-            break;
-            case 'ajax':
-              $this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
-            break;
-       }
+   switch($key)
+   {
+        case 'secure':
+          return $this->server('HTTPS') == 'on';
+        break;
+        case 'cli':
+          return $this->cli('argc') > 0 
+          || php_sapi_name() === 'cli';
+        break;
+        case 'ajax':
+          $this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
+        break;
+   }
 }
 
 
@@ -214,7 +214,7 @@ public function is($key='xxx'): bool
 */
 public function isAjax()
 {
-     return $this->is('ajax');
+   return $this->is('ajax');
 }
 
 
@@ -225,7 +225,7 @@ public function isAjax()
 */
 public function isMethod($type='get'): bool
 {
-     return $this->method() === strtoupper($type);
+   return $this->method() === strtoupper($type);
 }
 
 
@@ -236,7 +236,7 @@ public function isMethod($type='get'): bool
 */
 public function isGet()
 {
-     return $this->isMethod();
+   return $this->isMethod();
 }
 
 
@@ -246,7 +246,7 @@ public function isGet()
 */
 public function isPost()
 {
-     return $this->isMethod('post');
+   return $this->isMethod('post');
 }
 
 
@@ -256,7 +256,7 @@ public function isPost()
 */
 public function isPatch()
 {
-     return $this->isMethod('patch');
+   return $this->isMethod('patch');
 }
 
 
@@ -266,7 +266,7 @@ public function isPatch()
 */
 public function isPut()
 {
-     return $this->isMethod('put');
+    return $this->isMethod('put');
 }
 
 
@@ -276,7 +276,7 @@ public function isPut()
 */
 public function isOptions()
 {
-     return $this->isMethod('options');
+    return $this->isMethod('options');
 }
 
 
@@ -303,6 +303,7 @@ public function url($path = false)
 
 
 /**
+ * TO ADD FONCTIONALITY LATER
   * Determine current path from server
   * Get Url from global $_SERVER
   * @return string
@@ -318,10 +319,8 @@ public function fromGlobals()
            break;
        }
     }
-    
-    // to fix this method later
+  
     // parse_url($url);
-    // die($url);
     if(strpos($url, '?') !== false)
     {
         $url = str_replace('?', '', $url);
