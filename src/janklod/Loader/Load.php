@@ -50,20 +50,17 @@ public function callAction($callback, $matches=[])
 
      }else{
          
-         if(is_string($callback)) 
+         if(is_string($callback) && strpos($callback, '@') !== false) 
          {
-             if(strpos($callback, '@') !== false)
-             {
-                  list($controller, $action) = explode('@', $callback, 2);
-                  $controller = $this->getController($controller);
-                  $action = strtolower($action);
-                  $this->app->set('current.controller', get_class($controller));
-                  $this->app->set('current.action', $action);
-                  $this->call($controller, 'before');
-                  $output = call_user_func_array([$controller , $action], $matches);
-                  $this->call($controller, 'after');
-                  $this->pretty();
-            }
+            list($controller, $action) = explode('@', $callback, 2);
+            $controller = $this->getController($controller);
+            $action = strtolower($action);
+            $this->app->set('current.controller', get_class($controller));
+            $this->app->set('current.action', $action);
+            $this->call($controller, 'before');
+            $output = call_user_func_array([$controller , $action], $matches);
+            $this->call($controller, 'after');
+            $this->pretty();
          }
      }
 
