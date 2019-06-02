@@ -6,7 +6,6 @@ use JK\FileSystem\File;
 use JK\Config\Config;
 use JK\Http\Sessions\Session;
 
-
 /**
  * Application
  * @package JK\Application
@@ -81,11 +80,12 @@ public function run()
 
      if(is_null($dispatcher))
      {
-         notFound();
+         $dispatcher = $this->load->notFound();
      }
+
      // set route parameters
      $this->push([
-      'current.route'   => $this->router->parameters(),
+      'current.route'   => $this->router->params(),
       'current.queries' => '', //\JK\ORM\Q::queries(),
       'config' => '', // Config::all()
      ]);

@@ -5,6 +5,7 @@ namespace JK\Loader;
 use \Exception;
 use \Config;
 use JK\Debug\PrettyPrint;
+use JK\Routing\Dispatcher;
 
 
 /**
@@ -42,29 +43,44 @@ public function __construct($app)
 */
 public function callAction($callback, $matches=[])
 {
+     $output = null;
      if($callback instanceof \Closure)
      {
           $output = call_user_func($callback, $matches);
 
      }else{
-        if(is_array($callback))
-        {
-           $controller = $this->getController($callback['controller']);
-           $action = strtolower($callback['action']);
-           $this->app->set('current.controller', get_class($controller));
-           $this->app->set('current.action', $action);
-           $this->call($controller, 'before');
-           $output = call_user_func_array([$controller , $action], $matches);
-           $this->call($controller, 'after');
-           $this->pretty();
-           $this->call('App\\Test', 'before');
-        }
+         
+         if(is_string($callback)) 
+         {
+             if(strpos($callback, '@') !== false)
+             {
+                  list($controller, $action) = explode('@', $callback, 2);
+                  $controller = $this->getController($controller);
+                  $action = strtolower($action);
+                  $this->app->set('current.controller', get_class($controller));
+                  $this->app->set('current.action', $action);
+                  $this->call($controller, 'before');
+                  $output = call_user_func_array([$controller , $action], $matches);
+                  $this->call($controller, 'after');
+                  $this->pretty();
+            }
+         }
      }
 
      // response send headers to server
      $output = (string) $output;
      $this->app->response->setBody($output);
      $this->app->response->send();
+}
+
+
+/**
+ * No Found controller
+ * @return \JK\Routing\Dispatcher
+*/
+public function notFound()
+{
+     return new Dispatcher('NotFoundController@index');
 }
 
 
@@ -120,7 +136,7 @@ public function getController($name)
     $controller = $this->getModule('\\app\\controllers', $name);
     if(!class_exists($controller))
     {
-         throw new Exception(
+         throw new LoadException(
            sprintf('class <strong>%s</strong> does not exit!', $controller), 
            404
         );

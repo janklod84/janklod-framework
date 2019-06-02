@@ -129,7 +129,7 @@ public function dispatch($method='GET')
  * Get route params
  * @return array
 */
-public function parameters()
+public function params()
 {
     return $this->params ?: [];
 }

@@ -25,6 +25,7 @@ Route::prefix($options, function () {
     Route::get('/test', 'UserController@test'); // admin/test
 });
 
+
 /* 
 http://project.loc/admin/page/4 
 echo url('page.admin', ['id' => 4]);
@@ -45,9 +46,3 @@ Route::get('/test', function () {
    die('Привет друзья!');
 });
 
-
-/***********************************
-| NOT FOUND CONTROLLER
-************************************/
-
-Route::get('/404', 'NotFoundController@index');
