@@ -33,8 +33,6 @@ public static function add($parameter, $regex = null)
    }else{
        self::$regex[$parameter] = str_replace('(', '(?:', $regex);
    }
-   
-   // return self::$regex;
 }
 
 
@@ -64,6 +62,41 @@ public static function has($key)
 {
     return isset(self::$regex[$key]);
 }
+
+
+
+/**
+  * Return match param
+  * @param string $match 
+  * @return string 
+*/
+public static function paramMatch($match)
+{
+     if(isset(self::$regex[$match[1]]))
+     {
+          return '('. self::$regex[$match[1]] . ')';
+     }
+     return '([^/]+)';
+}
+
+
+/**
+  * Replace param in path
+  * 
+  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+  * 
+  * @param string $pattern
+  * @return string
+*/
+ public static function getPattern($pattern)
+ {
+      return preg_replace_callback(
+        '#:([\w]+)#', 
+        [new static, 'paramMatch'], 
+        $pattern
+     );
+ }
+
 
 
 

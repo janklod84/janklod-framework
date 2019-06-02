@@ -40,61 +40,48 @@ public function __construct($app)
 */
 public function callAction($callback, $matches=[])
 {
+     $this->ensureCallback($callback);
      if($callback instanceof \Closure)
      {
-          call_user_func($callback, $matches);
+          $output = call_user_func($callback, $matches);
+
      }else{
           // gestion du cas ou callback est array
-     }
-}
-
-
-
-
-/**
-* Call action
-* @param \JK\Container\ContainerInterface $app
-* @return mixed
-*/
-public function callActionLasted($callback, $matches=[])
-{
-    if(is_array($callback))
-    {
          $controller = $this->getController(
             $callback['controller']
          );
          $action = strtolower(
             $callback['action']
          );
+         $this->call($controller, 'before');
+         $output = call_user_func_array([$controller , $action], $matches);
+         $this->call($controller, 'after');
+         if(method_exists($controller, 'pretty'))
+         {
+              call_user_func([$controller, 'pretty']);
+         }
+     }
 
-         $callback = [$controller , $action];
-         $this->controller = $controller;
-    }
-    
-    if(!is_callable($callback))
-    {
-        die('NO CALLABLE');
-        // redirect to NotFoundController 404
-         notFound();
-    }
-    
-    $this->call($this->controller, 'before');
-    $output = call_user_func_array($callback, $matches);
-    $this->call($this->controller, 'after');
-    
-    $prettyCallback = [$this->controller, 'pretty'];
-    if(!is_null($this->controller) && is_callable($prettyCallback))
-    {
-        call_user_func($prettyCallback);
-    }
-
-    // response send headers to server
-    $output = (string) $output;
-    $this->app->response->setBody($output);
-    $this->app->response->send();
+     // response send headers to server
+     $output = (string) $output;
+     $this->app->response->setBody($output);
+     $this->app->response->send();
 }
 
 
+/**
+ * Check callback
+ * @param mixed $callback 
+ * @return void
+*/
+public function ensureCallback($callback)
+{
+    if(!is_callable($callback))
+    {
+         die('NO CALLABLE');
+         notFound();
+    }
+}
 
 
 /**

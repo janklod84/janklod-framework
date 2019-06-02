@@ -10,7 +10,7 @@ class PathControl
 
 	
 /**
- * Sanitize path
+ * Trainling Slahes
  * @param string $path 
  * @return string
 */
@@ -21,11 +21,11 @@ public static function sanitize($path)
 
 
 /**
- * Give current path not prepared
+ * Give current ordinary path
  * @param string $path 
  * @return string
 */
-public static function notPrepared($path)
+public static function current($path)
 {
      return self::path($path);
 }
@@ -53,7 +53,7 @@ public static function path($path)
     if(OptionControl::hasPrefix('path'))
     {
     	 $prefix = OptionControl::prefix('path');
-         $path = trim($prefix, '/') .'/' . $path;
+         $path = self::sanitize($prefix) .'/' . $path;
     }
     return $path;
 }

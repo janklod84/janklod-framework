@@ -37,11 +37,7 @@ class Route
 * @param string $name 
 * @return RouteManager
 */
-public static function get(
-string $path, 
-$callback, 
-string $name = null
-)
+public static function get(string $path, $callback, string $name = null)
 {
     return self::add($path, $callback, $name, 'GET');
 }
@@ -57,11 +53,7 @@ string $name = null
 * @param string $name 
 * @return RouteManager
 */
-public static function post(
-string $path, 
-$callback, 
-  string $name = null
-)
+public static function post(string $path, $callback, string $name = null)
 {
     return self::add($path, $callback, $name, 'POST');
 }
@@ -88,6 +80,24 @@ public static function resource(string $path, string $controller)
 
 /**
 * Add routes group
+* $options = [
+*   'prefix' => [
+*      'path' => 'admin',
+*      'controller' => 'Backend'
+*   ], 
+*   'middleware' => [
+*    .....
+*   ],
+*   'module' => '...'
+* ];
+* 
+* Route::group($options, function () {
+* 
+*  Route::get('/login', 'LoginController@index');
+*  ....
+*  ....
+* 
+* });
 * 
 * @param array $options
 * @param \Closure $callback
@@ -102,7 +112,20 @@ public static function group($options = [], \Closure $callback)
 
 
 /**
-* Add routes group
+* Add prefixed routes and controller
+* 
+* $prefixes = [
+*  'path' => 'admin',
+*  'controller' => 'Backend'
+* ];
+* 
+* Route::prefix($prefixes, function () {
+* 
+*  Route::get('/login', 'LoginController@index');
+*  ....
+*  ....
+* 
+* });
 * 
 * @param array $prefixes
 * @param \Closure $callback
@@ -117,6 +140,14 @@ public static function prefix($prefixes = [], \Closure $callback)
 
 /**
 * Add route modules
+* 
+* Route::module('eshop', function () {
+*   Route::get('/', '....')
+*   Route::get('/articles', '....')
+*   Route::post('/contact', '....')
+*   .....
+* 
+* });
 * 
 * @param string $module [Module name]
 * @param \Closure $callback
@@ -163,27 +194,33 @@ public static function url(string $name, array $params = [])
 * @param string $name 
 * @return RouteManager
 */
-public static function add(
-$path, 
-$callback, 
-$name = null,  
-$method = 'GET'
-)
+public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route custom
      $route = new RouteParameter([
-        'path'               => PathControl::notPrepared($path), 
+        'path'               => PathControl::current($path), 
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::manage($callback),
-        'name'               => NameControl::manage($callback, $name),
+        'name'               => $name,
         'method'             => MethodControl::toUpper($method),  
         'prefix.path'        => OptionControl::prefix('path'),
         'prefix.controller'  => OptionControl::prefix('controller'),
         'middleware'         => OptionControl::retrieveGroup('middleware'),
         'module'             => OptionControl::retrieveGroup('module')
      ]);
+
+     # before storage
+     if(is_string($callback) && $name === null)
+     {
+          $route->setParam('name', $callback);
+     }
+
+     if($name)
+     {
+         $route->namedRoutes($name);
+     }
     
-     # store route by method
+     # store route collection by method
      RouteCollection::store($method, $route);
      return $route;
 }
