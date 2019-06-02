@@ -45,11 +45,11 @@ public function setProperties($params)
 {
 if(!empty($params))
 {
-	foreach($params as $key => $value)
-	{
-	  $this->ensureProperty($key);
-	  $this->{$key} = $value;
-	}
+  foreach($params as $key => $value)
+  {
+	$this->ensureProperty($key);
+	$this->{$key} = $value;
+  }
 }
 }
 
