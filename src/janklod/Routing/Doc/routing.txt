@@ -32,11 +32,6 @@ Route::get('/test', function () {
 
 // Route::get('/', 'HomeController@index', 'welcome.page');
 
-Route::get('/about/:id', [
-   'controller' => 'HomeController',
-   'action' => 'about'
-])->with('id','[0-9+]');
-
 
 Route::get('/test/:slug-:id', function () {
     echo 'Привет друзья!';

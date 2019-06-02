@@ -18,18 +18,12 @@ Route::group($options, function () {
 });
 
 
-Route::get('/me', [
-   'controller' => 'HomeController',
-   'action' => 'me', 
-   'fromArray' => 'Jean-Claude'
-])
-->with(['id'=> '([0-9+])'])
-->with('slug', '([a-z-_A-Z])');
 
-
-Route::get('/test', function () {
+Route::get('/test/:slug-:id', function () {
     echo 'Привет друзья!';
-}, 'test.page');
+}, 'test.page')
+->with('slug', '([a-z-_A-Z])')
+->with(['id'=> '([0-9+])']);
 
 ================================================================================
 ROUTE PREFIX
@@ -45,15 +39,6 @@ Route::prefix($options, function () {
     Route::get('/contact', 'HomeController@contact');
     Route::post('/contact', 'HomeController@contact');
 });
-
-
-Route::get('/me', [
-   'controller' => 'HomeController',
-   'action' => 'me', 
-   'fromArray' => 'Jean-Claude'
-])
-->with(['id'=> '([0-9+])'])
-->with('slug', '([a-z-_A-Z])');
 
 
 Route::get('/test', function () {

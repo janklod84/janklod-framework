@@ -89,7 +89,7 @@ public function namedRoutes($name)
 
 /**
  * Get Url
- * RouteParameter::url('named.route', 
+ * RouteManager::url('named.route', 
  * ['param1' => value1, 'param2' => value2 ...]
  * )
  * @param string $name 
