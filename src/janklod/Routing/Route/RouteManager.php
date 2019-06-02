@@ -1,17 +1,12 @@
 <?php 
 namespace JK\Routing\Route;
 
-use JK\Routing\Route\Controls\{
-	RegexControl,
-	NamedRouteControl
-};
-
 
 /**
- * Route Params
- * @package JK\Routing\Route\RouteParameter
+ * Route Manager
+ * @package JK\Routing\Route\RouteManager
 */ 
-class RouteParameter
+class RouteManager
 {
 
      

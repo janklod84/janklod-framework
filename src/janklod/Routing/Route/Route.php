@@ -5,9 +5,7 @@ namespace JK\Routing\Route;
 use JK\Routing\Route\Controls\{
     OptionControl,
     PathControl,
-    NameControl,
     CallbackControl, 
-    MethodControl,
     ModuleControl,
     MiddlewareControl
 };
@@ -65,7 +63,7 @@ public static function post(string $path, $callback, string $name = null)
 * 
 * @param string $path
 * @param string $controller
-* @return 
+* @return void
 */
 public static function resource(string $path, string $controller)
 {
@@ -184,7 +182,7 @@ public static function middleware($middleware, \Closure $callback)
 */
 public static function url(string $name, array $params = [])
 {
-       return RouteParameter::url($name, $params);
+       return RouteManager::url($name, $params);
 }
 
 
@@ -198,7 +196,7 @@ public static function url(string $name, array $params = [])
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route custom
-     $route = new RouteParameter([
+     $route = new RouteManager([
         'path'               => PathControl::current($path), 
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::manage($callback),

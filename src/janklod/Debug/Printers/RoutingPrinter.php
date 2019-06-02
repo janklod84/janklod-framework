@@ -42,9 +42,9 @@ class RoutingPrinter extends CustomPrinter
     $html .= '</code>'; 
     $html .= '</th>';
     $html .= '<th scope="row">'; 
-    $prefix = $this->app->get('current.route')['prefix.path'];
     $html .= '<code>';
-    $html .=  !empty($prefix) ? 'Prefixes: '.  $prefix : 'no prefixed';
+    $html .=  'Path:'. $this->getPrefix('path') . ', ';
+    $html .=  'Controller:'. $this->getPrefix('controller');
     $html .= '</code>'; 
     $html .= '</th>';
     $html .= '<th scope="row">'; 
@@ -62,5 +62,16 @@ class RoutingPrinter extends CustomPrinter
     $html .= '</tbody>';
     $html .= '</table>';
     return $html;
+  }
+  
+  /**
+   * Get route prefix
+   * @param string $item 
+   * @return string
+  */
+  public function getPrefix($item)
+  {
+      $prefix  = $this->app->get('current.route')['prefix.'. $item];
+      return !empty($prefix) ? $prefix : 'no prefixed';
   }
 }
