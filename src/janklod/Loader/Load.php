@@ -40,6 +40,24 @@ public function __construct($app)
 */
 public function callAction($callback, $matches=[])
 {
+     if($callback instanceof \Closure)
+     {
+          call_user_func($callback, $matches);
+     }else{
+          // gestion du cas ou callback est array
+     }
+}
+
+
+
+
+/**
+* Call action
+* @param \JK\Container\ContainerInterface $app
+* @return mixed
+*/
+public function callActionLasted($callback, $matches=[])
+{
     if(is_array($callback))
     {
          $controller = $this->getController(
@@ -75,6 +93,7 @@ public function callAction($callback, $matches=[])
     $this->app->response->setBody($output);
     $this->app->response->send();
 }
+
 
 
 

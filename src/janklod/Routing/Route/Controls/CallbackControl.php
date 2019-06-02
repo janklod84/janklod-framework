@@ -7,14 +7,21 @@ namespace JK\Routing\Route\Controls;
 */ 
 class CallBackControl
 {
-	     
-public static function manage($callback)
+
+
+/**
+* Manage callback
+* @param string $callback 
+* @param string $divider
+* @return string
+*/     
+public static function manage($callback, $divider='@')
 {
-	  if(is_string($callback))
-	  {
-            return self::mapCallback($callback);
-	  }
-	  return $callback;
+  if(is_string($callback))
+  {
+        return self::mapCallback($callback, $divider);
+  }
+  return $callback;
 }
 
 

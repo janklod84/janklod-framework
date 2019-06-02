@@ -1,6 +1,8 @@
 <?php 
 namespace JK\Routing\Route;
 
+use JK\Routing\Route\Controls\RegexControl;
+
 /**
  * Route Params
  * @package JK\Routing\Route\RouteParameter
@@ -11,11 +13,9 @@ class RouteParameter
      
 /**
  * @var array $params      [ Route Params   ]
- * @var array $regex       [ Route patterns ]
  * @var array $namedRoutes [ Named Routes   ]
 */ 
 private $params = [];
-private $regex  = [];
 private static $namedRoutes = [];
 
 
@@ -93,19 +93,7 @@ public function namedRoutes($name)
 */
 public function with($parameter, $regex = null)
 {
-   if(is_array($parameter) && is_null($regex))
-   {
-      foreach($parameter as $index => $exp)
-      {
-           # recursive
-           $this->with($index, $exp);
-      }
-
-   }else{
-       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
-   }
-   
-   // $this->setParam('regex', $this->regex);
+   RegexControl::add($parameter, $regex);
    return $this;
 }
 
