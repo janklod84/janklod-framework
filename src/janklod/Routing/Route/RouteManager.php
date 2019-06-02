@@ -152,7 +152,7 @@ public function with($parameter, $regex = null)
  * @param string $key 
  * @return bool
 */
-public static function has($key)
+public function has($key)
 {
     return isset($this->regex[$key]);
 }
@@ -166,7 +166,7 @@ public static function has($key)
 */
 public function paramMatch($match)
 {
-     if(isset($this->regex[$match[1]]))
+     if($this->has($match[1]))
      {
           return '('. $this->regex[$match[1]] . ')';
      }
@@ -179,7 +179,6 @@ public function paramMatch($match)
   * 
   * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
   * 
-  * @param string $pattern
   * @return string
 */
  public function replacePattern()
