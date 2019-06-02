@@ -136,7 +136,7 @@ public static function js($script = '')
 * @param array $styles
 * @return string
 */
-public static function strCss(array $styles)
+public static function style(array $styles)
 {
     $style = '';
     foreach ($styles as $property => $value)
@@ -166,6 +166,7 @@ public static function render(string $type = '')
 
 /**
 * Render all type format OLD
+* @param array $data
 * @param string $type 
 * @return string
 */
@@ -177,8 +178,8 @@ private static function renderType($data = [], $type)
    	   foreach($data as $path)
        {
           $asset .= sprintf(
-              self::FORMAT_TYPE[$type], self::mapPath($path, self::$basePath)
-              );
+              self::FORMAT_TYPE[$type], self::mapPath(self::$basePath, $path)
+          );
        }
        return $asset;
    }
@@ -187,15 +188,16 @@ private static function renderType($data = [], $type)
 
 /**
  * Map Path
+ * @param string $basePath 
  * @param string $path 
  * @return string
 */
-private static function mapPath($suject, $path='')
+private static function mapPath($basePath='', $path='')
 {
-    $location = '/'. trim($suject, '/');
-    if($path)
+    $location = '/'. trim($path, '/');
+    if($basePath)
     {
-        $location = trim($path, '/') . $location;
+        $location = trim($basePath, '/') . $location;
     }
     return $location;
 
