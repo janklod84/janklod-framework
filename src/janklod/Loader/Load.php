@@ -73,12 +73,9 @@ public function callAction($callback, $matches=[])
 */
 public function call($object, $method='before')
 {
-    if(is_object($object))
+    if(method_exists($object, $method))
     {
-        if(method_exists($object, $method))
-        {
-            call_user_func([$object, $method]);
-        }
+        call_user_func([$object, $method]);
     }
 }
 
