@@ -2,7 +2,7 @@
 namespace JK\Routing\Route;
 
 use JK\Routing\Route\Controls\{
-	// RegexControl,
+	RegexControl,
 	NamedRouteControl
 };
 
@@ -21,7 +21,7 @@ class RouteParameter
 */ 
 private $params = [];
 private static $namedRoutes = [];
-
+private static $regex  = [];
 
 
 /**
@@ -126,6 +126,74 @@ private function getUrl($params)
     } 
     return $path;
 }
+
+
+/**
+* Add regex
+* @param mixed $parameter 
+* @param mixed $regex 
+*/
+public function with($parameter, $regex = null)
+{
+   if(is_array($parameter) && is_null($regex))
+   {
+      foreach($parameter as $index => $exp)
+      {
+           # recursive
+          $this->with($index, $exp);
+      }
+
+   }else{
+       self::$regex[$parameter] = str_replace('(', '(?:', $regex);
+   }
+
+   return $this;
+}
+
+
+/**
+ * Determine if has item Regex
+ * @param string $key 
+ * @return bool
+*/
+public static function has($key)
+{
+    return isset(self::$regex[$key]);
+}
+
+
+
+/**
+  * Return match param
+  * @param string $match 
+  * @return string 
+*/
+public function paramMatch($match)
+{
+     if(isset($this->regex[$match[1]]))
+     {
+          return '('. $this->regex[$match[1]] . ')';
+     }
+     return '([^/]+)';
+}
+
+
+/**
+  * Replace param in path
+  * 
+  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+  * 
+  * @param string $pattern
+  * @return string
+*/
+ public static function replacePattern()
+ {
+      return preg_replace_callback('#:([\w]+)#', 
+        [$this, 'paramMatch'], 
+        $this->getParam('pattern')
+     );
+ }
+
 
 
 }

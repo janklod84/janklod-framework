@@ -28,7 +28,7 @@ public static function add($parameter, $regex = null)
       foreach($parameter as $index => $exp)
       {
            # recursive
-           self::store($index, $exp);
+           self::add($index, $exp);
       }
 
    }else{

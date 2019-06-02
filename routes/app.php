@@ -34,7 +34,9 @@ Route::prefix($options, function () {
 
 
 Route::get('/', 'HomeController@index', 'welcome.page');
-Route::get('/about', 'HomeController@about');
+Route::get('/about/:slug-:id', 'HomeController@about')
+->with(['slug' => '[a-z]+', 'id' => '[0-9]+']);
+
 Route::get('/contact', 'HomeController@contact');
 Route::post('/contact', 'HomeController@contact');
 
@@ -49,5 +51,3 @@ Route::get('/test', function () {
 ************************************/
 
 Route::get('/404', 'NotFoundController@index');
-
-Route::regex();
