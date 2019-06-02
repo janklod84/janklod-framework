@@ -73,12 +73,12 @@ public function nullable(): self
 */
 private function ensureProperty($key)
 {
-	  if(!property_exists($this, $key))
-	  {
-	      exit(
-	      sprintf('Sorry, Property <b>%s</b> does not exist in Column class!', $key)
-	      )
-	  }
+  if(!property_exists($this, $key))
+  {
+     exit(
+     	sprintf('Sorry, Property <b>%s</b> does not exist in Column class!', $key)
+      )
+  }
 }
 
 }
