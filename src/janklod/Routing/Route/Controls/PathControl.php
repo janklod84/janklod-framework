@@ -27,7 +27,7 @@ public static function sanitize($path)
 */
 public static function notPrepared($path)
 {
-   return self::path($path);
+     return self::path($path);
 }
 
 

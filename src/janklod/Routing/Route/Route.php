@@ -177,8 +177,8 @@ $method = 'GET'
         'callback'           => CallbackControl::manage($callback),
         'name'               => NameControl::manage($callback, $name),
         'method'             => MethodControl::toUpper($method),  
-        'prefix.path'        => OptionControl::retrieveItem('prefix', 'path'),
-        'prefix.controller'  => OptionControl::retrieveItem('prefix', 'controller'),
+        'prefix.path'        => OptionControl::prefix('path'),
+        'prefix.controller'  => OptionControl::prefix('controller'),
         'middleware'         => OptionControl::retrieveGroup('middleware'),
         'module'             => OptionControl::retrieveGroup('module')
      ]);
