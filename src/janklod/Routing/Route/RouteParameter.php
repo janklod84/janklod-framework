@@ -16,12 +16,13 @@ class RouteParameter
 
      
 /**
- * @var array $params  [ Route Params   ]
- * @var array $namedRoutes
+ * @var array $regex       [ Contain Route Regex  ]
+ * @var array $params      [ Contain Route Params ]
+ * @var array $namedRoutes [ Contain Named Routes ]
 */ 
+private $regex  = [];
 private $params = [];
 private static $namedRoutes = [];
-private static $regex  = [];
 
 
 /**
@@ -144,7 +145,7 @@ public function with($parameter, $regex = null)
       }
 
    }else{
-       self::$regex[$parameter] = str_replace('(', '(?:', $regex);
+       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
    }
 
    return $this;
@@ -158,7 +159,7 @@ public function with($parameter, $regex = null)
 */
 public static function has($key)
 {
-    return isset(self::$regex[$key]);
+    return isset($this->regex[$key]);
 }
 
 
@@ -186,7 +187,7 @@ public function paramMatch($match)
   * @param string $pattern
   * @return string
 */
- public static function replacePattern()
+ public function replacePattern()
  {
       return preg_replace_callback('#:([\w]+)#', 
         [$this, 'paramMatch'], 

@@ -40,7 +40,6 @@ public function __construct($app)
 */
 public function callAction($callback, $matches=[])
 {
-     $this->ensureCallback($callback);
      if($callback instanceof \Closure)
      {
           $output = call_user_func($callback, $matches);
@@ -62,21 +61,6 @@ public function callAction($callback, $matches=[])
      $output = (string) $output;
      $this->app->response->setBody($output);
      $this->app->response->send();
-}
-
-
-/**
- * Check callback
- * @param mixed $callback 
- * @return void
-*/
-public function ensureCallback($callback)
-{
-    if(!is_callable($callback))
-    {
-         die('NO CALLABLE');
-         notFound();
-    }
 }
 
 

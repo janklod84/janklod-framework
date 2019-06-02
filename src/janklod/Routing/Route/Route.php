@@ -204,7 +204,7 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::manage($callback),
         'name'               => $name,
-        'method'             => MethodControl::toUpper($method),  
+        'method'             => strtoupper($method),  
         'prefix.path'        => OptionControl::prefix('path'),
         'prefix.controller'  => OptionControl::prefix('controller'),
         'middleware'         => OptionControl::retrieveGroup('middleware'),

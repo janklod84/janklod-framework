@@ -38,7 +38,7 @@ public static function current($path)
 */
 public static function pattern($path)
 {
-    return '#^'. self::path($path) . '$#';
+    return '#^'. self::path($path) . '$#i';
 }
 
 

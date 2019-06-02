@@ -78,12 +78,10 @@ public function run()
      # get dispatcher with currents params
      $method = $this->request->method();
      $dispatcher = $this->router->dispatch($method);
-     
-     die;
+
      if(is_null($dispatcher))
      {
-         die('Dispatcher NULL');
-         // notFound();
+         notFound();
      }
      // set route parameters
      $this->push([

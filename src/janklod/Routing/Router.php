@@ -88,8 +88,7 @@ public function routes($method='')
 */
 public function match($pattern): bool
 {
-    $regex = '#^'. $pattern . '$#i';
-    if(!preg_match($regex, $this->url, $matches))
+    if(!preg_match($pattern, $this->url, $matches))
     {
           return false;
     }
@@ -107,9 +106,6 @@ public function match($pattern): bool
 */
 public function dispatch($method='GET')
 {
-    debug($this->routes); 
-
-    die;
     foreach($this->routes($method) as $route)
     {
         if($this->match($route->replacePattern()))
@@ -119,7 +115,7 @@ public function dispatch($method='GET')
               if(is_null($this->dispatcher))
               {
                   $this->dispatcher = new Dispatcher(
-                     $route->param('callback'), 
+                     $route->getParam('callback'), 
                      $this->matches
                   );
               }
@@ -147,13 +143,6 @@ public function matches()
 {
     return $this->matches ?: [];
 }
-
-
-/**
- * Run routing or dispatching
- * @return mixed
-*/
-public function run() {}
 
 
 }
