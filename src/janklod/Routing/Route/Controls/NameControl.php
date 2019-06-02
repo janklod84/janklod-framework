@@ -16,16 +16,16 @@ class NameControl
 */
 public static function manage($callback, $name)
 {
-	 # route filter
-	 if(is_string($callback) && $name === null)
-	 {
-        return $callback;
-	 }
+ # route filter
+ if(is_string($callback) && $name === null)
+ {
+    return $callback;
+ }
 
-	 if($name)
-	 {
- 	    return $name;
-	 }
+ if($name)
+ {
+	    return $name;
+ }
 }
 
 
