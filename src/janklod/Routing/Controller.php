@@ -1,9 +1,8 @@
 <?php 
 namespace JK\Routing;
 
-use \Config;
-use JK\Debug\PrettyPrint;
 
+use \Config;
 
 
 /**
@@ -88,6 +87,10 @@ protected function render($view, $data = [])
      $this->view->setView($view);
      $this->view->setData($data);
      $this->view->render();
+     $this->app->merge([
+        'current.view.path'   => $this->view->viewPath(),
+        'current.layout.path' => $this->view->layoutPath()
+     ]);
 }
 
 
@@ -162,12 +165,7 @@ protected function mapLayout()
 */ 
 public function pretty()
 {
-     $this->app->merge([
-        'current.controller'  => $this->currentController(),
-        'current.view.path'   => $this->view->viewPath(),
-        'current.layout.path' => $this->view->layoutPath()
-     ]);
-
+     
      $pretty = new PrettyPrint($this->app);
      $pretty->output(\Config::get('app.debug'));
 }

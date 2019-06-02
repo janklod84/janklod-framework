@@ -3,6 +3,8 @@ namespace JK\Loader;
 
 
 use \Exception;
+use \Config;
+use JK\Debug\PrettyPrint;
 
 
 /**
@@ -49,11 +51,13 @@ public function callAction($callback, $matches=[])
         {
            $controller = $this->getController($callback['controller']);
            $action = strtolower($callback['action']);
+           $currentController = $this->currentObjectName($controller);
+           $this->app->set('current.controller', $currentController);
            $this->app->set('current.action', $action);
            $this->call($controller, 'before');
            $output = call_user_func_array([$controller , $action], $matches);
            $this->call($controller, 'after');
-           call_user_func([$controller, 'pretty']);
+           $this->pretty();
         }
      }
 
@@ -61,6 +65,17 @@ public function callAction($callback, $matches=[])
      $output = (string) $output;
      $this->app->response->setBody($output);
      $this->app->response->send();
+}
+
+
+/**
+ * Pretty print debug output
+ * @return void
+*/
+public function pretty()
+{
+   $pretty = new PrettyPrint($this->app);
+   $pretty->output(\Config::get('app.debug'));
 }
 
 

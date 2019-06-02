@@ -205,6 +205,9 @@ public function create($classname, $arguments = null)
 
 /**
 * Get item by key from container
+* Ex:
+* Container::instance()->get('test')
+* 
 * @param string $key 
 * @return mixed
 */
