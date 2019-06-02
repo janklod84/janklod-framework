@@ -43,22 +43,29 @@ public function __construct($params=[])
 */
 public function setProperties($params)
 {
-   if(!empty($params))
+if(!empty($params))
+{
+   foreach($params as $key => $value)
    {
-   	   foreach($params as $key => $value)
-       {
-   	      $this->{$key} = $value;
-       }
+	  if(!property_exists($this, $key))
+	  {
+          exit(
+          sprintf('Sorry, Property <b>%s</b> does not exist in Column class!', $key)
+          )
+	  }
+	  $this->{$key} = $value;
    }
+}
 }
 
 
 /**
  * Make column nullable
- * 
+ * If $this->nullable setted true ,
+ * that mean column may be nullable
  * @return self
 */
-public function nullable()
+public function nullable(): self
 {
 	 $this->nullable = true;
 	 return $this;
