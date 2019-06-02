@@ -30,7 +30,7 @@ public function __construct($app)
 {
     $this->app = $app;
 	$this->connection = $app->db ?: DB::instance();
-    $this->model = $app->load->currentObjectName($this);
+    $this->model = get_class($this);
     $app->set('current.model', $this->model);
     Q::setup($this->connection);
 }

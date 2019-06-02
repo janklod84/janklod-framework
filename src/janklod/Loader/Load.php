@@ -51,8 +51,7 @@ public function callAction($callback, $matches=[])
         {
            $controller = $this->getController($callback['controller']);
            $action = strtolower($callback['action']);
-           $currentController = $this->currentObjectName($controller);
-           $this->app->set('current.controller', $currentController);
+           $this->app->set('current.controller', get_class($controller));
            $this->app->set('current.action', $action);
            $this->call($controller, 'before');
            $output = call_user_func_array([$controller , $action], $matches);

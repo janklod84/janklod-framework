@@ -158,37 +158,4 @@ protected function mapLayout()
 }
 
 
-
-/**
-* Show currents view , layout, and controller
-* @return void
-*/ 
-public function pretty()
-{
-     
-     $pretty = new PrettyPrint($this->app);
-     $pretty->output(\Config::get('app.debug'));
-}
-
-
-
-/**
- * Get name current controller
- * @return string
-*/
-private function currentController()
-{
-    return $this->load->currentObjectName($this);
-}
-
-/**
- * Determine if has isset path
- * @return bool
-*/
-private function hasPath()
-{
-    return $this->layout 
-           && $this->view->viewPath(); 
-}
-
 }
