@@ -74,7 +74,7 @@ $callback,
 * @param string $controller
 * @return 
 */
-public static function package(string $path, string $controller)
+public static function resource(string $path, string $controller)
 {
      self::get("$path", "$controller@index");
      self::post("$path/add", "$controller@add");

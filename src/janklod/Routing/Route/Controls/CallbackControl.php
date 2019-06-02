@@ -12,12 +12,11 @@ class CallBackControl
 /**
 * Manage callback
 * @param string $callback 
-* @param string $divider
-* @return string
+* @return mixed
 */     
-public static function manage($callback, $divider='@')
+public static function manage($callback)
 {
-    return self::mapCallback($callback, $divider);
+    return self::mapCallback($callback);
 }
 
 
@@ -26,7 +25,7 @@ public static function manage($callback, $divider='@')
  * prepare and map callback
  * @param mixed $callback 
  * @param string $divider '@'
- * @return 
+ * @return [\Closure|array]
 */
 public static function mapCallback($callback, $divider='@')
 {
@@ -37,7 +36,7 @@ public static function mapCallback($callback, $divider='@')
               list($controller, $action) = 
               explode($divider, $callback, 2);
               $controller = self::controller($controller);
-              return [
+              $callback = [
                  'controller' => $controller,
                  'action'     => $action
               ];
