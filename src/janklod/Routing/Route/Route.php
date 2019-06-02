@@ -4,7 +4,9 @@ namespace JK\Routing\Route;
 
 use JK\Routing\Route\Controls\{
     OptionControl,
-    PathControl
+    PathControl,
+    NameControl,
+    CallbackControl
 };
 
 /**
@@ -119,7 +121,7 @@ public static function prefix($prefixes = [], \Closure $callback)
 */
 public static function url(string $name, array $params = [])
 {
-       return RouteManager::url($name, $params);
+       return RouteParameter::url($name, $params);
 }
 
 
@@ -138,13 +140,11 @@ $method = 'GET'
 )
 {
      # route custom
-     $route = new RouteManager([
+     $route = new RouteParameter([
         'path'               => $path, 
         'pattern'            => PathControl::generatePattern($path),
         'callback'           => $callback,
-        'controller'         => '',  
-        'action'             => '',
-        'name'               => $name,
+        'name'               => NameControl::manage($callback, $name),
         'method'             => $method,  
         'prefix.path'        => OptionControl::getOption('prefix.path'),
         'prefix.controller'  => OptionControl::getOption('prefix.controller'),

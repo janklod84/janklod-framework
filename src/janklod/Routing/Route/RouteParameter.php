@@ -1,20 +1,14 @@
 <?php 
 namespace JK\Routing\Route;
 
-
-use JK\Routing\Route\Controls\{
-  PathControl,
-  CallbackControl,
-  OptionControl
-};
-
 /**
- * Manager Route
- * @package JK\Routing\Route\RouteManager
+ * Route Params
+ * @package JK\Routing\Route\RouteParameter
 */ 
-class RouteManager
+class RouteParameter
 {
-       
+
+     
 /**
  * @var array $params      [ Route Params   ]
  * @var array $regex       [ Route patterns ]

@@ -5,11 +5,11 @@ namespace JK\Routing\Route\Controls;
 /**
  * @package JK\Routing\Route\Controls\CallBackControl 
 */ 
-class CallBackControl  extends CustomControl 
+class CallBackControl
 {
 	     
-	     public function __construct()
-	     {
-	     	  
-	     }
+     public static function manage($callback)
+     {
+     	 
+     }
 }

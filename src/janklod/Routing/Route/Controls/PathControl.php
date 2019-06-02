@@ -7,9 +7,18 @@ namespace JK\Routing\Route\Controls;
 */ 
 class PathControl
 {
-	     
 
-// PATH CONTROL
+	
+/**
+ * Sanitize path
+ * @param string $path 
+ * @return string
+*/
+public static function sanitize($path)
+{
+	 return trim($path, '/');
+}
+
 
 /**
  * Item maper
@@ -30,7 +39,7 @@ public static function generatePattern($path)
 */
 public static function path($path)
 {
-    $path = trim($path, '/');
+    $path = self::sanitize($path);
     if($prefix = OptionControl::getOption('prefix.path'))
     {
          $path = trim($prefix, '/') .'/' . $path;
