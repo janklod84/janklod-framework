@@ -2,7 +2,6 @@
 namespace JK\Http\Sessions;
 
 
-use JK\Collections\Collection;
 
 /**
  * @package JK\Http\Sessions\Session 
