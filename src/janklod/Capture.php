@@ -34,19 +34,19 @@ const SRC = [
 'printers' => [
   'RoutingPrinter',
   // 'ViewPrinter',
-  // 'DatabasePrinter'
+  'DatabasePrinter'
 ],
 'commands' => [
      // Database
-     \JK\Database\Migrations\Commands\CreateCommand::class,
-     \JK\Database\Migrations\Commands\DeleteCommand::class,
-     \JK\Database\Migrations\Commands\UpdateCommand::class,
      \JK\Database\Migrations\Commands\RollbackCommand::class,
      \JK\Database\Migrations\Commands\MigrateCommand::class,
+     /* ........... */
      // Routing
      \JK\Routing\Commands\GenerateController::class,
      // Model
-     \JK\Routing\Commands\GenerateModel::class
+     \JK\Database\Commands\GenerateModel::class,
+     // Controller
+     \JK\Routing\Commands\GenerateController::class
 ],
 'locator' => [
   'cache_dir' => '/temp/cache/',

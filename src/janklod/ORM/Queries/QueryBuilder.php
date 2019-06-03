@@ -4,6 +4,8 @@ namespace JK\ORM\Queries;
 
 
 /**
+ * TO REFACTORING !!
+ * 
  * @package JK\ORM\Queries\QueryBuilder 
 */ 
 class QueryBuilder 

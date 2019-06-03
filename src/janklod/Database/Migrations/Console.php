@@ -3,7 +3,7 @@ namespace JK\Database\Migrations;
 
 use JK\Console\ConsoleInterface;
 use JK\Console\IO\Output;
-use JK\Console\IO\Input;
+use JK\Console\IO\InputArg;
 
 
 /**

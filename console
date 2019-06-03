@@ -6,5 +6,4 @@ require(__DIR__.'/vendor/autoload.php');
 
 $console = new \JK\Console\Console(); // Input / Output
 $output  = $console->execute();
-
 exit($output);

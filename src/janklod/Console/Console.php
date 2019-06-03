@@ -2,13 +2,15 @@
 namespace JK\Console;
 
 /**
+ * Class Console
+ * 
  * @package JK\Console\Console
 */ 
 class Console
 {
 
 
-private $commands = []
+// private $commands = []
 
 
 /**
@@ -18,21 +20,23 @@ private $commands = []
 */
 public function __construct($commands = [])
 {
-     $this->commands = $commands;
+     // $this->commands = $commands;
 }
 
 
 /**
- * Run console
+ * Test Previews!
+ * 
+ * Excecute concret command
  * @return void
 */
-public function run()
+public function execute()
 {
-   $output = '';
-   foreach($this->commands as $command)
-   {
-      $output = '';
-   }
+   // $output = '';
+   // foreach($this->commands as $command)
+   // {
+   //    $output = '';
+   // }
 
    // return $output;
 }

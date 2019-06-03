@@ -96,7 +96,6 @@ public static function connect($driver='mysql', array $config = [])
 public static function setup(\PDO $connection = null)
 {
   self::mapConnection($connection);
-  self::$connection = $connection;
   self::$query   = new Query($connection);
   self::$builder = new QueryBuilder();
   self::$setup   = true;
@@ -842,8 +841,7 @@ private static function mapRegistredItem($item=null)
 
 
 /**
- * Show message if connection already setted
- * And Map connection 
+ * Map connection 
  * @param \PDO $connection
  * @return void
 */
@@ -858,7 +856,8 @@ private static function mapConnection($connection)
     {
        exit('You must to set up connection for [Q ORM]!');
     }
-
+    
+    self::$connection = $connection;
 }
 
 /**

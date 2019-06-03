@@ -5,6 +5,8 @@ use JK\Database\Builders\BluePrint;
 
 
 /**
+ * TO REFACTORING!!
+ * 
  * Class Table
  * @package JK\Database\Migrations\Queries\TableQuery
 */ 

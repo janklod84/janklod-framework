@@ -8,6 +8,8 @@ use JK\ORM\Statement\Query;
 
 
 /**
+ * Q class record maker
+ * 
  * @package JK\ORM\Record\Q
 */ 
 class Q
