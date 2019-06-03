@@ -2,8 +2,6 @@
 namespace JK\Http\Cookies;
 
 
-use JK\Collections\Collection;
-
 /**
  * @package JK\Http\Cookies\Cookie 
 */ 

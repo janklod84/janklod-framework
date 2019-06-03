@@ -6,7 +6,6 @@
     <span class="navbar-toggler-icon"></span>
   </button>
      <div class="collapse navbar-collapse" id="navbarText">
-       <?php if(Auth::isLogged()): ?>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="/">
@@ -19,6 +18,5 @@
              <a class="nav-link" href="/logout">Logout</a>
            </li>
         </ul>
-      <?php endif; ?>
     </div>
 </nav>

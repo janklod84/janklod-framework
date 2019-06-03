@@ -72,25 +72,26 @@ public static function instance($root = null)
  * @param string $root
  * @return void
 */
-private function __construct($root)
+private function __construct(string $root)
 {
-  // make sure that param $root is not null 
-    if(!is_dir($root)) { exit('Not found directory for autoloding ...'); }
+    // make sure that param $root is valid directory
+    if(!is_dir($root)) 
+    { exit('Not found directory for autoloding ...'); }
   
-  $this->root = trim($root, '/');
+    $this->root = trim($root, '/');
 
-  // make sure that has file
-  $file = $this->root . '/autoloader.json';
+    // make sure that has file
+    $file = $this->root . '/autoloader.json';
   
-  if(!file_exists($file))
-  {
-  	 exit(sprintf('File <strong>%s</strong> does not exist', $file));
-  }
+    if(!file_exists($file))
+    {
+  	    exit(sprintf('File <strong>%s</strong> does not exist', $file));
+    }
 
-  $this->file = $file;
+    $this->file = $file;
 
-  // append psr data
-  $this->loadContent();
+    // append psr data
+    $this->loadContent();
   
 }
 
@@ -196,7 +197,7 @@ private function fullPath($path)
 
 
 /**
-* 
+* Load content from json file
 * @return array
 */
 private function loadContent()

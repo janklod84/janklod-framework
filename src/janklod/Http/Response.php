@@ -140,6 +140,7 @@ public function withBody(string $content = null)
  *   'Location2' => 'admin2',
  *  ]);
  * @param string $header 
+ * @param string $value
  * @return void
 */
 public function withHeader($header = null, $value=null)
