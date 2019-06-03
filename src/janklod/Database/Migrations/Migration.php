@@ -10,14 +10,17 @@ abstract class Migration
 {
 
 /**
-* Method up
+* Method up [ Run the migrations ]
+* 
 * @return void
 */
 abstract public function up();
 
 /**
-* Method down
+* Method down [ Reverse the migrations ]
+* 
 * @return void
 */
 abstract public function down();
+
 }

@@ -2,7 +2,8 @@
 
 use JK\Database\Migrations\{
 	Column,
-	BluePrint
+	BluePrint,
+	Schema
 };
 
 function ptr($arr, $die=false)
@@ -13,3 +14,8 @@ function ptr($arr, $die=false)
 	 if($die) die;
 }
 
+
+Schema::create('users', function (BluePrint $table) {
+
+     ptr($table);
+});
