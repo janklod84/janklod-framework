@@ -5,7 +5,7 @@ namespace JK\Database;
 use \PDO;
 use \PDOException;
 use \Exception;
-use \Config;
+use \JK\Config\Config;
 
 /**
  * Database Manager
@@ -105,6 +105,39 @@ public static function instance($autocreate = false)
 
      }
      return self::$instance;
+}
+
+
+/**
+ * Excecute Query
+ * Ex: DatabaseManager::execute('SELECT * FROM `users`')->fetchAll();
+ * @param string $sql 
+ * @param array $params 
+ * @return \PDOStatement
+*/
+public static function execute($sql, $params=[])
+{
+   try
+   {
+      $stmt = self::instance()->prepare($sql);
+      $stmt->execute($params);
+      return $stmt;
+
+   }catch(\PDOException $e){
+      throw new Exception($e->getMessage(), 404);
+   }
+
+}
+
+
+/**
+ * Excecute Query
+ * @param string $sql 
+ * @return bool
+*/
+public static function exec($sql)
+{
+     return self::instance()->exec($sql);
 }
 
 

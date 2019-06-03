@@ -1,0 +1,9 @@
+<?php 
+
+$connection = DatabaseManager::instance(); // return \PDO
+
+// But execute return \PDOStatement 
+$users = DatabaseManager::execute('SELECT * FROM `users`')->fetchAll();
+echo '<pre>';
+print_r($users);
+echo '</pre>';
