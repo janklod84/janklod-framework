@@ -24,8 +24,8 @@ protected static $group='';
 
 /**
 * set base path config
-* @param string
-* @return 
+* @param string $configPath
+* @return self
 */
 public static function basePath(string $configPath='')
 {
@@ -36,7 +36,7 @@ public static function basePath(string $configPath='')
 
 /**
  * Load many files 
- * @return 
+ * @return void
 */
 public function map()
 {
@@ -104,6 +104,7 @@ public static function files()
 
 /**
  * Determine if has group stored
+ * @param string $group
  * @return bool
 */
 public static function isStored($group='')
@@ -175,7 +176,6 @@ public static function retrieveItem($item='')
 
 /**
  * Retrieve group
- * @param string $item 
  * @return mixed
 */
 public static function retrieveGroup()

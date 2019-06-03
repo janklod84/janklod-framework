@@ -19,11 +19,11 @@ private static $session;
 
 
 /**
- * Add add session
+ * Check session
  * @param \JK\Http\Sessions\Session $session
  * @return void
 */
-public static function checkSession($session)
+public static function check($session)
 {
     self::$session = $session;
 }

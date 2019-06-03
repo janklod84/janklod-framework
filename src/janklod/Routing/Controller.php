@@ -149,7 +149,7 @@ private function beforeRender()
 {
      // Check session for Authentication
      $session = $this->request->session();
-     \Auth::checkSession($session);
+     \Auth::check($session);
 
      // Configuration assets
      \Asset::map(

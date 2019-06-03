@@ -7,7 +7,6 @@
   </button>
      <div class="collapse navbar-collapse" id="navbarText">
        <?php if(Auth::isLogged()): ?>
-        
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="/">
