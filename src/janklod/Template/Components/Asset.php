@@ -37,8 +37,8 @@ private static $basePath = '';
 public static function map($css=[], $js=[], $basePath='')
 {
     self::basePath($basePath);
-    self::pushCss($css);
-    self::pushJs($js);
+    self::addStyles($css);
+    self::addScripts($js);
 }
 
 
@@ -59,7 +59,7 @@ public static function basePath($basePath='')
 
 /**
  * Add full paths js
- * Ex: Asset::pushJs([
+ * Ex: Asset::addScripts([
  * '/assets/script',
  * '/jquery/jquery-3.3.3.min',
  * '/bootstrap/bootstrap.min',
@@ -70,7 +70,7 @@ public static function basePath($basePath='')
  * @param array $js
  * @return void
 */
-public static function pushJs($js=[])
+public static function addScripts($js=[])
 {
     self::$js = array_merge($js, self::$js);
 }
@@ -78,7 +78,7 @@ public static function pushJs($js=[])
 
 /**
  * Add full paths css
- * Ex: Asset::pushCss([
+ * Ex: Asset::addStyles([
  * '/assets/style',
  * '/css/app',
  * '/bootstrap/bootstrap.min',
@@ -89,7 +89,7 @@ public static function pushJs($js=[])
  * @param array $css 
  * @return void
 */
-public static function pushCss($css=[])
+public static function addStyles($css=[])
 {
     self::$css = array_merge($css, self::$css);
 }
@@ -126,12 +126,12 @@ public static function js($script = '')
 
 
 /**
-* Get style
+* Get inline style [ Stringify array styles ]
 * echo Asset::strCss([
 *   'padding' => 30px, 
 *   'margin-bottom' => '20px'
 * ])
-* style="padding:30px;margin:20px;"
+* <div style="padding:30px;margin:20px;"></div>
 * 
 * @param array $styles
 * @return string
@@ -139,7 +139,7 @@ public static function js($script = '')
 public static function style(array $styles)
 {
     $style = '';
-    foreach ($styles as $property => $value)
+    foreach($styles as $property => $value)
     {
        $style .= sprintf('%s:%s;', $property, $value);
     }
@@ -151,9 +151,9 @@ public static function style(array $styles)
 /**
 * Render factory
 * @var string $type
-* @return string
+* @return void
 */
-public static function render(string $type = '')
+public static function render(string $type)
 {
    if(!array_key_exists($type, self::FORMAT_TYPE))
    {
@@ -177,9 +177,8 @@ private static function renderType($data = [], $type)
    	   $asset = '';
    	   foreach($data as $path)
        {
-          $asset .= sprintf(
-              self::FORMAT_TYPE[$type], self::mapPath(self::$basePath, $path)
-          );
+          $asset .= sprintf(self::FORMAT_TYPE[$type], 
+                            self::mapPath(self::$basePath, $path));
        }
        return $asset;
    }
