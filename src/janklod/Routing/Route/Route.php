@@ -58,6 +58,8 @@ public static function post(string $path, $callback, string $name = null)
 }
 
 
+// TO IMPLEMENTS METHODS PUT, PATCH, DELETE, OPTIONS .. 
+
 /**
 * Add new package or resources of routes
 * 
