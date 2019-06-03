@@ -59,7 +59,7 @@ public function index()
          'role' => $i
         ]);
     */
-    $this->title('Вход');
+    $this->title('Вход', false);
     return $this->render('login/index');
 }
 

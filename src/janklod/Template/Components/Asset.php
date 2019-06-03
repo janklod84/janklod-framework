@@ -2,8 +2,6 @@
 namespace JK\Template\Components;
 
 
-use \Config;
-
 /**
  * @package JK\Template\Components\Asset 
 */
@@ -127,11 +125,13 @@ public static function js($script = '')
 
 /**
 * Get inline style [ Stringify array styles ]
-* echo Asset::strCss([
+* 
+* Ex:
+* <div <?= Asset::style([
 *   'padding' => 30px, 
 *   'margin-bottom' => '20px'
-* ])
-* <div style="padding:30px;margin:20px;"></div>
+* ]) ?> >Hello</div>
+* <div style="padding:30px;margin:20px;">Hello</div>
 * 
 * @param array $styles
 * @return string
