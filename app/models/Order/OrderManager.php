@@ -1,15 +1,15 @@
 <?php 
-namespace app\models\User;
+namespace app\models\Order;
 
 
 /**
- * @package app\models\User\UserManager
+ * @package app\models\Order\OrderManager
 */ 
-class UserManager
+class OrderManager
 {
 	  
 	  
-	 private $user;
+	 private $order;
 	 
 	 /**
 	  * constructor
@@ -18,7 +18,7 @@ class UserManager
 	 */
 	 public function __construct()
 	 {
-	 	  $this->user = new User();
+	 	  $this->order = new Order();
 	 }
 
 }

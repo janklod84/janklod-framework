@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php 
+<?php 
 	HTML::title('Default Template');
 	HTML::refresh(false); 
 	Asset::render('css') 
-	?>
+?>
 </head>
 <body>
    <?php partial('menu', 'layouts'); ?>

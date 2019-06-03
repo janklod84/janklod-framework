@@ -33,8 +33,6 @@ const SRC = [
 ],
 'printers' => [
   'RoutingPrinter',
-  // 'ViewPrinter',
-  'DatabasePrinter'
 ],
 'commands' => [
      // Database

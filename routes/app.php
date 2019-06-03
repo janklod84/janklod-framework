@@ -14,15 +14,12 @@
 ************************************/
 
 $options = [
-  'path' => '/admin',
+  // 'path' => '/admin',
   'controller' => 'admin'
 ];
 
 Route::prefix($options, function () {
-    Route::get('/page/:id', 'UserController@login', 'page.admin')
-    ->with('id', '[0-9]+');
-    Route::get('/login', 'UserController@login'); // admin/login
-    Route::get('/test', 'UserController@test'); // admin/test
+    Route::get('/login', 'UserController@login');
 });
 
 
@@ -40,9 +37,7 @@ Route::get('/', 'HomeController@index', 'welcome.page');
 Route::get('/about', 'HomeController@about');
 Route::get('/contact', 'HomeController@contact');
 Route::post('/contact', 'HomeController@contact');
-
-
 Route::get('/test', function () {
-   die('Привет друзья!');
+   die('Привет ребята!');
 });
 

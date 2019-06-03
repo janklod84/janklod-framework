@@ -13,14 +13,11 @@ class ActiveRecord extends Model
 /**
  * @var  array $guarded
  * @var  array $fillable
- * @var  bool  $softDelete
  * @var  string $table
  * @var  int $id
- * @var  \JK\Container\ContainerInterface $app
 */
-protected $guarded  = [];
+protected $guarded  = ['id'];
 protected $fillable = [];
-protected $softDelete = false;
 protected $table;
 protected $id;
 
