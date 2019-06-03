@@ -12,25 +12,25 @@ use JK\Console\IO\Input;
 class Console implements ConsoleInterface
 {
 
-	/**
-	 * Help message
-	 * @return string
-	*/
-    public function help(): string
-    {
-        return '';
-    }
-    
-    
-    /**
-     * Excecute command
-     * @param string $task 
-     * @param array $arguments 
-     * @return string
-    */
-    public function execute(string $task = '', array $arguments = []): string
-    {
-       
-    }
+/**
+ * Help message
+ * @return string
+*/
+public function help(): string
+{
+    return '';
+}
+
+
+/**
+ * Excecute command
+ * @param string $task 
+ * @param array $arguments 
+ * @return string
+*/
+public function execute(string $task = '', array $arguments = []): string
+{
+   
+}
 
 }
