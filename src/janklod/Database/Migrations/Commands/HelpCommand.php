@@ -3,9 +3,9 @@ namespace JK\Database\Migrations\Commands;
 
 
 /**
- * @package JK\Database\Migrations\Commands\Rollback
+ * @package JK\Database\Migrations\Commands\HelpCommand
 */ 
-class RollbackCommand extends CustomCommand
+class HelpCommand extends CustomCommand
 {
 
 
@@ -15,7 +15,7 @@ class RollbackCommand extends CustomCommand
 */
 public function execute()
 {
-	   echo __METHOD__."\n";
+   echo __METHOD__."\n";
 }
 
 /**
@@ -24,7 +24,7 @@ public function execute()
 */
 public function undo()
 {
-	   echo __METHOD__."\n";
+   echo __METHOD__."\n";
 }
 
 

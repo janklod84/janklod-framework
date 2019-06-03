@@ -12,6 +12,19 @@ use JK\Database\DatabaseManager;
 abstract class CustomCommand implements  CommandInterface 
 {
 
+/**
+ * @var string $name
+*/
+protected $name = '';
 
+
+/**
+* Constructor
+* @return void
+*/
+public function __construct()
+{
+
+}
 
 }

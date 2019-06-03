@@ -3,15 +3,14 @@ namespace JK\Database\Migrations\Commands;
 
 
 /**
- * @package JK\Database\Migrations\Commands\Rollback
+ * @package JK\Database\Migrations\Commands\RunCommand
 */ 
-class RollbackCommand extends CustomCommand
+class RunCommand extends CustomCommand
 {
 
-
 /**
- * Execute command
- * @return mixed
+* Execute command
+* @return mixed
 */
 public function execute()
 {

@@ -6,9 +6,9 @@ use JK\Database\Builders\BluePrint;
 
 /**
  * Class Table
- * @package JK\Database\Migrations\Queries\Table
+ * @package JK\Database\Migrations\Queries\TableQuery
 */ 
-class Table
+class TableQuery
 {
 
     /**
@@ -28,16 +28,11 @@ class Table
 
          foreach ($blueprint->columns as $column) 
          {
-            // Add column name and type.
             $sql .= sprintf('`%s` %s', $column->name, $column->type);
-
-            // Do we have a length?
             if($column->length !== 0)
             {
                 $sql .= '(' . $column->length . ')';
             }
-
-            // Set nullable/default.
             if($column->nullable === true && $column->default === '') 
             {
                 $sql .= ' DEFAULT NULL';
@@ -51,7 +46,6 @@ class Table
                 $sql .= ' NOT NULL';
             }
 
-            // Set auto increment?
             if($column->autoincrement === true)
             {
                 $sql .= ' AUTO_INCREMENT';
@@ -60,7 +54,6 @@ class Table
             // Increment.
             ++$i;
 
-            // If we're no at the end add the comma for the next line.
             if ($i < $total)
             {
                 $sql .= ', ';
@@ -68,8 +61,7 @@ class Table
 
         } // End Loop [Foreach]
 
-        // Do we have a primary key.
-        if ($blueprint->primary !== '') 
+        if($blueprint->primary !== '') 
         {
             $sql .= sprintf(', PRIMARY KEY(`%s`)', $blueprint->primary);
         }

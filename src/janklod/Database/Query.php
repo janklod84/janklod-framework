@@ -106,4 +106,15 @@ private function failedMsg($e)
 }
 
 
+/**
+ * Determine status execution
+ * if executed that mean all perfect otherwise has error
+ * @return bool
+*/
+public function executed(): bool
+{
+	return self::$executed;
+}
+
+
 }

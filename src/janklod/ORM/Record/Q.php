@@ -1,5 +1,5 @@
 <?php 
-namespace JK\ORM;
+namespace JK\ORM\Record;
 
 
 use \PDO;
@@ -8,7 +8,7 @@ use JK\ORM\Statement\Query;
 
 
 /**
- * @package JK\ORM\Q
+ * @package JK\ORM\Record\Q
 */ 
 class Q
 {

@@ -3,9 +3,9 @@ namespace JK\Database\Migrations\Commands;
 
 
 /**
- * @package JK\Database\Migrations\Commands\Rollback
+ * @package JK\Database\Migrations\Commands\ResetCommand
 */ 
-class RollbackCommand extends CustomCommand
+class ResetCommand extends CustomCommand
 {
 
 
