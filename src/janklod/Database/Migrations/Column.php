@@ -3,7 +3,7 @@ namespace JK\Database\Migrations;
 
 
 /**
- * Modeling table column
+ * Class Column [ Modeling Column of Table ] 
  * @package JK\Database\Migrations\Column 
 */ 
 class Column 
@@ -29,6 +29,8 @@ public $index = 'primary'; // [PRIMARY, UNIQUE, INDEX, FULLTEXT, SPATIAL]
 public $collation = 'utf8_general_ci';
 public $autoincrement = false;
 
+
+
 /**
 * Constructor
 * 
@@ -39,6 +41,7 @@ public function __construct($params=[])
 {
      $this->setProperties($params);
 }
+
 
 /**
 * Set properties
