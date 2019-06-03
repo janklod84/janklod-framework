@@ -19,5 +19,5 @@ abstract public function up();
 * Method down
 * @return void
 */
-abstract public function drop();
+abstract public function down();
 }
