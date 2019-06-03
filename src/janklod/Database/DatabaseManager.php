@@ -26,10 +26,11 @@ private static $options = [
 /**
 * @var \PDO $instance 
 * @var  \JK\Database\DatabaseManager $instance
+* @var  bool $autocreate [ it add fonctionnalite for create database if not exist ]
 */
 private static $connection;
 private static $instance;
-
+private static $autocreate = false;
 
 /**
 * prevent instance from being cloned
@@ -92,13 +93,16 @@ public static function close()
 
 /**
  * Get instance of database
+ * @param bool $autocreate [it for management autocreate database if not exist]
  * @return \PDO
 */
-public static function instance()
+public static function instance($autocreate = false)
 {
      if(is_null(self::$instance))
      {
+         self::$autocreate = $autocreate;
          self::$instance = self::connect();
+
      }
      return self::$instance;
 }
@@ -115,10 +119,7 @@ public static function instance()
 */
 public static function make($dsn='', $user='', $password='', $options = [])
 {
-   if(!empty($options))
-   {
-       self::$options = array_merge(self::$options, $options);
-   }
+   self::addOptions($options);
    
    try 
    {
@@ -152,6 +153,20 @@ private static function connect()
 
 
 /**
+ * Add options params
+ * @param array $options 
+ * @return void
+*/
+private static function addOptions($options=[])
+{
+   if(!empty($options))
+   {
+       self::$options = array_merge(self::$options, $options);
+   }
+}
+
+
+/**
  * Create Database if not exist
  * @param \PDO $connection 
  * @param  string $database [ Name of database ]
@@ -159,13 +174,16 @@ private static function connect()
 */
 private static function createDBIfNotExist(\PDO $connection, $database='xxx')
 {
-   /*
-    $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
-    if($connection->exec($sql))
-    {
-        echo 'Database created successfully!';
-    }
-   */
+  if(self::$autocreate === true)
+  {
+     /*
+      $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
+      if($connection->exec($sql))
+      {
+          echo 'Database created successfully!';
+      }
+     */
+  }
 }
 
 }
