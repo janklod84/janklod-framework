@@ -1,14 +1,14 @@
 <?php 
-namespace app\controllers;
+namespace app\controllers\admin;
 
 
 use JK\Routing\Controller;
 
 /**
- * Base controller of application
- * @package app\controllers\AppController 
+ * Base controller of admin
+ * @package app\controllers\admin\AdminController 
 */ 
-class AppController extends Controller
+class AdminController extends Controller
 {
      
      /**

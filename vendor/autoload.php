@@ -2,7 +2,7 @@
 
 
 /*
- | 'AUTO_DIR' : Directory file to autoload 
+ | 'AUTOLOAD_DIR' : Directory file to autoload 
  | __DIR__.'/../'
  | dirname(__DIR__)
 */

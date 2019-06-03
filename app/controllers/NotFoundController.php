@@ -10,17 +10,20 @@ use JK\Routing\Controller;
 */
 class NotFoundController extends Controller
 {
-      
-      protected $layout = 'error';
-      
-	   /**
-        * Action contact
-        * @return void
-       */
-	   public function index()
-	   {
-	   	   /* exit('404 Not Found <br>'. __METHOD__); */
-	   	   return $this->render('errors/404');
-	   }
+    
+    /**
+     * @var string $layout
+    */
+	protected $layout = 'error';
+
+ 
+	/**
+	* Action index
+	* @return void
+	*/
+	public function index()
+	{
+	    return $this->render('errors/404');
+	}
 
 }

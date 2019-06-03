@@ -1,6 +1,6 @@
 {
-	"psr": {
-		"JK\\": "src/janklod",
-		"app\\": "app/"
-	}
+  "psr": {
+	"JK\\": "src/janklod",
+	"app\\": "app/"
+  }
 }

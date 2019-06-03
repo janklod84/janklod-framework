@@ -1,20 +1,15 @@
 <?php 
-namespace app\controllers;
+namespace app\controllers\admin;
 
 
-// use app\models\User\User;
 use app\models\User;
 use app\models\User\UserManager;
-use \Q;
-use \DB;
-use \MyAlias;
 
 
 /**
- * Base controller Back part of application
- * @package app\controllers\HomeController 
+ * @package app\controllers\admin\LoginController 
 */ 
-class HomeController extends AppController
+class LoginController extends AdminController
 {
      
 
@@ -25,8 +20,8 @@ class HomeController extends AppController
 */
 public function before()
 {
-     Q::setup(\DB::instance());
-     Q::addTable('users');
+     \Q::setup(\DB::instance());
+     \Q::addTable('users');
      $user = new User($this->app);
      
      /*
