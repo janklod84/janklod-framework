@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<?php HTML::lang() ?>
 <head>
 <?php 
 	HTML::title();

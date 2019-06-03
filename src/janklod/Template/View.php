@@ -15,6 +15,7 @@ class View  implements ViewInterface
 * @var string  $view
 * @var array   $data 
 * @var string  $viewPath
+* @var string  $partialDir
 * @var bool  $show [ Determine if show render or not ]
 */
 private $layout;
@@ -22,7 +23,6 @@ private $view;
 private $data = [];
 private $viewPath = ''; 
 private $partialDir;
-private $output;
 private $show = true;
 
 

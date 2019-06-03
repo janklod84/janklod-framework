@@ -71,7 +71,7 @@ public function output($debug = false)
    if($debug === true)
    {
        $this->app->response->setHeader('Content-Type: text/html; charset=utf-8');
-       $this->output .= '<div style="'. $this->getStyle() . '">';
+       $this->output .= PHP_EOL.'<div style="'. $this->getStyle() . '">';
        $this->output .= $this->mapPrinter('TimingPrinter')->output();
        foreach($this->getPrinters() as $printer)
        {
