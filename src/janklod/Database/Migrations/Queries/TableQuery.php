@@ -24,7 +24,7 @@ class TableQuery
 
          // Loop through each column to add it.
          $total  = count($blueprint->columns);
-         $i      = 0;
+         $i = 0;
 
          foreach ($blueprint->columns as $column) 
          {

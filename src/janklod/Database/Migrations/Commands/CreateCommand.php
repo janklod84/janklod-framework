@@ -8,21 +8,27 @@ namespace JK\Database\Migrations\Commands;
 class CreateCommand extends CustomCommand
 {
 
-  /**
-     * Execute command
-     * @return mixed
-   */
-   public function execute()
-   {
-   	   echo __METHOD__."\n";
-   }
+/**
+ * @var $name [ Name command input ]
+*/
+protected $name = 'migration:create';
 
-   /**
-     * Execute command
-     * @return mixed
-   */
-   public function undo()
-   {
-   	   echo __METHOD__."\n";
-   }
+
+/**
+ * Execute command
+ * @return mixed
+*/
+public function execute()
+{
+	   $this->console->execute($this->name, ['No arguments']);
+}
+
+/**
+ * Execute command
+ * @return mixed
+*/
+public function undo()
+{
+	   echo __METHOD__."\n";
+}
 }

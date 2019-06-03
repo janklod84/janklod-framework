@@ -10,12 +10,18 @@ class ResetCommand extends CustomCommand
 
 
 /**
+ * @var $name [ Name command input ]
+*/
+protected $name = 'migration:reset';
+
+
+/**
  * Execute command
  * @return mixed
 */
 public function execute()
 {
-	   echo __METHOD__."\n";
+	   $this->console->execute($this->name, ['No arguments']);
 }
 
 /**
@@ -26,6 +32,5 @@ public function undo()
 {
 	   echo __METHOD__."\n";
 }
-
 
 }
