@@ -24,6 +24,7 @@ public function before()
      \Q::addTable('users');
      $user = new User($this->app);
      
+     // var_dump(\Auth::isLogged());
      /*
      for($i=1; $i < 5; $i++)
      {
@@ -58,7 +59,8 @@ public function index()
          'role' => $i
         ]);
     */
-    return $this->render('home/index');
+    $this->title('Вход');
+    return $this->render('login/index');
 }
 
 

@@ -1,0 +1,15 @@
+[03-Jun-2019 20:04:59 UTC] Uncaught exception: 'Error' with message 'Class 'JK\Authenticate\Session' not found'
+Stack trace: #0 D:\laragon\www\project\app\views\layouts\partials\menu.php(9): JK\Authenticate\Auth::isLogged()
+#1 D:\laragon\www\project\src\janklod\Template\View.php(204): include('D:\\laragon\\www\\...')
+#2 D:\laragon\www\project\src\janklod\Functions\view.php(40): JK\Template\View->partial('menu')
+#3 D:\laragon\www\project\app\views\layouts\default.php(11): partial('menu', 'layouts')
+#4 D:\laragon\www\project\src\janklod\Template\View.php(123): require_once('D:\\laragon\\www\\...')
+#5 D:\laragon\www\project\src\janklod\Template\View.php(107): JK\Template\View->runBuffer()
+#6 D:\laragon\www\project\src\janklod\Routing\Controller.php(109): JK\Template\View->render()
+#7 D:\laragon\www\project\app\controllers\admin\LoginController.php(62): JK\Routing\Controller->render('login/index')
+#8 [internal function]: app\controllers\admin\LoginController->index()
+#9 D:\laragon\www\project\src\janklod\Loader\Load.php(61): call_user_func_array(Array, Array)
+#10 D:\laragon\www\project\src\janklod\Application.php(87): JK\Loader\Load->callAction('admin\\LoginCont...', Array)
+#11 D:\laragon\www\project\public\index.php(28): JK\Application->run()
+#12 {main}
+Thrown in 'D:\laragon\www\project\src\janklod\Authenticate\Auth.php' on line 43

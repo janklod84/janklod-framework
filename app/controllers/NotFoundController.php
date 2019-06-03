@@ -23,6 +23,7 @@ class NotFoundController extends Controller
 	*/
 	public function index()
 	{
+		$this->title('Страница не найдена!', false);
 	    return $this->render('errors/404');
 	}
 

@@ -45,7 +45,7 @@ define('ROOT', '../');
 |-------------------------------------------------------
 */
 
-define('DEV', false);
+define('DEV', true);
 
 
 
@@ -56,6 +56,17 @@ define('DEV', false);
 */
 
 require_once realpath(__DIR__ .'/../vendor/autoload.php');
+
+
+/*
+|----------------------------------------------------------------------
+|    Error Handler settings
+|----------------------------------------------------------------------
+*/
+
+error_reporting(E_ALL);
+set_error_handler('JK\Exception\ErrorHandler::errorHandler');
+set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 
 
 /*
@@ -130,3 +141,8 @@ $app->file->call('routes/app.php');
 $app->router->addRoutes(
 	\JK\Routing\Route\RouteCollection::all()
 );
+
+
+/*
+\JK\Initialize::output();
+*/

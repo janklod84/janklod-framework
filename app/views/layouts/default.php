@@ -2,7 +2,7 @@
 <html>
 <head>
 <?php 
-	HTML::title('Default Template');
+	HTML::title();
 	HTML::refresh(false); 
 	Asset::render('css') 
 ?>
