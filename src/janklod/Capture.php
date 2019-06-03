@@ -23,6 +23,8 @@ const SRC = [
 ],
 'alias' => [
  'Route'    => 'JK\\Routing\\Route\\Route',
+ 'Request'  => 'JK\\Http\\Request',
+ 'Auth'     => 'JK\\Authenticate\\Auth',
  'Asset'    => 'JK\\Template\\Components\\Asset',
  'HTML'     => 'JK\\Template\\Components\\HTML', 
  'Config'   => 'JK\\Config\\Config',
@@ -33,6 +35,7 @@ const SRC = [
 ],
 'printers' => [
   'RoutingPrinter',
+  // 'ViewPrinter'
 ],
 'commands' => [
      // Database

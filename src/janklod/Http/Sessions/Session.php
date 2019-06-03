@@ -11,7 +11,12 @@ class Session
 {
       
 
+/**
+ * @var bool $status
+*/
 private static $status = false;
+
+
 
 /**
  * Ensure if session is started
@@ -30,6 +35,7 @@ public static function start()
 
 /**
 * Put item in session
+* 
 * @param string $name 
 * @param mixed $value 
 * @return void
@@ -43,6 +49,7 @@ public function put($name, $value)
 
 /**
 * Determine if has item in $_SESSION
+* 
 * @param string $key 
 * @return bool
 */

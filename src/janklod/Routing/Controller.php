@@ -75,6 +75,26 @@ protected function set($data = [])
 }
 
 
+protected function setMeta($data = [])
+{
+    // TO Implements
+}
+
+
+/**
+ * Setting title
+ * [ This method will be removed after implementation method set meta ]
+ * 
+ * @param string $title 
+ * @param bool $base
+ * @return void
+*/
+protected function title($title='', $base=true)
+{
+   $baseTitle = ($base === true) ? Config::get('app.name') : '';
+   \HTML::setTitle($title, $baseTitle);
+}
+
 
 /**
 * View render
@@ -127,12 +147,18 @@ public function json($response=[])
 */
 private function beforeRender()
 {
+     // Check session for Authentication
+     $session = $this->request->session();
+     \Auth::checkSession($session);
+
+     // Configuration assets
      \Asset::map(
         Config::get('asset.css'),
         Config::get('asset.js'),
         base_url()
      );
      
+     // Configuration views
      $this->view->partialDir(Config::get('view.partial'));
      $this->view->setLayout(
         $this->mapLayout()

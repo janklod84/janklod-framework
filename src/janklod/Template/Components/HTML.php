@@ -49,9 +49,8 @@ public static function setTitle($title, $current = null)
  * @param string $title
  * @return string
 */
-public static function title(string $title='')
+public static function title()
 {
-	  self::$title = $title ?: self::$title;
       echo sprintf('<title>%s</title>', self::$title) . PHP_EOL;
 }
 

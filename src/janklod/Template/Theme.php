@@ -4,9 +4,9 @@ namespace JK\Template;
 
 
 /**
- * @package JK\Template\Template
+ * @package JK\Template\Theme
 */
-class Template
+class Theme
 {
 
   /**
