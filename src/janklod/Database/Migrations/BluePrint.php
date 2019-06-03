@@ -124,8 +124,7 @@ public function datetime($name): Column
 
 
 /**
-* Create the created_at 
-* and updated_at timestamps.
+* Create column created_at and updated_at timestamps.
 * @return void
 */
 public function timestamps()
@@ -146,7 +145,8 @@ public function columns()
 
 
 /**
-* Adds a column.
+* Add a column.
+* 
 * @param  string  $name  [ The column name. ]
 * @param  string  $type  [ The column type. ]
 * @return Column
