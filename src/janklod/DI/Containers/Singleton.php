@@ -39,7 +39,7 @@ public function __construct($key, $value)
 */
 public function set($key, $value)
 {
-    self::$singletons[$key] = $value;
+   self::$singletons[$key] = $value;
 }
 
 
@@ -50,12 +50,12 @@ public function set($key, $value)
 */
 public function get($key)
 {
-     if(!$this->instanciated($key))
-     {
-         self::$instances[$key] = self::$singletons[$key];
-     }
+   if(!$this->instanciated($key))
+   {
+       self::$instances[$key] = self::$singletons[$key];
+   }
 
-     return self::$instances[$key];
+   return self::$instances[$key];
 }
 
 
