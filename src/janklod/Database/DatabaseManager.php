@@ -122,7 +122,9 @@ public static function make($dsn='', $user='', $password='', $options = [])
    
    try 
    {
-        return new PDO($dsn, $user, $password, self::$options);
+        $connection = new PDO($dsn, $user, $password, self::$options);
+        self::createDBIfNotExist($connection);
+        return $connection;
  
    }catch(PDOException $e){
 
@@ -149,5 +151,21 @@ private static function connect()
 }
 
 
+/**
+ * Create Database if not exist
+ * @param \PDO $connection 
+ * @param  string $database [ Name of database ]
+ * @return void
+*/
+private static function createDBIfNotExist(\PDO $connection, $database='xxx')
+{
+   /*
+    $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
+    if($connection->exec($sql))
+    {
+        echo 'Database created successfully!';
+    }
+   */
+}
 
 }
