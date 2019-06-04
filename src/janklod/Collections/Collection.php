@@ -8,7 +8,7 @@ namespace JK\Collections;
  * for good acces to object as array and so on..
  * @package JK\Collections\Collection 
 */ 
-class Collection 
+class Collection implements CollectionInterface
 {
        
 /**

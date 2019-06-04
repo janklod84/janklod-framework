@@ -54,6 +54,20 @@ private $middlewares = [];
 
 
 
+/**
+* prevent instance from being cloned
+*/
+private function __clone(){}
+
+
+
+/**
+* prevent instance from being unserialized
+*/
+private function __wakeup(){}
+
+
+
 
 /**
   * Contructor
@@ -313,18 +327,6 @@ private function bindParams()
      ]);
 
 }
-
-/**
-* prevent instance from being cloned
-*/
-private function __clone(){}
-
-
-
-/**
-* prevent instance from being unserialized
-*/
-private function __wakeup(){}
 
 
 }

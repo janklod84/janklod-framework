@@ -55,7 +55,7 @@ public function callAction($callback, $matches=[])
 
             $controllerObj = $this->controller($controller);
             $action = strtolower($action);
-
+            
             $this->app->set('current.controller', get_class($controllerObj));
             $this->app->set('current.action', $action);
 
