@@ -14,23 +14,17 @@ use \JK\Config\Config;
 final class DatabaseManager
 {
 
-private static $options = [
-   PDO::ATTR_PERSISTENT => false,
-   PDO::ATTR_EMULATE_PREPARES => 0, 
-   PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-];
-
-
 
 /**
-* @var \PDO $instance 
-* @var  \JK\Database\DatabaseManager $instance
-* @var  bool $autocreate [ it add fonctionnalite for create database if not exist ]
+* @var  \PDO  $connection  [ PDO exception ]
+* @var  \PDO  $instance    [ Connection instance ]
+* @var  array $config      [ Database configuration ]
+* @var  array $message     [ Messages ]
 */
 private static $connection;
 private static $instance;
-private static $autocreate = false;
+private static $isConnected = false;
+
 
 /**
 * prevent instance from being cloned
@@ -47,18 +41,6 @@ private function __clone(){}
 private function __wakeup(){}
 
 
-/**
-* Constructor
-* @return void
-*/
-private function __construct() 
-{
-    if(!self::isConnected())
-    {
-         self::open();
-    }
-}
-
 
 /**
 * Determine if has connection
@@ -70,13 +52,50 @@ private static function isConnected()
 }
 
 
+
 /**
-* Open connection
+ * Show message if already connected
+ * @return void
+*/
+private static function alreadyConnected()
+{
+  if(self::isConnected())
+  {exit('You are already connected to Database!');}
+}
+
+
+/**
+* Make sure has connected
 * @return void
 */
-public static function open()
+private static function ensureConnected()
 {
-    self::$connection = self::instance();
+   if(!self::isConnected())
+   {exit('You must to add connection!');}
+}
+
+
+/**
+ * Get connection
+ * @param array $config
+ * @return \PDO
+*/
+public static function connect($config = [])
+{
+     self::alreadyConnected();
+     if(!self::isConnected())
+     {
+         $defaults = [
+          'dsn'        => Config::get('database.dsn'),
+          'username'   => Config::get('database.user'),
+          'password'   => Config::get('database.password'),
+          'options'    => Config::get('database.options'),
+          'autocreate' => false
+        ];
+        $config = $config ?: $defaults;
+        self::$connection = Connection::make($config);
+     }
+     return self::$connection;
 }
 
 
@@ -84,27 +103,24 @@ public static function open()
 * Close current connection
 * @return void
 */
-public static function close()
+public static function deconnect()
 {
+    self::ensureConnected();
     self::$connection = null;
 } 
 
 
-
 /**
- * Get instance of database
- * @param bool $autocreate [it for management autocreate database if not exist]
+ * Get connection
  * @return \PDO
 */
-public static function instance($autocreate = false)
+public static function instance()
 {
-     if(is_null(self::$instance))
-     {
-         self::$autocreate = $autocreate;
-         self::$instance = self::connect();
-
-     }
-     return self::$instance;
+    if(is_null(self::$instance))
+    {
+        self::$instance = self::connect();
+    }
+    return self::$instance;
 }
 
 
@@ -117,9 +133,10 @@ public static function instance($autocreate = false)
 */
 public static function execute($sql, $params=[])
 {
+   self::ensureConnected();
    try
    {
-      $stmt = self::instance()->prepare($sql);
+      $stmt = self::connect()->prepare($sql);
       $stmt->execute($params);
       return $stmt;
 
@@ -137,86 +154,9 @@ public static function execute($sql, $params=[])
 */
 public static function exec($sql)
 {
-     return self::instance()->exec($sql);
+     self::ensureConnected();
+     return self::connect()->exec($sql);
 }
 
-
-/**
-* Make connection to \PDO
-* @param string $dsn 
-* @param string $user 
-* @param string $password 
-* @param array $options 
-* @return \PDO
-* @throws \Exception
-*/
-public static function make($dsn='', $user='', $password='', $options = [])
-{
-   self::addOptions($options);
-   
-   try 
-   {
-        $connection = new PDO($dsn, $user, $password, self::$options);
-        self::createDBIfNotExist($connection);
-        return $connection;
- 
-   }catch(PDOException $e){
-
-        throw new Exception($e->getMessage(), 404);
-   }
-
-}
-
-
-
-/**
-  * Run connection to Database
-  * @return \PDO
-*/
-private static function connect()
-{
-    return self::make(
-          Config::get('database.dsn'),
-          Config::get('database.user'),
-          Config::get('database.password'),
-          Config::get('database.options')
-    );
-    
-}
-
-
-/**
- * Add options params
- * @param array $options 
- * @return void
-*/
-private static function addOptions($options=[])
-{
-   if(!empty($options))
-   {
-       self::$options = array_merge(self::$options, $options);
-   }
-}
-
-
-/**
- * Create Database if not exist
- * @param \PDO $connection 
- * @param  string $database [ Name of database ]
- * @return void
-*/
-private static function createDBIfNotExist(\PDO $connection, $database='xxx')
-{
-  if(self::$autocreate === true)
-  {
-     /*
-      $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
-      if($connection->exec($sql))
-      {
-          echo 'Database created successfully!';
-      }
-     */
-  }
-}
 
 }

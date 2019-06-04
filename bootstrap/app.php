@@ -119,8 +119,6 @@ $app->loadAlias();
 $app->loadProviders();
 
 
-
-
 /*
 |-------------------------------------------------------------------
 |   Loading all routes of Application
@@ -142,7 +140,3 @@ $app->router->addRoutes(
 	\JK\Routing\Route\RouteCollection::all()
 );
 
-
-/*
-\JK\Initialize::output();
-*/

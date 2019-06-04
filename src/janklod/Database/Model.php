@@ -3,7 +3,6 @@ namespace JK\Database;
 
 
 use \Q;
-use \DB;
 
 
 /**
@@ -31,7 +30,7 @@ protected $connection;
 public function __construct($app)
 {
     $this->app = $app;
-	$this->connection = $app->db ?: DB::instance();
+	$this->connection = $app->db;
     $this->model = get_class($this);
     $app->set('current.model', $this->model);
     Q::setup($this->connection);

@@ -3,6 +3,10 @@ namespace JK\Database\Facades;
 
 use JK\Service\ServiceProvider;
 use JK\Database\DatabaseManager;
+use \Config;
+use \JK\Database\Connection;
+
+
 
 /**
  * @package JK\Database\Facades\DatabaseProvider
@@ -20,4 +24,6 @@ public function register()
          return DatabaseManager::instance();
     });
 }
+
+
 }

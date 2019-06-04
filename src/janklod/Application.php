@@ -6,6 +6,7 @@ use JK\FileSystem\File;
 use JK\Config\Config;
 use JK\Http\Sessions\Session;
 use JK\Routing\Dispatcher;
+use JK\Database\DatabaseManager;
 
 
 /**
@@ -244,7 +245,6 @@ public function __get($key)
 {
    return $this->get($key);
 }
-
 
 
 /**
