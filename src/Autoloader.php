@@ -166,7 +166,8 @@ private function classPath($className)
  {
    foreach($this->psr as $ns => $path)
    {
-   	   $ns_pattern = sprintf('/^%s\/', $ns);
+       # Test\ .. 
+   	   $ns_pattern = sprintf('#^%s\#', $ns);
 
    	   if(preg_match($ns_pattern, $className))
    	   {

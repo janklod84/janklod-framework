@@ -18,6 +18,7 @@ $options = [
 
 Route::prefix($options, function () {
     Route::get('/', 'LoginController@index');
+    Route::post('/', 'LoginController@index');
     Route::get('/dashboard', 'DashboardController@index');
 });
 

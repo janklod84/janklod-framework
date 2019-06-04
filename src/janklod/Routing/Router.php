@@ -74,7 +74,7 @@ public function routes($method = '')
 
          throw new RouterException(
            sprintf(
-            'Current route does not match current method <strong>%s</strong>!', $method
+            'Method <strong>%s</strong> does not isset for current route!', $method
           )
          );
       }

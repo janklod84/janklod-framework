@@ -48,8 +48,12 @@ public function __construct($app)
 */
 public function index()
 {
+    if($this->request->isPost())
+    {
+         die('OK');
+    }
     $this->title('Вход', false);
-    return $this->render('/admin/login/index');
+    $this->render('/admin/login/form');
 }
 
 
