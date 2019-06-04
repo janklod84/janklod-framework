@@ -13,14 +13,12 @@ class LoginController extends Controller
      
 
 /**
-* Constructor
-* @param \JK\Container\ContainerInterface $app 
-* @return void
+ * Do action before callback
+ * Do all behaviours before actions
+ * @return 
 */
-public function __construct($app)
+public function before()
 {
-     parent::__construct($app);
-
      # пользователь может попасть в систему 
      # только когда он будет авторизован
      if(Auth::isLogged())
@@ -28,7 +26,19 @@ public function __construct($app)
           redirect('/dashboard');
      }
      
+} 
+
+
+/**
+* Constructor
+* @param \JK\Container\ContainerInterface $app 
+* @return void
+*/
+public function __construct($app)
+{
+     parent::__construct($app);
 }
+
 
 
 
@@ -43,7 +53,7 @@ public function index()
 }
 
 
-private function hashing()
+private function hash()
 {
    /*
    $this->request->session()

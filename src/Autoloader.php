@@ -26,13 +26,13 @@ class Autoloader
 /**
  * @var Autoloader $instance  [ Instance of Autoloader ]
  * @var string     $root      [ root ]
- * @var array      $psr       [ container assignement namespace and root ]
  * @var string     $file      [ file contained autoloading references ]
+ * @var array      $psr       [ container assignement namespace and root ]
 */
 private static $instance;
 private $root;
-private $psr = [];
 private $file;
+private $psr = [];
 
 
 
@@ -77,21 +77,22 @@ private function __construct(string $root)
     // make sure that param $root is valid directory
     if(!is_dir($root)) 
     { exit('Not found directory for autoloding ...'); }
-  
+    
     $this->root = trim($root, '/');
 
-    // make sure that has file
-    $file = $this->root . '/autoloader.json';
-  
-    if(!file_exists($file))
+    // get full path file
+    $this->file = $this->root . DIRECTORY_SEPARATOR .'autoloader.json';
+    
+    // make sure file exists
+    if(!file_exists($this->file))
     {
-  	    exit(sprintf('File <strong>%s</strong> does not exist', $file));
+  	    exit(sprintf('File <strong>%s</strong> does not exist', $this->file));
     }
 
-    $this->file = $file;
-
-    // append psr data
-    $this->loadContent();
+    // append data to psr 
+    $data = json_decode(file_get_contents($this->file), true);
+    $content = isset($data['psr']) ? $data['psr'] : [];
+    $this->pushPsr($content);
   
 }
 
@@ -193,18 +194,6 @@ return realpath($classPath);
 private function fullPath($path)
 {
     return $this->root . '/'. trim($path, '/') . '/';
-}
-
-
-/**
-* Load content from json file
-* @return array
-*/
-private function loadContent()
-{
-   $data = json_decode(file_get_contents($this->file), true);
-   $content = isset($data['psr']) ? $data['psr'] : [];
-   $this->pushPsr($content);
 }
 
 }

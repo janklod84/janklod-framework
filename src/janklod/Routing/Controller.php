@@ -3,6 +3,9 @@ namespace JK\Routing;
 
 
 use \Config;
+use \Asset;
+use \Auth;
+use \HTML;
 
 
 /**
@@ -86,7 +89,7 @@ protected function set($data = [])
 protected function title($title='', $base=true)
 {
    $baseTitle = ($base === true) ? Config::get('app.name') : '';
-   \HTML::setTitle($title, $baseTitle);
+   HTML::setTitle($title, $baseTitle);
 }
 
 
@@ -143,11 +146,11 @@ private function beforeRender()
 {
      // Check session for Authentication
      $session = $this->request->session();
-     \Auth::check($session);
+     Auth::check($session);
      
      
      // Configuration assets
-     \Asset::map(
+     Asset::map(
         Config::get('asset.css'),
         Config::get('asset.js'),
         base_url()

@@ -4,7 +4,6 @@ namespace JK\Database;
 
 use \PDO;
 use \PDOException;
-use \Exception;
 
 
 /**
@@ -70,7 +69,7 @@ public static function make($config = [])
          
    }catch(PDOException $e){
 
-        throw new Exception($e->getMessage(), 404);
+        throw new ConnectionException($e->getMessage(), 404);
    }
 
 }

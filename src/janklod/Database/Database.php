@@ -140,7 +140,7 @@ public static function execute($sql, $params=[])
 
    }catch(\PDOException $e){
       self::instance()->rollback();
-      throw new Exception($e->getMessage(), 404);
+      throw new DatabaseException($e->getMessage(), 404);
    }
 
 }
