@@ -248,7 +248,7 @@ public function session()
 */
 public function loadFunctions()
 {
-   Initialize::functions();
+   Initializer::functions();
 }
 
 /**
@@ -257,7 +257,7 @@ public function loadFunctions()
 */
 public function loadAlias()
 {
-   Initialize::alias();
+   Initializer::alias();
 }
 
 
@@ -267,7 +267,7 @@ public function loadAlias()
 */
 public function loadProviders()
 {
-   Initialize::providers($this->app);
+   Initializer::providers($this->app);
 }
 
 

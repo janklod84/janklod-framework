@@ -3,20 +3,21 @@ namespace JK;
 
 
 /**
- * @package JK\Initialize
+ * @package JK\Initializer
 **/ 
-class Initialize
+class Initializer
 {
         
 /**
- * @var array $alias     [ Container all alias ]
- * @var array $providers [ Container all providers ]
- * @var array $functions [ Container all functions ]
+ * @var array $alias       [ Container all alias       ]
+ * @var array $providers   [ Container all providers   ]
+ * @var array $functions   [ Container all functions   ]
+ * @var array $initialized [ Container all initialized ]
 */
-private static $aliases   = [];
-private static $providers = [];
-private static $functions = [];
-private static $initialised = [];
+private static $aliases    = [];
+private static $providers  = [];
+private static $functions  = [];
+private static $initialized = [];
 
 
 
@@ -35,7 +36,7 @@ foreach(self::$aliases as $alias => $classname)
    {
         if(class_alias($classname, $alias))
         {
-            self::$initialised['alias'][] = compact('classname', 'alias');
+            self::$initialized['alias'][] = compact('classname', 'alias');
         }
    }
 }
@@ -64,7 +65,7 @@ public static function providers($app)
    $provider = new $service($app);
    if(call_user_func([$provider, 'register']) !== false)
    {
-       self::$initialised['providers'][] = $service;
+       self::$initialized['providers'][] = $service;
    }
  }
 }
@@ -87,7 +88,7 @@ public static function functions()
                      {
                          if(require_once($path))
                          {
-                             self::$initialised['functions'][] = $path;
+                             self::$initialized['functions'][] = $path;
                          }
                      }
                 }   
@@ -115,7 +116,7 @@ private static function get($key)
 public static function output()
 {
     echo '<pre>';
-    print_r(self::$initialised);
+    print_r(self::$initialized);
     echo '</pre>';
 }
 
