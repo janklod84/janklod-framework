@@ -52,14 +52,18 @@ public function callAction($callback, $matches=[])
          if(is_string($callback) && strpos($callback, '@') !== false) 
          {
             list($controller, $action) = explode('@', $callback, 2);
-            $controller = $this->getController($controller);
-            $action = strtolower($action);
-            $this->app->set('current.controller', get_class($controller));
+
+            $controllerObj = $this->controller($controller);
+            $action        = strtolower($action);
+
+            $this->app->set('current.controller', get_class($controllerObj));
             $this->app->set('current.action', $action);
-            $this->call($controller, 'before');
-            $output = call_user_func_array([$controller , $action], $matches);
-            $this->call($controller, 'after');
-            $this->pretty();
+
+            $this->call($controllerObj, 'before');
+            $output = call_user_func_array([$controllerObj , $action], $matches);
+            $this->call($controllerObj, 'after');
+
+            $this->notification();
          }
      }
 
@@ -71,20 +75,10 @@ public function callAction($callback, $matches=[])
 
 
 /**
- * No Found controller
- * @return \JK\Routing\Dispatcher
-*/
-public function notFound()
-{
-     return new Dispatcher('NotFoundController@index');
-}
-
-
-/**
- * Pretty print debug output
+ * Notification output
  * @return void
 */
-public function pretty()
+public function notification()
 {
    $pretty = new PrettyPrint($this->app);
    $pretty->output(\Config::get('app.debug'));
@@ -127,7 +121,7 @@ public function getModule($directory='', $name='')
 * @return object
 * @throws \Exception
 */
-public function getController($name)
+public function controller($name)
 {
     $controller = $this->getModule('\\app\\controllers', $name);
     if(!class_exists($controller))
