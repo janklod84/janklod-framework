@@ -34,16 +34,8 @@ private $root;
 * @return void
 * @throws FileException
 */
-public function __construct($root = null)
+public function __construct(string $root)
 {
-   if(is_null($root))
-   {
-	    throw new FileException(
-        "You must to set root directory for FileSystem",
-         404
-       );
-   }
-
    $this->root = trim($root, '/');
 }
 

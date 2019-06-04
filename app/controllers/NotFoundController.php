@@ -18,10 +18,10 @@ class NotFoundController extends Controller
 
  
 	/**
-	* Action index
+	* Action page 404
 	* @return void
 	*/
-	public function index()
+	public function page404()
 	{
 		$this->title('Страница не найдена!', false);
 	    return $this->render('errors/404');

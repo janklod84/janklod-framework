@@ -5,6 +5,8 @@ use JK\DI\ContainerBuilder;
 use JK\FileSystem\File;
 use JK\Config\Config;
 use JK\Http\Sessions\Session;
+use JK\Routing\Dispatcher;
+
 
 /**
  * Application
@@ -76,10 +78,9 @@ public function run()
 {
      $requestMethod = $this->request->method();
      $dispatcher = $this->router->dispatch($requestMethod);
-
      if(is_null($dispatcher))
      {
-         $dispatcher = $this->load->notFound();
+         $dispatcher = new Dispatcher('NotFoundController@page404');
      }
      $this->bindParams();
      $callback   = $dispatcher->getCallback();

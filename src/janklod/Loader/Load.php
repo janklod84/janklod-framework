@@ -5,7 +5,6 @@ namespace JK\Loader;
 use \Exception;
 use \Config;
 use JK\Debug\PrettyPrint;
-use JK\Routing\Dispatcher;
 
 
 /**
