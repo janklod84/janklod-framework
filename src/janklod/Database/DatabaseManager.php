@@ -18,13 +18,9 @@ final class DatabaseManager
 /**
 * @var  \PDO  $connection  [ PDO exception ]
 * @var  \PDO  $instance    [ Connection instance ]
-* @var  array $config      [ Database configuration ]
-* @var  array $message     [ Messages ]
 */
 private static $connection;
 private static $instance;
-private static $isConnected = false;
-
 
 /**
 * prevent instance from being cloned
@@ -136,7 +132,7 @@ public static function execute($sql, $params=[])
    self::ensureConnected();
    try
    {
-      $stmt = self::connect()->prepare($sql);
+      $stmt = self::instance()->prepare($sql);
       $stmt->execute($params);
       return $stmt;
 
@@ -155,7 +151,7 @@ public static function execute($sql, $params=[])
 public static function exec($sql)
 {
      self::ensureConnected();
-     return self::connect()->exec($sql);
+     return self::instance()->exec($sql);
 }
 
 

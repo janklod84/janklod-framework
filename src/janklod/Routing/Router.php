@@ -65,14 +65,15 @@ public function addUrl($url)
  * @param string $method
  * @return array
 */
-public function routes($method='')
+public function routes($method = '')
 {
   if($method !== '')
   {
       if(!isset($this->routes[$method]))
       {
-         exit(
-          sprintf('Method <strong>%s</strong> does not match!', $method)
+
+         throw new RouterException(
+           sprintf('Method <strong>%s</strong> does not match!', $method)
          );
       }
       return $this->routes[$method];

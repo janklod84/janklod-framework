@@ -33,6 +33,7 @@ public static function check($session)
 * This key it basic, after we will hashing key for obtain good session key
 * like it sess.user_---.sha1($_SERVER['HTTP_HOST']) . .... etc
 * more advanced to do ..
+* crypting session.key ..
 * 
 * @return bool [ Session::has('sess.user') ]
 */

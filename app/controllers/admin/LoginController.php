@@ -2,14 +2,13 @@
 namespace app\controllers\admin;
 
 
-use app\models\User;
-use app\models\User\UserManager;
-
+use JK\Routing\Controller;
+use \Auth;
 
 /**
  * @package app\controllers\admin\LoginController 
 */ 
-class LoginController extends AdminController
+class LoginController extends Controller
 {
      
 
@@ -20,29 +19,27 @@ class LoginController extends AdminController
 */
 public function before()
 {
-     \Q::setup(\DB::instance());
-     \Q::addTable('users');
-     $user = new User($this->app);
-     
-     // var_dump(\Auth::isLogged());
-     /*
-     for($i=1; $i < 5; $i++)
+     # пользователь может попасть в систему 
+     # только когда он будет авторизован
+     if(Auth::isLogged())
      {
-          Q::getTable()->create([
-            'username' => 'John' . $i,
-            'password' => md5('John'. $i),  
-            'role'     => $i 
-          ]);
+          redirect('/dashboard');
      }
-     */
-
-     // $user->setId(10);
-     // $user->setUsername('NEW Record JK 111!');
-     // $user->setPassword(password_hash('DDWE', PASSWORD_BCRYPT));
      
-     // $lastId = Q::getTable()->store($user);
-     // echo $lastId;
 } 
+
+
+/**
+* Constructor
+* @param \JK\Container\ContainerInterface $app 
+* @return void
+*/
+public function __construct($app)
+{
+     parent::__construct($app);
+}
+
+
 
 
 /**
@@ -51,41 +48,11 @@ public function before()
 */
 public function index()
 {
-
-    /*
-     Q::table('users')->create([
-         'username' => 'NewBrowner34'. $i,
-         'password' => 'myNewBrower3'. $i,
-         'role' => $i
-        ]);
-    */
+    
     $this->title('Вход', false);
-    return $this->render('login/index');
+    return $this->render('/admin/login/index');
 }
 
 
-/**
-* Action about
-* @return string
-*/
-public function about()
-{
-   return $this->render('home/about');
-}
-
-
-/**
-* Action contact
-* @return void
-*/
-public function contact()
-{
-   if($this->request->isPost())
-   {
-       $data = $this->request->post();
-       debug($data);
-   }
-   return $this->render('home/contact');
-}
 
 }

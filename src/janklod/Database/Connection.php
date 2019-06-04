@@ -48,12 +48,12 @@ public static function make($config = [])
    {
        extract($config);
        self::addOptions($options);
-
        $connection = new PDO($dsn, $username, $password, self::$options);
-
+       
+       /**
        if($autocreate === true)
        {
-          $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
+          exec('CREATE DATABASE IF NOT EXISTS `%s`', $database);
           if($connection->exec($sql))
           {
               self::$message['created'][] = sprintf(
@@ -61,6 +61,7 @@ public static function make($config = [])
               );
           }
        }
+       */
        return $connection;
          
    }catch(PDOException $e){
@@ -68,6 +69,16 @@ public static function make($config = [])
         throw new Exception($e->getMessage(), 404);
    }
 
+}
+
+
+/**
+ * Get messages
+ * @return array
+*/
+public static function message()
+{
+   return self::$messages;
 }
 
 
@@ -102,15 +113,6 @@ private static function addOptions($options=[])
    }
 }
 
-
-/**
- * Get messages
- * @return array
-*/
-public static function message()
-{
-   return self::$messages;
-}
 
      
 }
