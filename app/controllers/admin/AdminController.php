@@ -24,7 +24,7 @@ public function before()
 	 # в нашем случае на [login]
      if(!Auth::isLogged())
      {
-          redirect('/');
+         redirect('/');
      }
      
 } 

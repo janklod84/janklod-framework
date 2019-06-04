@@ -4,14 +4,14 @@ namespace JK\Database;
 
 use \PDO;
 use \PDOException;
-use \Exception;
-use \JK\Config\Config;
+use JK\Database\DatabaseException;
+use JK\Config\Config;
 
 /**
  * Database Manager
- * @package JK\Database\DatabaseManager
+ * @package JK\Database\Database
 */ 
-final class DatabaseManager
+final class Database
 {
 
 
@@ -132,11 +132,14 @@ public static function execute($sql, $params=[])
    self::ensureConnected();
    try
    {
+      self::instance()->beginTransaction();
       $stmt = self::instance()->prepare($sql);
       $stmt->execute($params);
+      self::instance()->commit();
       return $stmt;
 
    }catch(\PDOException $e){
+      self::instance()->rollback();
       throw new Exception($e->getMessage(), 404);
    }
 

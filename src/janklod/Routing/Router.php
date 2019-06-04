@@ -73,7 +73,9 @@ public function routes($method = '')
       {
 
          throw new RouterException(
-           sprintf('Method <strong>%s</strong> does not match!', $method)
+           sprintf(
+            'Current route does not match current method <strong>%s</strong>!', $method
+          )
          );
       }
       return $this->routes[$method];

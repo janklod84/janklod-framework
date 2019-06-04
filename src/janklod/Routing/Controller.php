@@ -75,12 +75,6 @@ protected function set($data = [])
 }
 
 
-protected function setMeta($data = [])
-{
-    // TO Implements
-}
-
-
 /**
  * Setting title
  * [ This method will be removed after implementation method set meta ]
@@ -150,7 +144,8 @@ private function beforeRender()
      // Check session for Authentication
      $session = $this->request->session();
      \Auth::check($session);
-
+     
+     
      // Configuration assets
      \Asset::map(
         Config::get('asset.css'),

@@ -28,10 +28,18 @@ private static $message = [];
 
 const CONFIG_KEYS = [
  'dsn', 
+ // 'driver',
+ // 'name',
+ // 'host',
+ // 'charset',
+ // 'port',
  'username',
  'password',
  'options', 
- 'autocreate'
+ 'prefix_tbl',
+ 'collation',
+ 'engine',
+ 'autocreate',
 ];
 
 
@@ -49,19 +57,15 @@ public static function make($config = [])
        extract($config);
        self::addOptions($options);
        $connection = new PDO($dsn, $username, $password, self::$options);
-       
-       /**
+
+       /*
+       This fonctionnality will be added later
        if($autocreate === true)
-       {
-          exec('CREATE DATABASE IF NOT EXISTS `%s`', $database);
-          if($connection->exec($sql))
-          {
-              self::$message['created'][] = sprintf(
-                'Database %s created successfully!', $database
-              );
-          }
+       { 
+          self::createDBIfNotExist($connection); 
        }
        */
+
        return $connection;
          
    }catch(PDOException $e){
@@ -83,10 +87,45 @@ public static function message()
 
 
 /**
+ * Create Database if not exist
+ * @param \PDO $connection 
+ * @param  string $database [ Name of database ]
+ * @return void
+*/
+private static function createDBIfNotExist(\PDO $connection, $database='xxx')
+{
+      # in this part we must to make sure connection
+      $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
+      if($connection->query($sql))
+      {
+          echo 'Database created successfully!';
+      }
+      $connection->query(
+        sprintf('use %s', $database)
+      );
+}
+
+
+/**
+ * Add options params
+ * @param array $options 
+ * @return void
+*/
+public static function addOptions($options=[])
+{
+   if(!empty($options))
+   {
+       self::$options = array_merge(self::$options, $options);
+   }
+}
+
+
+
+/**
  * Make sure config params matches
  * @param array $config 
- * @return type
- */
+ * @return void
+*/
 private static function ensureConfig($config)
 {
    foreach(array_keys($config) as $key)
@@ -100,19 +139,5 @@ private static function ensureConfig($config)
    }
 }
 
-/**
- * Add options params
- * @param array $options 
- * @return void
-*/
-private static function addOptions($options=[])
-{
-   if(!empty($options))
-   {
-       self::$options = array_merge(self::$options, $options);
-   }
-}
 
-
-     
 }
