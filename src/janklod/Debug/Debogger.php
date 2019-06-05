@@ -71,7 +71,7 @@ public function output($debug = false)
        $this->app->response->setHeader('Content-Type: text/html; charset=utf-8');
        $this->output .= PHP_EOL.'<div style="'. $this->getStyle() . '">';
        $this->output .= $this->debogger('TimingBlank')->output();
-       foreach($this->blanks() as $blank)
+       foreach($this->blanks as $blank)
        {
            $this->output .= $this->debogger($blank)->output();
        }
