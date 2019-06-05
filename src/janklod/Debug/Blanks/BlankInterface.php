@@ -1,8 +1,8 @@
 <?php 
-namespace JK\Debug;
+namespace JK\Debug\Blanks;
 
 /**
- * @package JK\Debug\BlankInterface 
+ * @package JK\Debug\Blanks\BlankInterface 
 */ 
 interface BlankInterface 
 {

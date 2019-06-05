@@ -34,10 +34,6 @@ const CONFIG = [
  'DB'       => 'JK\\Database\\DatabaseManager',
  'Q'        => 'JK\\ORM\\Q'
 ],
-'printers' => [
-  'RoutingBlank',
-  // 'ViewBlank'
-],
 'commands' => [
      // Database
      \JK\Database\Migrations\Commands\RollbackCommand::class,

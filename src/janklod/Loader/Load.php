@@ -4,7 +4,7 @@ namespace JK\Loader;
 
 use \Exception;
 use \Config;
-use JK\Debug\Reporter;
+use JK\Debug\Debogger;
 
 
 /**
@@ -63,7 +63,7 @@ public function callAction($callback, $matches=[])
             $output = call_user_func_array([$controllerObj , $action], $matches);
             $this->call($controllerObj, 'after');
             
-            $this->messager();
+            $this->debug();
          }
      }
 
@@ -75,14 +75,14 @@ public function callAction($callback, $matches=[])
 
 
 /**
- * Show action messages
- *  
+ * Show all debugs
+ * 
  * @return void
 */
-public function messager()
+public function debug()
 {
-   $reporter = new Reporter($this->app);
-   $reporter->output(\Config::get('app.debug'));
+   $debogger = new Debogger($this->app);
+   $debogger->output(\Config::get('app.debug'));
 }
 
 
