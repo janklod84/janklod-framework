@@ -9,8 +9,8 @@ class HTML
 {
 
 const MASK_META = [
-	'content' => '<meta name="%s" content="%s">',
-	'charset' => '<meta charset="%s">'
+'content' => '<meta name="%s" content="%s">',
+'charset' => '<meta charset="%s">'
 ];
 
 
@@ -76,19 +76,20 @@ public static function meta()
  * Get title
  * <title>JK</title>
  * <title>Article-1 | JK</title>
- * @param string $title
- * @return string
+ * @param bool $offset [ remove tag balise ]
+ * @return void
 */
-public static function title()
+public static function title($offset = false)
 {
-      echo sprintf('<title>%s</title>', self::$title) . PHP_EOL;
+  if($offset === true) { echo self::$title; }
+  echo sprintf('<title>%s</title>', self::$title) . PHP_EOL;
 }
 
 
 /**
  * Set Page Language 
  * @param string $code 
- * @return string
+ * @return void
 */
 public static function lang($code = 'en')
 {
@@ -99,7 +100,7 @@ public static function lang($code = 'en')
 /**
  * Encode meta charset
  * @param string $encode 
- * @return string
+ * @return void
 */
 public static function charset($encode = 'UTF-8')
 {
@@ -113,7 +114,7 @@ public static function charset($encode = 'UTF-8')
  * [indicate in seconds how many time you want to refresh content]
  * @param string $url 
  * [indicate concretly domain or path you want to refresh, by default content will ve refresh all them domain]
- * @return string
+ * @return void
 */
 public static function refresh($times=5, $url='')
 {

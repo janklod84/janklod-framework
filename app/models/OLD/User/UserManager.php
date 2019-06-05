@@ -14,6 +14,7 @@ class UserManager extends Model
 	  
 	 private $user;
 	 
+   
 	 /**
 	  * constructor
 	  * @param type $user 

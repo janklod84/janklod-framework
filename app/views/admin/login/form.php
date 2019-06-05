@@ -1,4 +1,4 @@
-<h1>Вход</h1>
+<h1><?php HTML::title(true) ?></h1>
 <div class="row">
 	<div class="col-md-6">
 		<form action="/" method="POST">
