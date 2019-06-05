@@ -8,8 +8,10 @@ use JK\Database\ActiveRecord;
 /**
  * @package app\models\User
 */ 
-class User extends ActiveRecord
+class User
 {
+
+use ActiveRecord;
 	  
 /**
 * @var string $table
@@ -113,4 +115,6 @@ public function getRole()
 {
 	  return $this->role;
 }
+
+
 }

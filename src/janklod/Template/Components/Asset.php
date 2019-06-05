@@ -27,6 +27,9 @@ private static $basePath = '';
 
 /**
  * Manager or Map assets
+ * [TO ADD More fonctionality for loading all types assets .. 
+ * Because function map support css, and js ]
+ * 
  * @param array $css 
  * @param array $js 
  * @param string $basePath 

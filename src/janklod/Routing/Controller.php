@@ -151,24 +151,23 @@ private function beforeRender()
      
      // Configuration assets
      Asset::map(
-        Config::get('asset.css'),
-        Config::get('asset.js'),
-        base_url()
+      Config::get('asset.css'),
+      Config::get('asset.js'),
+     base_url()
      );
      
      // Configuration views
      $this->view->partialDir(Config::get('view.partial'));
-     $this->view->setLayout(
-        $this->mapLayout()
-     );
+     $layout = $this->currentLayout();
+     $this->view->setLayout($layout);
 }
 
 
 /**
-* map layout
+* Get current layout
 * @return mixed
 */
-protected function mapLayout()
+protected function currentLayout()
 {
    if(!$this->layout)
    { return false; }

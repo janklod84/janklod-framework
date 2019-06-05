@@ -121,11 +121,14 @@ $app->loadProviders();
 
 /*
 |-------------------------------------------------------------------
-|   Loading all routes of Application
+|   Includes any needed files 
 |-------------------------------------------------------------------
 */
 
-$app->file->call('routes/app.php');
+$app->file->calls([
+	'routes/app.php',
+	'routes/console.php'
+]);
 
 
 

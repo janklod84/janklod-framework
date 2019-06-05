@@ -69,6 +69,28 @@ public function call($file)
 
 
 
+/**
+ * Call many files 
+ * 
+ * Ex: (new File(__DIR__))->calls([
+ *   '/path1/to/x1.php', 
+ *   '/path3/to/x2.php',
+ *   '/folder1/to/f1.php',
+ *   '/folder2/to/f2.php',
+ * ])
+ * require_once __DIR__.'/path1/to/x1.php';
+ * .... .... ....
+ * 
+ * @param array $files 
+ * @return void
+*/
+public function calls($files=[])
+{
+      foreach($files as $file)
+      {
+          $this->call($file);
+      }
+}
 
 /**
  * Generate full path to the given path

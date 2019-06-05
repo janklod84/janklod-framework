@@ -11,6 +11,7 @@ class Seeder
 
 	 public function fake()
 	 {
+		 // Test something ..
  	   	 for($i=1; $i < 5; $i++)
 	     {
 	          Q::table('users')->create([

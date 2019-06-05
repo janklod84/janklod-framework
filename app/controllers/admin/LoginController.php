@@ -13,7 +13,6 @@ class LoginController extends Controller
      
 
 /**
- * Do action before callback
  * Do all behaviours before actions
  * @return 
 */
