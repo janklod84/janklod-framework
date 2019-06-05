@@ -91,7 +91,7 @@ public static function load($parsed='')
         {
              $data = self::retrieveGroup($group);
              // retrive part
-             if(isset($data[$item]))
+             if(self::hasChild($group, $item))
              {
                   $data = self::retrieveItem($group, $item);
              }
@@ -187,7 +187,7 @@ public static function retrieveGroup($group)
  * @param string $item 
  * @return bool
 */
-public static function hasChild($group='', $item='')
+public static function hasChild($group, $item)
 {
    return array_key_exists($item, self::$stored[$group]);
 }
