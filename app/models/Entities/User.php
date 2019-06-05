@@ -11,6 +11,7 @@ use JK\Database\ActiveRecord;
 class User
 {
 
+
 use ActiveRecord;
 	  
 /**
@@ -113,7 +114,7 @@ public function setRole($role)
 */
 public function getRole()
 {
-	  return $this->role;
+	return $this->role;
 }
 
 

@@ -4,7 +4,7 @@ namespace JK\Loader;
 
 use \Exception;
 use \Config;
-use JK\Debug\PrettyPrint;
+use JK\Debug\Reporter;
 
 
 /**
@@ -62,8 +62,8 @@ public function callAction($callback, $matches=[])
             $this->call($controllerObj, 'before');
             $output = call_user_func_array([$controllerObj , $action], $matches);
             $this->call($controllerObj, 'after');
-
-            $this->notification();
+            
+            $this->messager();
          }
      }
 
@@ -75,19 +75,20 @@ public function callAction($callback, $matches=[])
 
 
 /**
- * Notification output
+ * Show action messages
+ *  
  * @return void
 */
-public function notification()
+public function messager()
 {
-   $pretty = new PrettyPrint($this->app);
-   $pretty->output(\Config::get('app.debug'));
+   $reporter = new Reporter($this->app);
+   $reporter->output(\Config::get('app.debug'));
 }
 
 
 /**
 * Call before or after 
-* how we want
+* 
 * @param object $object
 * @param string $method
 * @return void

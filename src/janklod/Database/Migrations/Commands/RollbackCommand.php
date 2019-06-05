@@ -10,9 +10,9 @@ class RollbackCommand extends CustomCommand
 
 
 /**
- * @var $name [ Name command input ]
+ * @var $name 
 */
-protected $name = 'migration:rollback';
+protected $name = 'rollback';
 
 
 /**
@@ -25,7 +25,7 @@ public function execute()
 }
 
 /**
- * Execute command
+ * Undo command
  * @return mixed
 */
 public function undo()

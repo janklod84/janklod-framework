@@ -2,37 +2,33 @@
 namespace app\models\User;
 
 
-use JK\Database\Model;
-
-
 /**
  * @package app\models\User\UserManager
 */ 
 class UserManager extends BaseManager
 {
 	  
-	  
-private $user;
+
+/*  
+protected $entity;
 
 
 /**
-* constructor
-* @param app\models\Entities\User $user 
 * @return void
-*/
-public function onConstruct()
+*//*
+public function onConstruct($entity)
 {
-	    $this->user = new User();
+	  $this->entity = $entity;
 }
 
  
 /**
 * Get User
 * @return app\models\User\User
-*/
-public function getUser()
+*//*
+public function entity()
 {
-	   return new User();
+	   return $this->entity;
 }
 
 
@@ -41,7 +37,7 @@ public function getUser()
   * @param string $username 
   * @param string $password 
   * @return bool
- */
+ *//*
 public function login($username, $password)
 {
       $user = $this->user->findBy('username', $username);
@@ -54,5 +50,7 @@ public function login($username, $password)
       }
       return false;
 }
+*/
+
 
 }

@@ -1,14 +1,14 @@
 <?php 
-namespace JK\Debug\Printers;
+namespace JK\Debug\Blanks;
 
 
 use \Config;
 
 
 /**
- * @package JK\Debug\Printers\TimingPrinter
+ * @package JK\Debug\Blanks\TimingBlank
 */ 
-class TimingPrinter extends CustomPrinter
+class TimingBlank extends CustomBlank
 {
       
 /**

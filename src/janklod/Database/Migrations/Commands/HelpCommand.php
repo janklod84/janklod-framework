@@ -12,7 +12,7 @@ class HelpCommand extends CustomCommand
 /**
  * @var $name [ Name command input ]
 */
-protected $name = 'migration:help';
+protected $name = 'help';
 
 
 /**
@@ -25,7 +25,7 @@ public function execute()
 }
 
 /**
- * Execute command
+ * Undo command
  * @return mixed
 */
 public function undo()

@@ -3,15 +3,15 @@ namespace JK;
 
 
 /**
- * @package JK\Capture
+ * @package JK\Resource
 */ 
-class Capture
+class Resource
 {
 
 /**
 * Configuration source of application
 */
-const SRC = [
+const CONFIG = [
 'providers' => [
 \JK\Http\Facades\RequestProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
@@ -24,7 +24,7 @@ const SRC = [
 'alias' => [
  'Route'    => 'JK\\Routing\\Route\\Route',
  'Request'  => 'JK\\Http\\Request',
- 'Auth'     => 'JK\\Authenticate\\Auth',
+ 'Auth'     => 'JK\\Security\\Authenticate\\Auth',
  'Asset'    => 'JK\\Template\\Components\\Asset',
  'View'     => 'JK\\Template\\View',
  'HTML'     => 'JK\\Template\\Components\\HTML', 
@@ -35,8 +35,8 @@ const SRC = [
  'Q'        => 'JK\\ORM\\Q'
 ],
 'printers' => [
-  'RoutingPrinter',
-  // 'ViewPrinter'
+  'RoutingBlank',
+  // 'ViewBlank'
 ],
 'commands' => [
      // Database

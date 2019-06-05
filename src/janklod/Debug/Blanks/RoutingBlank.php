@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Debug\Printers;
+namespace JK\Debug\Blanks;
 
 /**
- * @package JK\Debug\Printers\RoutingPrinter 
+ * @package JK\Debug\Blanks\RoutingBlank 
 */ 
-class RoutingPrinter extends CustomPrinter
+class RoutingBlank extends CustomBlank
 {
       
       

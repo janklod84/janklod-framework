@@ -15,9 +15,8 @@ abstract class Model
  * @var string $model [ This is model name ]
  * @var \JK\Container\ContainerInterface $app
 */
-protected $table;
 protected $app;
-protected $connection;
+protected $db;
 
 
 
@@ -29,8 +28,8 @@ protected $connection;
 public function __construct($app)
 {
     $this->app = $app;
-	$this->connection = $app->db;
-    Q::setup($this->connection);
+	$this->db  = $app->db;
+    Q::setup($this->db);
     $this->app->load->call($this, 'onConstructor');
 }
 

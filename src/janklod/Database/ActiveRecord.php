@@ -20,10 +20,9 @@ protected $id;
 
 /**
  * Constructor
- * @param \JK\Container\ContainerInterface $app
  * @return void
 */
-public function __construct($id=null)
+public function __construct()
 {
     Q::setup(\Database::instance());
     Q::fetchClass(get_class($this));

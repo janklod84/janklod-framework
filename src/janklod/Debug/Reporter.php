@@ -3,14 +3,15 @@ namespace JK\Debug;
 
 
 use JK\Container\ContainerInterface;
-use JK\Capture;
+use JK\Resource;
 
 
 /**
- * @package JK\Debug\PrettyPrint
+ * @package JK\Debug\Reporter
 */ 
-class PrettyPrint
+class Reporter
 {
+
    
 /**
  * @var \JK\Container\ContainerInterface $app
@@ -48,13 +49,13 @@ public function addPrinter(string $printer)
  * Get printers
  * @return array
 */
-public function getPrinters()
+public function printers()
 {
-    if(!empty(Capture::SRC['printers']))
+    if(!empty(Resource::CONFIG['printers']))
     {
         $this->printers = array_merge(
           $this->printers, 
-          Capture::SRC['printers']
+          Resource::CONFIG['printers']
         );
     }
     return $this->printers;
@@ -72,10 +73,10 @@ public function output($debug = false)
    {
        $this->app->response->setHeader('Content-Type: text/html; charset=utf-8');
        $this->output .= PHP_EOL.'<div style="'. $this->getStyle() . '">';
-       $this->output .= $this->mapPrinter('TimingPrinter')->output();
-       foreach($this->getPrinters() as $printer)
+       $this->output .= $this->printer('TimingBlank')->output();
+       foreach($this->printers() as $printer)
        {
-           $this->output .= $this->mapPrinter($printer)->output();
+           $this->output .= $this->printer($printer)->output();
        }
        $this->output .= '</div>';
        echo $this->output;
@@ -85,12 +86,12 @@ public function output($debug = false)
 
 /**
  * Printer maper
- * @param PrinterInterface $printer 
- * @return \JK\Debug\PrinterInterface
+ * @param string $printer 
+ * @return \JK\Debug\BlankInterface
 */
-public function mapPrinter(string $printer): PrinterInterface
+public function printer(string $printer): BlankInterface
 {
-   $printerClass = sprintf('\\JK\\Debug\\Printers\\%s', $printer);
+   $printerClass = sprintf('\\JK\\Debug\\Blanks\\%s', $printer);
    if(!class_exists($printerClass))
    {
        exit(

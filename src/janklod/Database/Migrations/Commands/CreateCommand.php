@@ -11,7 +11,7 @@ class CreateCommand extends CustomCommand
 /**
  * @var $name [ Name command input ]
 */
-protected $name = 'migration:create';
+protected $name = 'create';
 
 
 /**
@@ -24,7 +24,7 @@ public function execute()
 }
 
 /**
- * Execute command
+ * Undo command
  * @return mixed
 */
 public function undo()

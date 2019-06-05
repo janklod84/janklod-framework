@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Authenticate;
+namespace JK\Security\Authenticate;
 
 
 
 /**
- * @package JK\Auth\Auth
+ * @package JK\Security\Authenticate\Auth
 */ 
 class Auth
 {
@@ -61,6 +61,25 @@ public static function getKey()
 public static function isLogged()
 {
 	 return self::$session->has(self::$key);
+}
+
+
+/**
+ * Get current authenticate
+ * @param null $item 
+ * @return mixed
+*/
+public static function get($item=null)
+{
+     if(self::isLogged())
+     {
+     	  $current = self::$session->get(self::$key);
+     	  if(isset($current[$item]))
+     	  {
+     	  	  return $current[$item];
+     	  }
+     	  return $current;
+     }
 }
          
 }

@@ -3,9 +3,9 @@ namespace JK\Database\Migrations\Commands;
 
 
 /**
- * @package JK\Database\Migrations\Commands\RunCommand
+ * @package JK\Database\Migrations\Commands\MigrateCommand
 */ 
-class RunCommand extends CustomCommand
+class MigrateCommand extends CustomCommand
 {
 
 /**
@@ -24,11 +24,13 @@ public function execute()
 }
 
 /**
- * Execute command
+ * Undo command
  * @return mixed
 */
 public function undo()
 {
 	   echo __METHOD__."\n";
 }
+
+
 }

@@ -13,9 +13,11 @@ abstract class CustomCommand implements  CommandInterface
 
 /**
  * @var string $name
+ * @var string $console
 */
-protected $name = 'custom:command';
+protected $name;
 protected $console;
+// protected $handler = 'make:migration';
 
 
 /**
@@ -26,5 +28,18 @@ public function __construct()
 {
      $this->console = new Console();
 }
+
+/**
+ * Execute command
+ * @return mixed
+*/
+abstract public function execute();
+
+
+/**
+ * Undo command
+ * @return mixed
+*/
+abstract public function undo();
 
 }

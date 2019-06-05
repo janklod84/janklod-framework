@@ -11,7 +11,6 @@ use JK\Database\Model;
 class BaseManager extends Model
 {
 	  
-   
 	 /**
 	  * constructor
 	  * @param JK\Container\ContainerInterface $app

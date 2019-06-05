@@ -1,12 +1,12 @@
 <?php 
-namespace JK\Debug\Printers;
+namespace JK\Debug\Blanks;
 
-use JK\Debug\PrinterInterface;
+use JK\Debug\BlankInterface;
 
 /**
- * @package JK\Debug\Printers\CustomPrinter 
+ * @package JK\Debug\Blanks\CustomBlank 
 */ 
-abstract class CustomPrinter implements PrinterInterface 
+abstract class CustomBlank implements BlankInterface 
 {
 
       /**
