@@ -1,0 +1,58 @@
+[05-Jun-2019 11:42:17 UTC] Uncaught exception: 'Error' with message 'Class 'JK\Database\ConnectionException' not found'
+Stack trace: #0 D:\laragon\www\project\src\janklod\Database\Database.php(92): JK\Database\Connection::make(Array)
+#1 D:\laragon\www\project\src\janklod\Database\Database.php(117): JK\Database\Database::connect()
+#2 D:\laragon\www\project\src\janklod\Database\Facades\DatabaseProvider.php(22): JK\Database\Database::instance()
+#3 [internal function]: JK\Database\Facades\DatabaseProvider->JK\Database\Facades\{closure}()
+#4 D:\laragon\www\project\src\janklod\DI\Container.php(332): call_user_func(Object(Closure))
+#5 D:\laragon\www\project\src\janklod\DI\Container.php(182): JK\DI\Container->resolverMap(Object(Closure))
+#6 D:\laragon\www\project\src\janklod\Database\Facades\DatabaseProvider.php(23): JK\DI\Container->singleton('db', Object(Closure))
+#7 [internal function]: JK\Database\Facades\DatabaseProvider->register()
+#8 D:\laragon\www\project\src\janklod\Initializer.php(66): call_user_func(Array)
+#9 D:\laragon\www\project\src\janklod\Application.php(285): JK\Initializer::providers(Object(JK\DI\Container))
+#10 D:\laragon\www\project\bootstrap\app.php(119): JK\Application->loadProviders()
+#11 D:\laragon\www\project\public\index.php(19): require_once('D:\\laragon\\www\\...')
+#12 {main}
+Thrown in 'D:\laragon\www\project\src\janklod\Database\Connection.php' on line 72
+[05-Jun-2019 11:42:20 UTC] Uncaught exception: 'Error' with message 'Class 'JK\Database\ConnectionException' not found'
+Stack trace: #0 D:\laragon\www\project\src\janklod\Database\Database.php(92): JK\Database\Connection::make(Array)
+#1 D:\laragon\www\project\src\janklod\Database\Database.php(117): JK\Database\Database::connect()
+#2 D:\laragon\www\project\src\janklod\Database\Facades\DatabaseProvider.php(22): JK\Database\Database::instance()
+#3 [internal function]: JK\Database\Facades\DatabaseProvider->JK\Database\Facades\{closure}()
+#4 D:\laragon\www\project\src\janklod\DI\Container.php(332): call_user_func(Object(Closure))
+#5 D:\laragon\www\project\src\janklod\DI\Container.php(182): JK\DI\Container->resolverMap(Object(Closure))
+#6 D:\laragon\www\project\src\janklod\Database\Facades\DatabaseProvider.php(23): JK\DI\Container->singleton('db', Object(Closure))
+#7 [internal function]: JK\Database\Facades\DatabaseProvider->register()
+#8 D:\laragon\www\project\src\janklod\Initializer.php(66): call_user_func(Array)
+#9 D:\laragon\www\project\src\janklod\Application.php(285): JK\Initializer::providers(Object(JK\DI\Container))
+#10 D:\laragon\www\project\bootstrap\app.php(119): JK\Application->loadProviders()
+#11 D:\laragon\www\project\public\index.php(19): require_once('D:\\laragon\\www\\...')
+#12 {main}
+Thrown in 'D:\laragon\www\project\src\janklod\Database\Connection.php' on line 72
+[05-Jun-2019 11:42:42 UTC] Uncaught exception: 'TypeError' with message 'PDO::__construct() expects parameter 1 to be string, array given'
+Stack trace: #0 D:\laragon\www\project\src\janklod\Database\Connection.php(58): PDO->__construct(Array, Array, Array, Array)
+#1 D:\laragon\www\project\src\janklod\Database\Database.php(92): JK\Database\Connection::make(Array)
+#2 D:\laragon\www\project\src\janklod\Database\Database.php(117): JK\Database\Database::connect()
+#3 D:\laragon\www\project\src\janklod\Database\Facades\DatabaseProvider.php(22): JK\Database\Database::instance()
+#4 [internal function]: JK\Database\Facades\DatabaseProvider->JK\Database\Facades\{closure}()
+#5 D:\laragon\www\project\src\janklod\DI\Container.php(332): call_user_func(Object(Closure))
+#6 D:\laragon\www\project\src\janklod\DI\Container.php(182): JK\DI\Container->resolverMap(Object(Closure))
+#7 D:\laragon\www\project\src\janklod\Database\Facades\DatabaseProvider.php(23): JK\DI\Container->singleton('db', Object(Closure))
+#8 [internal function]: JK\Database\Facades\DatabaseProvider->register()
+#9 D:\laragon\www\project\src\janklod\Initializer.php(66): call_user_func(Array)
+#10 D:\laragon\www\project\src\janklod\Application.php(285): JK\Initializer::providers(Object(JK\DI\Container))
+#11 D:\laragon\www\project\bootstrap\app.php(119): JK\Application->loadProviders()
+#12 D:\laragon\www\project\public\index.php(19): require_once('D:\\laragon\\www\\...')
+#13 {main}
+Thrown in 'D:\laragon\www\project\src\janklod\Database\Connection.php' on line 58
+[05-Jun-2019 11:42:42 UTC] PHP Fatal error:  Uncaught ErrorException: trim() expects parameter 1 to be string, array given in D:\laragon\www\project\src\janklod\Functions\url.php:19
+Stack trace:
+#0 [internal function]: JK\Exception\ErrorHandler::errorHandler(2, 'trim() expects ...', 'D:\\laragon\\www\\...', 19, Array)
+#1 D:\laragon\www\project\src\janklod\Functions\url.php(19): trim(Array, '/')
+#2 D:\laragon\www\project\app\views\errors\404.php(8): base_url()
+#3 D:\laragon\www\project\src\janklod\Template\View.php(119): require_once('D:\\laragon\\www\\...')
+#4 D:\laragon\www\project\src\janklod\Template\View.php(107): JK\Template\View->runBuffer()
+#5 D:\laragon\www\project\src\janklod\Functions\view.php(18): JK\Template\View->render()
+#6 D:\laragon\www\project\src\janklod\Exception\ErrorHandler.php(69): view('errors/404')
+#7 [internal function]: JK\Exception\ErrorHandler::exceptionHandler(Object(TypeError))
+#8 {main}
+  thrown in D:\laragon\www\project\src\janklod\Functions\url.php on line 19

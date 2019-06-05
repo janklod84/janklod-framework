@@ -148,6 +148,8 @@ private function beforeRender()
      $session = $this->request->session();
      Auth::check($session);
       
+     debug(Config::get('asset.css'));
+
      // Configuration assets
      Asset::map(Config::group('asset'), base_url());
      

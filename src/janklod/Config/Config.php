@@ -11,15 +11,11 @@ class Config
 /**
 * @var array $stored       [ Repository all stored data  ]
 * @var array $files        [ Repository all stored files ]
-* @var mixed $item
-* @var string $configPath
-* @var string $group
+* @var string $configPath  [ Base path configs ]
 */
 protected static $stored = [];
-protected static $files = []; 
-protected static $item;
+protected static $files  = []; 
 protected static $configPath='';
-protected static $group='';
 
 
 /**
@@ -35,42 +31,15 @@ public static function basePath(string $configPath='')
 
 
 /**
-* Load config group or item
-* @param string $parsed 
-* ex: [self::load(group)]      Load group
-* ex: [self::load(group.item)] Loaad item
-* @return self
+* Store configuration
+* @param array $data 
+* @return void
 */
-public static function load($parsed='')
+public static function store($data=[])
 {
-   if($parsed)
-   {
-        self::$group = $parsed;
-        self::$item = null;
-        $exp = explode('.', $parsed);
-        self::$group = $exp[0];
-        self::$item  = $exp[1];
-        if(self::$configPath !== '')
-        {
-            $file = self::$configPath . '/' . mb_strtolower(self::$group) . '.php';
-           
-            if(is_file($file))
-            {
-                self::saveFile(self::$group, $file);
-            }
-        }
-        
-        // retrieve group or item
-        if(self::isStored(self::$group))
-        {
-             // retrive part
-             if(self::hasChild(self::$group, self::$item))
-             {
-                  return self::retrieveItem(self::$group, self::$item);
-             }
-        }
-   }
+    self::$stored = array_merge(self::$stored, $data);
 }
+
 
 
 /**
@@ -96,50 +65,82 @@ public function map()
 }
 
 
+
 /**
-* Store configuration
-* @param array $data 
-* @return void
+* Load config group or item
+* Ex:
+* Config::get('group')      Load group
+* Config::get('group.item')  Loaad item
+* 
+* @param string $parsed 
+* @return self
 */
-public static function store($data=[])
+public static function load($parsed='')
 {
-    self::$stored = array_merge(self::$stored, $data);
+   if($parsed)
+   {
+        $exp = explode('.', $parsed);
+        $group = $exp[0] ?? '';
+        $item  = $exp[1] ?? '';
+        self::saveFile($group);
+        
+        $data = null;
+
+        // retrieve group or item
+        if(self::isStored($group))
+        {
+             $data = self::retrieveGroup($group);
+             // retrive part
+             if(isset($data[$item]))
+             {
+                  $data = self::retrieveItem($group, $item);
+             }
+        }
+        return $data;
+   }
 }
 
 
 /**
+ * Save data file in container by filename [ group ]
+ * 
+ * Config::saveFile('app')
+ * 
+ * @param string $group
+ * @return void
+*/
+public static function saveFile($group)
+{
+    if(self::$configPath !== '')
+    {
+        $file = self::$configPath . '/' . mb_strtolower($group) . '.php';
+       
+        if($path = realpath($file))
+        {
+             if(!in_array($group, self::$stored))
+             {
+                 self::store([$group => require($path)]);
+             }
+             self::addFile($path);
+        }
+    }
+   
+}
+
+/**
 * Get config group or item
+* 
+* Ex:
+* Config::get('asset')      Load group
+* Config::get('asset.css')  Loaad item
+* 
 * @param string $parsed 
-* ex: [Config::get(group)]      Load group
-* ex: [Config::get(group.item)] Loaad item
 * @return self
 */
 public static function get($parsed='')
 {
     return self::load($parsed);
 }
-
-
-
-/**
- * Get all stored configuration
- * @return array
-*/
-public static function all()
-{
-    return self::$stored;
-}
-
-
-/**
- * Get all stored files
- * @return array
-*/
-public static function files()
-{
-    return self::$files;
-}
-
 
 
 /**
@@ -212,26 +213,24 @@ public static function retrieveItem($group, $item)
 
 
 
-
 /**
- * Save data file in container
- * @param string $group
- * @param string $file
- * @return void
+ * Get all stored configuration
+ * @return array
 */
-public static function saveFile($group='', $file='')
+public static function all()
 {
-   if($path = realpath($file))
-   {
-       if(!in_array($group, self::$stored))
-       {
-           self::store([$group => require($path)]);
-       }
-       self::addFile($path);
-   }
+    return self::$stored;
 }
 
 
+/**
+ * Get all stored files
+ * @return array
+*/
+public static function files()
+{
+    return self::$files;
+}
 
 /**
  * Add path
