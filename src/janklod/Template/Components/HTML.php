@@ -31,14 +31,44 @@ private static $metas = [];
 /**
  * Set title
  * if no $current [ <title>JK</title> ]
- * if $current is not null [ <title>Article-1 | JK</title> ]
  * @param string $title 
- * @param string $current
- * @return string
+ * @return void
 */
-public static function setTitle($title, $current = null)
+public static function setTitle($title)
 {
-      self::$title = $current ? $current .' | '. $title : $title;
+      self::$title = $title;
+}
+
+
+/**
+ * Add meta 
+ * 
+ * @param $name 
+ * @param string $content 
+ * @return void
+*/
+public static function setMeta($name='', $content='')
+{
+	self::$metas[$name] = $content;
+}
+
+
+/**
+ * Render metas
+ * @return void
+*/
+public static function meta()
+{
+   $meta = '';
+   foreach(self::$metas as $name => $content)
+   {
+	    $meta .= sprintf(
+		   self::MASK_META['content'], 
+		   $name, 
+		   $content
+	    ) . PHP_EOL;
+   }
+   echo $meta;
 }
 
 

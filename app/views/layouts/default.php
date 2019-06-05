@@ -2,7 +2,7 @@
 <?php HTML::lang() ?>
 <head>
 <?php 
-	HTML::title();
+   View::getMeta();
 	HTML::refresh(false); 
 	Asset::render('css') 
 ?>

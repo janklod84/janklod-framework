@@ -51,7 +51,7 @@ public function index()
     {
          die('OK');
     }
-    $this->title('Вход', false);
+    $this->setMeta('Вход');
     $this->render('/admin/login/form');
 }
 

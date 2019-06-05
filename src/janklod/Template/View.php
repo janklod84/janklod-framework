@@ -3,6 +3,8 @@ namespace JK\Template;
 
 
 
+use JK\Template\Components\HTML;
+
 
 /**
  * @package JK\Template\View
@@ -14,6 +16,7 @@ class View  implements ViewInterface
 * @var string  $layout
 * @var string  $view
 * @var array   $data 
+* @var array   $meta [ add meta data ]
 * @var string  $viewPath
 * @var string  $partialDir
 * @var bool  $show [ Determine if show render or not ]
@@ -21,6 +24,7 @@ class View  implements ViewInterface
 private $layout;
 private $view;
 private $data = [];
+private $meta = [];
 private $viewPath = ''; 
 private $partialDir;
 private $show = true;
@@ -93,6 +97,35 @@ public function setData($data = [])
 
 
 /**
+ * Set metas
+ * @param string $title 
+ * @param string $desc 
+ * @param string $keywords 
+ * @return void
+*/
+public static function setMeta($title='', $desc='', $keywords='')
+{
+      HTML::setTitle($title);
+      HTML::setMeta('description', $desc);
+      HTML::setMeta('keywords', $keywords);
+}
+
+
+/**
+ * Get meta
+ * @param bool $charset
+ * @return void
+*/
+public static function getMeta($charset = true)
+{
+      if($charset === true)
+      {HTML::charset();}
+      HTML::title();
+      HTML::meta();
+}
+
+
+/**
 * View render
 * @param string $view
 * @param array  $data
@@ -100,11 +133,9 @@ public function setData($data = [])
 */
 public function render()
 {
-     if(!$this->show)
-     {
-         return false;
-     }
-     $this->runBuffer();
+  if(!$this->show)
+  {return false;}
+  $this->runBuffer();
 }
 
 

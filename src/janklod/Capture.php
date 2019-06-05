@@ -26,6 +26,7 @@ const SRC = [
  'Request'  => 'JK\\Http\\Request',
  'Auth'     => 'JK\\Authenticate\\Auth',
  'Asset'    => 'JK\\Template\\Components\\Asset',
+ 'View'     => 'JK\\Template\\View',
  'HTML'     => 'JK\\Template\\Components\\HTML', 
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',

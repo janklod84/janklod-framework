@@ -6,6 +6,7 @@ use \Config;
 use \Asset;
 use \Auth;
 use \HTML;
+use \View;
 
 
 /**
@@ -79,17 +80,31 @@ protected function set($data = [])
 
 
 /**
- * Setting title
- * [ This method will be removed after implementation method set meta ]
+ * Get title format
  * 
  * @param string $title 
- * @param bool $base
+ * @param string $current
+ * @param string $divider 
+ * @return string
+*/
+public function formatTitle($title='', $current = null, $divider='|')
+{
+    if(!is_null($current))
+    { $title .= sprintf(' %s %s', $divider, $current); }
+    return $title;
+}
+
+
+/**
+ * Set meta datas
+ * @param string $title 
+ * @param string $desc 
+ * @param string $keywords 
  * @return void
 */
-protected function title($title='', $base=true)
+protected function setMeta($title='', $desc = '', $keywords='')
 {
-   $baseTitle = ($base === true) ? Config::get('app.name') : '';
-   HTML::setTitle($title, $baseTitle);
+   View::setMeta($title, $desc, $keywords);
 }
 
 
