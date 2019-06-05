@@ -58,16 +58,16 @@ public static function basePath($basePath='')
 /**
  * Add Assets
  * Ex: Asset::addAssets([
-     'css' => [
-      'app',
-      'bootstrap.min',
-      'style'
-     ],
-     'js' => [
-      'app',
-      'bootstrap.min',
-      'script'
-     ]
+ *    'css' => [
+ *    'app',
+ *   'bootstrap.min',
+ *    'style'
+ *   ],
+ *  'js' => [
+ *   'app',
+ *    'bootstrap.min',
+ *   'script'
+ *   ]
  * ]);
  * 
  * @param array $js
