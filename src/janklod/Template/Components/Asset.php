@@ -2,6 +2,8 @@
 namespace JK\Template\Components;
 
 
+use JK\Template\Exceptions\AssetException;
+
 /**
  * @package JK\Template\Components\Asset 
 */
@@ -9,37 +11,32 @@ class Asset
 {
 
 	 
-const FORMAT_TYPE = [
- 'js'  => '<script src="%s.js" type="text/javascript"></script>'. PHP_EOL,
- 'css' => '<link rel="stylesheet" href="%s.css">'. PHP_EOL
+const MASK_BLANK = [
+   'js'  => '<script src="%s.js" type="text/javascript"></script>'. PHP_EOL,
+   'css' => '<link rel="stylesheet" href="%s.css">'. PHP_EOL
 ];
 
 
 /**
-* @var array $css
-* @var array $js
+* @var array $assets
+* @var string $basePath
 */
-private static $css  = [];
-private static $js   = [];
+private static $assets = [];
 private static $basePath = '';
 
 
 
 /**
- * Manager or Map assets
- * [TO ADD More fonctionality for loading all types assets .. 
- * Because function map support css, and js ]
+ * Map all assets
  * 
- * @param array $css 
- * @param array $js 
+ * @param array $assets
  * @param string $basePath 
  * @return void
 */
-public static function map($css=[], $js=[], $basePath='')
+public static function map($assets = [], $basePath='')
 {
     self::basePath($basePath);
-    self::addStyles($css);
-    self::addScripts($js);
+    self::addAssets($assets);
 }
 
 
@@ -59,40 +56,26 @@ public static function basePath($basePath='')
 
 
 /**
- * Add full paths js
- * Ex: Asset::addScripts([
- * '/assets/script',
- * '/jquery/jquery-3.3.3.min',
- * '/bootstrap/bootstrap.min',
- *  .........
- * 
- * ])
+ * Add Assets
+ * Ex: Asset::addAssets([
+     'css' => [
+      'app',
+      'bootstrap.min',
+      'style'
+     ],
+     'js' => [
+      'app',
+      'bootstrap.min',
+      'script'
+     ]
+ * ]);
  * 
  * @param array $js
  * @return void
 */
-public static function addScripts($js=[])
+public static function addAssets($assets=[])
 {
-    self::$js = array_merge($js, self::$js);
-}
-
-
-/**
- * Add full paths css
- * Ex: Asset::addStyles([
- * '/assets/style',
- * '/css/app',
- * '/bootstrap/bootstrap.min',
- *  .........
- * 
- * ])
- * 
- * @param array $css 
- * @return void
-*/
-public static function addStyles($css=[])
-{
-    self::$css = array_merge($css, self::$css);
+    self::$assets = array_merge(self::$assets, $assets);
 }
 
 
@@ -107,7 +90,7 @@ public static function addStyles($css=[])
 */
 public static function css($link = '')
 {
-    self::$css[] = trim($link, '/');
+    self::$assets['css'][] = trim($link, '/');
 }
 
 
@@ -121,7 +104,7 @@ public static function css($link = '')
 */
 public static function js($script = '')
 {
-   self::$js[] = trim($script, '/');
+   self::$assets['js'][] = trim($script, '/');
 }
 
 
@@ -152,39 +135,29 @@ public static function style(array $styles)
 
 
 /**
-* Render factory
-* @var string $type
+* Render all type asset format
+* @param string $type 
 * @return void
 */
-public static function render(string $type)
+public static function render(string $type='')
 {
-   if(!array_key_exists($type, self::FORMAT_TYPE))
-   {
-        exit(sprintf('This type [<strong>%s</strong>] has not render!', $type));
-   }
-   echo self::renderType(self::${$type}, $type);
-}
-
-
-
-/**
-* Render all type format OLD
-* @param array $data
-* @param string $type 
-* @return string
-*/
-private static function renderType($data = [], $type)
-{
-   if(!empty($data))
-   {
-   	   $asset = '';
-   	   foreach($data as $path)
-       {
-          $asset .= sprintf(self::FORMAT_TYPE[$type], 
-                            self::mapPath(self::$basePath, $path));
-       }
-       return $asset;
-   }
+  if(isset(self::$assets[$type]))
+  {
+      $output = '';
+      foreach(self::$assets[$type] as $path)
+      {
+         $output .= sprintf(
+          self::MASK_BLANK[$type],
+          self::mapPath(self::$basePath, $path)
+         );
+      }
+      echo $output;
+  }else{
+      throw new AssetException(
+        sprintf('This type [<strong>%s</strong>] is not setted!', $type), 404
+      );
+      
+  }
 }
 
 

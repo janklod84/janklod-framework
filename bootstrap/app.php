@@ -127,7 +127,8 @@ $app->loadProviders();
 
 $app->file->calls([
 	'routes/app.php',
-	'routes/console.php'
+	'routes/console.php',
+	'routes/Test.php'
 ]);
 
 

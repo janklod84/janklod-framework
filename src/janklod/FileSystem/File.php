@@ -64,6 +64,7 @@ public function exists($file): bool
 */
 public function call($file)
 {
+    $this->ensureFile($file);
     return require_once($this->to($file));
 }
 
@@ -86,11 +87,29 @@ public function call($file)
 */
 public function calls($files=[])
 {
-      foreach($files as $file)
-      {
-          $this->call($file);
-      }
+  foreach($files as $file)
+  {
+     $this->call($file);
+  }
 }
+
+
+/**
+ * Make sure file exist
+ * @param string $file 
+ * @return void
+ */
+public function ensureFile($file)
+{
+     if(!$this->exists($file))
+     {
+         throw new FileException(
+          sprintf("File <strong>%s</strong> does not exist", $file),
+          404
+        );   
+     }
+}
+
 
 /**
  * Generate full path to the given path
@@ -102,7 +121,7 @@ public function calls($files=[])
 */
 public function to($path)
 {
-  return $this->fullPath($path);
+    return $this->fullPath($path);
 }
 
 

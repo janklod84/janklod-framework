@@ -35,6 +35,45 @@ public static function basePath(string $configPath='')
 
 
 /**
+* Load config group or item
+* @param string $parsed 
+* ex: [self::load(group)]      Load group
+* ex: [self::load(group.item)] Loaad item
+* @return self
+*/
+public static function load($parsed='')
+{
+   if($parsed)
+   {
+        self::$group = $parsed;
+        self::$item = null;
+        $exp = explode('.', $parsed);
+        self::$group = $exp[0];
+        self::$item  = $exp[1];
+        if(self::$configPath !== '')
+        {
+            $file = self::$configPath . '/' . mb_strtolower(self::$group) . '.php';
+           
+            if(is_file($file))
+            {
+                self::saveFile(self::$group, $file);
+            }
+        }
+        
+        // retrieve group or item
+        if(self::isStored(self::$group))
+        {
+             // retrive part
+             if(self::hasChild(self::$group, self::$item))
+             {
+                  return self::retrieveItem(self::$group, self::$item);
+             }
+        }
+   }
+}
+
+
+/**
  * Load many files 
  * @return void
 */
@@ -81,6 +120,7 @@ public static function get($parsed='')
 }
 
 
+
 /**
  * Get all stored configuration
  * @return array
@@ -107,14 +147,9 @@ public static function files()
  * @param string $group
  * @return bool
 */
-public static function isStored($group='')
+public static function isStored($group)
 {
-     if($group !== '')
-     {
-        self::$group = $group;
-     }
-     
-     return !empty(self::$stored[self::$group]);
+     return ! empty(self::$stored[$group]);
 }
 
 
@@ -125,63 +160,56 @@ public static function isStored($group='')
 */
 public static function group($name)
 {
-    if(!self::isStored())
-    {
-        exit(
-          sprintf('Sorry this [%s] config group does not stored!', $name)
-        );
-    }
-    return self::retrieveGroup();
+    return self::retrieveGroup($name);
 }
 
 
+/**
+ * Retrieve group
+ * @param string $group
+ * @return mixed
+*/
+public static function retrieveGroup($group)
+{
+    if(!self::isStored($group))
+    {
+        exit(
+          sprintf('Sorry this [%s] config group does not stored!', $group)
+        );
+    }
+    return self::$stored[$group];
+}
 
 /**
  * Determine if has item
+ * @param string $group
  * @param string $item 
  * @return bool
 */
-public static function hasChild($item='')
+public static function hasChild($group='', $item='')
 {
-    $finded = array_key_exists(
-                self::$group, 
-                self::$stored
-            );
-    if(!is_null($item))
-    {
-        $finded = array_key_exists($item, 
-          self::$stored[self::$group]
-        );
-    }
-    return $finded;
+   return array_key_exists($item, self::$stored[$group]);
 }
 
 
 
 /**
  * Retrieve item
+ * @param string $group
  * @param string $item 
  * @return mixed
 */
-public static function retrieveItem($item='')
+public static function retrieveItem($group, $item)
 {
-     $retrieved = self::$stored[self::$group] ?? '';
-     if(!is_null($item))
+     if(!isset(self::$stored[$group][$item]))
      {
-         $retrieved = self::$stored[self::$group][$item] ?? '';
+        exit(
+          sprintf('Sorry can not retrieve item [%s] in group [%s]', $item, $group)
+        );   
      }
-     return $retrieved;
+     return self::$stored[$group][$item];
 }
 
-
-/**
- * Retrieve group
- * @return mixed
-*/
-public static function retrieveGroup()
-{
-     return self::$stored[self::$group];
-}
 
 
 
@@ -218,43 +246,5 @@ private static function addFile($path)
      }
 }
 
-
-/**
-* Load config group or item
-* @param string $parsed 
-* ex: [self::load(group)]      Load group
-* ex: [self::load(group.item)] Loaad item
-* @return self
-*/
-private static function load($parsed='')
-{
-   if($parsed)
-   {
-        self::$group = $parsed;
-        self::$item = null;
-        $exp = explode('.', $parsed);
-        self::$group = $exp[0];
-        self::$item  = $exp[1];
-        if(self::$configPath !== '')
-        {
-            $file = self::$configPath . '/' . mb_strtolower(self::$group) . '.php';
-           
-            if(is_file($file))
-            {
-                self::saveFile(self::$group, $file);
-            }
-        }
-        
-        // retrieve group or item
-        if(self::isStored())
-        {
-             // retrive part
-             if(self::hasChild(self::$item))
-             {
-                  return self::retrieveItem(self::$item);
-             }
-        }
-   }
-}
 
 }

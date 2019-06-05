@@ -147,14 +147,9 @@ private function beforeRender()
      // Check session for Authentication
      $session = $this->request->session();
      Auth::check($session);
-     
-     
+      
      // Configuration assets
-     Asset::map(
-      Config::get('asset.css'),
-      Config::get('asset.js'),
-     base_url()
-     );
+     Asset::map(Config::group('asset'), base_url());
      
      // Configuration views
      $this->view->partialDir(Config::get('view.partial'));
