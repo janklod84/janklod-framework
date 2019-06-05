@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Encryption;
+namespace JK\Security\Encryption;
 
 
 /**
- * @package JK\Encryption\CsrfToken
+ * @package JK\Security\Encryption\CsrfToken
 */
 class CsrfToken 
 {

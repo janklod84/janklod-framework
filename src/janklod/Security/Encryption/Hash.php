@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Encryption;
+namespace JK\Security\Encryption;
 
 
 /**
- * @package JK\Encryption\Hash 
+ * @package JK\Security\Encryption\Hash 
 */ 
 class Hash 
 {
