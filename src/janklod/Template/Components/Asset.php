@@ -70,7 +70,7 @@ public static function basePath($basePath='')
  *   ]
  * ]);
  * 
- * @param array $js
+ * @param array $assets
  * @return void
 */
 public static function addAssets($assets=[])
