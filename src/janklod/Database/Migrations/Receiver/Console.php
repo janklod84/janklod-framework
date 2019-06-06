@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Database\Migrations;
+namespace JK\Database\Migrations\Receiver;
 
 use JK\Console\ConsoleInterface;
 use JK\Console\IO\Output;
@@ -7,7 +7,7 @@ use JK\Console\IO\InputArg;
 
 
 /**
- * @package JK\Database\Migrations\Console 
+ * @package JK\Database\Migrations\Receiver\Console 
 */ 
 class Console implements ConsoleInterface
 {

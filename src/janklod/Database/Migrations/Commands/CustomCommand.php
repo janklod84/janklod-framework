@@ -3,7 +3,7 @@ namespace JK\Database\Migrations\Commands;
 
 
 use JK\Console\CommandInterface;
-use JK\Console\Console;
+use JK\Console\Receiver\Console;
 
 /**
  * @package JK\Database\Migrations\Commands\CustomCommand

@@ -3,10 +3,10 @@ namespace JK\Console;
 
 
 /**
- * php console app:create-user
- * @package JK\Console\Command 
+ * Class register commands
+ * @package JK\Console\CommandChain 
 */ 
-class Command 
+class CommandChain 
 {
      
   /**
@@ -14,119 +14,43 @@ class Command
    * @var string $configPath
   */
   private static $commands = [];
-  private static $output   = [];
-  private $requiredPassword;
-  /**
-   * @var \PDO
-  */
-  protected $name = 'app:create-user';
-
   
 
-  public function __construct(bool $requiredPassword = false)
+  /**
+   * Add command
+   * @param CommandInterface $command 
+   * @param string $name
+   * @param array $options
+   * @return void
+  */
+  public static function add(CommandInterface $command, $name, $options = [])
   {
-        $this->requiredPassword = $requiredPassword;
-        parent::__construct();
+         self::$commands[$name] = $command;
+         $command->options = $options;
   }
 
-
-  /**
-  * Execute command
-  * @return mixed
-  */
-  protected function setDescription($description='')
-  {
-        $this->output[$this->name]['description'] = $description;
-        return $this;
-  }
-  
-  
-
-
-  /**
-  * Execute command
-  * @return mixed
-  */
-  protected function setHelp($help='')
-  {
-        $this->output[$this->name]['help'] = $help;
-        return $this;
-  }
-  
- 
-  protected function configure()
-  {
-       $this->addArgument(
-           'password',  
-           $this->requiredPassword ? InputArgument::REQUIRED : InputArgument::OPTIONAL,  
-           'User Password'
-       );
-  }
-
-
-  public function execute(InputInterface $input, OutputInterface $output)
-  {
-        $output->writeln([
-            'User Creator', 
-            '=============',
-            '';
-        ]);
-
-
-        $output->writeln($this->someMethod());
-
-        $output->writeln('Whoa!');
-
-        $output->writeln('You are about to !');
-        $output->writeln('create a user.');
-        $output->writeln('Whoa!');
-
-
-
-  }
-  
-  //
-  /**
-  * Execute command
-  * @return mixed
-  */
-  abstract protected function configure();
-  
-
-  /**
-  * Execute command
-  * @return mixed
-  */
-  abstract public function execute();
-
-  /**
-  * Roolback command
-  * @return void
-  */
-  abstract public function undo();
-
-  
+    
   /**
    * Execute command
+   * @param string $input
+   * @param array  $arguments
    * @return mixed
   */
-  public function run()
+  public function execute($input, $arguments = [])
   {
-	   foreach(self::$commands as $command)
-	   {
-          // put here condition, but all commands will be executed
-	   	    $command->execute();
-	   }
+	   // foreach(self::$commands as $type => $command)
+	   // {
+    //       // put here one condition before execution
+	   // 	    $command->execute();
+	   // }
+
+     if(isset(self::$commands[$input]))
+     {
+           self::$commands[$input]->execute();
+     }
   }
+
+  
 
   
 }
-
-/**
- * php bin/console app:create-user
-User Creator
-============
-
-Whoa!
-You are about to create a user.
-*/
