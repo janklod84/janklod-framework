@@ -8,11 +8,9 @@ use JK\Database\ActiveRecord;
 /**
  * @package app\models\Entities\User
 */ 
-class User
+class User extends ActiveRecord
 {
 
-
-use ActiveRecord;
 	  
 /**
 * @var string $table

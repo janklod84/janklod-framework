@@ -29,26 +29,8 @@ public function __construct($app)
 {
 	$this->app = $app;
 	$this->db  = $app->db;
-	Q::setup($this->db);
-	$this->app->load->call($this, 'onConstructor');
+	// Q::setup($this->db);
 }
 
-
-
-/**
- * Do some action before next actions
- * @return void
-*/
-public function onConstructor(){}
-
-
-
-/**
- * Do some action before storage data
- * Do some action after storage data
- * @return void
-*/
-protected function beforeSave(){}
-protected function afterSave(){}
 
 }

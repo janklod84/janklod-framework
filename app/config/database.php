@@ -12,7 +12,26 @@ return [
 |------------------------------------------------------------------
 */
 
-'dsn' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
+// 'dsn' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
+
+
+/*
+|------------------------------------------------------------------
+|   Database driver [ avalaibles drivers mysql, sqlite ]
+|------------------------------------------------------------------
+*/
+
+'driver' => 'mysql',
+
+
+
+/*
+|------------------------------------------------------------------
+|   Database name
+|------------------------------------------------------------------
+*/
+
+'dbname' => 'dbproject',
 
 
 
@@ -23,7 +42,6 @@ return [
 */
 
 'host' => 'localhost',
-
 
 
 
@@ -80,7 +98,7 @@ return [
 |   Prefix Table 
 |------------------------------------------------------------------
 */
-'prefix_table' => 'tbl_',
+'prefix_tbl' => '', // tbl_
 
 
 /*

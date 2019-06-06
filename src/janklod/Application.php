@@ -101,6 +101,8 @@ public function run()
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      $this->load->callAction($callback, $matches);
+
+     /* \Q::output(); */
      
 }
 

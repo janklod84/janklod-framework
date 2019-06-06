@@ -7,17 +7,6 @@ namespace app\models\Managers;
 */ 
 class UserManager extends BaseManager
 {
-	  
-
-/**
-* @return void
-*/
-public function onConstruct()
-{
-	  
-}
-
-
 
 
 /**
@@ -28,9 +17,11 @@ public function onConstruct()
 */
 public function login($username, $password)
 {
-      return true;
+     /*
+      $user = $this->user->findBy('username', $username);
+      echo password_hash($password, PASSWORD_DEFAULT);
+      debug($user, true);
 
-      /*
       $user = $this->user->findBy('username', $username);
       if($user && password_verify($password, $user->password))
       {

@@ -9,9 +9,9 @@ use JK\Config\Config;
 
 /**
  * Database Manager
- * @package JK\Database\Database
+ * @package JK\Database\DB
 */ 
-final class Database
+final class DB
 {
 
 
@@ -36,6 +36,15 @@ private function __clone(){}
 */
 private function __wakeup(){}
 
+
+/**
+ * Constructor
+ * @return void
+*/
+private function __construct()
+{
+
+}
 
 
 /**

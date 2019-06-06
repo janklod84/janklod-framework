@@ -3,15 +3,15 @@ namespace JK;
 
 
 /**
- * @package JK\Resource
+ * @package JK\Definition
 */ 
-class Resource
+class Definition
 {
 
 /**
-* Configuration source of application
+* Definition of application
 */
-const CONFIG = [
+const SRC = [
 'providers' => [
 \JK\Http\Facades\RequestProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
@@ -31,7 +31,7 @@ const CONFIG = [
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
  'DI'       => 'JK\\DI\\Container',
- 'DB'       => 'JK\\Database\\DatabaseManager',
+ 'DB'       => 'JK\\Database\\DB',
  'Q'        => 'JK\\ORM\\Q'
 ],
 'commands' => [

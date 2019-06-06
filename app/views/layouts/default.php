@@ -8,8 +8,10 @@
 ?>
 </head>
 <body>
-   <?php if(Auth::isLogged()): 
-   	partial('menu', 'layouts'); ?>
+   <?php 
+   if(Auth::isLogged()):  // partial('menu', 'layouts');
+   include('partials/menu.php');
+   ?>
    <?php endif; ?>
    <div class="container" style="margin-top:30px;">
    	  <?= $content ?>

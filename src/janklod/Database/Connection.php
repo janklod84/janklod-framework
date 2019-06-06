@@ -4,34 +4,32 @@ namespace JK\Database;
 
 use \PDO;
 use \PDOException;
+use JK\Database\Exceptions\{
+	ConnectionException,
+	DriverException
+};
 
+use JK\Database\Drivers\{
+   MySQLDriver,
+   SQLiteDriver
+};
+
+use \Config;
 
 /**
  * @package JK\Database\Connection
 */ 
-class Connection
+class Connection 
 {
 
 /**
- * @var array $options  [ Default Optional params for PDO ]
- * @var array $messages [ Contain Messages info ]
+ * @const array [ allowed keys ]
 */
-private static $options = [
-   PDO::ATTR_PERSISTENT => false,
-   PDO::ATTR_EMULATE_PREPARES => 0, 
-   PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-];
-
-private static $message = [];
-
-const CONFIG_KEYS = [
- // 'driver',
- // 'name',
- // 'host',
- // 'charset',
- // 'port',
- 'dsn', 
+const ALLOWED_CONFIG_KEYS = [
+ 'dbname',
+ 'host',
+ 'charset',
+ 'port', 
  'username',
  'password',
  'options', 
@@ -42,30 +40,39 @@ const CONFIG_KEYS = [
 ];
 
 
+private static $message = [];
+
+
 /**
  * Make connection
+ * @param string $driver
  * @param array $config 
  * @return \PDO 
 */
-public static function make($config = [])
+public static function make($driver='', $config = [])
 {
-   self::ensureConfig($config);
-   
    try 
    {
+   	   self::ensureConfig($config);
        extract($config);
-       self::addOptions($options);
-       $connection = new PDO($dsn, $username, $password, self::$options);
-
-       /*
-       This fonctionnality will be added later
-       if($autocreate === true)
-       { 
-          self::createDBIfNotExist($connection); 
-       }
-       */
-
-       return $connection;
+   	   if(self::ensureDriver($driver))
+   	   {
+   	   	   $method = strtolower($driver);
+   	   	   $callback = [new static, $method];
+   	   	   if(!is_callable($callback))
+   	   	   {
+                throw new ConnectionException(
+                	sprintf('Sorry, Connection to [%s] does not implemented yet!', $driver), 
+                	404
+                );
+                
+   	   	   }
+   	   	   return call_user_func($callback, $config);
+   	   }
+       
+       // $connection = new PDO($dsn, $username, $password, self::$options);
+       
+       // return $connection;
          
    }catch(PDOException $e){
 
@@ -76,28 +83,40 @@ public static function make($config = [])
 
 
 /**
- * Get messages
- * @return array
+ * Call MySQL connection
+ * @param array $config 
+ * @return \PDO
 */
-public static function message()
+public static function mysql($config=[])
 {
-   return self::$messages;
+    return call_user_func([new MySQLDriver($config), 'connect']);
 }
 
 
 /**
- * Add options params
- * @param array $options 
- * @return void
+ * Call SQLite connection
+ * @param array $config 
+ * @return \PDO
 */
-public static function addOptions($options=[])
+public static function sqlite($config=[])
 {
-   if(!empty($options))
-   {
-       self::$options = array_merge(self::$options, $options);
-   }
+   return call_user_func([new SQLiteDriver($config), 'connect']);
 }
 
+
+/**
+ * Make sure has available driver
+ * @param string $driver 
+ * @return 
+*/
+private static function ensureDriver($driver=null)
+{
+     if(!in_array($driver, PDO::getAvailableDrivers(), true))
+     {
+     	  throw new DriverException("Current driver is not available!", 404); 
+     }
+     return true;
+}
 
 
 /**
@@ -109,32 +128,27 @@ private static function ensureConfig($config)
 {
    foreach(array_keys($config) as $key)
    {
-      if(!in_array($key, self::CONFIG_KEYS))
+      if(!in_array($key, self::ALLOWED_CONFIG_KEYS))
       {
-          exit(
+          throw new ConnectionException(
             sprintf('Sorry, this config key [%s] does not match!', $key)
           );
       }
    }
 }
 
+
 /**
- * Create Database if not exist
- * @param \PDO $connection 
- * @param  string $database [ Name of database ]
+ * Add options params
+ * @param array $options 
  * @return void
 */
-private static function createDBIfNotExist(\PDO $connection, $database='xxx')
+private static function addOptions($options=[])
 {
-      # in this part we'll use other type connection later ...
-      $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
-      if($connection->query($sql))
-      {
-          echo 'Database created successfully!';
-      }
-      $connection->query(
-        sprintf('use %s', $database)
-      );
+   if(!empty($options))
+   {
+       return array_merge(self::$options, $options);
+   }
 }
 
 

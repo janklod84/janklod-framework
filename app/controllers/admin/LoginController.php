@@ -53,17 +53,23 @@ public function __construct($app)
 */
 public function index()
 {
+    /*
     if($this->request->isPost())
     {
         $username = $this->request->post('username');
         $password = $this->request->post('password');
-        // debug($data, true);
-
+        
+        $post = $username . ' - ' . $password;
+        die($post);
+      
         if($this->user->login($username, $password))
         {
              die('OK');
         }
     }
+    */
+
+    \DB::instance();
     $this->setMeta('Вход');
     $this->render('/admin/login/form');
 }

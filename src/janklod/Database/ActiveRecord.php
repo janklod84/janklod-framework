@@ -6,7 +6,7 @@ use JK\ORM\Q;
 /**
  * @package JK\Database\ActiveRecord 
 */ 
-trait ActiveRecord
+class ActiveRecord
 {
 
 
@@ -24,11 +24,30 @@ protected $id;
 */
 public function __construct()
 {
-    Q::setup(\Database::instance());
-    Q::fetchClass(get_class($this));
+    /*
+    Q::setup(\DB::instance());
+    Q::fetchClass(__CLASS__);
     Q::addTable($this->table);
+    $this->onConstructor();
+    */
 }
 
+
+/**
+ * Do some action before next actions
+ * @return void
+*/
+public function onConstructor(){}
+
+
+
+/**
+ * Do some action before storage data
+ * Do some action after storage data
+ * @return void
+*/
+protected function beforeSave(){}
+protected function afterSave(){}
 
 
 /**
@@ -57,7 +76,7 @@ public function columnMap()
 */
 public function findAll()
 {
-    return Q::getTable()->all();
+    /* return Q::getTable()->all(); */
 }
 
 
@@ -67,7 +86,7 @@ public function findAll()
 */
 public function findById()
 {
-    return Q::getTable()->read($this->id);
+    /* return Q::getTable()->read($this->id); */
 }
 
 
@@ -80,7 +99,7 @@ public function findById()
 */
 public function findBy($field='id', $value=null)
 {
-     return Q::getTable()->read($value, $field);
+     /* Q::getTable()->read($value, $field); */
 }
 
 
@@ -100,8 +119,8 @@ public function save()
 */
 protected function isNew(): bool
 {
-    return property_exists($this, 'id') 
-           && isset($this->id);
+    /* return property_exists($this, 'id') 
+           && isset($this->id); */
 }
 
 
