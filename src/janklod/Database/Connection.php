@@ -40,8 +40,6 @@ const ALLOWED_CONFIG_KEYS = [
 ];
 
 
-private static $message = [];
-
 
 /**
  * Make connection
@@ -130,20 +128,6 @@ private static function ensureConfig($config)
             sprintf('Sorry, this config key [%s] does not match!', $key)
           );
       }
-   }
-}
-
-
-/**
- * Add options params
- * @param array $options 
- * @return void
-*/
-private static function addOptions($options=[])
-{
-   if(!empty($options))
-   {
-       return array_merge(self::$options, $options);
    }
 }
 
