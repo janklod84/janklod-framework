@@ -110,6 +110,16 @@ protected function setMeta($title='', $desc = '', $keywords='')
 
 /**
 * View render
+* Ex: Can write like
+* 
+* Function view('site.home.index') 
+* Function view('site.home.index', compact('users', '...')) 
+* $this->render('site.home.index');
+* $this->render('site.home.index', compact('users', '...'));
+* $this->render('/site/home/index');
+* $this->render('/site/home/index', compact('users', '...'));
+* $this->render('/site/home/index', ['users' => $users , 'test' => $test]);
+*
 * @param string $view 
 * @param array $data 
 * @return mixed

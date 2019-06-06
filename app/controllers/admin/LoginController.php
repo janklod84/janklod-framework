@@ -49,7 +49,9 @@ public function index()
 {
     if($this->request->isPost())
     {
-         die('OK');
+         $host = $this->request->host();
+         $hash = 'session.user_---'. sha1($host);
+         die($hash);
     }
     $this->setMeta('Вход');
     $this->render('/admin/login/form');
@@ -61,7 +63,10 @@ private function hash()
    /*
    $this->request->session()
     ->put('sess.user_---af2f4a9befcc57c1e65e8904b38b66c4ae9337d9', true);
-    */
+   view('admin.login.form');
+   $this->render('admin.login.form');
+   $this->render('/admin/login/form');
+   */
 }
 
 }

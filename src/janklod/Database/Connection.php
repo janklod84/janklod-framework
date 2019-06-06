@@ -26,12 +26,12 @@ private static $options = [
 private static $message = [];
 
 const CONFIG_KEYS = [
- 'dsn', 
  // 'driver',
  // 'name',
  // 'host',
  // 'charset',
  // 'port',
+ 'dsn', 
  'username',
  'password',
  'options', 
@@ -86,26 +86,6 @@ public static function message()
 
 
 /**
- * Create Database if not exist
- * @param \PDO $connection 
- * @param  string $database [ Name of database ]
- * @return void
-*/
-private static function createDBIfNotExist(\PDO $connection, $database='xxx')
-{
-      # in this part we must to make sure connection
-      $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
-      if($connection->query($sql))
-      {
-          echo 'Database created successfully!';
-      }
-      $connection->query(
-        sprintf('use %s', $database)
-      );
-}
-
-
-/**
  * Add options params
  * @param array $options 
  * @return void
@@ -136,6 +116,25 @@ private static function ensureConfig($config)
           );
       }
    }
+}
+
+/**
+ * Create Database if not exist
+ * @param \PDO $connection 
+ * @param  string $database [ Name of database ]
+ * @return void
+*/
+private static function createDBIfNotExist(\PDO $connection, $database='xxx')
+{
+      # in this part we'll use other type connection later ...
+      $sql = sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $database);
+      if($connection->query($sql))
+      {
+          echo 'Database created successfully!';
+      }
+      $connection->query(
+        sprintf('use %s', $database)
+      );
 }
 
 

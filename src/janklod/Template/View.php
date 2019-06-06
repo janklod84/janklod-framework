@@ -16,18 +16,14 @@ class View  implements ViewInterface
 * @var string  $layout
 * @var string  $view
 * @var array   $data 
-* @var array   $meta [ add meta data ]
 * @var string  $viewPath
 * @var string  $partialDir
-* @var bool  $show [ Determine if show render or not ]
 */
 private $layout;
 private $view;
 private $data = [];
-private $meta = [];
 private $viewPath = ''; 
 private $partialDir;
-private $show = true;
 
 
 /**
@@ -38,17 +34,6 @@ private $show = true;
 public function __construct($viewPath = '')
 {
     $this->viewPath =  trim($viewPath, '/');
-}
-
-
-/**
-* add layout
-* @param bool $status
-* @return void
-*/
-public function show(bool $show=true)
-{
-    $this->show = $show;
 }
 
 
@@ -118,10 +103,9 @@ public static function setMeta($title='', $desc='', $keywords='')
 */
 public static function getMeta($charset = true)
 {
-      if($charset === true)
-      {HTML::charset();}
-      HTML::title();
-      HTML::meta();
+  if($charset === true){HTML::charset();}
+  HTML::title();
+  HTML::meta();
 }
 
 
@@ -133,9 +117,7 @@ public static function getMeta($charset = true)
 */
 public function render()
 {
-  if(!$this->show)
-  {return false;}
-  $this->runBuffer();
+   $this->runBuffer();
 }
 
 
@@ -145,14 +127,14 @@ public function render()
 */
 public function runBuffer()
 {
-     extract($this->data);
-     ob_start();
-     require_once $this->viewPath();
-     $content = ob_get_clean();
-     if($this->layout != false)
-     {
-         require_once $this->layoutPath();
-     }
+   extract($this->data);
+   ob_start();
+   require_once $this->viewPath();
+   $content = ob_get_clean();
+   if($this->layout != false)
+   {
+       require_once $this->layoutPath();
+   }
 }
 
 
@@ -206,10 +188,12 @@ public function fullPath($path)
 {
     if($this->viewPath && $path)
     {
-         $direction = sprintf('%s/%s.php', 
+        $path = str_replace('.', '/', $path);
+        $direction = sprintf('%s/%s.php', 
            $this->viewPath,  
            trim($path, '/')
-         );
+        );
+
         if(!file_exists($direction))
         {
            exit(sprintf(
@@ -217,6 +201,7 @@ public function fullPath($path)
             $direction)
            );
         }
+
         return realpath($direction);
     }
     return false;
@@ -242,18 +227,20 @@ public function partial($path='', $parent='layouts')
  * @param string $parent 
  * @return string
 */
-public function partialPath($path, $parent)
+private function partialPath($path, $parent)
 {
-    $path = trim($path, '/');
-    $this->partialDir = trim($this->partialDir, '/');
-    if(!$this->partialDir){$this->partialDir = $path;}
-    else{$this->partialDir = $this->partialDir . '/'. $path; }
+     $path = trim($path, '/');
+     $this->partialDir = trim($this->partialDir, '/');
+     if(!$this->partialDir){$this->partialDir = $path;}
+     else{$this->partialDir = $this->partialDir . '/'. $path; }
+
      $file = sprintf(
         '%s/%s/%s.php', 
         $this->viewPath, 
         trim($parent, '/'),
         $this->partialDir
      );
+
      if(!file_exists($file))
      {
          exit(sprintf(
