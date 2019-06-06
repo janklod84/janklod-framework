@@ -69,7 +69,7 @@ public function index()
     }
     */
 
-    \DB::instance();
+    debug(\DB::instance());
     $this->setMeta('Вход');
     $this->render('/admin/login/form');
 }

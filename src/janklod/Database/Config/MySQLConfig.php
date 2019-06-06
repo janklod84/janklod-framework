@@ -16,7 +16,6 @@ class MySQLConfig
 	 public static function all()
 	 {
          return [
-		  // 'dsn'           => Config::get('database.dsn'),
 		     'dbname'        => Config::get('database.dbname'),
 		     'host'          => Config::get('database.host'),
 		     'port'          => Config::get('database.port'),
@@ -24,9 +23,6 @@ class MySQLConfig
 		     'username'      => Config::get('database.user'),
 		     'password'      => Config::get('database.password'),
 		     'options'       => Config::get('database.options'),
-		     'prefix_tbl'    => Config::get('database.prefix_tbl'),
-		     'collation'     => Config::get('database.collation'),
-		     'engine'        => Config::get('database.engine'),
 		     'autocreate'    => false
 	     ];
 	 }

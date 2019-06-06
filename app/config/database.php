@@ -4,16 +4,9 @@ return [
      
 /*
 |------------------------------------------------------------------
-|   Database dsn PDO
-|   ex mysql connection :
-|    - 'dsn' => 'mysql:host=localhost;port=3306;dbname=test;charset=utf8'
-|   ex sqlite connection :
-|    - 'dsn' => 'sqlite:/path/to/database.db'
+|     CONNECTION TO DATABASE
 |------------------------------------------------------------------
 */
-
-// 'dsn' => 'mysql:host=localhost;port=3306;dbname=dbproject;charset=utf8',
-
 
 /*
 |------------------------------------------------------------------
@@ -21,13 +14,14 @@ return [
 |------------------------------------------------------------------
 */
 
-'driver' => 'mysql',
+'driver' => 'mysql', // sqlite 
 
 
 
 /*
 |------------------------------------------------------------------
 |   Database name
+|   'Ex: for sqlite write path to db: ../database.sqlite'
 |------------------------------------------------------------------
 */
 

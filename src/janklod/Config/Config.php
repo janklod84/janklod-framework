@@ -67,10 +67,9 @@ public function map()
 
 
 /**
-* Load config group or item
+* Load config tem
 * Ex:
-* Config::get('group')      Load group
-* Config::get('group.item')  Loaad item
+* Config::get('group.item')  Load item
 * 
 * @param string $parsed 
 * @return self
@@ -83,20 +82,16 @@ public static function load($parsed='')
         $group = $exp[0] ?? '';
         $item  = $exp[1] ?? '';
         self::saveFile($group);
-        
-        $data = null;
-
+    
         // retrieve group or item
         if(self::isStored($group))
         {
-             $data = self::retrieveGroup($group);
              // retrive part
              if(self::hasChild($group, $item))
              {
-                  $data = self::retrieveItem($group, $item);
+                  return self::retrieveItem($group, $item);
              }
         }
-        return $data;
    }
 }
 
@@ -128,10 +123,9 @@ public static function saveFile($group)
 }
 
 /**
-* Get config group or item
+* Get config item
 * 
 * Ex:
-* Config::get('asset')      Load group
 * Config::get('asset.css')  Loaad item
 * 
 * @param string $parsed 

@@ -8,13 +8,25 @@ namespace JK\Database\Drivers;
 class SQLiteDriver extends CustomDriver
 {
      
-     /**
-      * Constructor
-      * @param array $config 
-      * @return \PDO
-     */
-     public static function connect($config=[])
-     {
-           debug($config);
-     }
+/**
+* Connect  to PDO 
+* @return \PDO
+*/
+public function connect()
+{
+    return $this->pdo($this->dsn(), null, null);
+}
+
+/**
+* Get DSN
+* @return string
+*/
+public function dsn()
+{
+   return sprintf(
+   	'sqlite:%s',  
+   	 $this->config('dbname')
+   );
+}
+
 }

@@ -16,14 +16,14 @@ abstract class CustomDriver
  * @var array $options  [ Default Optional params for PDO ]
  * @var array $config   [ Config array ]
 */
-protected static $options = [
+protected $options = [
    PDO::ATTR_PERSISTENT => false,
    PDO::ATTR_EMULATE_PREPARES => 0, 
    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ];
 
-protected static $config;
+protected $config;
 
 /**
  * Constructor
@@ -32,7 +32,7 @@ protected static $config;
 */
 public function __construct($config=[])
 {
-	self::$config = $config;
+     $this->config = $config;
 }
 
 
@@ -47,7 +47,35 @@ abstract public function connect();
  * Get DSN
  * @return string
 */
-abstract public function getDsn();
+abstract public function dsn();
+
+
+/**
+ * Get \PDO
+ * @return \PDO
+*/
+public function pdo($dsn='', $username, $password)
+{
+	 return new PDO($dsn, $username, $password, $this->options());
+}
+
+
+/**
+ * Get options
+ * @param array $options 
+ * @return void
+*/
+public function options()
+{
+    if($this->config('options'))
+    {
+    	$this->options = array_merge(
+    		$this->options, 
+    		$this->config('options')
+       ); 
+    }
+    return $this->options;
+}
 
 
 /**
@@ -58,11 +86,11 @@ abstract public function getDsn();
 */
 public function config($item)
 {
-   if(!isset(self::$config[$item]))
+   if(!isset($this->config[$item]))
    {
        throw new \Exception("Config item [$item] is not setted", 404);
    }
-   return self::$config[$item];
+   return $this->config[$item];
 }
 
 }
