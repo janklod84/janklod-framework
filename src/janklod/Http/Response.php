@@ -34,10 +34,10 @@ private $headers = [];
 
 
 /**
- * Register all sended params
+ * Register all stored params
  * @var array
 */
-private static $sended = [];
+private static $stored = [];
 
 
 /**
@@ -191,7 +191,7 @@ public static function redirect($to='/')
     if(!headers_sent())
     {
         $redirect = sprintf('Location: %s', $to);
-        self::$sended['redirects'][] = $redirect;
+        self::$stored['redirects'][] = $redirect;
         header($redirect);
         exit;
     }
@@ -205,7 +205,7 @@ public static function redirect($to='/')
 */
 public function setCode(int $code)
 {
-    self::$sended['codes'][] = $code;
+    self::$stored['codes'][] = $code;
     http_response_code($code);
 }
 
@@ -218,7 +218,7 @@ public function setCode(int $code)
 */
 public function asJson($content=[])
 {
-    self::$sended['asJson'][] = $content;
+    self::$stored['asJson'][] = $content;
     return json_encode($content);
 }
 
@@ -260,11 +260,11 @@ public function sendHeaders()
                 {
                     $parsed = sprintf('%s: %s', $k, $v);
                     header($parsed);
-                    self::$sended['headers'][] = $parsed;
+                    self::$stored['headers'][] = $parsed;
                 }
              }else{
                  header($header);
-                 self::$sended['headers'][] = $header;
+                 self::$stored['headers'][] = $header;
              }  
         }
     }
@@ -278,17 +278,17 @@ public function sendHeaders()
 public function sendBody()
 {
     echo $this->content;
-    self::$sended['content'][] = $this->content;
+    self::$stored['content'][] = $this->content;
 }
 
 
 /**
- * Sended
+ * Stored
  * @return array
 */
-public function sended()
+public function stored()
 {
-    return self::$sended;
+    return self::$stored;
 }
 
 }
