@@ -73,17 +73,17 @@ private static function connect()
 */
 private static function config($driver)
 {
-   switch($driver)
-   {
-   	   case 'mysql':
-   	     return MySQLConfig::all();
-   	   break;
-   	   case 'sqlite':
-   	     return SQLiteConfig::all();
-   	   break;
-       default:
-         throw new \Exception("No Driver checked!", 404);
-   }
+  switch($driver)
+  {
+    case 'mysql':
+      return MySQLConfig::all();
+    break;
+    case 'sqlite':
+      return SQLiteConfig::all();
+    break;
+    default:
+     throw new \Exception("No Driver checked!", 404);
+  }
 }
 
 
