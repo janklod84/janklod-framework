@@ -3,10 +3,10 @@ namespace JK\Routing\Route;
 
 
 /**
- * Route Manager
- * @package JK\Routing\Route\RouteManager
+ * Route Parameter
+ * @package JK\Routing\Route\RouteParameter
 */ 
-class RouteManager
+class RouteParameter
 {
 
      
@@ -89,7 +89,7 @@ public function namedRoutes($name)
 
 /**
  * Get Url
- * RouteManager::url('named.route', 
+ * RouteParameter::url('named.route', 
  * ['param1' => value1, 'param2' => value2 ...]
  * )
  * @param string $name 

@@ -1,19 +1,19 @@
 <?php 
-namespace JK\Database\Config;
+namespace JK\Database\Configs;
 
 use \Config;
 
 /**
- * @package JK\Database\Config\SQLiteConfig 
+ * @package JK\Database\Configs\SQLiteConfig 
 */ 
 class SQLiteConfig 
 {
      
      /**
-      * Get all SQLite configuration
+      * Get all SQLite Configs
       * @return array
      */
-	 public static function all()
+	 public static function get()
 	 {
          return [
 		   'dbname'   => Config::get('database.dbname'),

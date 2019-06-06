@@ -75,7 +75,6 @@ public static function meta()
 /**
  * Get title
  * <title>JK</title>
- * <title>Article-1 | JK</title>
  * @param bool $offset [ remove tag balise ]
  * @return void
 */

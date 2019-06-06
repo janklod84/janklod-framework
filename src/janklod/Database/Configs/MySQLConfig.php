@@ -1,19 +1,19 @@
 <?php 
-namespace JK\Database\Config;
+namespace JK\Database\Configs;
 
 use \Config;
 
 /**
- * @package JK\Database\Config\MySQLConfig 
+ * @package JK\Database\Configs\MySQLConfig 
 */ 
 class MySQLConfig 
 {
      
      /**
-      * Get all MySQL configuration
+      * Get all MySQL Configs
       * @return array
      */
-	 public static function all()
+	 public static function get()
 	 {
          return [
 		     'dbname'        => Config::get('database.dbname'),

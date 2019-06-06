@@ -26,15 +26,10 @@ class Route
 *      echo 'HI Friends!';
 * });
 * 
-* Ex: Route::get('/contact', [
-*  'controller' => 'HomeController',
-*  'action'     => 'contact'
-* ], contact.me);
-* 
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteManager
+* @return RouteParameter
 */
 public static function get(string $path, $callback, string $name = null)
 {
@@ -50,7 +45,7 @@ public static function get(string $path, $callback, string $name = null)
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteManager
+* @return RouteParameter
 */
 public static function post(string $path, $callback, string $name = null)
 {
@@ -184,7 +179,7 @@ public static function middleware($middleware, \Closure $callback)
 */
 public static function url(string $name, array $params = [])
 {
-       return RouteManager::url($name, $params);
+       return RouteParameter::url($name, $params);
 }
 
 
@@ -193,12 +188,12 @@ public static function url(string $name, array $params = [])
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteManager
+* @return RouteParameter
 */
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route custom
-     $route = new RouteManager([
+     $route = new RouteParameter([
         'path'               => PathControl::current($path), 
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::manage($callback),

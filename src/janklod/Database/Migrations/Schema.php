@@ -3,7 +3,7 @@ namespace JK\Database\Migrations;
 
 
 use JK\Database\Migrations\Queries\TableQuery;
-use JK\Database\Database;
+use JK\Database\DB;
 
 /**
  * Class Schema
@@ -24,7 +24,7 @@ class Schema
           $blueprint = new BluePrint($table);
           call_user_func($callback, $blueprint);
           $sql = TableQuery::create($blueprint, $table);
-          Database::execute($sql);
+          DB::execute($sql);
     }
     
     
@@ -36,7 +36,7 @@ class Schema
     public static function drop(string $table)
     {
         $sql = TableQuery::dropIfExists($table);
-        Database::execute($sql);
+        DB::execute($sql);
     }
 
 }

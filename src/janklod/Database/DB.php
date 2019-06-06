@@ -3,7 +3,7 @@ namespace JK\Database;
 
 
 use \Config;
-use JK\Database\Config\{
+use JK\Database\Configs\{
 	MySQLConfig,
 	SQLiteConfig
 };
@@ -76,14 +76,50 @@ private static function config($driver)
   switch($driver)
   {
     case 'mysql':
-      return MySQLConfig::all();
+      return MySQLConfig::get();
     break;
     case 'sqlite':
-      return SQLiteConfig::all();
+      return SQLiteConfig::get();
     break;
     default:
      throw new \Exception("No Driver checked!", 404);
   }
+}
+
+
+/**
+ * Excecute Query
+ * Ex: DB::execute('SELECT * FROM `users`')->fetchAll();
+ * @param string $sql 
+ * @param array $params 
+ * @return \PDOStatement
+*/
+public static function execute($sql, $params=[])
+{
+   try
+   {
+      self::instance()->beginTransaction();
+      $stmt = self::instance()->prepare($sql);
+      $stmt->execute($params);
+      self::instance()->commit();
+      return $stmt;
+
+   }catch(\PDOException $e){
+      self::instance()->rollback();
+      throw new DatabaseException($e->getMessage(), 404);
+   }
+
+}
+
+
+/**
+ * Excecute Query
+ * @param string $sql 
+ * @return bool
+*/
+public static function exec($sql)
+{
+     return self::instance()->exec($sql);
 }
 
 
