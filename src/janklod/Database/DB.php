@@ -71,7 +71,7 @@ private static function connect()
  * @return array
  * @throws \Exception
 */
-public static function config($driver)
+private static function config($driver)
 {
    switch($driver)
    {

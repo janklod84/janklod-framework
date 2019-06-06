@@ -49,7 +49,7 @@ private static $message = [];
  * @param array $config 
  * @return \PDO 
 */
-public static function make($driver='', $config = [])
+public static function make($driver='mysql', $config = [])
 {
    try 
    {
@@ -70,10 +70,6 @@ public static function make($driver='', $config = [])
    	   	   return call_user_func($callback, $config);
    	   }
        
-       // $connection = new PDO($dsn, $username, $password, self::$options);
-       
-       // return $connection;
-         
    }catch(PDOException $e){
 
         throw new ConnectionException($e->getMessage(), 404);
