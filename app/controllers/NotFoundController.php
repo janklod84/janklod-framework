@@ -23,7 +23,7 @@ class NotFoundController extends Controller
 	*/
 	public function page404()
 	{
-		$this->title('Страница не найдена!', false);
+		$this->setMeta('Страница не найдена!');
 	    return $this->render('errors/404');
 	}
 

@@ -24,6 +24,13 @@ Route::prefix($options, function () {
 });
 
 
+/*
+Route::get('/me', function () {
+   die('Hi, Friends!');
+});
+*/
+
+
 /***********************************
 | FRONTEND CONTROLLERS
 ************************************/

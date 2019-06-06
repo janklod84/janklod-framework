@@ -3,13 +3,12 @@ namespace JK\Console\IO;
 
 
 /**
- * @package JK\Console\IO\OutPut
+ * @package JK\Console\IO\Output
 */ 
-class OutPut
+class Output
 {
-	  
-	  public function __construct()
-	  {
-	  	   echo __METHOD__;
-	  }
+	 public function answer($response)
+	 {
+	 	 return $response;
+	 }
 }

@@ -9,28 +9,37 @@ class UserManager extends BaseManager
 {
 	  
 
+/*  
+protected $entity;
+
+
 /**
 * @return void
-*/
-public function onConstruct()
+*//*
+public function onConstruct($entity)
 {
-	  
+	  $this->entity = $entity;
+}
+
+ 
+/**
+* Get User
+* @return app\models\User\User
+*//*
+public function entity()
+{
+	   return $this->entity;
 }
 
 
-
-
-/**
+ /**
   * User login
   * @param string $username 
   * @param string $password 
   * @return bool
-*/
+ *//*
 public function login($username, $password)
 {
-      return true;
-
-      /*
       $user = $this->user->findBy('username', $username);
       if($user && password_verify($password, $user->password))
       {
@@ -40,9 +49,8 @@ public function login($username, $password)
       	    return true;
       }
       return false;
-      */
 }
-
+*/
 
 
 }

@@ -4,6 +4,8 @@ namespace app\controllers\admin;
 
 use JK\Routing\Controller;
 use \Auth;
+use  app\models\Managers\UserManager;
+
 
 /**
  * @package app\controllers\admin\LoginController 
@@ -11,6 +13,9 @@ use \Auth;
 class LoginController extends Controller
 {
      
+
+private $user;
+
 
 /**
  * Do all behaviours before actions
@@ -36,6 +41,7 @@ public function before()
 public function __construct($app)
 {
      parent::__construct($app);
+     $this->user = new UserManager($app);
 }
 
 
@@ -49,9 +55,14 @@ public function index()
 {
     if($this->request->isPost())
     {
-         $host = $this->request->host();
-         $hash = 'session.user_---'. sha1($host);
-         die($hash);
+        $username = $this->request->post('username');
+        $password = $this->request->post('password');
+        // debug($data, true);
+
+        if($this->user->login($username, $password))
+        {
+             die('OK');
+        }
     }
     $this->setMeta('Вход');
     $this->render('/admin/login/form');
@@ -63,10 +74,19 @@ private function hash()
    /*
    $this->request->session()
     ->put('sess.user_---af2f4a9befcc57c1e65e8904b38b66c4ae9337d9', true);
-   view('admin.login.form');
-   $this->render('admin.login.form');
-   $this->render('/admin/login/form');
    */
+}
+
+private function reference()
+{
+    if($this->request->isPost())
+    {
+         $host = $this->request->host();
+         $hash = 'session.user_---'. sha1($host);
+         die($hash);
+    }
+    $this->setMeta('Вход');
+    $this->render('/admin/login/form');
 }
 
 }

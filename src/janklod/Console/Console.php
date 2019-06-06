@@ -1,6 +1,10 @@
 <?php 
 namespace JK\Console;
 
+use JK\Console\IO\InputArg;
+use JK\Console\IO\Output;
+
+
 /**
  * Class Console
  * 
@@ -27,18 +31,21 @@ public function __construct($commands = [])
 /**
  * Test Previews!
  * 
- * Excecute concret command
+ * @param object $input
+ * @param object $output
+ * 
  * @return void
 */
-public function execute()
+public function execute(InputArg $input=null, Output $output = null)
 {
-   // $output = '';
-   // foreach($this->commands as $command)
-   // {
-   //    $output = '';
-   // }
-
-   // return $output;
+   foreach($this->commands as $key => $command)
+   {
+   	    if($input->argument() == $key)
+   	    {
+             $response = $command->execute();
+   	    }
+   }
+   return $output->answer($response);
 }
 
 }

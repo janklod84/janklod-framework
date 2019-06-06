@@ -11,14 +11,14 @@ use JK\Database\Model;
 class BaseManager extends Model
 {
 	  
-	 /**
-	  * constructor
-	  * @param JK\Container\ContainerInterface $app
-	  * @return void
-	 */
-	 public function __construct($app)
-	 {
-	 	  parent::__construct($app);
-	 }
+ /**
+  * constructor
+  * @param JK\Container\ContainerInterface $app
+  * @return void
+ */
+ public function __construct($app)
+ {
+ 	  parent::__construct($app);
+ }
 
 }

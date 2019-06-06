@@ -42,31 +42,32 @@ public function __construct($app)
 */
 public function callAction($callback, $matches=[])
 {
-     $output = null;
-     if($callback instanceof \Closure)
-     {
-          $output = call_user_func($callback, $matches);
+      $output = null;
+
+      if(is_string($callback) && strpos($callback, '@') !== false) 
+      {
+          list($controller, $action) = explode('@', $callback, 2);
+
+          $controllerObj = $this->controller($controller);
+          $action = strtolower($action);
+          
+          $this->app->set('current.controller', get_class($controllerObj));
+          $this->app->set('current.action', $action);
+
+          $this->call($controllerObj, 'before');
+          $output = call_user_func_array([$controllerObj , $action], $matches);
+          $this->call($controllerObj, 'after');
+          
+          $this->debug();
 
      }else{
          
-         if(is_string($callback) && strpos($callback, '@') !== false) 
-         {
-            list($controller, $action) = explode('@', $callback, 2);
-
-            $controllerObj = $this->controller($controller);
-            $action = strtolower($action);
-            
-            $this->app->set('current.controller', get_class($controllerObj));
-            $this->app->set('current.action', $action);
-
-            $this->call($controllerObj, 'before');
-            $output = call_user_func_array([$controllerObj , $action], $matches);
-            $this->call($controllerObj, 'after');
-            
-            $this->debug();
-         }
+        if($callback instanceof \Closure)
+        {
+            $output = call_user_func($callback, $matches);
+        }
      }
-
+     
      // response send headers to server
      $output = (string) $output;
      $this->app->response->setBody($output);

@@ -8,8 +8,8 @@ namespace JK\Console\IO;
 class InputArg
 {
 	  
-	  public function __construct()
+	  public function argument()
 	  {
-	  	   echo __METHOD__;
+	  	   return $_SERVER['argv'];
 	  }
 }

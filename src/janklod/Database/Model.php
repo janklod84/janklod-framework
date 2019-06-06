@@ -27,10 +27,10 @@ protected $db;
 */
 public function __construct($app)
 {
-    $this->app = $app;
+	$this->app = $app;
 	$this->db  = $app->db;
-    Q::setup($this->db);
-    $this->app->load->call($this, 'onConstructor');
+	Q::setup($this->db);
+	$this->app->load->call($this, 'onConstructor');
 }
 
 
