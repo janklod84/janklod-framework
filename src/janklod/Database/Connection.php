@@ -49,20 +49,20 @@ const ALLOWED_CONFIG_KEYS = [
 */
 public static function make($driver='mysql', $config = [])
 {
-   try 
-   {
-   	   self::ensureConfig($config);
-       extract($config);
-       
-   	   if(self::ensureDriver($driver))
-   	   {
-   	   	   return $this->call($driver, $config);
-   	   }
-       
-   }catch(PDOException $e){
+  try 
+  {
+    self::ensureConfig($config);
+    extract($config);
 
-        throw new ConnectionException($e->getMessage(), 404);
-   }
+    if(self::ensureDriver($driver))
+    {
+       return $this->call($driver, $config);
+    }
+
+  }catch(PDOException $e){
+
+    throw new ConnectionException($e->getMessage(), 404);
+  }
 
 }
 
