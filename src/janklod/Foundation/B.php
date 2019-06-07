@@ -1,11 +1,11 @@
 <?php 
-namespace JK;
+namespace JK\Foundation;
 
 
 /**
- * @package JK\Initializer
+ * @package JK\Foundation\Bootstrap
 **/ 
-class Initializer
+class Bootstrap
 {
         
 /**
@@ -76,7 +76,7 @@ public static function providers($app)
 */
 public static function functions()
 {
-    $maskPath  = __DIR__.'/Functions/*';
+    $maskPath  = __DIR__.'/../Functions/*';
     foreach(glob($maskPath) as $functionPath)
     {
            if(is_file($functionPath))

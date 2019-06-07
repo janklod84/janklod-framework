@@ -1,15 +1,16 @@
 <?php 
-namespace JK;
+namespace JK\Foundation;
 
 
 /**
- * @package JK\Definition
+ * @package JK\Foundation\Configuration
 */ 
-class Definition
+class Configuration
 {
 
+
 /**
-* Definition of application
+* Base Configuration of application
 */
 const SRC = [
 'providers' => [

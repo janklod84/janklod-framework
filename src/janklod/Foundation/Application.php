@@ -1,5 +1,6 @@
 <?php 
-namespace JK;
+namespace JK\Foundation;
+
 
 use JK\DI\ContainerBuilder;
 use JK\FileSystem\File;
@@ -24,34 +25,11 @@ final class Application
 private static $instance;
 
 
-
-/**
- * Container Builder 
- * @var \JK\DI\ContainerBuilder $containerBuilder
-*/
-private $containerBuilder;
-
-
 /**
  * Container Dependency Injection Interface
  * @var  JK\Container\ContainerInterface $app
 */
 private $app;
-
-
-
-/**
- * @var array $modules 
-*/ 
-private $modules = [];
-
-
-
-
-/**
- * @var array $middlewares 
-*/ 
-private $middlewares = [];
 
 
 
@@ -77,10 +55,11 @@ private function __wakeup(){}
 */
 private function __construct($root)
 {
-     $this->containerBuilder = new ContainerBuilder();
      $this->app = $this->getContainer();
+
+
      $this->bind('file', new File($root));
-     Config::basePath($root.'/config')->map();
+     Config::basePath($root.'/app/config')->map();
 }
 
 
@@ -90,7 +69,8 @@ private function __construct($root)
   * @return mixed
 */
 public function run()
-{
+{   
+     /*
      $requestMethod = $this->request->method();
      $dispatcher = $this->router->dispatch($requestMethod);
      if(is_null($dispatcher))
@@ -102,7 +82,8 @@ public function run()
      $matches    = $dispatcher->getMatches();
      $this->load->callAction($callback, $matches);
 
-     /* \Q::output(); */
+     /* \Q::output(); 
+     */
      
 }
 
@@ -124,45 +105,6 @@ public static function instance($root = null): self
 }
 
 
-
-/**
-* Add container you want to use
-* Exemple:
-* $this->addContainer(DI::class)
-* $this->addContainer(new DI())
-* 
-* @param string|object $container 
-* @return void
-*/
-public function addContainer($container='')
-{
-     $this->containerBuilder->addContainer($container);
-}
-
-
-
-/**
-* Add definition
-* Exemple:
-* $this->addDefinition(__DIR__.'/config.php')
-* $this->addDefinition([
-*   'JK\Helper\Test' => function () {
-*        return new Test();
-*    },
-*    'file' => new File(__DIR__),
-*    'newtest' => ...
-* ])
-* 
-* @param string|array $definition 
-* @return $this
-*/
-public function addDefinition($definition): self
-{
-     $this->containerBuilder->addDefinitions($definition);
-     return $this;
-}
-
-
 /**
 * Get container
 * Dependency Injection Container
@@ -170,7 +112,8 @@ public function addDefinition($definition): self
 */
 public function getContainer()
 {
-    return $this->containerBuilder->build();
+    return (new ContainerBuilder())
+           ->build();
 }
 
 
@@ -194,7 +137,7 @@ public function bind(string $key, $resolver)
 */
 public function push($data=[])
 {
-    $this->app->merge($data);
+      $this->app->merge($data);
 }
 
 
@@ -250,6 +193,18 @@ public function __get($key)
 
 
 /**
+ * Inialize all services of application
+ * @return void
+*/
+public function initialize()
+{
+   // (new Inialize([
+
+   // ]))
+}
+
+
+/**
  * Session start
  * @return void
 */
@@ -265,7 +220,7 @@ public function session()
 */
 public function loadFunctions()
 {
-   Initializer::functions();
+   Bootstrap::functions();
 }
 
 /**
@@ -274,7 +229,7 @@ public function loadFunctions()
 */
 public function loadAlias()
 {
-   Initializer::alias();
+   Bootstrap::alias();
 }
 
 
@@ -284,12 +239,12 @@ public function loadAlias()
 */
 public function loadProviders()
 {
-   Initializer::providers($this->app);
+   Bootstrap::providers($this->app);
 }
 
 
 /**
- * 
+ * Handler
  * @param \JK\Http\RequestInterface  $request 
  * @return \JK\Http\ResponseInterface 
  */
@@ -302,7 +257,8 @@ RequestInterface $request
 
 
 /**
- * terminate request
+ * Synthese request and response
+ * 
  * @param RequestInterface $request 
  * @param ResponseInterface $response 
  * @return 

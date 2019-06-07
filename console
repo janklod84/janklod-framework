@@ -2,15 +2,11 @@
 <?php 
 if(php_sapi_name() != 'cli') die('Restricted');
 define('JKSTART', microtime(true));
+
 require(__DIR__.'/func.php');
 require(__DIR__.'/vendor/autoload.php');
-require(__DIR__.'/routes/console.php');
-
-$app = require(__DIR__.'/initialize/app.php');
+$app = require(__DIR__.'/bootstrap/app.php');
 // debug($app);
 // debug($argv);
-
-$console = $app->make(JK\Console\Console::class);
-// $console = new \JK\Console\Console(); // Input / Output
-$output  = $console->execute($argv[1]);
-exit($output);
+$status  = $app->console->execute($argv[1]);
+exit($status);

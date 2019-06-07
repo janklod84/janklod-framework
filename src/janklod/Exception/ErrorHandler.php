@@ -49,7 +49,7 @@ public static function exceptionHandler($exception)
 
     http_response_code($code);
 
-    if(DEV || \Config::get('app.env') === 'dev')
+    if(DEV)
     { 
         echo "<h1>Fatal error</h1>";
         echo "<p>Uncaught exception: '" . get_class($exception) . "'</p>";

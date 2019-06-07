@@ -1,37 +1,48 @@
 <?php 
 
 /*
+|----------------------------------------------------------------------
+|   Check compatibility php version user with that used application
+|----------------------------------------------------------------------
+*/
+
+if(!version_compare(PHP_VERSION, '7.1', '>='))
+{
+   exit(
+     'This application use <b> version php >= 7.1 </b>.
+      But your version php is <b> '. PHP_VERSION . '</b>'
+  );
+}
+
+
+/*
 |-------------------------------------------------------------------
 |    Route Directory of Application
 |    Root directory specifly  dirname(__DIR__) or [../]
 |-------------------------------------------------------------------
 */
 
-define('ROOT', '../');
-
-
-
-/*
-|-------------------------------------------------------
-|    Development mode 
-|    FALSE mean that you are in production mode
-|    TRUE  mean that you are in develpment mode
-|-------------------------------------------------------
-*/
-
-define('DEV', true);
-
+define('ROOT', realpath(__DIR__.'/../'));
 
 
 
 /*
 |-------------------------------------------------------------------
-|    Get instance of Application 
+|    Create new application
 |-------------------------------------------------------------------
 */
 
-$app = \JK\Application::instance(ROOT);
+$app = \JK\Foundation\Application::instance(ROOT);
 
+
+$app->singleton('console', function () use($app) {
+   return $app->make(JK\Console\Console::class, [
+     ROOT.'/routes/console.php'
+   ]);
+});
+
+
+return $app;
 
 
 /*
@@ -40,6 +51,7 @@ $app = \JK\Application::instance(ROOT);
 |-------------------------------------------------------------------
 */
 
+/*
 $app->session();
 
 
@@ -49,7 +61,7 @@ $app->session();
 |    Initialize all Functions of Application
 |-------------------------------------------------------------------
 */
-
+/*
 $app->loadFunctions();
 
 
@@ -59,7 +71,7 @@ $app->loadFunctions();
 |   Loading all alias
 |-------------------------------------------------------------------
 */
-
+/*
 $app->loadAlias();
 
 
@@ -70,7 +82,7 @@ $app->loadAlias();
 |   Loading all providers
 |-------------------------------------------------------------------
 */
-
+/*
 $app->loadProviders();
 
 
@@ -79,7 +91,7 @@ $app->loadProviders();
 |   Includes any needed files 
 |-------------------------------------------------------------------
 */
-
+/*
 $app->file->calls([
 	'routes/app.php',
 	'routes/Test.php'
@@ -93,15 +105,10 @@ $app->file->calls([
 |-------------------------------------------------------------------
 */
 
+/*
 $app->router->addRoutes(
 	\JK\Routing\Route\RouteCollection::all()
 );
 
-
-
-/*
-|-------------------------------------------------------------------
-|   Get application instance
-|-------------------------------------------------------------------
 */
-return $app;
+

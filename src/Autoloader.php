@@ -72,7 +72,7 @@ public static function instance($root = null)
  * @param string $root
  * @return void
 */
-private function __construct(string $root)
+private function __construct($root)
 {
     // make sure that param $root is valid directory
     if(!is_dir($root)) 

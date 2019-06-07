@@ -1,5 +1,4 @@
 <?php 
-
 /*
 |----------------------------------------------------------------------
 |   Application  :  Framework using pattern MVC
@@ -8,21 +7,23 @@
 |----------------------------------------------------------------------
 */
 
-
 /*
 |----------------------------------------------------------------------
-|   Check compatibility php version user with that used application
+|   Autoloading classes and dependencies of application
 |----------------------------------------------------------------------
 */
 
-if(!version_compare(PHP_VERSION, '7.1', '>='))
-{
-   exit(
-     'This application use <b> version php >= 7.1 </b>.
-      But your version php is <b> '. PHP_VERSION . '</b>'
-  );
-}
+require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
+/*
+function d($arr)
+{
+   echo '<pre>';
+   print_r($arr);
+   echo '</pre>';
+   die;
+}
+*/
 
 /*
 |-------------------------------------------------------------------
@@ -33,15 +34,15 @@ if(!version_compare(PHP_VERSION, '7.1', '>='))
 define('JKSTART', microtime(true));
 
 
-
 /*
-|----------------------------------------------------------------------
-|   Autoloading classes and dependencies of application
-|----------------------------------------------------------------------
+|-------------------------------------------------------
+|    Development mode 
+|    FALSE mean that you are in production mode
+|    TRUE  mean that you are in develpment mode
+|-------------------------------------------------------
 */
 
-require_once realpath(__DIR__ .'/../vendor/autoload.php');
-
+define('DEV', true);
 
 
 /*
@@ -61,8 +62,8 @@ set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 |    Require bootstrap of Application
 |-------------------------------------------------------
 */
+$app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 
-require_once realpath(__DIR__.'/../initialize/app.php');
 
 
 /*
@@ -70,7 +71,4 @@ require_once realpath(__DIR__.'/../initialize/app.php');
 |    Run Application
 |-------------------------------------------------------
 */
-
 $app->run();
-
-

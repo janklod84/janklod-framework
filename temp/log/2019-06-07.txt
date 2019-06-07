@@ -1,0 +1,14 @@
+[07-Jun-2019 18:02:36 UTC] Uncaught exception: 'ArgumentCountError' with message 'Too few arguments to function {closure}(), 0 passed and exactly 1 expected'
+Stack trace: #0 [internal function]: {closure}()
+#1 D:\laragon\www\project\src\janklod\DI\Container.php(332): call_user_func(Object(Closure))
+#2 D:\laragon\www\project\src\janklod\DI\Container.php(182): JK\DI\Container->resolverMap(Object(Closure))
+#3 D:\laragon\www\project\src\janklod\Foundation\Application.php(168): JK\DI\Container->singleton('console', Object(Closure))
+#4 D:\laragon\www\project\bootstrap\app.php(51): JK\Foundation\Application->singleton('console', Object(Closure))
+#5 D:\laragon\www\project\public\index.php(56): require_once('D:\\laragon\\www\\...')
+#6 {main}
+Thrown in 'D:\laragon\www\project\bootstrap\app.php' on line 49
+[07-Jun-2019 18:02:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function JK\Exception\view() in D:\laragon\www\project\src\janklod\Exception\ErrorHandler.php:69
+Stack trace:
+#0 [internal function]: JK\Exception\ErrorHandler::exceptionHandler(Object(ArgumentCountError))
+#1 {main}
+  thrown in D:\laragon\www\project\src\janklod\Exception\ErrorHandler.php on line 69
