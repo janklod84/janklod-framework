@@ -59,7 +59,7 @@ private function __construct($root)
      $this->bind('file', new File($root));
      Config::basePath(
       sprintf('%s/app/config', $root)
-    )->map();
+     )->map();
 }
 
 
