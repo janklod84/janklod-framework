@@ -14,7 +14,6 @@ use JK\Database\Drivers\{
  SQLiteDriver
 };
 
-use \Config;
 
 /**
  * @package JK\Database\Connection
@@ -54,12 +53,12 @@ public static function make($driver='mysql', $config = [])
     self::ensureConfig($config);
     extract($config);
 
-    if(self::ensureDriver($driver))
+    if(self::isValidDriver($driver))
     {
        return self::call($driver, $config);
     }
 
-  }catch(PDOException $e){
+  }catch(\PDOException $e){
 
     throw new ConnectionException($e->getMessage(), 404);
   }
@@ -70,6 +69,17 @@ public static function make($driver='mysql', $config = [])
 
 /**
  * Call MySQL connection
+ * 
+ * [
+ * 'dbname'   => '',
+ * 'host'     => '',
+ * 'port'     => '',
+ * 'charset'  => '',
+ * 'username' => '',
+ * 'password' => '',
+ * 'options'  => ''
+ * ];
+ *
  * @param array $config 
  * @return \PDO
 */
@@ -81,6 +91,12 @@ public static function mysql($config=[])
 
 /**
  * Call SQLite connection
+ * 
+ * [
+ * 'dbname'   => '',
+ * 'options'  => ''
+ * ];
+ * 
  * @param array $config 
  * @return \PDO
 */
@@ -116,7 +132,7 @@ private static function call($driver, $config)
  * @param string $driver 
  * @return 
 */
-private static function ensureDriver($driver=null)
+private static function isValidDriver($driver=null)
 {
      if(!in_array($driver, PDO::getAvailableDrivers(), true))
      {
