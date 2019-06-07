@@ -62,7 +62,7 @@ set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 |-------------------------------------------------------
 */
 
-require_once realpath(__DIR__.'/../bootstrap/app.php');
+require_once realpath(__DIR__.'/../initialize/app.php');
 
 
 /*

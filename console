@@ -6,7 +6,7 @@ require(__DIR__.'/func.php');
 require(__DIR__.'/vendor/autoload.php');
 require(__DIR__.'/routes/console.php');
 
-// $app = require(__DIR__.'/bootstrap/app.php');
+// $app = require(__DIR__.'/initialize/app.php');
 // debug($app);
 // debug($argv);
 
