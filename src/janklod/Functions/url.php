@@ -7,7 +7,7 @@ if(!function_exists('base_url'))
       
       /**
        * Return current base URL
-       * @return mixed
+       * @return string
       */
       function base_url()
       {
@@ -32,7 +32,7 @@ if(!function_exists('url'))
        * Return current url
        * @param string $part
        * @param array $params
-       * @return mixed
+       * @return string
       */
       function url($part='', $params=[])
       {

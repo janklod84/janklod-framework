@@ -7,11 +7,12 @@ if(!function_exists('request'))
      
      /**
       * Request
+      * 
       * @return \JK\Http\Request
      */
      function request()
      {
-     	  return new Request();
+     	  return app()->request; // new Request();
      }
 }
 
@@ -20,12 +21,14 @@ if(!function_exists('server'))
 {
      
      /**
-      * Request
-      * @return \JK\Http\Requests\Input
+      * Server
+      * 
+      * @param string $key
+      * @return mixed
      */
-     function server()
+     function server($key='')
      {
-     	  return request()->server();
+     	  return request()->server($key);
      }
 }
 
@@ -35,7 +38,9 @@ if(!function_exists('input'))
      
      /**
       * Input
-      * @return \JK\Http\Requests\Input
+      * 
+      * @param string $key
+      * @return mixed
      */
      function input($key='')
      {
@@ -48,8 +53,10 @@ if(!function_exists('post'))
 {
      
      /**
-      * Input
-      * @return \JK\Http\Requests\Input
+      * Post
+      * 
+      * @param string $key
+      * @return mixed
      */
      function post($key='')
      {
@@ -62,8 +69,10 @@ if(!function_exists('get'))
 {
      
      /**
-      * Input
-      * @return \JK\Http\Requests\Input
+      * Get
+      * 
+      * @param string $Key
+      * @return mixed
      */
      function get($key='')
      {
@@ -106,11 +115,13 @@ if(!function_exists('files'))
      
      /**
       * UploadedFile
+      * 
+      * @param string $key
       * @return \JK\Http\Uploads\UploadedFile
      */
-     function files()
+     function files($key='')
      {
-     	  return request()->files();
+     	  return request()->files($key);
      }
 }
 

@@ -21,6 +21,7 @@ if(!function_exists('view'))
 
 
 
+// TO FIX
 if(!function_exists('partial'))
 {
      
@@ -30,7 +31,7 @@ if(!function_exists('partial'))
       * Ex: <?php partial('menu', 'layouts'); ?> 
       * will give   ../app/views/layouts/partials/menu.php 
       * 
-      if you remove partial you must to write full path ex: partials/menu
+      * if you remove partial you must to write full path ex: partials/menu
       * @param string $path 
       * @return string
      */

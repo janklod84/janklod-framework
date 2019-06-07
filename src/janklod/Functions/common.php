@@ -5,6 +5,7 @@ if(!function_exists('sanitize'))
      
      /**
       * Sanitize input data
+      * @param string $input
       * @return string
      */
      function sanitize($input='')

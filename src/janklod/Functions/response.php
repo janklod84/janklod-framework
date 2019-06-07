@@ -29,8 +29,11 @@ if(!function_exists('redirect'))
      
      /**
       * Function for redirect
+      * 
       * Ex: redirect('/admin/login')
+      * 
       * @param string $to 
+      * @return void
      */
      function redirect($to='/')
      {
@@ -44,8 +47,9 @@ if(!function_exists('notFound'))
      
      /**
       * Redirect to NotFoundController
+      * @return void
      */
-     function notFound($to='/')
+     function notFound()
      {
          return redirect(404);
      }

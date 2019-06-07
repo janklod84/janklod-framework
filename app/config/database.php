@@ -17,7 +17,9 @@ return [
 |		  'password' => 'xx-secret-xxx',
 |		  'options'  => []
 |      ];
+|
 |     Ex connection to sqlite:
+|
 |       [
 |        'driver'   => 'sqlite',
 |		 'dbname'   => '../test.db',
@@ -111,6 +113,7 @@ return [
 |------------------------------------------------------------------
 */
 'prefix_tbl' => '', // tbl_
+
 
 
 /*

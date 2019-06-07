@@ -5,7 +5,6 @@ if(!function_exists('app'))
      
 	/**
 	 * Get the application instance
-	 * @param string $root
 	 * @return \JK\Application
 	*/
 	function app()

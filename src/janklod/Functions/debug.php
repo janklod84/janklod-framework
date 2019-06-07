@@ -7,7 +7,7 @@ if(!function_exists('debug'))
  * Debug data 
  * @param mixed $parsed 
  * @param bool $die 
- * @return 
+ * @return void
  */
 function debug($parsed, $die = false)
 {
@@ -25,7 +25,7 @@ if(!function_exists('dd'))
 /**
  * Debug data with more precision [die and dump]
  * @param mixed $parsed 
- * @return 
+ * @return void
 */
 function dd($parsed)
 {

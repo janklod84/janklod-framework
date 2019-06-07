@@ -6,7 +6,7 @@ if(!function_exists('config'))
 	/**
 	 * Get config
 	 * @param string $parsed
-	 * @return \JK\Application
+	 * @return mixed
 	*/
 	function config($parsed='')
 	{
