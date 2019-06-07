@@ -13,7 +13,7 @@ class MySQLConfig
       * Get all MySQL Configs
       * @return array
      */
-	 public static function get()
+	 public static function all()
 	 {
          return [
 		     'dbname'        => Config::get('database.dbname'),

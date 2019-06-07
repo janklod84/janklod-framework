@@ -10,8 +10,8 @@ use JK\Database\Exceptions\{
 };
 
 use JK\Database\Drivers\{
-   MySQLDriver,
-   SQLiteDriver
+ MySQLDriver,
+ SQLiteDriver
 };
 
 use \Config;
@@ -53,19 +53,10 @@ public static function make($driver='mysql', $config = [])
    {
    	   self::ensureConfig($config);
        extract($config);
+       
    	   if(self::ensureDriver($driver))
    	   {
-   	   	   $method = strtolower($driver);
-   	   	   $callback = [new static, $method];
-   	   	   if(!is_callable($callback))
-   	   	   {
-                throw new ConnectionException(
-                	sprintf('Sorry, Connection to [%s] does not implemented yet!', $driver), 
-                	404
-                );
-                
-   	   	   }
-   	   	   return call_user_func($callback, $config);
+   	   	   return $this->call($driver, $config);
    	   }
        
    }catch(PDOException $e){
@@ -74,6 +65,7 @@ public static function make($driver='mysql', $config = [])
    }
 
 }
+
 
 
 /**
@@ -97,6 +89,27 @@ public static function sqlite($config=[])
    return call_user_func([new SQLiteDriver($config), 'connect']);
 }
 
+
+/**
+ * Call
+ * @param string $driver 
+ * @param string $config 
+ * @return mixed
+*/
+private static function call($driver, $config)
+{
+     $method = strtolower($driver);
+     $callback = [new static, $method];
+     if(!is_callable($callback))
+     {
+          throw new ConnectionException(
+            sprintf('Sorry, Connection to [%s] does not implemented yet!', $driver), 
+            404
+          );
+          
+     }
+     return call_user_func($callback, $config);
+}
 
 /**
  * Make sure has available driver

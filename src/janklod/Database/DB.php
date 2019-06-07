@@ -3,10 +3,6 @@ namespace JK\Database;
 
 
 use \Config;
-use JK\Database\Configs\{
-	MySQLConfig,
-	SQLiteConfig
-};
 
 
 /**
@@ -53,38 +49,17 @@ public static function instance()
 
 
 /**
- * Open Database
+ * Connect to database
  * @param array $config
  * @return void
 */
 private static function connect()
 {
 	$driver = Config::get('database.driver');
-	$config = self::config($driver);
+	$config = Configuration::check($driver);
 	return Connection::make($driver, $config);
 }
 
-
-/**
- * Get configuration
- * @var string $driver
- * @return array
- * @throws \Exception
-*/
-private static function config($driver)
-{
-  switch($driver)
-  {
-    case 'mysql':
-      return MySQLConfig::get();
-    break;
-    case 'sqlite':
-      return SQLiteConfig::get();
-    break;
-    default:
-     throw new \Exception("No Driver checked!", 404);
-  }
-}
 
 
 /**

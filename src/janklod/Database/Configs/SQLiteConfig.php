@@ -13,7 +13,7 @@ class SQLiteConfig
       * Get all SQLite Configs
       * @return array
      */
-	 public static function get()
+	 public static function all()
 	 {
          return [
 		   'dbname'   => Config::get('database.dbname'),

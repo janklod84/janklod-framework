@@ -51,7 +51,10 @@ abstract public function dsn();
 
 
 /**
- * Get \PDO
+ * Get PDO
+ * @param string $dsn
+ * @param string $username
+ * @param string $password
  * @return \PDO
 */
 public function pdo($dsn='', $username, $password)
