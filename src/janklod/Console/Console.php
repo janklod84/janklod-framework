@@ -33,6 +33,10 @@ public function __construct($file = null)
      {
          require($path);
      }
+     echo __FILE__;
+     echo '<pre>';
+     print_r(self::$commands);
+     echo '</pre>';
 }
 
 
@@ -43,7 +47,11 @@ public function __construct($file = null)
  * @param array $options
  * @return void
 */
-public static function add(CommandInterface $command, $name, $options = [])
+public static function add(
+CommandInterface $command, 
+$name, 
+$options = []
+)
 {
        self::$commands[$name] = $command;
        $command->options = $options;
@@ -59,6 +67,7 @@ public static function add(CommandInterface $command, $name, $options = [])
 */
 public function execute($input, $output=null)
 {
+    // $input->argument(1) [$argv[1]]
     if(isset(self::$commands[$input]))
     {
         $msg = self::$commands[$input]->execute();

@@ -38,5 +38,4 @@ public static function all()
 	return self::$runners;
 }
 
-
 }

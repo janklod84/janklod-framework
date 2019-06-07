@@ -35,12 +35,26 @@ define('ROOT', realpath(__DIR__.'/../'));
 $app = \JK\Foundation\Application::instance(ROOT);
 
 
+
+/*
+|-------------------------------------------------------------------
+|    Binds importantes interfaces
+|-------------------------------------------------------------------
+*/
+
 $app->singleton('console', function () use($app) {
    return $app->make(JK\Console\Console::class, [
-     ROOT.'/routes/console.php'
+     $app->file->to('routes/console.php')
    ]);
 });
 
+// ...
+
+/*
+|-------------------------------------------------------------------
+|    Return instance of application
+|-------------------------------------------------------------------
+*/
 
 return $app;
 

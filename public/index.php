@@ -15,15 +15,6 @@
 
 require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
-/*
-function d($arr)
-{
-   echo '<pre>';
-   print_r($arr);
-   echo '</pre>';
-   die;
-}
-*/
 
 /*
 |-------------------------------------------------------------------
@@ -62,6 +53,7 @@ set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 |    Require bootstrap of Application
 |-------------------------------------------------------
 */
+
 $app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 
 
@@ -71,4 +63,5 @@ $app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 |    Run Application
 |-------------------------------------------------------
 */
+
 $app->run();

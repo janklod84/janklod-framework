@@ -56,10 +56,10 @@ private function __wakeup(){}
 private function __construct($root)
 {
      $this->app = $this->getContainer();
-
-
      $this->bind('file', new File($root));
-     Config::basePath($root.'/app/config')->map();
+     Config::basePath(
+      sprintf('%s/app/config', $root)
+    )->map();
 }
 
 
