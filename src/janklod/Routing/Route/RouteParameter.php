@@ -106,28 +106,12 @@ public static function url($name, $params = [])
 }
 
 
-
-/**
-  * Get Url
-  * @param array $params 
-  * @return string
-*/
-private function getUrl($params)
-{
-    $path = $this->getParam('path');
-
-    foreach($params as $k => $v)
-    {
-        $path = str_replace(":$k", $v, $path);
-    } 
-    return $path;
-}
-
-
 /**
 * Add regex
+* 
 * @param mixed $parameter 
 * @param mixed $regex 
+* @return self
 */
 public function with($parameter, $regex = null)
 {
@@ -147,24 +131,40 @@ public function with($parameter, $regex = null)
 }
 
 
+
 /**
- * Determine if has item Regex
- * @param string $key 
- * @return bool
+  * Replace param in path
+  * 
+  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+  * 
+  * @return string
 */
-public function has($key)
+public function replacePattern()
 {
-    return isset($this->regex[$key]);
+    return preg_replace_callback('#:([\w]+)#', 
+      [$this, 'paramMatch'], 
+      $this->getParam('pattern')
+   );
 }
 
 
+/**
+ * Determine if has item Regex
+ * 
+ * @param string $key 
+ * @return bool
+*/
+private function has($key)
+{
+    return isset($this->regex[$key]);
+}
 
 /**
   * Return match param
   * @param string $match 
   * @return string 
 */
-public function paramMatch($match)
+private function paramMatch($match)
 {
      if($this->has($match[1]))
      {
@@ -175,20 +175,20 @@ public function paramMatch($match)
 
 
 /**
-  * Replace param in path
+  * Get Url
   * 
-  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
-  * 
+  * @param array $params 
   * @return string
 */
- public function replacePattern()
- {
-      return preg_replace_callback('#:([\w]+)#', 
-        [$this, 'paramMatch'], 
-        $this->getParam('pattern')
-     );
- }
+private function getUrl($params)
+{
+    $path = $this->getParam('path');
 
-
+    foreach($params as $k => $v)
+    {
+        $path = str_replace(":$k", $v, $path);
+    } 
+    return $path;
+}
 
 }

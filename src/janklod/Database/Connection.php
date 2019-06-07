@@ -56,7 +56,7 @@ public static function make($driver='mysql', $config = [])
 
     if(self::ensureDriver($driver))
     {
-       return $this->call($driver, $config);
+       return self::call($driver, $config);
     }
 
   }catch(PDOException $e){
