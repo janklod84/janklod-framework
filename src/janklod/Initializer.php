@@ -20,7 +20,6 @@ private static $functions  = [];
 private static $initialized = [];
 
 
-
 /**
  * Initialize all alias
  * @param array $aliases

@@ -80,7 +80,7 @@ private function __construct($root)
      $this->containerBuilder = new ContainerBuilder();
      $this->app = $this->getContainer();
      $this->bind('file', new File($root));
-     Config::basePath($root.'/app/config')->map();
+     Config::basePath($root.'/config')->map();
 }
 
 

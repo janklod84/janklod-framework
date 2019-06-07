@@ -2,7 +2,7 @@
 namespace app\models\Entities;
 
 
-use JK\Database\ActiveRecord;
+use JK\Database\Records\ActiveRecord;
 
 
 /**

@@ -9,16 +9,16 @@ use \Config;
 class SQLiteConfig 
 {
      
-     /**
-      * Get all SQLite Configs
-      * @return array
-     */
-	 public static function all()
-	 {
-         return [
-		   'dbname'   => Config::get('database.dbname'),
-		   'options'  => Config::get('database.options')
-	     ];
-	 }
+/**
+* Get all SQLite Configs
+* @return array
+*/
+public static function all()
+{
+ return [
+   'dbname'   => Config::get('database.dbname'),
+   'options'  => Config::get('database.options')
+ ];
+}
 }
 

@@ -1,32 +1,6 @@
 <?php 
 
 /*
-|----------------------------------------------------------------------
-|   Check compatibility php version user with that used application
-|----------------------------------------------------------------------
-*/
-
-if(!version_compare(PHP_VERSION, '7.1', '>='))
-{
-   exit(
-     'This application use <b> version php >= 7.1 </b>.
-      But your version php is <b> '. PHP_VERSION . '</b>'
-  );
-}
-
-
-
-/*
-|-------------------------------------------------------------------
-|    Application starting time
-|-------------------------------------------------------------------
-*/
-
-define('JKSTART', microtime(true));
-
-
-
-/*
 |-------------------------------------------------------------------
 |    Route Directory of Application
 |    Root directory specifly  dirname(__DIR__) or [../]
@@ -48,25 +22,6 @@ define('ROOT', '../');
 define('DEV', true);
 
 
-
-/*
-|----------------------------------------------------------------------
-|   Autoloading classes and dependencies of application
-|----------------------------------------------------------------------
-*/
-
-require_once realpath(__DIR__ .'/../vendor/autoload.php');
-
-
-/*
-|----------------------------------------------------------------------
-|    Error Handler settings
-|----------------------------------------------------------------------
-*/
-
-error_reporting(E_ALL);
-set_error_handler('JK\Exception\ErrorHandler::errorHandler');
-set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 
 
 /*
@@ -142,3 +97,11 @@ $app->router->addRoutes(
 	\JK\Routing\Route\RouteCollection::all()
 );
 
+
+
+/*
+|-------------------------------------------------------------------
+|   Get application instance
+|-------------------------------------------------------------------
+*/
+return $app;

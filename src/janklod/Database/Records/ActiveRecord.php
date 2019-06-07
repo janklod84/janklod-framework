@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Database;
+namespace JK\Database\Records;
 
 use JK\ORM\Q;
 
 /**
- * @package JK\Database\ActiveRecord 
+ * @package JK\Database\Records\ActiveRecord 
 */ 
 class ActiveRecord
 {
