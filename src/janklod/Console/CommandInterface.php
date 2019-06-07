@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Console\Command;
+namespace JK\Console;
 
 
 /**
- * @package JK\Console\Command\CommandInterface
+ * @package JK\Console\CommandInterface
 */ 
 interface CommandInterface 
 {

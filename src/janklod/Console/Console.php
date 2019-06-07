@@ -3,7 +3,7 @@ namespace JK\Console;
 
 use JK\Console\IO\InputArg;
 use JK\Console\IO\Output;
-
+use JK\Console\Command\Command;
 
 /**
  * Class Console
@@ -14,38 +14,42 @@ class Console
 {
 
 
-// private $commands = []
-
-
 /**
- * Constructor
- * @param array $commands 
- * @return void
-*/
-public function __construct($commands = [])
-{
-     // $this->commands = $commands;
-}
+   * @var array $commands
+   * @var string $configPath
+  */
+  private static $commands = [];
+  
 
+  /**
+   * Add command
+   * @param CommandInterface $command 
+   * @param string $name
+   * @param array $options
+   * @return void
+  */
+  public static function add(CommandInterface $command, $name, $options = [])
+  {
+         self::$commands[$name] = $command;
+         $command->options = $options;
+  }
+  
 
-/**
- * Test Previews!
- * 
- * @param object $input
- * @param object $output
- * 
- * @return void
-*/
-public function execute(InputArg $input=null, Output $output = null)
-{
-   foreach($this->commands as $key => $command)
-   {
-   	    if($input->argument() == $key)
-   	    {
-             $response = $command->execute();
-   	    }
-   }
-   return $output->answer($response);
-}
+    
+  /**
+   * Execute command
+   * @param string $input
+   * @param output
+   * @return mixed
+  */
+  public function execute($input, $output=null)
+  {
+      if(isset(self::$commands[$input]))
+      {
+          $msg = self::$commands[$input]->execute();
+
+          // return ! $output ? $output->message($msg) : 'No messages';
+      }
+  }
 
 }
