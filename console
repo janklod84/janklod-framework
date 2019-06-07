@@ -6,10 +6,11 @@ require(__DIR__.'/func.php');
 require(__DIR__.'/vendor/autoload.php');
 require(__DIR__.'/routes/console.php');
 
-// $app = require(__DIR__.'/initialize/app.php');
+$app = require(__DIR__.'/initialize/app.php');
 // debug($app);
 // debug($argv);
 
-$console = new \JK\Console\Console(); // Input / Output
+$console = $app->make(JK\Console\Console::class);
+// $console = new \JK\Console\Console(); // Input / Output
 $output  = $console->execute($argv[1]);
 exit($output);
