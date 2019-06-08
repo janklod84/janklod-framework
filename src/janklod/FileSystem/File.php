@@ -65,7 +65,7 @@ public function exists($file): bool
 */
 public function call($file)
 {
-    $this->ensureFile($file);
+    $this->hasFile($file);
     return require_once($this->to($file));
 }
 
@@ -242,7 +242,7 @@ return str_replace('/', self::DS, $this->root) . self::DS. str_replace(
  * @param string $file 
  * @return void
  */
-private function ensureFile($file)
+private function hasFile($file)
 {
      if(!$this->exists($file))
      {

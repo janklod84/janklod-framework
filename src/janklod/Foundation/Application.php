@@ -9,7 +9,7 @@ use JK\Http\ResponseInterface;
 
 /**
  * Application
- * @package JK\Application
+ * @package JK\Foundation\Application
 */ 
 final class Application
 {
@@ -148,6 +148,7 @@ public function push($data=[])
 /**
 * Create new instance and inject params automatically
 * Create new object 
+* 
 * [ex: (new \JK\Application())->make(Blog::class) ]
 * $obj = $this->app->make(
 * 'JanKlod\\Test', 
