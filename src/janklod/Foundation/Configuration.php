@@ -14,8 +14,6 @@ class Configuration
 */
 const SRC = [
 'providers' => [
-\JK\Config\Facades\ConfigProvider::class,
-\JK\Http\Facades\RequestProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
 \JK\Routing\Facades\RouterProvider::class, 
 \JK\Loader\Facades\LoaderProvider::class,

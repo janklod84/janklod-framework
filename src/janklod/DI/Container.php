@@ -195,7 +195,7 @@ public function singleton($key, $resolver)
 * @param mixed $arguments
 * @return object
 */
-public function create($classname, $arguments = null)
+public function make($classname, $arguments = null)
 {
     $reflection = new Reflection($classname);
     $reflection->setArguments($arguments);

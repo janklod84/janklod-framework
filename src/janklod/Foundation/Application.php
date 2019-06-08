@@ -78,7 +78,7 @@ public function initialize()
 
 
 /**
- * Handle exchange request and response
+ * Handle request
  * 
  * @param \JK\Http\RequestInterface  $request 
  * @return mixed
@@ -195,7 +195,7 @@ public function push($data=[])
 */
 public function make(string $name, $arguments = null): object
 {
-     return $this->app->create($name, $arguments);
+     return $this->app->make($name, $arguments);
 }
 
 

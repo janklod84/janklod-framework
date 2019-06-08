@@ -10,11 +10,16 @@ use JK\Http\Response;
 */
 class ResponseProvider extends ServiceProvider
 {
-       
-       public function register()
-       {
-       	   $this->app->singleton('response', function () {
-               return new Response();
-           });
-       }
+
+/**
+ * Register 
+ * @return type
+ */
+public function register()
+{
+   $this->app->singleton('response', function () {
+       return $this->app->make(Response::class);
+   });
+}
+
 }

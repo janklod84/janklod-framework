@@ -3,6 +3,7 @@ namespace JK\Foundation;
 
 
 use JK\Config\Config;
+use JK\Http\Sessions\Session;
 
 
 /**
@@ -34,7 +35,13 @@ private static $runners = [
 */
 public function __construct($app)
 {
+	// Start session
+	Session::start();
+
+	// Get container
     $this->app = $app;
+    
+    // Load all configuration
     \JK\Config\Config::basePath(
      $this->app->file->to('app/config')
     )->map();
