@@ -4,7 +4,7 @@ namespace JK\Console\IO;
 /**
  * @package JK\Console\IO\InputArgv 
 */ 
-class ArgvInput implements InputInterface
+class InputArgv implements InputInterface
 {
       public function argument($key=null)
 	  {

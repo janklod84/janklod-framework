@@ -2,9 +2,9 @@
 namespace JK\Console\IO;
 
 /**
- * @package JK\Console\IO\InputArgv 
+ * @package JK\Console\IO\Output 
 */ 
-class Output implements InputInterface
+class Output implements OutputInterface
 {
 
 /**

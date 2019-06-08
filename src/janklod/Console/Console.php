@@ -1,8 +1,8 @@
 <?php 
 namespace JK\Console;
 
-use JK\Console\IO\InputArg;
-use JK\Console\IO\Output;
+use JK\Console\IO\InputInterface;
+use JK\Console\IO\OutputInterface;
 
 /**
  * Class Console [Excecute command]
@@ -29,15 +29,20 @@ public function __construct($file = null)
 
 /**
  * Execute command
- * @param $input
- * @return mixed
+ * @param InputInterface $input
+ * @param OutputInterface $output
+ * @return 
 */
-public function execute($input)
+public function execute(
+InputInterface $input, 
+OutputInterface $output
+)
 {
      if(php_sapi_name() != 'cli')
      { die('Restricted'); } 
 
-     return Command::get($input)->execute();
+     $signature = $input->argument(1);
+     return Command::get($signature)->execute();
 }
 
 }
