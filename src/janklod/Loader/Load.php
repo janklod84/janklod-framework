@@ -51,12 +51,14 @@ public function callAction($callback, $matches=[])
           $controllerObj = $this->controller($controller);
           $action = strtolower($action);
           
-          $this->app->set('current.controller', get_class($controllerObj));
-          $this->app->set('current.action', $action);
-
-          $this->call($controllerObj, 'before');
+          $this->app->push([
+            'current.controller' => get_class($controllerObj),
+            'current.action' => $action
+          ]);
+          
+          $this->call([$controllerObj, 'before']);
           $output = call_user_func_array([$controllerObj , $action], $matches);
-          $this->call($controllerObj, 'after');
+          $this->call([$controllerObj, 'after']);
           
           // show message
           $this->notify();
@@ -85,18 +87,14 @@ public function notify()
 
 
 /**
-* Call before or after 
+* Callback
 * 
-* @param object $object
-* @param string $method
+* @param callable $callback
 * @return void
 */
-public function call($object, $method='before')
+public function call(callable $callback)
 {
-    if(method_exists($object, $method))
-    {
-        call_user_func([$object, $method]);
-    }
+   call_user_func($callback);
 }
 
 

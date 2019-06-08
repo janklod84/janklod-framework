@@ -141,7 +141,7 @@ public function bind(string $key, $resolver)
 */
 public function push($data=[])
 {
-      $this->app->merge($data);
+      $this->app->add($data);
 }
 
 

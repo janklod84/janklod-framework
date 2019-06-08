@@ -50,7 +50,7 @@ private function __wakeup(){}
 */
 private function __construct($container = [])
 {
-    $this->merge($container);
+    $this->add($container);
 }
 
 
@@ -78,7 +78,7 @@ public static function instance($container = [])
 * Merge data in storage
 * Ex:
 * $app = Container::instance();
-* $app->merge([
+* $app->add([
 *  'name' => 'Name',
 *  'item' => Item
 *  ...
@@ -88,7 +88,7 @@ public static function instance($container = [])
 * @param array $container 
 * @return void
 */
-public function merge($container = [])
+public function add($container = [])
 {
      $this->container = array_merge(
                         $this->container, 
@@ -187,9 +187,9 @@ public function singleton($key, $resolver)
 /**
 * Create new object by given name
 * 
-* $app->create(app\\models\\User);   => new User()
-* $app->create(User::class);         => new User()
-* $app->create(User::class, params); => new User($params)
+* $app->make(app\\models\\User);   => new User()
+* $app->make(User::class);         => new User()
+* $app->make(User::class, params); => new User($params)
 * 
 * @param string $classname
 * @param mixed $arguments
