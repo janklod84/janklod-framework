@@ -81,8 +81,9 @@ public function initialize()
 */
 public function run()
 {   
-   if($this->request->cli()){ die('Access Restricted!'); }
-   
+   if($this->request->cli())
+   { die('Access Restricted!'); }
+
     // Run all services and modules
    $this->initialize();
 
