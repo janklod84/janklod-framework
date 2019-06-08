@@ -2,6 +2,9 @@
 namespace JK\Foundation;
 
 
+use JK\Config\Config;
+
+
 /**
  * @package JK\Foundation\Initialize
 **/ 
@@ -13,6 +16,16 @@ class Initialize
 */
 private $app;
 
+/**
+ * Runners
+*/
+private static $runners = [
+ \JK\Foundation\Runners\AliasRunner::class,
+ \JK\Foundation\Runners\ProviderRunner::class,
+ \JK\Foundation\Runners\FunctionRunner::class,
+ // \JK\Foundation\Runners\CommandRunner::class,
+];
+
 
 /**
  * Constructor
@@ -21,7 +34,10 @@ private $app;
 */
 public function __construct($app)
 {
-
+    $this->app = $app;
+    \JK\Config\Config::basePath(
+     $this->app->file->to('app/config')
+    )->map();
 }
 
 
@@ -31,6 +47,38 @@ public function __construct($app)
 */
 public function run()
 {
-
+    foreach(self::$runners as $runner)
+    {
+       $this->callRunner($runner);
+    }
 }
+
+
+/**
+ * Get callback
+ * @param string $runner 
+ * @return void
+*/
+private function callRunner($runner)
+{
+	 if(!class_exists($runner))
+	 {
+	 	  throw new \Exception(
+	 	  sprintf('Sorry class <strong>%s</strong> does not exist!', $runner), 
+	 	  404
+	 	 );
+	 }
+
+	 $callback = [new $runner($this->app), 'init'];
+
+	 if(!is_callable($callback))
+	 {
+         throw new \Exception(
+         'Sorry can not get this callback',
+	 	  404
+	 	 );
+	 }
+	 call_user_func($callback);
+}
+
 }

@@ -17,7 +17,9 @@ class ViewProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('view', function () {
-             return new View(ROOT.'app/views/');
+             return new View(
+                $this->app->file->to('app/views/')
+             );
         });
     }
 }

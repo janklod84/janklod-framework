@@ -8,15 +8,6 @@
 */
 
 /*
-|----------------------------------------------------------------------
-|   Autoloading classes and dependencies of application
-|----------------------------------------------------------------------
-*/
-
-require_once realpath(__DIR__ .'/../vendor/autoload.php');
-
-
-/*
 |-------------------------------------------------------------------
 |    Application starting time
 |-------------------------------------------------------------------
@@ -34,6 +25,15 @@ define('JKSTART', microtime(true));
 */
 
 define('DEV', true);
+
+
+/*
+|----------------------------------------------------------------------
+|   Autoloading classes and dependencies of application
+|----------------------------------------------------------------------
+*/
+
+require_once realpath(__DIR__ .'/../vendor/autoload.php');
 
 
 /*
@@ -56,6 +56,19 @@ set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 
 $app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 
+
+
+
+/*
+|-------------------------------------------------------------------
+|   Add all collections routes
+|-------------------------------------------------------------------
+*/
+/*
+$app->router->addRoutes(
+	\JK\Routing\Route\RouteCollection::all()
+);
+*/
 
 
 /*

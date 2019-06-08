@@ -10,7 +10,7 @@ return [
 
 'sqlite' => [
    'driver'   => 'sqlite',
-   'dbname'   => '../test.db',	 
+   'dbname'   => '../test.sqlite',	 
    'options'  => [],
    'prefix'   => ''
  ],
@@ -26,6 +26,6 @@ return [
     'options'  => [],
     'prefix'   => '',
     'engine'   => null
- ];
+ ]
 
 ];

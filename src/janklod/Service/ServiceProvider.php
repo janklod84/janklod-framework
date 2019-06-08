@@ -25,7 +25,6 @@ protected $app;
 public function __construct(ContainerInterface $app)
 {
     $this->app = $app;
-    $this->boot();
 }
 
 
@@ -33,7 +32,14 @@ public function __construct(ContainerInterface $app)
 * Do something before register
 * @return mixed
 */
-protected function boot() {}
+public function boot() {}
+
+
+/**
+* Do something after register
+* @return mixed
+*/
+public function after(){}
 
 
 /**
@@ -41,4 +47,5 @@ protected function boot() {}
 * @return void
 */
 abstract public function register();
+
 }

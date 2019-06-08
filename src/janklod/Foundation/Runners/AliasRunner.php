@@ -7,11 +7,6 @@ namespace JK\Foundation\Runners;
 class AliasRunner extends CustomRunner 
 {
 
-/**
-* @var array $alias  [ Container all alias ]
-*/
-private static $aliases = [];
-
 
 /**
 * 
@@ -19,6 +14,21 @@ private static $aliases = [];
 */
 public function init()
 {
-
+	foreach(self::get('alias') as $alias => $classname)
+	{
+	   if(class_exists($classname))
+	   {
+	        if(class_alias($classname, $alias))
+	        {
+	            self::$initialized['alias'][] = compact('classname', 'alias');
+	        }
+	   }
+	}
+    
+    echo '<pre>';
+	print_r(self::get('alias'));
+	echo '</pre>';
 }
+
+
 }

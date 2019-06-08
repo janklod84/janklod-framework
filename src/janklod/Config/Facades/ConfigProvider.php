@@ -10,11 +10,24 @@ use JK\Config\Config;
 */
 class ConfigProvider extends ServiceProvider
 {
-       
-       public function register()
-       {
-       	   $this->app->singleton('config', function () {
-               return new Config();
-           });
-       }
+
+
+/**
+* Do action before registring
+* @return void
+*/   
+public function boot() {}
+
+
+/**
+ * Register service
+ * @return void
+*/
+public function register()
+{
+    $this->app->singleton('config', function () {
+         return '';
+    });
+}
+
 }

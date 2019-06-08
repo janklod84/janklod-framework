@@ -16,6 +16,11 @@ class TestCommand implements CommandInterface
 	 	 die('Привет консоль : '. __METHOD__);
 	 }
 
+	 public function setOptions($options)
+	 {
+	 	 $this->options = $options;
+	 }
+
 	 public function undo()
 	 {
 

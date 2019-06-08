@@ -9,11 +9,17 @@ use JK\Console\CommandInterface;
 class CreateCommand implements CommandInterface
 {
      
+     public $name = 'create';
      public $options = [];
 
 	 public function execute()
 	 {
 	 	 die('Привет консоль : '. __METHOD__);
+	 }
+
+	 public function setOptions($options)
+	 {
+	 	 $this->options = $options;
 	 }
 
 	 public function undo()

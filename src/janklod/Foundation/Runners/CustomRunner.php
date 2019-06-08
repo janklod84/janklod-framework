@@ -14,10 +14,11 @@ abstract class CustomRunner
 
 
 /**
- * @var \JK\Container\ContainerInterface $app
+ * @var \JK\Container\ContainerInterface $app [ Container ]
+ * @var array $initialized [ Container all initialized ]
 */
 protected $app;
-
+protected static $initialized = [];
 
 /**
 * Construct
@@ -30,6 +31,15 @@ public function __construct($app)
 }
 
 
+/**
+ * Callback
+ * @param callable $callback 
+ * @return mixed
+*/
+protected function call(callable $callback, $arguments=[])
+{
+    call_user_func_array($callback, $arguments);
+}
 
 /**
  * Merge data

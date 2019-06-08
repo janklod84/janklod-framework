@@ -5,7 +5,6 @@ namespace JK\Foundation;
 use JK\DI\ContainerBuilder;
 use JK\FileSystem\File;
 use JK\Config\Config;
-use JK\Http\Sessions\Session;
 use JK\Routing\Dispatcher;
 use JK\Database\DatabaseManager;
 
@@ -55,13 +54,89 @@ private function __wakeup(){}
 */
 private function __construct($root)
 {
-     $this->app = $this->getContainer();
-     $this->bind('file', new File($root));
-     Config::basePath(
-      sprintf('%s/app/config', $root)
-     )->map();
+   $this->app = $this->getContainer();
+   $this->bind('file', new File($root));
 }
 
+
+
+/**
+ * Inialize all services of application
+ * @return void
+*/
+public function initialize()
+{
+   (new Initialize($this->app))
+   ->run();
+}
+
+
+/**
+ * Session start
+ * @return void
+*/
+public function session()
+{
+    Session::start();
+}
+
+
+/**
+* Initialize all functions
+* @return void
+*/
+public function loadFunctions()
+{
+   Bootstrap::functions();
+}
+
+/**
+* Initialize all alias
+* @return void
+*/
+public function loadAlias()
+{
+   Bootstrap::alias();
+}
+
+
+/**
+* Initialize all services providers
+* @return void
+*/
+public function loadProviders()
+{
+   Bootstrap::providers($this->app);
+}
+
+
+/**
+ * Handler
+ * @param \JK\Http\RequestInterface  $request 
+ * @return \JK\Http\ResponseInterface 
+ */
+public function handle(
+RequestInterface $request
+): ResponseInterface
+{
+     //
+}
+
+
+/**
+ * Synthese request and response
+ * 
+ * @param RequestInterface $request 
+ * @param ResponseInterface $response 
+ * @return 
+*/
+public function terminate(
+RequestInterface $request, 
+ResponseInterface $response
+)
+{
+
+}
 
 
 /**
@@ -70,6 +145,9 @@ private function __construct($root)
 */
 public function run()
 {   
+     // Run all services
+     $this->initialize();
+
      /*
      $requestMethod = $this->request->method();
      $dispatcher = $this->router->dispatch($requestMethod);
@@ -191,87 +269,6 @@ public function __get($key)
    return $this->get($key);
 }
 
-
-/**
- * Inialize all services of application
- * @return void
-*/
-public function initialize()
-{
-   // (new Inialize([
-
-   // ]))
-}
-
-
-/**
- * Session start
- * @return void
-*/
-public function session()
-{
-    Session::start();
-}
-
-
-/**
-* Initialize all functions
-* @return void
-*/
-public function loadFunctions()
-{
-   Bootstrap::functions();
-}
-
-/**
-* Initialize all alias
-* @return void
-*/
-public function loadAlias()
-{
-   Bootstrap::alias();
-}
-
-
-/**
-* Initialize all services providers
-* @return void
-*/
-public function loadProviders()
-{
-   Bootstrap::providers($this->app);
-}
-
-
-/**
- * Handler
- * @param \JK\Http\RequestInterface  $request 
- * @return \JK\Http\ResponseInterface 
- */
-public function handle(
-RequestInterface $request
-): ResponseInterface
-{
-     //
-}
-
-
-/**
- * Synthese request and response
- * 
- * @param RequestInterface $request 
- * @param ResponseInterface $response 
- * @return 
-*/
-public function terminate(
-RequestInterface $request, 
-ResponseInterface $response
-)
-{
-
-}
-
-
 /**
  * Storage params for pretty print
  * @return void
@@ -285,6 +282,5 @@ private function bindParams()
      ]);
 
 }
-
 
 }
