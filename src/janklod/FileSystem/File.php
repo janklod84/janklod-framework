@@ -148,27 +148,80 @@ public function map($path='')
 
 
 /**
- * Make file
- * @param string $filename
+ * Make folder
+ * 
+ * @param string $directory
  * @return bool
 */
-public function make($filename='')
+public function makeFolder($directory='')
 {
-   
+   $folder = $this->to($directory);
+   if(!is_dir($folder))
+   {
+       mkdir($folder, 0777, true);
+   }
 }
 
 
 /**
- * Make folder
- * @param string $foldername
+ * Make file
+ * 
+ * Ex:
+ * $file = new \JK\FileSystem\File(__DIR__);
+ * $file->make('modules/controllers', 'HomeController.php');
+ * 
+ * @param string $directory
+ * @param string $filename
  * @return bool
 */
-public function makeFolder($foldername='')
+public function make($directory='', $filename='')
 {
-    
+   $this->makeFolder($directory);
+   $file = $this->to(
+    sprintf('%s/%s', $directory, $filename)
+   );
+   if(!touch($file))
+   {
+       throw new FileException(
+        sprintf('Can not create file [%s]', $file), 
+        404
+      );
+   }
+   return $file;
 }
 
 
+/**
+ * Put content to file
+ * 
+ * @param string $filename 
+ * @param string $content 
+ * @return bool
+ * @throws FileException
+*/
+public function put($filename='', $content='')
+{
+   if(!file_put_contents($this->to($filename), $content))
+   {
+       throw new FileException(
+        sprintf(
+         'Can not put content [%s] to file [%s]', 
+         $content, 
+         $filename
+       ));
+   }
+   return true;
+}
+
+/**
+ * Get content file
+ * @param type $filename 
+ * @return void
+ */
+public function content($filename)
+{
+    return file_get_contents($this->to($filename));
+}
 
 /**
 * Prepare path 

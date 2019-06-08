@@ -33,7 +33,8 @@ $options = []
    	  self::$commands[$name] = $command;
    }
    
-   $command->setOptions($options);
+   // $command->setOptions($options);
+   // $command->setDescription($options['description']);
 }
 
 

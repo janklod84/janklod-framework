@@ -12,3 +12,4 @@ use JK\Console\Commands\CreateCommand;
 
 Command::add(new TestCommand(), '--test', []);
 Command::add(new CreateCommand(), '--create', []);
+

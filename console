@@ -6,9 +6,8 @@ define('JKSTART', microtime(true));
 require(__DIR__.'/func.php');
 require(__DIR__.'/vendor/autoload.php');
 
-debug($argv);
-
 $app = require(__DIR__.'/bootstrap/app.php');
+
 $status  = $app->console->execute(
  $input = new JK\Console\IO\InputArgv,
  new JK\Console\IO\Output

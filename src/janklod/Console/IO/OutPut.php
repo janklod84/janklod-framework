@@ -7,14 +7,34 @@ namespace JK\Console\IO;
 class Output implements OutputInterface
 {
 
+
 /**
- * Send out message
- * @param string $message 
- * @return string
+ * @var string $message
 */
-public function send($message='')
+private $message = [];
+
+
+/**
+* Write output message
+* 
+* @param string $input 
+* @param string $message 
+* @return string
+*/
+public function write($input, $message='')
 {
-	
+    $this->message[$input][] = $message;
+}
+    
+/**
+* Get message
+* 
+* @param string $input
+* @return string
+*/
+public function message($input)
+{
+   return join(' ', $this->message[$input]);
 }
 
 }

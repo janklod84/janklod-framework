@@ -28,6 +28,23 @@ public function __construct($file = null)
 
 
 /**
+ * Add command
+ * @param string $signature 
+ * @param \Closure $callaback 
+ * @return mixed
+*/
+public static function command($signature='', \Closure $callaback)
+{
+	 call_user_func($callaback);
+}
+
+
+private function describe($description='')
+{
+	 // Command::setDesciption($description);
+}
+
+/**
  * Execute command
  * @param InputInterface $input
  * @param OutputInterface $output

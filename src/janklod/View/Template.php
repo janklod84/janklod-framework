@@ -19,9 +19,8 @@ class Tempate
   private $body;
   private $foot;
   private static $output;
-  private static $types = []; // 'head', 'body', 'foot'
+  private static $types = ['head', 'body', 'foot']; 
 
- const TYPE_PART = ['head', 'body', 'foot'];
 
 
 
@@ -33,7 +32,7 @@ class Tempate
 */
 public static function content($type)
 {
-     if(!in_array($type, self::TYPE_PART))
+     if(!in_array($type, self::$types))
      {
          return false;
      }
@@ -69,7 +68,7 @@ public static function start($type)
 */
 public function end()
 {
-    foreach(self::TYPE_PART as $type)
+    foreach(self::$types as $type)
     {
          if(self::$output == $type)
          {
