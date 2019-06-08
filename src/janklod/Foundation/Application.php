@@ -2,9 +2,7 @@
 namespace JK\Foundation;
 
 
-use JK\Config\Config;
 use JK\Routing\Dispatcher;
-use JK\Database\DatabaseManager;
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
 
@@ -188,8 +186,12 @@ public function push($data=[])
 
 /**
 * Create new instance and inject params automatically
-* Create new object [ex: (new \JK\Application())->make(Blog::class) ]
-* $obj = $this->app->make('JanKlod\\Test', ['id' => 1, 'slug' => 'jean']);
+* Create new object 
+* [ex: (new \JK\Application())->make(Blog::class) ]
+* $obj = $this->app->make(
+* 'JanKlod\\Test', 
+* ['id' => 1, 'slug' => 'jean'
+* ]);
 * $this->make('JanKlod\\Test', [1, jean']);
 * $this->make('JanKlod\\Test');
 * 

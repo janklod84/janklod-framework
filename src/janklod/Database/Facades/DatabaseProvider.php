@@ -19,7 +19,7 @@ class DatabaseProvider extends ServiceProvider
 public function register()
 {
     $this->app->singleton('db', function () {
-         // return DB::instance();
+        return DB::instance();
     });
 }
 
