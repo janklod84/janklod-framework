@@ -6,25 +6,18 @@ use \JK\Http\ResponseInterface;
 
 
 /**
- * @package JK\Http\Server\ServerInterface
+ * @package JK\Http\Server\RequestHandlerInterface
 */ 
-interface ServerInterface
+interface RequestHandlerInterface
 {
 
 /**
  * Handler
  * 
  * @param \JK\Http\RequestInterface  $request 
- * @return \JK\Http\ResponseInterface 
+ * @return mixed
 */
-public function handle(
-RequestInterface $request
-):? ResponseInterface;
+public function handle(RequestInterface $request);
 
-
-public function terminate(
-RequestInterface $request, 
-ResponseInterface $response
-);
 
 }

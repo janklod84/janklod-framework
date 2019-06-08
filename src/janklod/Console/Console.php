@@ -27,10 +27,6 @@ public function __construct($file = null)
      {
          require($path);
      }
-     echo __FILE__;
-     echo '<pre>';
-     print_r(Command::all());
-     echo '</pre>';
 }
 
 

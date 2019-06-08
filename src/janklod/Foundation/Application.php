@@ -5,7 +5,7 @@ namespace JK\Foundation;
 use JK\Config\Config;
 use JK\Routing\Dispatcher;
 use JK\Database\DatabaseManager;
-use JK\Http\Server\ServerInterface;
+use JK\Http\Server\RequestHandlerInterface;
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
 
@@ -14,7 +14,7 @@ use JK\Http\ResponseInterface;
  * Application
  * @package JK\Application
 */ 
-final class Application implements ServerInterface
+final class Application implements RequestHandlerInterface
 {
 
          
@@ -74,33 +74,14 @@ public function initialize()
 }
 
 
-public function break()
-{
-
-     /*
-     $requestMethod = $this->request->method();
-     $dispatcher = $this->router->dispatch($requestMethod);
-     if(is_null($dispatcher))
-     {
-         $dispatcher = new Dispatcher('NotFoundController@page404');
-     }
-     $this->bindParams();
-     $callback   = $dispatcher->getCallback();
-     $matches    = $dispatcher->getMatches();
-     $this->load->callAction($callback, $matches);
-
-     /* \Q::output(); 
-     */
-}
 
 /**
- * Handler
+ * Handle exchange request and response
+ * 
  * @param \JK\Http\RequestInterface  $request 
- * @return null|\JK\Http\ResponseInterface 
- */
-public function handle(
-RequestInterface $request
-):? ResponseInterface
+ * @return mixed
+*/
+public function handle(RequestInterface $request)
 {
      $method = $request->method();
      $dispatcher = $this->router->dispatch($method);
