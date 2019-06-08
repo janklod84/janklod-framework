@@ -89,7 +89,10 @@ public function handle(RequestInterface $request)
      $dispatcher = $this->router->dispatch($method);
      if(is_null($dispatcher))
      {
-          $dispatcher = new Dispatcher('NotFoundController@page404');
+          $dispatcher = $this->make(
+          Dispatcher::class, 
+          ['NotFoundController@page404']
+         );
      }
      $this->bindParams();
      $callback   = $dispatcher->getCallback();
