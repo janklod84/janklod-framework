@@ -41,6 +41,10 @@ $app->singleton('console', function () use($app) {
 });
 
 
+$app->singleton('request', function () use($app) {
+   return $app->make(JK\Http\Request::class);
+});
+
 
 /*
 |-------------------------------------------------------------------

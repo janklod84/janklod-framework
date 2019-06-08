@@ -15,9 +15,11 @@ interface RequestHandlerInterface
  * Handler
  * 
  * @param \JK\Http\RequestInterface  $request 
- * @return mixed
+ * @param \JK\Http\ResponseInterface  $response
 */
-public function handle(RequestInterface $request);
+public function handle(
+RequestInterface $request
+): ResponseInterface;
 
 
 }

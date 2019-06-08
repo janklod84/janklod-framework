@@ -2,7 +2,6 @@
 namespace JK\Http\Facades;
 
 use JK\Service\ServiceProvider;
-use JK\Http\Request;
 use JK\Http\Sessions\Session;
 
 
@@ -21,15 +20,13 @@ public function boot()
     Session::start();
 }
 
-
 /**
-* Registering request provider
-* @return type
+ * Register service
+ * @return void
 */
 public function register()
 {
-   $this->app->singleton('request', function () {
-       return new Request();
-   });
+	//..
 }
+
 }

@@ -5,7 +5,6 @@ namespace JK\Foundation;
 use JK\Config\Config;
 use JK\Routing\Dispatcher;
 use JK\Database\DatabaseManager;
-use JK\Http\Server\RequestHandlerInterface;
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
 
@@ -14,7 +13,7 @@ use JK\Http\ResponseInterface;
  * Application
  * @package JK\Application
 */ 
-final class Application implements RequestHandlerInterface
+final class Application
 {
 
          
@@ -55,7 +54,10 @@ private function __wakeup(){}
 */
 private function __construct($root)
 {
+   // Get container
    $this->app = $this->getContainer();
+
+   // bind file in container
    $this->bind('file', 
     new \JK\FileSystem\File($root)
    );
@@ -120,14 +122,11 @@ ResponseInterface $response
 */
 public function run()
 {   
-     // Run all services and modules
-     $this->initialize();
-     
-     // call handle
-     $this->terminate(
-      $this->request, 
-      $this->response
-     );
+   // Run all services and modules
+   $this->initialize();
+
+   // Call method terminate
+   $this->terminate($this->request, $this->response);
 }
 
 
