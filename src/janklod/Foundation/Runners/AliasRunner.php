@@ -24,10 +24,6 @@ public function init()
 	        }
 	   }
 	}
-    
-    echo '<pre>';
-	print_r(self::get('alias'));
-	echo '</pre>';
 }
 
 

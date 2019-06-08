@@ -15,15 +15,11 @@ class FunctionRunner extends CustomRunner
 */
 public function init()
 {
-    // $maskPath  = __DIR__.'/../Functions/*';
-    $maskPath  = '';
-    
-    echo '<pre>';
-    print_r($this->app->file->to('src/janklod/Functions/*')); 
-    echo '</pre>';
-    die;
-
-    foreach(glob($maskPath) as $functionPath)
+    $file  = new \JK\FileSystem\File(
+    	realpath(__DIR__.'/../../')
+    );
+  
+    foreach($file->map('Functions/') as $functionPath)
     {
            if(is_file($functionPath))
            {

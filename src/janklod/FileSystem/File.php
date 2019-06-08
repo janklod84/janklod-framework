@@ -40,6 +40,7 @@ public function __construct(string $root)
 }
 
 
+
 /**
 * Determine wether the given file path exists
 * 
@@ -95,23 +96,6 @@ public function calls($files=[])
 
 
 /**
- * Make sure file exist
- * @param string $file 
- * @return void
- */
-public function ensureFile($file)
-{
-     if(!$this->exists($file))
-     {
-         throw new FileException(
-          sprintf("File <strong>%s</strong> does not exist", $file),
-          404
-        );   
-     }
-}
-
-
-/**
  * Generate full path to the given path
  * 
  * Ex: (new File(__DIR__))->to('routes/app.php')
@@ -154,9 +138,9 @@ public function info($path, $key='')
 */
 public function map($path='')
 {
-   if(strpos($path, '*') === true)
+   if(strpos($path, '*'))
    {
-      return;
+      return false;
    }
    $path = trim($path, '/');
    return glob($this->to($path.'/*'));
@@ -200,5 +184,20 @@ return str_replace('/', self::DS, $this->root) . self::DS. str_replace(
        );
 }
 
+/**
+ * Make sure file exist
+ * @param string $file 
+ * @return void
+ */
+private function ensureFile($file)
+{
+     if(!$this->exists($file))
+     {
+         throw new FileException(
+          sprintf("File <strong>%s</strong> does not exist", $file),
+          404
+        );   
+     }
+}
 
 }

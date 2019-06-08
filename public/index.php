@@ -58,19 +58,6 @@ $app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 
 
 
-
-/*
-|-------------------------------------------------------------------
-|   Add all collections routes
-|-------------------------------------------------------------------
-*/
-/*
-$app->router->addRoutes(
-	\JK\Routing\Route\RouteCollection::all()
-);
-*/
-
-
 /*
 |-------------------------------------------------------
 |    Run Application

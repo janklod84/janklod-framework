@@ -2,8 +2,6 @@
 namespace JK\Foundation;
 
 
-use JK\DI\ContainerBuilder;
-use JK\FileSystem\File;
 use JK\Config\Config;
 use JK\Routing\Dispatcher;
 use JK\Database\DatabaseManager;
@@ -55,7 +53,9 @@ private function __wakeup(){}
 private function __construct($root)
 {
    $this->app = $this->getContainer();
-   $this->bind('file', new File($root));
+   $this->bind('file', 
+    new \JK\FileSystem\File($root)
+   );
 }
 
 
@@ -70,44 +70,6 @@ public function initialize()
    ->run();
 }
 
-
-/**
- * Session start
- * @return void
-*/
-public function session()
-{
-    Session::start();
-}
-
-
-/**
-* Initialize all functions
-* @return void
-*/
-public function loadFunctions()
-{
-   Bootstrap::functions();
-}
-
-/**
-* Initialize all alias
-* @return void
-*/
-public function loadAlias()
-{
-   Bootstrap::alias();
-}
-
-
-/**
-* Initialize all services providers
-* @return void
-*/
-public function loadProviders()
-{
-   Bootstrap::providers($this->app);
-}
 
 
 /**
@@ -190,7 +152,7 @@ public static function instance($root = null): self
 */
 public function getContainer()
 {
-    return (new ContainerBuilder())
+    return (new \JK\DI\ContainerBuilder())
            ->build();
 }
 
