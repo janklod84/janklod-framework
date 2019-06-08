@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Template;
+namespace JK\View;
 
 
 /**
- * @package JK\Template\ViewInterface
+ * @package JK\View\ViewInterface
 */
 interface ViewInterface
 {

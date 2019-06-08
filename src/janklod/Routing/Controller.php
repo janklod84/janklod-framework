@@ -129,7 +129,7 @@ protected function render($view, $data = [])
      $this->view->setView($view);
      $this->view->setData($data);
      $this->view->render();
-     $this->app->merge([
+     $this->app->add([
         'current.view.path'   => $this->view->viewPath(),
         'current.layout.path' => $this->view->layoutPath()
      ]);

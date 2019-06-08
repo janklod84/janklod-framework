@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Template\Facades;
+namespace JK\View\Facades;
 
 use JK\Service\ServiceProvider;
-use JK\Template\View;
+use JK\View\View;
 
 /**
- * @package JK\Template\Facades\ViewProvider 
+ * @package JK\View\Facades\ViewProvider 
 */ 
 class ViewProvider extends ServiceProvider
 {

@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Template\Components;
+namespace JK\View\Components;
 
 
 /**
- * @package JK\Template\Components\HTML
+ * @package JK\View\Components\HTML
 */ 
 class HTML
 {

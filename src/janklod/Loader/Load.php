@@ -51,7 +51,7 @@ public function callAction($callback, $matches=[])
           $controllerObj = $this->controller($controller);
           $action = strtolower($action);
           
-          $this->app->push([
+          $this->app->add([
             'current.controller' => get_class($controllerObj),
             'current.action' => $action
           ]);

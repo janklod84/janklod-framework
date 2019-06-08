@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Template\Components;
+namespace JK\View\Components;
 
 
 /**
- * @package JK\Template\Components\Compress
+ * @package JK\View\Components\Compress
 */
 class Compress 
 {
@@ -27,14 +27,14 @@ private static $replace = [
 ];
 
 /**
- * Compress content / data 
+ * Compress Page 
  * For exemple it used for HTML body
  * 
- * @param string $template
+ * @param string $page
  * @return string
 */
-public static function data(string $template = null)
+public static function page(string $page = null)
 {
-    return preg_replace(self::$search, self::$replace, $template);
+    return preg_replace(self::$search, self::$replace, $page);
 }
 }

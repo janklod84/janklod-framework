@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Template\Components;
+namespace JK\View\Components;
 
 
-use JK\Template\Exceptions\AssetException;
+use JK\View\Exceptions\AssetException;
 
 /**
- * @package JK\Template\Components\Asset 
+ * @package JK\View\Components\Asset 
 */
 class Asset 
 {

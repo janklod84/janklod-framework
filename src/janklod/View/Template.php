@@ -1,12 +1,12 @@
 <?php 
-namespace JK\Template;
+namespace JK\View;
 
 
 
 /**
- * @package JK\Template\Theme
+ * @package JK\View\Theme
 */
-class Theme
+class Tempate
 {
 
   /**

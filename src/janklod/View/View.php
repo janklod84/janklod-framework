@@ -1,13 +1,13 @@
 <?php 
-namespace JK\Template;
+namespace JK\View;
 
 
 
-use JK\Template\Components\HTML;
+use JK\View\Components\HTML;
 
 
 /**
- * @package JK\Template\View
+ * @package JK\View\View
 */
 class View  implements ViewInterface
 {

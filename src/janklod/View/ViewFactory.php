@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Template;
+namespace JK\View;
 
 
 
 /**
- * @package JK\Template\ViewFactory 
+ * @package JK\View\ViewFactory 
 */ 
 abstract class ViewFactory 
 {
