@@ -20,9 +20,6 @@ class Console
 */
 public function __construct($file = null)
 {
-    /* if(php_sapi_name() != 'cli')
-     { die('Restricted'); } */
-
      if($file && $path = realpath($file))
      {
          require($path);
@@ -33,13 +30,14 @@ public function __construct($file = null)
 /**
  * Execute command
  * @param $input
- * @param output
  * @return mixed
 */
-public function execute($input, $output=null)
+public function execute($input)
 {
-     Command::get($input)->execute();
-     // return $output->getMessage($input);
+     if(php_sapi_name() != 'cli')
+     { die('Restricted'); } 
+
+     return Command::get($input)->execute();
 }
 
 }

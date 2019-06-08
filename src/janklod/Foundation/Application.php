@@ -76,54 +76,14 @@ public function initialize()
 
 
 /**
- * Handle request
- * 
- * @param \JK\Http\RequestInterface  $request 
- * @return mixed
-*/
-public function handle(RequestInterface $request)
-{
-     $method = $request->method();
-     $dispatcher = $this->router->dispatch($method);
-     if(is_null($dispatcher))
-     {
-          $dispatcher = $this->make(
-          Dispatcher::class, 
-          ['NotFoundController@page404']
-         );
-     }
-     $this->bindParams();
-     $callback   = $dispatcher->getCallback();
-     $matches    = $dispatcher->getMatches();
-     return $this->load->callAction($callback, $matches);
-}
-
-
-/**
- * Synthese request and response
- * 
- * @param JK\Http\RequestInterface $request 
- * @param JK\Http\ResponseInterface $response 
- * @return 
-*/
-public function terminate(
-RequestInterface $request, 
-ResponseInterface $response
-)
-{
-   $output = (string) $this->handle($request);
-   $response->setBody($output);
-   $response->send(); 
-}
-
-
-/**
   * Break Point of Application
   * @return mixed
 */
 public function run()
 {   
-   // Run all services and modules
+   if($this->request->cli()){ die('Access Restricted!'); }
+   
+    // Run all services and modules
    $this->initialize();
 
    // Call method terminate
@@ -250,6 +210,48 @@ private function bindParams()
       'config' => '', // Config::all()
      ]);
 
+}
+
+
+/**
+ * Handle request
+ * 
+ * @param \JK\Http\RequestInterface  $request 
+ * @return mixed
+*/
+private function handle(RequestInterface $request)
+{
+     $method = $request->method();
+     $dispatcher = $this->router->dispatch($method);
+     if(is_null($dispatcher))
+     {
+          $dispatcher = $this->make(
+          Dispatcher::class, 
+          ['NotFoundController@page404']
+         );
+     }
+     $this->bindParams();
+     $callback   = $dispatcher->getCallback();
+     $matches    = $dispatcher->getMatches();
+     return $this->load->callAction($callback, $matches);
+}
+
+
+/**
+ * Synthese request and response
+ * 
+ * @param JK\Http\RequestInterface $request 
+ * @param JK\Http\ResponseInterface $response 
+ * @return 
+*/
+private function terminate(
+RequestInterface $request, 
+ResponseInterface $response
+)
+{
+   $output = (string) $this->handle($request);
+   $response->setBody($output);
+   $response->send(); 
 }
 
 }

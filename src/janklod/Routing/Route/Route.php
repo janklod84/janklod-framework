@@ -31,7 +31,11 @@ class Route
 * @param string $name 
 * @return RouteParameter
 */
-public static function get(string $path, $callback, string $name = null)
+public static function get(
+string $path, 
+$callback, 
+string $name = null
+)
 {
     return self::add($path, $callback, $name, 'GET');
 }
@@ -47,7 +51,11 @@ public static function get(string $path, $callback, string $name = null)
 * @param string $name 
 * @return RouteParameter
 */
-public static function post(string $path, $callback, string $name = null)
+public static function post(
+string $path, 
+$callback, 
+string $name = null
+)
 {
     return self::add($path, $callback, $name, 'POST');
 }

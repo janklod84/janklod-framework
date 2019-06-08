@@ -1,14 +1,20 @@
 <?php 
 namespace JK\Console\IO;
 
+/**
+ * @package JK\Console\IO\InputArgv 
+*/ 
+class Output implements InputInterface
+{
 
 /**
- * @package JK\Console\IO\Output
-*/ 
-class Output
+ * Send out message
+ * @param string $message 
+ * @return string
+*/
+public function send($message='')
 {
-	 public function answer($response)
-	 {
-	 	 return $response;
-	 }
+	
+}
+
 }
