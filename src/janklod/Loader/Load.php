@@ -58,7 +58,8 @@ public function callAction($callback, $matches=[])
           $output = call_user_func_array([$controllerObj , $action], $matches);
           $this->call($controllerObj, 'after');
           
-          $this->debug();
+          // show message
+          $this->notify();
 
      }else{
          
@@ -67,20 +68,16 @@ public function callAction($callback, $matches=[])
             $output = call_user_func($callback, $matches);
         }
      }
-     
-     // response send headers to server
-     $output = (string) $output;
-     $this->app->response->setBody($output);
-     $this->app->response->send();
+     return $output;
 }
 
 
 /**
- * Show all debugs
+ * Show messages
  * 
  * @return void
 */
-public function debug()
+public function notify()
 {
    $debogger = new Debogger($this->app);
    $debogger->output(\Config::get('app.debug'));

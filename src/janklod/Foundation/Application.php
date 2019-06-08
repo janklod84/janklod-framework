@@ -5,13 +5,16 @@ namespace JK\Foundation;
 use JK\Config\Config;
 use JK\Routing\Dispatcher;
 use JK\Database\DatabaseManager;
+use JK\Http\Server\ServerInterface;
+use JK\Http\RequestInterface;
+use JK\Http\ResponseInterface;
 
 
 /**
  * Application
  * @package JK\Application
 */ 
-final class Application 
+final class Application implements ServerInterface
 {
 
          
@@ -71,44 +74,8 @@ public function initialize()
 }
 
 
-
-/**
- * Handler
- * @param \JK\Http\RequestInterface  $request 
- * @return \JK\Http\ResponseInterface 
- */
-public function handle(
-RequestInterface $request
-): ResponseInterface
+public function break()
 {
-     //
-}
-
-
-/**
- * Synthese request and response
- * 
- * @param RequestInterface $request 
- * @param ResponseInterface $response 
- * @return 
-*/
-public function terminate(
-RequestInterface $request, 
-ResponseInterface $response
-)
-{
-
-}
-
-
-/**
-  * Break Point of Application
-  * @return mixed
-*/
-public function run()
-{   
-     // Run all services
-     $this->initialize();
 
      /*
      $requestMethod = $this->request->method();
@@ -124,7 +91,62 @@ public function run()
 
      /* \Q::output(); 
      */
+}
+
+/**
+ * Handler
+ * @param \JK\Http\RequestInterface  $request 
+ * @return null|\JK\Http\ResponseInterface 
+ */
+public function handle(
+RequestInterface $request
+):? ResponseInterface
+{
+     $method = $request->method();
+     $dispatcher = $this->router->dispatch($method);
+     if(is_null($dispatcher))
+     {
+          $dispatcher = new Dispatcher('NotFoundController@page404');
+     }
+     $this->bindParams();
+     $callback   = $dispatcher->getCallback();
+     $matches    = $dispatcher->getMatches();
+     return $this->load->callAction($callback, $matches);
+}
+
+
+/**
+ * Synthese request and response
+ * 
+ * @param JK\Http\RequestInterface $request 
+ * @param JK\Http\ResponseInterface $response 
+ * @return 
+*/
+public function terminate(
+RequestInterface $request, 
+ResponseInterface $response
+)
+{
+   $output = (string) $this->handle($request);
+   $response->setBody($output);
+   $response->send(); 
+}
+
+
+/**
+  * Break Point of Application
+  * @return mixed
+*/
+public function run()
+{   
+     // Run all services and modules
+     $this->initialize();
      
+     // call handle
+     $this->terminate(
+      $this->request, 
+      $this->response
+     );
 }
 
 
