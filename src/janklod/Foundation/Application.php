@@ -17,7 +17,7 @@ final class Application
          
 /**
  * Instance of Application
- * @var JK\Application
+ * @var JK\Foundation\Application
 */
 private static $instance;
 
@@ -96,7 +96,7 @@ public function run()
  * Get one times instance of Application
  * Using pattern Singleton
  * @param  string $root
- * @return JK\Application [ instance of application ]
+ * @return self
 */
 public static function instance($root = null): self
 {
