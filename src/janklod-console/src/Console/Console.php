@@ -13,6 +13,7 @@ class Console
 {
 
 
+
 /**
  * @var array $commands
 */
@@ -30,21 +31,6 @@ public function __construct($file = null)
      {
          require($path);
      }
-}
-
-
-/**
- * Push commands configuration
- * 
- * @param array $commands 
- * @return void
-*/
-public static function commands($commands=[])
-{
-    self::$commands = array_merge(
-        self::$commands, 
-        $commands
-    );
 }
 
 

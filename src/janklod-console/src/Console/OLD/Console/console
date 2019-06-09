@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php 
+if(php_sapi_name() != 'cli') die('Restricted');
+define('JKSTART', microtime(true));
+
+require(__DIR__.'/func.php');
+require(__DIR__.'/vendor/autoload.php');
+
+debug($_SERVER['argv']);
+echo $_SERVER['argc']."\n";
+
+
+$app = require(__DIR__.'/bootstrap/app.php');
+debug($app->request->cli());
+$status  = $app->console->execute($argv[1]);
+exit($status);
