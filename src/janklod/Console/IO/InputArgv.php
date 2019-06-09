@@ -14,15 +14,12 @@ class InputArgv implements InputInterface
 */
 public function argument($key=null)
 {   
-  if($this->is_cli())
-  {
-	  $arguments = $_SERVER['argv'];
-	  if($key)
-	  {
-	  	 $arguments = $arguments[$key] ?? null;
-	  }
-	  return $arguments;
-  }
+   $arguments = $_SERVER['argv'];
+   if($this->is_cli() && !is_null($key))
+   {
+      return $arguments[$key];
+   }
+   return $arguments;
 }
       
 /**

@@ -5,7 +5,7 @@ namespace JK\Console\Generators;
 /**
  * @package JK\Console\Generators\ControllerGenerator
 */ 
-class ControllerGenerator
+class ControllerGenerator extends CustomGenerator
 {
       
 /**
@@ -15,9 +15,16 @@ class ControllerGenerator
 */
 public function generate()
 {
-  if(file_put_contents(__DIR__.'/test.php', $this->blank()))
+
+  $controller_dir =  $this->basePath('app/controllers');
+  $controller_name = ucfirst($this->input(2)).'Controller';
+  $filename = sprintf('%s.php', $controller_name);
+  $generatedFile = $this->make($controller_dir, $filename);
+  $content = sprintf($this->blank(), $controller_name);
+  
+  if($this->put($generatedFile, $content))
   {
- 	 return true;
+      return $controller_name;
   }
   return false;
 }
@@ -36,7 +43,7 @@ namespace app\controllers;
 use JK\Routing\Controller;
 
 
-class HomeController 
+class %s 
 {
 
   /** 

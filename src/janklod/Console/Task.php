@@ -4,35 +4,35 @@ namespace JK\Console;
 
 
 /**
- * @package JK\Console\TaskConsole
+ * @package JK\Console\Task
 */ 
 class Task
 {
      
-const GEN_NAMESPACE = '\\JK\\Foundation\\Console\\Generators\\%s';
+const GEN_NAMESPACE = '\\JK\\Console\\Generators\\%sGenerator';
 
 
 /**
  * Generator item
  * 
  * @var string $name
- * @var string $input
- * @var array $arguments
+ * @var \JK\Console\IO\InputInterface $input
  * @return bool
 */
-public function generate($name, $input='', $arguments = [])
+public function generate($name, $input)
 {
-    switch($name)
-    {
-	  case 'controller';
-	    $generator = ControllerGenerator;
-      break;
-      default:
-        exit('Can not generate this type name!');
-      break;
-    }
-	$handle = sprintf(self::GEN_NAMESPACE, $generator);
-	return (new $handle($input))->generate();
+  $name = ucfirst(strtolower($name));
+  $generator = sprintf(self::GEN_NAMESPACE, $name);
+
+  if(!class_exists($generator))
+  { exit(sprintf('Sorry, class [%s] does not exist!', $generator)); }
+
+  $handler = [new $generator($input), 'generate'];
+
+  if(is_callable($handler))
+  {
+     return call_user_func($handler);
+  }
 }
 
 }

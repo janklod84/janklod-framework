@@ -15,6 +15,8 @@ if(!version_compare(PHP_VERSION, '7.1', '>='))
 }
 
 
+define('ROOT', realpath(__DIR__.'/../'));
+
 /*
 |-------------------------------------------------------------------
 |    Create new application
@@ -22,9 +24,7 @@ if(!version_compare(PHP_VERSION, '7.1', '>='))
 |-------------------------------------------------------------------
 */
 
-$app = \JK\Foundation\Application::instance(
-  realpath(__DIR__.'/../')
-);
+$app = \JK\Foundation\Application::instance(ROOT);
 
 
 

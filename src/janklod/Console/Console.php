@@ -90,20 +90,21 @@ public static function commands()
 */
 public function run(InputInterface $input, OutputInterface $output)
 {
-     self::blockAccess();
-     $signature = $input->argument(1);
-     $message   = '';
-     foreach(self::$commands as $command)
-     {
-         $commandInterface = $this->readCommand($command);
-         if($commandInterface->argument() === $signature)
+  self::blockAccess();
+  $message   = '';
+  if($input->argument(0) === 'console')
+  {
+      foreach(self::$commands as $command)
+      {
+         if($commandInterface = $this->readCommand($command))
          {
-             $commandInterface->execute($input, $output);
-             $message = $output->message();
-             break;
+            $commandInterface->execute($input, $output);
+            $message = $output->message();
          }
      }
      return $message ?? 'No messages!';
+  }
+  
 }
 
 

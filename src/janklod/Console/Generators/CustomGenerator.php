@@ -1,6 +1,8 @@
 <?php 
 namespace JK\Console\Generators;
 
+use JK\Console\Exceptions;
+
 
 /**
  * @package JK\Console\Generators\CustomGenerator
@@ -9,26 +11,58 @@ abstract class CustomGenerator
 {
 
 /**
+ * @var \JK\Console\IO\InputInterface $input
+ * @var string $basePath
+*/
+protected $input;
+protected $root = '';
+
+
+/**
 * Constructor
 * 
+* @param array $arguments
 * @return void
 */
-public function __construct()
+public function __construct($input)
 {
-
+    $this->input = $input;
+    if(defined('ROOT') && ROOT)
+    {
+        $this->root = trim(ROOT, '/');
+    }
 }
   
-  
+
+/**
+ * Get input argument
+ * 
+ * Ex: $this->input(1);
+ * echo $this->input->argument(2). "\n";
+ * 
+ * @param type $key 
+ * @return type
+*/
+public function input($key)
+{
+   return $this->input->argument($key);
+}
+
+
 /**
  * Get realpath
  * 
  * @param string $path 
  * @return string
 */
-protected function path($path)
+protected function basePath($path=null)
 {
-	$path = trim($path);
-	return str_replace('/', DIRECTORY_SEPARATOR, $path);
+	  if(!is_null($path))
+    {
+       $this->root = $this->root . '/'. trim($path, '/');
+       return str_replace('/', DIRECTORY_SEPARATOR, $this->root);
+    }
+    return $this->root;
 }
 
 
@@ -59,7 +93,11 @@ protected function makeFolder($directory='')
 protected function make($directory='', $filename='')
 {
    $this->makeFolder($directory);
-   $file = sprintf('%s%s%s', $directory, DIRECTORY_SEPARATOR, $filename);
+   $file = sprintf('%s%s%s', 
+   $directory, 
+   DIRECTORY_SEPARATOR, 
+   $filename
+   );
    if(!touch($file))
    {
        exit(sprintf('Can not create file [%s]', $file));
@@ -80,13 +118,38 @@ protected function put($filename='', $content='')
 {
    if(!file_put_contents($filename, $content))
    {
+      exit(
+       sprintf(
+         'Can not put content [%s] to file [%s]', 
+         $content, 
+         $filename
+       )
+      );
+      /*
        throw new GeneratorException(
         sprintf(
          'Can not put content [%s] to file [%s]', 
          $content, 
          $filename
        ));
+       */
    }
    return true;
 }
+
+
+/**
+ * Blank of custom to generate
+ * 
+ * @return string
+*/
+abstract public function generate();
+
+
+/**
+ * Blank of custom to generate
+ * 
+ * @return string
+*/
+abstract public function blank();
 }
