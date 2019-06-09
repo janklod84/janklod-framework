@@ -8,7 +8,7 @@ use JK\Console\IO\OutputInterface;
 /**
  * Class generate controller 
  *
- * @package JK\Console\Commands\GenerateControllerCommand 
+ * @package JK\Console\GenerateControllerCommand 
 */ 
 class GenerateControllerCommand extends Command
 {
@@ -40,8 +40,8 @@ public function __construct()
 */
 public function addArgument($argument='')
 {
-	  $this->argument = $argument;
-	  return $this;
+  $this->argument = $argument;
+  return $this;
 }
 
 

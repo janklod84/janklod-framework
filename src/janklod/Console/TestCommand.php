@@ -1,28 +1,116 @@
 <?php 
-namespace JK\Console\Commands;
+namespace JK\Console;
 
-use JK\Console\CommandInterface;
+use JK\Console\IO\InputInterface;
+use JK\Console\IO\OutputInterface;
+
 
 /**
- * @package JK\Console\Commands\TestCommand 
+ * Class TestCommand
+ *
+ * @package JK\Console\TestCommand 
 */ 
-class TestCommand implements CommandInterface
+class TestCommand extends Command
 {
      
-     public $options = [];
+/**
+ * @var string $argument      [ Signature of command   ]
+ * @var string $description   [ Description of command ]
+*/
+protected $argument    = 'make:test';
+protected $description = 'description of command';
 
-	 public function execute()
-	 {
-	 	 die('Привет консоль : '. __METHOD__);
-	 }
 
-	 public function setOptions($options)
-	 {
-	 	 $this->options = $options;
-	 }
+/**
+ * Constructor
+ * 
+ * @return void
+*/
+public function __construct()
+{
+     parent::__construct();
+}
 
-	 public function undo()
-	 {
 
-	 }
+/**
+ * Add argument
+ * 
+ * @param string $argument 
+ * @return void
+*/
+public function addArgument($argument='')
+{
+  $this->argument = $argument;
+  return $this;
+}
+
+
+/**
+ * Add description
+ * 
+ * @param string $description
+ * @return self
+*/
+public function addDescription($description='')
+{
+   $this->description = $description;
+   return $this;
+}
+
+
+/**
+ * Get argument
+ * 
+ * @return string
+*/
+public function argument()
+{
+    return $this->argument;
+}
+
+
+/**
+ * Get description
+ * 
+ * @return string
+*/
+public function description()
+{
+    return $this->description;
+}
+
+
+/**
+ * Configuration command
+ * 
+ * @return void
+*/
+public function configure(){}
+
+
+/**
+ * Execute command
+ * 
+ * @param JK\Console\IO\InputInterface $input
+ * @param JK\Console\IO\OutputInterface $output
+ * @return mixed
+*/
+public function execute(
+InputInterface $input=null, 
+OutputInterface $output=null
+)
+{
+	
+   echo 'Argument : '. $this->argument. "\n";
+   $output->writeln('Thanks you test successfully created!');
+}
+
+
+/**
+* Rollback command
+* 
+* @return mixed
+*/
+public function undo(){}
+
 }

@@ -69,7 +69,7 @@ public function run(InputInterface $input, OutputInterface $output)
              break;
          }
      }
-     return $message ?: 'No messages!';
+     return $message ?? 'No messages!';
 }
 
 }
