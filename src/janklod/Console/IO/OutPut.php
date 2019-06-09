@@ -21,20 +21,29 @@ private $message = [];
 * @param string $message 
 * @return string
 */
-public function write($input, $message='')
+public function writeln($message='')
 {
-    $this->message[$input][] = $message;
+    $this->message[] = $message;
 }
     
 /**
 * Get message
 * 
-* @param string $input
 * @return string
 */
-public function message($input)
+public function message()
 {
-   return join(' ', $this->message[$input]);
+   return join(' ', $this->message);
+}
+
+
+/**
+ * Remove all initialized variables
+ * @return void
+*/
+private function remove()
+{
+	$this->message = [];
 }
 
 }

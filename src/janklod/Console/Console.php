@@ -12,6 +12,16 @@ use JK\Console\IO\OutputInterface;
 class Console
 {
 
+
+
+/**
+ * @var array $commands
+*/
+private static $commands = [];
+
+
+
+
  
 /**
  * constructor
@@ -29,37 +39,69 @@ public function __construct($file = null)
 
 /**
  * Add command
- * @param string $signature 
- * @param \Closure $callaback 
- * @return mixed
+ * 
+ * @param CommandInterface $command 
+ * @return void
 */
-public static function command($signature='', \Closure $callaback)
+public static function add(CommandInterface $command)
 {
-	 call_user_func($callaback);
+    self::$commands[] = $command;
 }
 
 
-private function describe($description='')
+/**
+ * Determine if has command
+ * 
+ * @param string $name
+ * @return bool
+*/
+public static function has($name)
 {
-	 // Command::setDesciption($description);
+    return isset(self::$commands[$name]);
 }
 
 /**
- * Execute command
+ * Get setted command
+ * 
+ * @param string $name
+ * @return \JK\Console\CommandInterface
+*/
+public static function get($name): CommandInterface
+{
+     if(!self::has($name))
+     {
+         exit(
+           sprintf('Sorry this command [%s] does not isset!', $name)
+         );
+     }
+     return self::$commands[$name];
+}
+
+/**
+ * Get all registred command
+ * @return array
+*/
+public static function all()
+{
+    return self::$commands;
+}
+
+
+/**
+ * Run and execute commands
+ * 
  * @param InputInterface $input
  * @param OutputInterface $output
- * @return 
+ * @return string
 */
-public function execute(
-InputInterface $input, 
-OutputInterface $output
-)
+public function run(InputInterface $input, OutputInterface $output)
 {
      if(php_sapi_name() != 'cli')
      { die('Restricted'); } 
 
      $signature = $input->argument(1);
-     return Command::get($signature)->execute();
+     self::get($signature)->execute($input, $output);
+     return $output->message($signature);
 }
 
 }

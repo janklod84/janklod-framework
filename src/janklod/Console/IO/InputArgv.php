@@ -27,9 +27,10 @@ public function argument($key=null)
       
 /**
 * Give count of parses input
+* 
 * @return int
 */
-public function count()
+public function account()
 {
    return $_SERVER['argc'];
 }

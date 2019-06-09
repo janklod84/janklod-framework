@@ -1,77 +1,109 @@
 <?php 
 namespace JK\Console;
 
+use JK\Console\IO\InputInterface;
+use JK\Console\IO\OutputInterface; 
+
 /**
  * Command Register [ Chain commands ]
  * @package JK\Console\Command 
 */ 
-class Command
+abstract class Command implements CommandInterface
 {
 
-
 /**
- * @var array $commands
+ * @var string $argument      [ Signature of command   ]
+ * @var string $description   [ Description of command ]
 */
-private static $commands = [];
+protected $argument    = 'command:test';
+protected $description = 'description of command';
 
 
 /**
- * Add command
- * @param CommandInterface $command 
- * @param string $name
- * @param array $options
+ * Constructor
+ * 
  * @return void
 */
-public static function add(
-CommandInterface $command, 
-$name = null, 
-$options = []
-)
+public function __construct()
 {
-   if(!is_null($name))
-   {
-   	  self::$commands[$name] = $command;
-   }
-   
-   // $command->setOptions($options);
-   // $command->setDescription($options['description']);
+   if(is_callable([$this, 'configure']))
+   {  $this->configure(); }
 }
 
 
 /**
- * Determine if has command
- * @param string $name
- * @return bool
+ * Add argument
+ * 
+ * @param string $argument 
+ * @return void
 */
-public static function has($name)
+public function addArgument($argument='')
 {
-	return isset(self::$commands[$name]);
+	  $this->argument = $argument;
+	  return $this;
 }
+
 
 /**
- * Get setted command
- * @param string $name
- * @return \JK\Console\CommandInterface
+ * Add description
+ * 
+ * @param string $description
+ * @return self
 */
-public static function get($name): CommandInterface
+public function addDescription($description='')
 {
-	 if(!self::has($name))
-	 {
-         exit(
-           sprintf('Sorry this command [%s] does not isset!', $name)
-         );
-	 }
-	 return self::$commands[$name];
+   $this->description = $description;
+   return $this;
 }
+
 
 /**
- * Get all registred command
- * @return array
+ * Get argument
+ * 
+ * @return string
 */
-public static function all()
+public function argument()
 {
-	return self::$commands;
+    return $this->argument;
 }
 
+
+/**
+ * Get description
+ * 
+ * @return string
+*/
+protected public function description()
+{
+    return $this->description;
+}
+
+
+/**
+ * Configuration command
+ * 
+ * @return void
+*/
+abstract public function configure();
+
+
+/**
+ * Execute command
+ * 
+ * @param JK\Console\IO\InputInterface $input
+ * @param JK\Console\IO\OutputInterface $output
+ * @return mixed
+*/
+abstract public function execute(
+InputInterface $input=null, 
+OutputInterface $output=null
+);
+
+
+/**
+* Roolback command
+* @return mixed
+*/
+abstract spublic function undo();
 
 }

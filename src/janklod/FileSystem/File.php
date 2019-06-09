@@ -215,8 +215,9 @@ public function put($filename='', $content='')
 
 /**
  * Get content file
+ * 
  * @param type $filename 
- * @return void
+ * @return mixed
  */
 public function content($filename)
 {
