@@ -7,11 +7,12 @@ namespace JK\Console\IO;
 interface OutputInterface
 {
 	/**
-	 * Write out message
+	 * Write message
+     * 
 	 * @param string $message 
 	 * @return string
 	*/
-    public function write($message='');
+    public function writeln($message='');
     
     /**
      * Get message

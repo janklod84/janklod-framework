@@ -13,8 +13,10 @@ interface CommandInterface
 
 /**
  * Execute command
+ * 
  * @param JK\Console\IO\InputInterface $input
  * @param JK\Console\IO\OutputInterface $output
+ * 
  * @return mixed
 */
 public function execute(
@@ -23,8 +25,9 @@ OutputInterface $output = null
 );
 
 /**
-* Roolback command
-* @return void
+* Rollback command
+* 
+* @return mixed
 */
 public function undo();
 

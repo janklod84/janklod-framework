@@ -20,9 +20,6 @@ class Console
 private static $commands = [];
 
 
-
-
- 
 /**
  * constructor
  * @param string $file 
@@ -50,44 +47,6 @@ public static function add(CommandInterface $command)
 
 
 /**
- * Determine if has command
- * 
- * @param string $name
- * @return bool
-*/
-public static function has($name)
-{
-    return isset(self::$commands[$name]);
-}
-
-/**
- * Get setted command
- * 
- * @param string $name
- * @return \JK\Console\CommandInterface
-*/
-public static function get($name): CommandInterface
-{
-     if(!self::has($name))
-     {
-         exit(
-           sprintf('Sorry this command [%s] does not isset!', $name)
-         );
-     }
-     return self::$commands[$name];
-}
-
-/**
- * Get all registred command
- * @return array
-*/
-public static function all()
-{
-    return self::$commands;
-}
-
-
-/**
  * Run and execute commands
  * 
  * @param InputInterface $input
@@ -100,8 +59,17 @@ public function run(InputInterface $input, OutputInterface $output)
      { die('Restricted'); } 
 
      $signature = $input->argument(1);
-     self::get($signature)->execute($input, $output);
-     return $output->message($signature);
+     $message   = '';
+     foreach(self::$commands as $command)
+     {
+         if($command->argument() === $signature)
+         {
+             $command->execute($input, $output);
+             $message = $output->message();
+             break;
+         }
+     }
+     return $message ?: 'No messages!';
 }
 
 }

@@ -6,10 +6,9 @@
   |------------------------------------------------------------------
 */
 
-use JK\Console\Command;
-use JK\Console\Commands\TestCommand;
-use JK\Console\Commands\CreateCommand;
+use JK\Console\Console;
+use JK\Console\GenerateControllerCommand;
+use JK\Console\TestCommand;
 
-Command::add(new TestCommand(), '--test', []);
-Command::add(new CreateCommand(), '--create', []);
-
+Console::add(new GenerateControllerCommand());
+// Console::add(new TestCommand());

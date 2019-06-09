@@ -2,20 +2,22 @@
 namespace JK\Console;
 
 use JK\Console\IO\InputInterface;
-use JK\Console\IO\OutputInterface; 
+use JK\Console\IO\OutputInterface;
+
 
 /**
- * Command Register [ Chain commands ]
- * @package JK\Console\Command 
+ * Class generate controller 
+ *
+ * @package JK\Console\Commands\GenerateControllerCommand 
 */ 
-abstract class Command implements CommandInterface
+class GenerateControllerCommand extends Command
 {
-
-/**
+     
+     /**
  * @var string $argument      [ Signature of command   ]
  * @var string $description   [ Description of command ]
 */
-protected $argument    = 'command:test';
+protected $argument    = 'make:controller';
 protected $description = 'description of command';
 
 
@@ -26,8 +28,7 @@ protected $description = 'description of command';
 */
 public function __construct()
 {
-   if(is_callable([$this, 'configure']))
-   {  $this->configure(); }
+     parent::__construct();
 }
 
 
@@ -84,7 +85,7 @@ public function description()
  * 
  * @return void
 */
-abstract public function configure();
+public function configure(){}
 
 
 /**
@@ -92,19 +93,26 @@ abstract public function configure();
  * 
  * @param JK\Console\IO\InputInterface $input
  * @param JK\Console\IO\OutputInterface $output
- * 
  * @return mixed
 */
-abstract public function execute(
+public function execute(
 InputInterface $input=null, 
 OutputInterface $output=null
-);
+)
+{
+	
+   echo 'Argument : '. $this->argument. "\n";
+   $output->writeln('Controller successfully generated!');
+	 
+   // die('Controller successfully generated!');
+}
 
 
 /**
-* Roolback command
+* Rollback command
+* 
 * @return mixed
 */
-abstract public function undo();
+public function undo(){}
 
 }
