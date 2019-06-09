@@ -104,6 +104,6 @@ OutputInterface $output=null
 * Roolback command
 * @return mixed
 */
-abstract spublic function undo();
+abstract public function undo();
 
 }
