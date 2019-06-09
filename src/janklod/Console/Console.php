@@ -3,6 +3,8 @@ namespace JK\Console;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
+use JK\Console\CommandInterface;
+
 
 /**
  * Class Console [Excecute command]
@@ -26,6 +28,7 @@ private static $commands = [];
 */
 public function __construct($file = null)
 {
+     self::blockAccess();
      if($file && $path = realpath($file))
      {
          require($path);
@@ -39,24 +42,38 @@ public function __construct($file = null)
  * @param array $commands 
  * @return void
 */
-public static function commands($commands=[])
+public static function addCommands($commands=[])
 {
-    self::$commands = array_merge(
-        self::$commands, 
-        $commands
-    );
+    if(!empty($commands))
+    {
+       self::$commands = array_merge(
+          self::$commands, 
+          $commands
+      );
+    }
 }
 
 
 /**
  * Add command
  * 
- * @param CommandInterface $command 
+ * @param string | CommandInterface $command 
  * @return void
 */
-public static function add(CommandInterface $command)
+public static function add($command)
 {
     self::$commands[] = $command;
+}
+
+
+/**
+ * Return all commands
+ * @return array
+*/
+public static function commands()
+{
+     self::blockAccess();
+     return self::$commands;
 }
 
 
@@ -69,21 +86,76 @@ public static function add(CommandInterface $command)
 */
 public function run(InputInterface $input, OutputInterface $output)
 {
-     if(php_sapi_name() != 'cli')
-     { die('Restricted'); } 
-
+     self::blockAccess();
      $signature = $input->argument(1);
      $message   = '';
      foreach(self::$commands as $command)
      {
-         if($command->argument() === $signature)
+         $commandObj = $this->readCommand($command);
+         if($commandObj->argument() === $signature)
          {
-             $command->execute($input, $output);
+             $commandObj->execute($input, $output);
              $message = $output->message();
              break;
          }
      }
      return $message ?? 'No messages!';
+}
+
+
+/**
+ * Block Access for not cli action
+ * 
+ * @return void
+*/
+private static function blockAccess()
+{
+  if(php_sapi_name() != 'cli')
+  { die('Restricted'); } 
+}
+
+
+/**
+ * Create command object
+ * 
+ * @param  $command
+ * @return \JK\Console\CommandInterface
+ */
+private function readCommand($command): CommandInterface
+{
+    if($this->is_class($command))
+    {
+         $command = new $command();
+    }
+
+    if($this->is_command($command))
+    {
+          return $command;
+    }
+    
+}
+
+/**
+ * Determine if given param is class
+ * @param mixed $command 
+ * @return bool
+*/
+private function is_class($command): bool
+{
+    return is_string($command) 
+           && class_exists($command);
+}
+
+
+/**
+ * Determine if given argument 
+ * is instance of CommandInterface
+ * @param mixed $command 
+ * @return bool
+*/
+private function is_command($command): bool
+{
+   return $command instanceof CommandInterface;
 }
 
 }

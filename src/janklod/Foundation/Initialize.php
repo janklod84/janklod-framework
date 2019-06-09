@@ -24,7 +24,7 @@ private static $runners = [
  \JK\Foundation\Runners\AliasRunner::class,
  \JK\Foundation\Runners\ProviderRunner::class,
  \JK\Foundation\Runners\FunctionRunner::class,
- // \JK\Foundation\Runners\CommandRunner::class,
+ \JK\Foundation\Runners\CommandRunner::class,
 ];
 
 
