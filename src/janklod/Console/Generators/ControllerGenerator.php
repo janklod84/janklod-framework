@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Foundation\Console\Generators;
+namespace JK\Console\Generators;
 
 
 /**
- * @package JK\Foundation\Console\Generators\ControllerGenerator
+ * @package JK\Console\Generators\ControllerGenerator
 */ 
 class ControllerGenerator
 {

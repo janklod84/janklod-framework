@@ -31,7 +31,6 @@ private static $commands = [];
 */
 public function __construct($file = null)
 {
-     self::blockAccess();
      $this->set_default_command();
      if($file && $path = realpath($file))
      {
@@ -133,11 +132,13 @@ private function readCommand($command): CommandInterface
          $command = new $command();
     }
 
-    if($this->is_command($command))
+    if(!$this->is_command($command))
     {
-          return $command;
+        exit(
+		sprintf('Sorry [%s] is not a valid command', $command)
+		);   
     }
-    
+    return $command;
 }
 
 /**

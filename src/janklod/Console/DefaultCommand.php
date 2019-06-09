@@ -1,9 +1,8 @@
 <?php 
 
 return [
-     // controller
-     JK\Routing\Console\Commands\ControllerCommand::class,
-     JK\Console\TestCommand::class
+  // controller
+  JK\Console\Commands\ControllerCommand::class,
 ];
 
 /*

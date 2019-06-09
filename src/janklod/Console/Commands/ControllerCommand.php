@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Foundation\Console\Commands;
+namespace JK\Console\Commands;
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Foundation\Console\Commands\ControllerCommand 
+ * @package JK\Console\Commands\ControllerCommand 
 */ 
 class ControllerCommand extends CustomCommand
 {

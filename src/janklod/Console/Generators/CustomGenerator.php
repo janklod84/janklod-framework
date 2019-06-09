@@ -1,20 +1,31 @@
 <?php 
-namespace JK\Helper;
+namespace JK\Console\Generators;
+
 
 /**
- * @package JK\Helper\FileGenerator 
+ * @package JK\Console\Generators\CustomGenerator
 */ 
-trait FileGenerator 
+abstract class CustomGenerator
 {
 
+/**
+* Constructor
+* 
+* @return void
+*/
+public function __construct()
+{
 
+}
+  
+  
 /**
  * Get realpath
  * 
  * @param string $path 
  * @return string
 */
-public function path($path)
+protected function path($path)
 {
 	$path = trim($path);
 	return str_replace('/', DIRECTORY_SEPARATOR, $path);
@@ -27,7 +38,7 @@ public function path($path)
  * @param string $directory
  * @return bool
 */
-public function makeFolder($directory='')
+protected function makeFolder($directory='')
 {
    if(!is_dir($directory))
    {
@@ -45,7 +56,7 @@ public function makeFolder($directory='')
  * @param string $filename
  * @return bool
 */
-public function make($directory='', $filename='')
+protected function make($directory='', $filename='')
 {
    $this->makeFolder($directory);
    $file = sprintf('%s%s%s', $directory, DIRECTORY_SEPARATOR, $filename);
@@ -63,13 +74,13 @@ public function make($directory='', $filename='')
  * @param string $filename 
  * @param string $content 
  * @return bool
- * @throws FileException
+ * @throws GeneratorException
 */
-public function put($filename='', $content='')
+protected function put($filename='', $content='')
 {
    if(!file_put_contents($filename, $content))
    {
-       throw new FileException(
+       throw new GeneratorException(
         sprintf(
          'Can not put content [%s] to file [%s]', 
          $content, 

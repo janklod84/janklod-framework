@@ -81,14 +81,14 @@ public function initialize()
 */
 public function run()
 {   
-   if($this->request->cli())
-   { die('Access Restricted!'); }
+   if(!$this->request->is('cli'))
+   {
+	  // Run all services and modules
+      $this->initialize();
 
-    // Run all services and modules
-   $this->initialize();
-
-   // Call method terminate
-   $this->terminate($this->request, $this->response);
+      // Call method terminate
+      $this->terminate($this->request, $this->response);
+   }
 }
 
 

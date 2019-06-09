@@ -1,23 +1,23 @@
 <?php 
-namespace JK\Foundation\Console\Commands;
+namespace JK\Console\Commands;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Console\TaskConsole;
+use JK\Console\Task;
 
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Foundation\Console\Commands\CustomCommand 
+ * @package JK\Console\Commands\CustomCommand 
 */ 
 abstract class CustomCommand extends Command
 {
 
 /**
- * @var \JK\Foundation\Console\TaskConsole;
+ * @var \JK\Console\Task;
  */
 protected $task;
 
@@ -29,7 +29,7 @@ protected $task;
 public function __construct()
 {
      parent::__construct();
-     $this->task = new TaskConsole();
+     $this->task = new Task();
 }
 
 
