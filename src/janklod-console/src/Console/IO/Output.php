@@ -25,7 +25,22 @@ public function writeln($message='')
 {
     $this->message[] = $message;
 }
-    
+
+
+/**
+ * Add new Lines
+ * 
+ * @param int $times 
+ * @return string
+*/
+public function newLine($times=1)
+{
+   for($i=0; $i < $times; $i++)
+   {
+        echo "\n";
+   }
+}
+
 /**
 * Get message
 * 
@@ -33,7 +48,7 @@ public function writeln($message='')
 */
 public function message()
 {
-   return join(' ', $this->message);
+   return "\n". join("\n", $this->message) . "\n";
 }
 
 

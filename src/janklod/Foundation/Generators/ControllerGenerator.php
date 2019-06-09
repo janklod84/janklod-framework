@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Console\Generators;
+namespace JK\Foundation\Generators;
 
 
 /**
- * @package JK\Console\Generators\ControllerGenerator
+ * @package JK\Foundation\Generators\ControllerGenerator
 */ 
 class ControllerGenerator extends CustomGenerator
 {
@@ -17,7 +17,12 @@ public function generate()
 {
 
   $controller_dir =  $this->basePath('app/controllers');
-  $controller_name = ucfirst($this->input(2)).'Controller';
+  $name =  ucfirst($this->input(2)).'Controller';
+  if($this->input(3) === '--no-prefixed')
+  {
+      $name = $this->input(2);
+  }
+  $controller_name = $name;
   $filename = sprintf('%s.php', $controller_name);
   $generatedFile = $this->make($controller_dir, $filename);
   $content = sprintf($this->blank(), $controller_name);

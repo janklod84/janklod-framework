@@ -20,8 +20,8 @@ interface CommandInterface
  * @return mixed
 */
 public function execute(
-InputInterface $input = null, 
-OutputInterface $output = null
+?InputInterface $input = null, 
+?OutputInterface $output = null
 );
 
 /**

@@ -1,15 +1,18 @@
 <?php 
-namespace JK\Console;
+namespace JK\Foundation\Console;
 
 
 
 /**
- * @package JK\Console\Task
+ * Class Task execute task from console 
+ * Receiver command 
+ *
+ * @package JK\Foundation\Console\Task
 */ 
 class Task
 {
      
-const GEN_NAMESPACE = '\\JK\\Console\\Generators\\%sGenerator';
+const GEN_NAMESPACE = '\\JK\\Foundation\\Generators\\%sGenerator';
 
 
 /**

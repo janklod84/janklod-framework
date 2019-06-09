@@ -2,7 +2,7 @@
 
 return [
   // controller
-  JK\Console\Commands\ControllerCommand::class,
+  JK\Foundation\Commands\GenerateController::class,
 ];
 
 /*

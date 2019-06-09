@@ -1,11 +1,10 @@
 <?php 
-namespace JK\Console\Generators;
+namespace JK\Foundation\Generators;
 
-use JK\Console\Exceptions;
 
 
 /**
- * @package JK\Console\Generators\CustomGenerator
+ * @package JK\Foundation\Generators\CustomGenerator
 */ 
 abstract class CustomGenerator
 {
@@ -45,7 +44,7 @@ public function __construct($input)
 */
 public function input($key)
 {
-   return $this->input->argument($key);
+   return $this->input->argument($key) ?: null;
 }
 
 
@@ -125,14 +124,6 @@ protected function put($filename='', $content='')
          $filename
        )
       );
-      /*
-       throw new GeneratorException(
-        sprintf(
-         'Can not put content [%s] to file [%s]', 
-         $content, 
-         $filename
-       ));
-       */
    }
    return true;
 }

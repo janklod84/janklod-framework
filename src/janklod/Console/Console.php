@@ -4,7 +4,6 @@ namespace JK\Console;
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\CommandInterface;
-use JK\Foundation\Configuration;
 
 
 
@@ -13,15 +12,16 @@ use JK\Foundation\Configuration;
  * 
  * @package JK\Console\Console
 */ 
-class Console
+class Console implements ConsoleInterface
 {
 
 
 /**
- * @var array $commands
+ * @var array $commands [ Container all commands ]
+ * @var string $name    [ Name of file to execute ]
 */
-private static $commands = [];
-
+protected static $commands = [];
+protected $name = 'console';
 
 /**
  * constructor
@@ -31,7 +31,6 @@ private static $commands = [];
 */
 public function __construct($file = null)
 {
-     $this->set_default_command();
      if($file && $path = realpath($file))
      {
          require($path);
@@ -82,17 +81,49 @@ public static function commands()
 
 
 /**
+ * Set base commands
+ *
+ * @return void
+*/
+public function set_base_command($parsed=null)
+{
+   $commands = $parsed;
+   if(is_file($parsed))
+   {
+       $commands = require(
+       realpath($parsed)
+       );
+   }
+   self::addCommands($commands);
+}
+
+
+/**
+ * Set name of file to execute
+ * 
+ * @param string $name 
+ * @return void
+*/
+public function name($name)
+{
+     $this->name = $name;
+}
+
+
+
+/**
  * Run and execute commands
  * 
  * @param InputInterface $input
  * @param OutputInterface $output
+ * 
  * @return string
 */
 public function run(InputInterface $input, OutputInterface $output)
 {
   self::blockAccess();
-  $message   = '';
-  if($input->argument(0) === 'console')
+  $message = '';
+  if($input->argument(0) === $this->name)
   {
       foreach(self::$commands as $command)
       {
@@ -113,7 +144,7 @@ public function run(InputInterface $input, OutputInterface $output)
  * 
  * @return void
 */
-private static function blockAccess()
+protected static function blockAccess()
 {
   if(php_sapi_name() != 'cli')
   { die('Restricted'); } 
@@ -126,7 +157,7 @@ private static function blockAccess()
  * @param  $command
  * @return \JK\Console\CommandInterface
  */
-private function readCommand($command): CommandInterface
+protected function readCommand($command): CommandInterface
 {
     if($this->is_class($command))
     {
@@ -136,8 +167,11 @@ private function readCommand($command): CommandInterface
     if(!$this->is_command($command))
     {
         exit(
-		sprintf('Sorry [%s] is not a valid command', $command)
-		);   
+		     sprintf(
+          'Sorry [%s] is not implements CommandInterface', 
+          $command
+        )
+		   );   
     }
     return $command;
 }
@@ -147,7 +181,7 @@ private function readCommand($command): CommandInterface
  * @param mixed $command 
  * @return bool
 */
-private function is_class($command): bool
+protected function is_class($command): bool
 {
     return is_string($command) 
            && class_exists($command);
@@ -157,25 +191,14 @@ private function is_class($command): bool
 /**
  * Determine if given argument 
  * is instance of CommandInterface
+ * 
  * @param mixed $command 
  * @return bool
 */
-private function is_command($command): bool
+protected function is_command($command): bool
 {
    return $command instanceof CommandInterface;
 }
 
-
-/**
- * Set default commands
- * @return void
-*/
-private function set_default_command()
-{
-    $commands = require(
-        realpath(__DIR__.'/DefaultCommand.php')
-    );
-    self::addCommands($commands);
-}
 
 }

@@ -1,23 +1,23 @@
 <?php 
-namespace JK\Console\Commands;
+namespace JK\Foundation\Commands;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Console\Task;
+use JK\Foundation\Console\Task;
 
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Console\Commands\CustomCommand 
+ * @package JK\Foundation\Commands\CustomCommand 
 */ 
 abstract class CustomCommand extends Command
 {
 
 /**
- * @var \JK\Console\Task;
+ * @var \JK\Foundation\Console\Task;
  */
 protected $task;
 

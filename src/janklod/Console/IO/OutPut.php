@@ -48,7 +48,7 @@ public function newLine($times=1)
 */
 public function message()
 {
-   return join("\n", $this->message);
+   return "\n". join("\n", $this->message) . "\n";
 }
 
 

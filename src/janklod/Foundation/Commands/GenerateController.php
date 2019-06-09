@@ -1,13 +1,13 @@
 <?php 
-namespace JK\Console\Commands;
+namespace JK\Foundation\Commands;
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Console\Commands\ControllerCommand 
+ * @package JK\Foundation\Commands\GenerateController
 */ 
-class ControllerCommand extends CustomCommand
+class GenerateController extends CustomCommand
 {
      
 
@@ -34,6 +34,7 @@ public function __construct()
 /**
  * @param \JK\Console\IO\InputInterface $input 
 */
+/*
 public function options($input)
 {
 	if(!is_null($input))
@@ -48,6 +49,7 @@ public function options($input)
 		return $argument;
 	}
 }
+*/
 
 
 /**
@@ -65,10 +67,11 @@ public function execute($input=null, $output=null)
 	   {
 	   	   if($controller = $this->task->generate('controller', $input))
 	       {
-	       	  $output->newLine();
+	       	  // $output->newLine();
 	          $output->writeln(
-	          	sprintf('Controller [%s] successfully generated!', $controller)
+	          	sprintf('Controller [ %s ] successfully generated!', $controller)
 	          );
+	          $output->writeln('End Execution!');
 	       }
 	   }
 	   

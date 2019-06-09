@@ -83,7 +83,7 @@ public function run()
 {   
    if(!$this->request->is('cli'))
    {
-	  // Run all services and modules
+	    // Run all services and modules
       $this->initialize();
 
       // Call method terminate
