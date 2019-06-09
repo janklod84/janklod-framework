@@ -18,8 +18,14 @@ class Shundle extends Console
  */
 public function __construct($file='')
 {
+	/*
 	$this->set_base_command(
       __DIR__.'/commands.php'
+    );
+    */
+
+    $this->set_base_command(
+    	Configuration::SRC['commands']
     );
 	parent::__construct($file);
 }

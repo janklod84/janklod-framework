@@ -87,8 +87,8 @@ public static function commands()
 */
 public function set_base_command($parsed=null)
 {
-   $commands = $parsed;
-   if(is_file($parsed))
+   $commands = (array) $parsed;
+   if(is_string($parsed) && is_file($parsed))
    {
        $commands = require(
        realpath($parsed)

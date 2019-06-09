@@ -34,7 +34,9 @@ const SRC = [
  'DB'       => 'JK\\Database\\DB',
  'Q'        => 'JK\\ORM\\Q'
 ],
-
+'commands' => [
+ \JK\Foundation\Commands\GenerateController::class,
+],
 'locator' => [
   'cache_dir' => '/temp/cache/',
   'migration_dir' => '/temp/database/migrations/',
