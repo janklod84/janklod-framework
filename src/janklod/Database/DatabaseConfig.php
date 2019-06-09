@@ -8,9 +8,9 @@ use JK\Database\Configs\{
 
 /**
  * Configure [ factory database configuration ]
- * @package JK\Database\Configuration
+ * @package JK\Database\DatabaseConfig
 */
-class Configuration 
+class DatabaseConfig 
 {
    
 /**

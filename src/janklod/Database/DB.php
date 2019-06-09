@@ -50,13 +50,12 @@ public static function instance()
 
 /**
  * Connect to database
- * @param array $config
- * @return void
+ * @return \PDO 
 */
 private static function connect()
 {
 	$driver = Config::get('database.driver');
-	$config = Configuration::check($driver);
+	$config = DatabaseConfig::check($driver);
 	return Connection::make($driver, $config);
 }
 
