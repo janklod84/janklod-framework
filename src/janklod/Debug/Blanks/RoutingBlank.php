@@ -22,7 +22,6 @@ public function output()
       $html .= '<th>Routing</th>';
       $html .= '<th scope="col">Path</th>';
       $html .= '<th scope="col">Route Name</th>';
-      $html .= '<th scope="col">Route Prefixes</th>';
       $html .= '<th scope="col">Request Method</th>';
       $html .= '<th scope="col">Controller</th>';
       $html .= '<th scope="col">Action</th>';
@@ -45,12 +44,6 @@ public function output()
       $html .= '</th>';
       $html .= '<th scope="row">'; 
       $html .= '<code>';
-      $html .=  'Path:'. $this->getPrefix('path') . ', ';
-      $html .=  'Controller:'. $this->getPrefix('controller');
-      $html .= '</code>'; 
-      $html .= '</th>';
-      $html .= '<th scope="row">'; 
-      $html .= '<code>';
       $html .=  $this->app->get('current.route')['method'];
       $html .= '</code>'; 
       $html .= '</th>';
@@ -65,17 +58,6 @@ public function output()
       $html .= '</table>';
       return $html;
    }
-}
-
-/**
- * Get route prefix
- * @param string $item 
- * @return string
-*/
-public function getPrefix($item)
-{
-    $prefix  = $this->app->get('current.route')['prefix.'. $item];
-    return !empty($prefix) ? $prefix : 'no prefixed';
 }
 
 }
