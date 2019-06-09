@@ -35,7 +35,9 @@ $app = \JK\Foundation\Application::instance(
 */
 
 $app->singleton('console', function () use($app) {
-   return $app->make(JK\Console\Console::class);
+   return $app->make(JK\Console\Console::class, [
+      $app->file->to('routes/console.php')
+   ]);
 });
 
 

@@ -4,6 +4,8 @@ namespace JK\Console;
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\CommandInterface;
+use JK\Foundation\Configuration;
+
 
 
 /**
@@ -23,16 +25,19 @@ private static $commands = [];
 
 /**
  * constructor
+ * 
  * @param string $file 
  * @return void
 */
 public function __construct($file = null)
 {
      self::blockAccess();
+     $this->set_default_command();
      if($file && $path = realpath($file))
      {
          require($path);
      }
+
 }
 
 
@@ -91,10 +96,10 @@ public function run(InputInterface $input, OutputInterface $output)
      $message   = '';
      foreach(self::$commands as $command)
      {
-         $commandObj = $this->readCommand($command);
-         if($commandObj->argument() === $signature)
+         $commandInterface = $this->readCommand($command);
+         if($commandInterface->argument() === $signature)
          {
-             $commandObj->execute($input, $output);
+             $commandInterface->execute($input, $output);
              $message = $output->message();
              break;
          }
@@ -156,6 +161,19 @@ private function is_class($command): bool
 private function is_command($command): bool
 {
    return $command instanceof CommandInterface;
+}
+
+
+/**
+ * Set default commands
+ * @return void
+*/
+private function set_default_command()
+{
+    $commands = require(
+        realpath(__DIR__.'/DefaultCommand.php')
+    );
+    self::addCommands($commands);
 }
 
 }
