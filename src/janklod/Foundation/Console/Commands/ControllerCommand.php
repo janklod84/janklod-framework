@@ -1,20 +1,21 @@
 <?php 
-namespace JK\Routing\Console\Commands;
+namespace JK\Foundation\Console\Commands;
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Routing\Console\Commands\ControllerCommand 
+ * @package JK\Foundation\Console\Commands\ControllerCommand 
 */ 
 class ControllerCommand extends CustomCommand
 {
      
-     /**
+
+/**
  * @var string $argument      [ Signature of command   ]
  * @var string $description   [ Description of command ]
 */
-protected $argument    = 'make:controller';
+protected $argument = 'make:controller';
 protected $description = 'description of command';
 
 
@@ -40,11 +41,10 @@ public function __construct()
 */
 public function execute($input=null, $output=null)
 {
-	
-   echo 'Argument : '. $this->argument. "\n";
-   $output->writeln('Controller successfully generated!');
-	 
-   // die('Controller successfully generated!');
+   if($this->task->generate('controller', $input))
+   {
+       $output->writeln('Controller successfully generated!');
+   }
 }
 
 

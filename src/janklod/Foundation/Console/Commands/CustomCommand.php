@@ -1,24 +1,25 @@
 <?php 
-namespace JK\Routing\Console\Commands;
+namespace JK\Foundation\Console\Commands;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
+use JK\Foundation\Console\TaskConsole;
 
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Routing\Console\Commands\CustomCommand 
+ * @package JK\Foundation\Console\Commands\CustomCommand 
 */ 
 abstract class CustomCommand extends Command
 {
 
 /**
- * @var \JK\Routing\Console\TaskGenerator
+ * @var \JK\Foundation\Console\TaskConsole;
  */
-protected $generator;
+protected $task;
 
 /**
  * Constructor
@@ -28,9 +29,16 @@ protected $generator;
 public function __construct()
 {
      parent::__construct();
-     // $this->generator = new TaskGenerator();
+     $this->task = new TaskConsole();
 }
 
+
+/**
+ * Configuration command
+ * 
+ * @return void
+*/
+public function configure() {}
 
 
 /**

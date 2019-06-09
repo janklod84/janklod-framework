@@ -84,7 +84,7 @@ public function description()
  * 
  * @return void
 */
-abstract public function configure();
+public function configure(){}
 
 
 /**
