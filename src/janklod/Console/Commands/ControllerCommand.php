@@ -75,15 +75,6 @@ public function execute($input=null, $output=null)
    }
 }
 
-
-public function getOptions($arguments = [])
-{
-	foreach($arguments as $argument)
-	{
-        
-	}
-}
-
 /**
 * Rollback command
 * 
