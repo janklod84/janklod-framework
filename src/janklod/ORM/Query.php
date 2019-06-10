@@ -4,8 +4,7 @@ namespace JK\ORM;
 
 use \PDO;
 use \PDOException;
-use JK\ORM\Exceptions\QueryException;
-use JK\ORM\QueryBuilder;
+use \Exception;
 
 
 /**
@@ -142,7 +141,7 @@ public static function table($table='')
  * @param string $sql 
  * @param array  $params 
  * @return self
- * @throws QueryException
+ * @throws \Exception
 */
 public static function execute($sql, $params=[])
 {
@@ -185,7 +184,7 @@ public static function execute($sql, $params=[])
       echo sprintf($html, $e->getMessage(), $sql);
       
       // capture exception
-      throw new QueryException($e->getMessage(), 404);
+      throw new Exception($e->getMessage(), 404);
    }
    
    return new static;
@@ -198,13 +197,13 @@ public static function execute($sql, $params=[])
  * 
  * @param \Closure $callback
  * @return mixed
- * @throws TransactionException
+ * @throws \Exception
 */
 public static function transaction(\Closure $callback)
 {
-    self::ensureSetup();
     try
     {
+        self::ensureSetup();
         self::$connection->beginTransaction();
         call_user_func($callback, self::$builder);
         self::$connection->commit();
@@ -212,7 +211,7 @@ public static function transaction(\Closure $callback)
     }catch(\PDOException $e){
 
          self::$connection->rollback();
-         throw new TransactionException($e->getMessage());
+         throw new Exception($e->getMessage());
     }
 
 }

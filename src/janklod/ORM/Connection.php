@@ -4,10 +4,7 @@ namespace JK\ORM;
 
 use \PDO;
 use \PDOException;
-use JK\Database\Exceptions\{
-	ConnectionException,
-	DriverException
-};
+use \Exception;
 
 use JK\ORM\Drivers\{
  MySQLDriver,
@@ -47,23 +44,24 @@ const ALLOWED_CONFIG_KEYS = [
  * @param string $driver
  * @param array $config 
  * @return \PDO 
+ * @throws \Exception
 */
 public static function make($driver='mysql', $config = [])
 {
   try 
   {
     $driver = mb_strtolower($driver);
-    self::ensureConfig($config);
+    self::config_validate($config);
     extract($config);
 
-    if(self::isValidDriver($driver))
+    if(self::is_valid_driver($driver))
     {
-       return self::call($driver, $config);
+       return self::connect($driver, $config);
     }
 
   }catch(\PDOException $e){
 
-    throw new ConnectionException($e->getMessage(), 404);
+      throw new Exception($e->getMessage(), 404);
   }
 
 }
@@ -110,18 +108,20 @@ public static function sqlite($config=[])
 
 
 /**
- * Call
+ * Call driver
+ * 
  * @param string $driver 
  * @param string $config 
  * @return mixed
+ * @throws \Exception
 */
-private static function call($driver, $config)
+private static function connect($driver, $config)
 {
      $method = strtolower($driver);
      $callback = [new static, $method];
      if(!is_callable($callback))
      {
-          throw new ConnectionException(
+          throw new Exception(
             sprintf('Sorry, Connection to [%s] does not implemented yet!', $driver), 
             404
           );
@@ -132,14 +132,16 @@ private static function call($driver, $config)
 
 /**
  * Make sure has available driver
+ * 
  * @param string $driver 
- * @return 
+ * @return bool
+ * @throws \Exception 
 */
-private static function isValidDriver($driver=null)
+private static function is_valid_driver($driver=null)
 {
      if(!in_array($driver, PDO::getAvailableDrivers(), true))
      {
-     	  throw new DriverException("Current driver is not available!", 404); 
+     	  throw new Exception("Current driver is not available!", 404); 
      }
      return true;
 }
@@ -147,16 +149,18 @@ private static function isValidDriver($driver=null)
 
 /**
  * Make sure config params matches
+ * 
  * @param array $config 
  * @return void
+ * @throws \Exception
 */
-private static function ensureConfig($config)
+private static function config_validate($config)
 {
    foreach(array_keys($config) as $key)
    {
       if(!in_array($key, self::ALLOWED_CONFIG_KEYS))
       {
-          throw new ConnectionException(
+          throw new Exception(
             sprintf('Sorry, key [%s] is not valid!', $key)
           );
       }
