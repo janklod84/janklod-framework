@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Database\Drivers;
+namespace JK\ORM\Drivers;
 
 
 /**
- * @package JK\Database\Drivers\SQLiteDriver
+ * @package JK\ORM\Drivers\SQLiteDriver
 */
 class SQLiteDriver extends CustomDriver
 {

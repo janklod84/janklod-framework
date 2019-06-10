@@ -20,7 +20,6 @@ class Query
 * @var  self            $instance     [ Instance of current class ]
 * @var  \PDO            $connection   [ Object PDO ]
 * @var  \PDOStatement   $statement    [ PDOStatement ]
-* @var  string          $sql          [ SQL request ]
 * @var  array           $result       [ Result query ]
 * @var  int             $count        [ Row affected count ]
 * @var  int             $lastId       [ Last insert id ]
@@ -31,11 +30,12 @@ class Query
 * @var  bool            $connected    [ Connection status ]
 * @var  string          $fetchHandler [ FetchMode handler ]
 * @var  \JK\ORM\Queries\QB $builder
+* @var  string          $sql          [ SQL request ]
+* @var  string          $table        [ Name of table ]
 */
 protected static $instance;
 protected static $connection;
 protected static $statement;
-protected static $sql;
 protected static $result;
 protected static $count;
 protected static $lastId;
@@ -45,6 +45,9 @@ protected static $error     = false;
 protected static $executed  = false;
 protected static $connected = false;
 protected static $builder;
+protected static $sql;
+protected static $table;
+
 // protected static $fetchHandler = 'FetchObject';
 
 
@@ -55,15 +58,17 @@ protected static $builder;
 /**
 * Constructor
 * 
-* @param \PDO $connection
-* @return self
+* @param  \PDO     $connection
+* @param   string  $table
+* @return  self
 */
-public static function setup(PDO $connection)
+public static function setup(PDO $connection, $table='')
 {
     if(is_null(self::$instance))
     {
          self::$connection = $connection;
          self::$builder    = new QueryBuilder();
+         self::$table      = $table;
          self::$connected  = true;
          self::$instance   = new static;
     }
@@ -106,7 +111,7 @@ public function alias($alias='QB')
 */
 public static function table($table='')
 {
-    self::$sql = self::$builder->table($table);
+    self::$table = $table;
     return new static;
 }
 
@@ -183,7 +188,7 @@ public static function transaction(\Closure $callback)
     try
     {
         self::$connection->beginTransaction();
-        call_user_func_array($callback, [self::$builder, new static]);
+        call_user_func($callback, self::$builder);
         self::$connection->commit();
 
     }catch(\PDOException $e){

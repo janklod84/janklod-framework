@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Database;
+namespace JK\ORM;
 
 
 use \PDO;
@@ -9,14 +9,14 @@ use JK\Database\Exceptions\{
 	DriverException
 };
 
-use JK\Database\Drivers\{
+use JK\ORM\Drivers\{
  MySQLDriver,
  SQLiteDriver
 };
 
 
 /**
- * @package JK\Database\Connection
+ * @package JK\ORM\Connection
 */ 
 class Connection 
 {

@@ -1,12 +1,12 @@
 <?php 
-namespace JK\Database\Drivers;
+namespace JK\ORM\Drivers;
 
 
 use \PDO;
 
 
 /**
- * @package JK\Database\Drivers\CustomDriver 
+ * @package JK\ORM\Drivers\CustomDriver 
 */ 
 abstract class CustomDriver 
 {
@@ -57,7 +57,7 @@ abstract public function dsn();
  * @param string $password
  * @return \PDO
 */
-public function pdo($dsn='', $username, $password)
+protected function pdo($dsn='', $username, $password)
 {
 	 return new PDO($dsn, $username, $password, $this->options());
 }
@@ -68,7 +68,7 @@ public function pdo($dsn='', $username, $password)
  * @param array $options 
  * @return void
 */
-public function options()
+protected function options()
 {
     if($this->config('options'))
     {
@@ -87,7 +87,7 @@ public function options()
  * @return mixed
  * @throws \Exception 
 */
-public function config($item)
+protected function config($item)
 {
    if(!isset($this->config[$item]))
    {

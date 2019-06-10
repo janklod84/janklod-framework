@@ -1,13 +1,13 @@
 <?php 
-namespace JK\Database\Drivers;
+namespace JK\ORM\Drivers;
 
 
 use \PDO;
 
 /**
- * @package JK\Database\Drivers\OracleDriver
+ * @package JK\ORM\Drivers\PostgreDriver
 */
-class OracleDriver extends CustomDriver
+class PostgreDriver extends CustomDriver
 {
      
 /**

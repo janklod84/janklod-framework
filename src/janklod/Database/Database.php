@@ -3,6 +3,7 @@ namespace JK\Database;
 
 
 use \Config;
+use JK\ORM\Connection;
 
 
 /**

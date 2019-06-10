@@ -1,17 +1,18 @@
 <?php 
-namespace JK\Database\Drivers;
+namespace JK\ORM\Drivers;
 
 
 use \PDO;
 
 /**
- * @package JK\Database\Drivers\MySQLDriver
+ * @package JK\ORM\Drivers\MySQLDriver
 */
 class MySQLDriver extends CustomDriver
 {
      
 /**
 * Connect  to PDO 
+* 
 * @return \PDO
 */
 public function connect()
@@ -25,6 +26,7 @@ public function connect()
 
 /**
 * Get DSN
+* 
 * @return string
 */
 public function dsn()
