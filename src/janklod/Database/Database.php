@@ -14,12 +14,13 @@ final class Database
 
 
 /**
-* @var  \PDO  $instance    [ Connection instance ]
+ * @var  \PDO  $instance    [ Connection instance ]
 */
 private static $instance;
 
 /**
 * prevent instance from being cloned
+* 
 * @return void
 */
 private function __clone(){}
@@ -28,6 +29,7 @@ private function __clone(){}
 
 /**
 * prevent instance from being unserialized
+* 
 * @return void
 */
 private function __wakeup(){}
@@ -35,7 +37,8 @@ private function __wakeup(){}
 
 
 /**
- * Get connection
+ * Get connection instance
+ * 
  * @return \PDO
 */
 public static function instance()
@@ -65,7 +68,6 @@ private static function connect()
  * Get config by driver
  * 
  * @param string $key
- * 
  * @return array
  */
 private static function config($key=null)
