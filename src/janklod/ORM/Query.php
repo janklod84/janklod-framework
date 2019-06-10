@@ -75,6 +75,24 @@ public static function setup(PDO $connection, $table='')
     return self::$instance;
 }
 
+/**
+ * Make connection
+ * 
+ * @param string $driver 
+ * @param array $config 
+ * @param string $table 
+ * @return self
+ */
+public static function connect(
+$driver='mysql', 
+$config=[], 
+$table=''
+)
+{
+      $connection = Connection::make($driver, $config);
+      return self::setup($connection, $table);
+}
+
 
 /**
  * Execute simple query
