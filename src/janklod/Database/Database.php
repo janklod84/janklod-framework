@@ -43,11 +43,11 @@ private function __wakeup(){}
 */
 public static function instance()
 {
-    if(is_null(self::$instance))
-    {
-        self::$instance = self::connect();
-    }
-    return self::$instance;
+  if(is_null(self::$instance))
+  {
+      self::$instance = self::connect();
+  }
+  return self::$instance;
 }
 
 
@@ -58,9 +58,9 @@ public static function instance()
 */
 private static function connect()
 {
-	$driver = Config::get('database.connection');
-	$config = self::config($driver);
-	return Connection::make($driver, $config);
+  $driver = Config::get('database.connection');
+  $config = self::config($driver);
+  return Connection::make($driver, $config);
 }
 
 
@@ -72,12 +72,12 @@ private static function connect()
  */
 private static function config($key=null)
 {
-     $data = Config::retrieveGroup('database');
-     if(!empty($data[$key]))
-     {
-         $data = $data[$key];
-     }
-     return $data ?? [];
+   $data = Config::retrieveGroup('database');
+   if(!empty($data[$key]))
+   {
+       $data = $data[$key];
+   }
+   return $data ?? [];
 }
 
 }
