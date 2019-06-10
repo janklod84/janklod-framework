@@ -32,7 +32,7 @@ const SRC = [
  'Url'      => 'JK\\Helper\\Url',
  'DI'       => 'JK\\DI\\Container',
  'DB'       => 'JK\\Database\\Database',
- 'Q'        => 'JK\\ORM\\Q'
+ 'Query'    => 'JK\\ORM\\Query'
 ],
 'commands' => [
  \JK\Foundation\Commands\GenerateControllerCommand::class,

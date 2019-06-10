@@ -22,9 +22,9 @@ return [
     'host'      => 'localhost',
     'port'      => '3306',
     'charset'   => 'utf8',
-    'collation' => 'utf8mb4',
     'username'  => 'root',
     'password'  => 'root',
+    'collation' => 'utf8mb4',
     'options'   => [],
     'prefix'    => '',
     'engine'    => null

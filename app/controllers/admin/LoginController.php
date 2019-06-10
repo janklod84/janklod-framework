@@ -5,6 +5,8 @@ namespace app\controllers\admin;
 use JK\Routing\Controller;
 use \Auth;
 use  app\models\Managers\UserManager;
+use \Query;
+use  \DB;
 
 
 /**
@@ -23,6 +25,8 @@ private $user;
 */
 public function before()
 {
+     Query::setup(\DB::instance());
+
      # пользователь может попасть в систему 
      # только когда он будет авторизован
      if(Auth::isLogged())
@@ -69,11 +73,13 @@ public function index()
     }
     debug(\DB::instance());
     */
-    Query::alias();
-    Query::setup(\DB::instance());
-
-
     
+
+
+    $results = Query::execute('SELECT * FROM `users`')->results();
+    
+    debug($results);
+
     $this->setMeta('Вход');
     $this->render('/admin/login/form');
 }

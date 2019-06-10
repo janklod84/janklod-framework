@@ -50,13 +50,14 @@ public static function instance()
 
 /**
  * Connect to database
+ * 
  * @return \PDO 
 */
 private static function connect()
 {
-	$connection = Config::get('database.connection');
-	$config = self::config($connection);
-	return Connection::make($connection, $config);
+	$driver = Config::get('database.connection');
+	$config = self::config($driver);
+	return Connection::make($driver, $config);
 }
 
 
