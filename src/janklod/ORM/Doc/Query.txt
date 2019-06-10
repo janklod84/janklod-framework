@@ -1,0 +1,7 @@
+EXECUTE QUERY
+============================================================================
+$pdo = \DB::instance(); 
+Query::setup($pdo);
+
+$results = Query::execute('SELECT * FROM `users`')->results();
+debug($results);

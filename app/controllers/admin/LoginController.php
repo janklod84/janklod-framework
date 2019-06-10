@@ -2,11 +2,12 @@
 namespace app\controllers\admin;
 
 
-use JK\Routing\Controller;
 use \Auth;
-use  app\models\Managers\UserManager;
 use \Query;
-use  \DB;
+use \JK\ORM\QueryBuilder;
+use \DB;
+use app\models\Managers\UserManager;
+use JK\Routing\Controller;
 
 
 /**
@@ -45,7 +46,7 @@ public function before()
 public function __construct($app)
 {
      parent::__construct($app);
-     $this->user = new UserManager($app);
+     // $this->user = new UserManager($app);
 }
 
 
@@ -56,6 +57,32 @@ public function __construct($app)
 * @return void
 */
 public function index()
+{
+    $builder = new QueryBuilder();
+
+    echo $builder->select('username', 'password', 'role')
+            ->table('users')
+            ->sql();
+    echo '<br>';
+    echo $builder->select('username', 'password', 'role', 'deleted')
+            ->from('orders', 'o')
+            ->sql();
+    /*
+    $builder->insert('orders', [
+      'username' => 'John',   
+      'password' => md5('Qwerty'),  
+      'role' => 2
+    ])->sql();
+    */
+}
+
+
+
+/**
+* Action index
+* @return void
+*/
+public function indexOLD()
 {
     /*
     if($this->request->isPost())

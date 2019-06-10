@@ -66,7 +66,7 @@ public static function setup(PDO $connection, $table='')
     if(is_null(self::$instance))
     {
          self::$connection = $connection;
-         self::$builder    = new QueryBuilder();
+         // self::$builder    = new QueryBuilder();
          self::$table      = $table;
          self::$connected  = true;
          self::$instance   = new static;
@@ -222,7 +222,7 @@ public static function transaction(\Closure $callback)
  * @param  mixed $value
  * @param  string $id
  * @param  string $operator
- * @return 
+ * @return self
 */
 public function where($value, $field='id', $operator='=')
 {

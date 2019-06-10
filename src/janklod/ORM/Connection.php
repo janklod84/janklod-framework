@@ -84,7 +84,7 @@ public static function make($driver='mysql', $config = [])
  * @param array $config 
  * @return \PDO
 */
-public static function mysql($config=[])
+private static function mysql($config=[])
 {
     return call_user_func([new MySQLDriver($config), 'connect']);
 }
@@ -101,14 +101,14 @@ public static function mysql($config=[])
  * @param array $config 
  * @return \PDO
 */
-public static function sqlite($config=[])
+private static function sqlite($config=[])
 {
    return call_user_func([new SQLiteDriver($config), 'connect']);
 }
 
 
 /**
- * Call driver
+ * Get current connection
  * 
  * @param string $driver 
  * @param string $config 

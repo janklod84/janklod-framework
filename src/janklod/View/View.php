@@ -103,7 +103,8 @@ public static function setMeta($title='', $desc='', $keywords='')
 */
 public static function getMeta($charset = true)
 {
-  if($charset === true){HTML::charset();}
+  if($charset === true)
+  {HTML::charset();}
   HTML::title();
   HTML::meta();
 }
@@ -208,6 +209,7 @@ public function fullPath($path)
 }
 
 
+/* PART TO REFACTORING!!! */
 /**
  * Partials
  * @param string $path 
