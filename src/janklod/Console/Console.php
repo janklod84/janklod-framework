@@ -114,28 +114,53 @@ public function name($name)
 /**
  * Run and execute commands
  * 
- * @param InputInterface $input
- * @param OutputInterface $output
+ * @param \JK\Console\IO\InputInterface $input 
+ * @param \JK\Console\IO\OutputInterface $output 
  * 
  * @return string
 */
 public function run(InputInterface $input, OutputInterface $output)
 {
-  self::blockAccess();
-  $message = '';
-  if($input->argument(0) === $this->name)
-  {
-      foreach(self::$commands as $command)
-      {
-         if($commandInterface = $this->readCommand($command))
-         {
-            $commandInterface->execute($input, $output);
-            $message = $output->message();
-         }
-     }
-     return $message ?? 'No messages!';
-  }
-  
+   // block access no cli request
+   self::blockAccess();
+
+   // make sure input name file matches
+   if($input->argument(0) !== $this->name)
+   {
+       exit(
+        sprintf(
+         'Sorry command [ %s ] does not match console file name [ %s ]', 
+         $input->argument(0), 
+         $this->name
+        )
+       );
+   }
+   
+   // execution processing
+   return $this->process($input, $output);
+}
+
+
+/**
+ * Execution process
+ * 
+ * @param \JK\Console\IO\InputInterface $input 
+ * @param \JK\Console\IO\OutputInterface $output 
+ * 
+ * @return string
+ */
+protected function process($input, $output)
+{
+   $message = '';
+   foreach(self::$commands as $command)
+   {
+       if($commandInterface = $this->readCommand($command))
+       {
+          $commandInterface->execute($input, $output);
+          $message = $output->message();
+       }
+   }
+   return $message ?? 'No messages!';
 }
 
 

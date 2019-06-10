@@ -54,10 +54,32 @@ public static function instance()
 */
 private static function connect()
 {
-	$driver = Config::get('database.driver');
-	$config = DatabaseConfig::check($driver);
-	return Connection::make($driver, $config);
+	$connection = Config::get('db.connection');
+	$config = self::config($connection);
+  echo '<pre>';
+  print_r($config);
+  echo '</pre>';
+
+	return Connection::make($connection, $config);
 }
+
+
+/**
+ * Get config by driver
+ * 
+ * @param string $key
+ * @return array
+ */
+public static function config($key)
+{
+     $data = Config::retrieveGroup('db');
+     if(!empty($data[$key]))
+     {
+         $data = $data[$key];
+     }
+     return $data ?? [];
+}
+
 
 
 /**

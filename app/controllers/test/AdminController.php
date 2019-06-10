@@ -4,8 +4,14 @@ namespace app\controllers;
 use JK\Routing\Controller;
 
 
-class AdminController 
+class AdminController  extends Controller
 {
+  
+  /**
+   * @var string $layout
+  */
+  protected  $layout = '';
+
 
   /** 
    * Action index 
@@ -14,6 +20,8 @@ class AdminController
   */
   public function index()
   {
+      // Add your code here ...
+  } 
 
-  }   
+    
 }

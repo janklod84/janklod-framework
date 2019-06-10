@@ -192,10 +192,12 @@ public static function url(string $name, array $params = [])
 
 
 /**
-* Add routes by request GET
+* Add routes by request
+*
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
+*
 * @return RouteParameter
 */
 public static function add($path, $callback, $name = null,  $method = 'GET')
@@ -204,7 +206,7 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
      $route = new RouteParameter([
         'path'               => PathControl::current($path), 
         'pattern'            => PathControl::pattern($path),
-        'callback'           => CallbackControl::manage($callback),
+        'callback'           => CallbackControl::prepare($callback),
         'name'               => $name,
         'method'             => strtoupper($method),  
         'middleware'         => OptionControl::retrieveGroup('middleware'),

@@ -10,11 +10,12 @@ class CallBackControl
 
 
 /**
-* Manage callback
+* Prepare callback
+*
 * @param string $callback 
 * @return mixed
 */     
-public static function manage($callback)
+public static function prepare($callback)
 {
    if(is_string($callback))
    {

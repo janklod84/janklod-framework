@@ -31,7 +31,7 @@ const SRC = [
  'Config'   => 'JK\\Config\\Config',
  'Url'      => 'JK\\Helper\\Url',
  'DI'       => 'JK\\DI\\Container',
- 'DB'       => 'JK\\Database\\DB',
+ 'DB'       => 'JK\\Database\\Database',
  'Q'        => 'JK\\ORM\\Q'
 ],
 'commands' => [

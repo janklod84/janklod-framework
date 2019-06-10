@@ -10,6 +10,8 @@ use JK\Console\Console;
 class Shundle extends Console 
 {
 
+// protected $name = 'shundle';
+
 /**
  * Constructor
  * 

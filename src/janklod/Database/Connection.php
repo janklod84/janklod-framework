@@ -25,14 +25,15 @@ class Connection
  * @const array [ allowed keys ]
 */
 const ALLOWED_CONFIG_KEYS = [
+ 'driver',
  'dbname',
  'host',
- 'charset',
- 'port', 
+ 'port',
+ 'charset', 
  'username',
  'password',
  'options', 
- 'prefix_tbl',
+ 'prefix',
  'collation',
  'engine',
  'autocreate',
@@ -42,6 +43,7 @@ const ALLOWED_CONFIG_KEYS = [
 
 /**
  * Make connection
+ * 
  * @param string $driver
  * @param array $config 
  * @return \PDO 
@@ -50,6 +52,7 @@ public static function make($driver='mysql', $config = [])
 {
   try 
   {
+    $driver = mb_strtolower($driver);
     self::ensureConfig($config);
     extract($config);
 
@@ -154,7 +157,7 @@ private static function ensureConfig($config)
       if(!in_array($key, self::ALLOWED_CONFIG_KEYS))
       {
           throw new ConnectionException(
-            sprintf('Sorry, this config key [%s] does not match!', $key)
+            sprintf('Sorry, key [%s] is not valid!', $key)
           );
       }
    }

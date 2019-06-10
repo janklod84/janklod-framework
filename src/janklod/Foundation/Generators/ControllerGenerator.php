@@ -48,8 +48,14 @@ namespace app\controllers;
 use JK\Routing\Controller;
 
 
-class %s 
+class %s  extends Controller
 {
+  
+  /**
+   * @var string $"."layout
+  */
+  protected  $"."layout = '';
+
 
   /** 
    * Action index 
@@ -58,8 +64,10 @@ class %s
   */
   public function index()
   {
+      // Add your code here ...
+  } 
 
-  }   
+    
 }
 "; 
 

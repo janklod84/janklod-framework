@@ -4,10 +4,11 @@ return [
      
 /*
 |------------------------------------------------------------------
-|     CONNECTION TO DATABASE
+|     CONNECTION TO DATABASE [ avalaibles drivers mysql, sqlite ]
 |------------------------------------------------------------------
 */
 
+'connection' => 'mysql', // mysql, sqlite, ...
 'sqlite' => [
    'driver'   => 'sqlite',
    'dbname'   => '../test.sqlite',	 
@@ -15,17 +16,18 @@ return [
    'prefix'   => ''
  ],
  'mysql' => [
-    'driver'   => 'mysql',
-    'dbname'   => 'mysql_db',
-    'host'     => 'localhost',
-    'port'     => '3306',
-    'charset'  => 'utf-8',
-    'collation' => '',
-    'username' => 'root',
-    'password' => 'xx-secret-xxx',
-    'options'  => [],
-    'prefix'   => '',
-    'engine'   => null
+    'driver'    => 'mysql',
+    'dbname'    => 'dbproject',
+    'host'      => 'localhost',
+    'port'      => '3306',
+    'charset'   => 'utf8',
+    'collation' => 'utf8mb4',
+    'username'  => 'root',
+    'password'  => 'root',
+    'options'   => [],
+    'prefix'    => '',
+    'engine'    => null
  ]
 
 ];
+

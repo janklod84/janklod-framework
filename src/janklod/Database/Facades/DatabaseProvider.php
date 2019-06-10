@@ -2,7 +2,7 @@
 namespace JK\Database\Facades;
 
 use JK\Service\ServiceProvider;
-use JK\Database\DB;
+use \DB;
 
 
 

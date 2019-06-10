@@ -15,8 +15,9 @@ class DatabaseConfig
    
 /**
  * Get configuration
- * @var string $driver
- * @return array
+ *
+ * @return string $driver
+ * @return array $config
  * @throws \Exception
 */
 public static function check($driver)
