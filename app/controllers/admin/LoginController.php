@@ -67,9 +67,13 @@ public function index()
              die('OK');
         }
     }
-    */
-
     debug(\DB::instance());
+    */
+    Query::alias();
+    Query::setup(\DB::instance());
+
+
+    
     $this->setMeta('Вход');
     $this->render('/admin/login/form');
 }

@@ -5,12 +5,12 @@ use JK\Console\Console;
 
 
 /**
- * @package JK\Foundation\Shundle 
+ * @package JK\Foundation\Schedule 
 */ 
-class Shundle extends Console 
+class Schedule extends Console 
 {
 
-// protected $name = 'shundle';
+// protected $name = 'schedule';
 
 /**
  * Constructor

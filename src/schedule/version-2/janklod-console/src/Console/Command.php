@@ -12,10 +12,10 @@ abstract class Command implements CommandInterface
 {
 
 /**
- * @var string $signature      [ Signature of command   ]
+ * @var string $argument      [ Signature of command   ]
  * @var string $description   [ Description of command ]
 */
-protected $signature   = 'command:test';
+protected $argument    = 'command:test';
 protected $description = 'description of command';
 
 
@@ -32,14 +32,14 @@ public function __construct()
 
 
 /**
- * Add signature argument
+ * Add argument
  * 
- * @param string $signature 
+ * @param string $argument 
  * @return void
 */
-public function addSignature($signature='')
+public function addArgument($argument='')
 {
-	  $this->signature = $signature;
+	  $this->argument = $argument;
 	  return $this;
 }
 
@@ -58,13 +58,13 @@ public function addDescription($description='')
 
 
 /**
- * Get signature
+ * Get argument
  * 
  * @return string
 */
-public function signature()
+public function argument()
 {
-    return $this->signature;
+    return $this->argument;
 }
 
 

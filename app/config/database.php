@@ -4,7 +4,8 @@ return [
      
 /*
 |------------------------------------------------------------------
-|     CONNECTION TO DATABASE [ avalaibles drivers mysql, sqlite ]
+|     CONNECTION TO DATABASE 
+|     [ avalaibles drivers mysql, sqlite ]
 |------------------------------------------------------------------
 */
 

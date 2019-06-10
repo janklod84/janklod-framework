@@ -5,18 +5,18 @@ namespace JK\Foundation\Commands;
 /**
  * Class generate controller 
  *
- * @package JK\Foundation\Commands\GenerateController
+ * @package JK\Foundation\Commands\GenerateControllerCommand
 */ 
-class GenerateController extends CustomCommand
+class GenerateControllerCommand extends CustomCommand
 {
      
 
 /**
- * @var string $argument      [ Signature of command   ]
- * @var string $description   [ Description of command ]
+ * @var string $signature    [ Signature of command   ]
+ * @var string $description  [ Description of command ]
 */
-// protected $argument  = 'make:controller {--option}';
-protected $argument = 'make:controller';
+// protected $signature  = 'make:controller {--option}';
+protected $signature   = 'make:controller';
 protected $description = 'description of command';
 
 
@@ -43,7 +43,7 @@ public function options($input)
 		if($input->account() > 1)
 		{
 			$argument = str_replace(
-			 ['{--option}'], [$input->argument(2)], $this->argument
+			 ['{--option}'], [$input->argument(2)], $this->signature
 		   );
 		}
 		return $argument;
@@ -63,7 +63,7 @@ public function execute($input=null, $output=null)
 {
    if($input && $output)
    {
-	   if($input->argument(1) === $this->argument) 
+	   if($input->argument(1) === $this->signature) 
 	   {
 	   	   if($controller = $this->task->generate('controller', $input))
 	       {

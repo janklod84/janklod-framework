@@ -2,8 +2,6 @@
 namespace JK\Database;
 
 
-use \Q;
-
 
 /**
  * @package JK\Database\Model
@@ -12,11 +10,11 @@ abstract class Model
 {
 
 /**
- * @var string $model [ This is model name ]
  * @var \JK\Container\ContainerInterface $app
+ * @var \PDO $connection
 */
 protected $app;
-protected $db;
+protected $connection;
 
 
 
@@ -27,9 +25,7 @@ protected $db;
 */
 public function __construct($app)
 {
-	$this->app = $app;
-	$this->db  = $app->db;
-	// Q::setup($this->db);
+
 }
 
 

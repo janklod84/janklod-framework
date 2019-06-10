@@ -2,20 +2,22 @@
 namespace JK\Console;
 
 use JK\Console\IO\InputInterface;
-use JK\Console\IO\OutputInterface; 
+use JK\Console\IO\OutputInterface;
+
 
 /**
- * Command Register [ Chain commands ]
- * @package JK\Console\Command 
+ * Class generate controller 
+ *
+ * @package JK\Console\GenerateControllerCommand 
 */ 
-abstract class Command implements CommandInterface
+class GenerateControllerCommand extends Command
 {
-
-/**
- * @var string $signature      [ Signature of command   ]
+     
+     /**
+ * @var string $argument      [ Signature of command   ]
  * @var string $description   [ Description of command ]
 */
-protected $signature   = 'command:test';
+protected $argument    = 'make:controller';
 protected $description = 'description of command';
 
 
@@ -26,21 +28,20 @@ protected $description = 'description of command';
 */
 public function __construct()
 {
-   if(is_callable([$this, 'configure']))
-   {  $this->configure(); }
+     parent::__construct();
 }
 
 
 /**
- * Add signature argument
+ * Add argument
  * 
- * @param string $signature 
+ * @param string $argument 
  * @return void
 */
-public function addSignature($signature='')
+public function addArgument($argument='')
 {
-	  $this->signature = $signature;
-	  return $this;
+  $this->argument = $argument;
+  return $this;
 }
 
 
@@ -58,13 +59,13 @@ public function addDescription($description='')
 
 
 /**
- * Get signature
+ * Get argument
  * 
  * @return string
 */
-public function signature()
+public function argument()
 {
-    return $this->signature;
+    return $this->argument;
 }
 
 
@@ -92,19 +93,26 @@ public function configure(){}
  * 
  * @param JK\Console\IO\InputInterface $input
  * @param JK\Console\IO\OutputInterface $output
- * 
  * @return mixed
 */
-abstract public function execute(
+public function execute(
 InputInterface $input=null, 
 OutputInterface $output=null
-);
+)
+{
+	
+   echo 'Argument : '. $this->argument. "\n";
+   $output->writeln('Controller successfully generated!');
+	 
+   // die('Controller successfully generated!');
+}
 
 
 /**
-* Roolback command
+* Rollback command
+* 
 * @return mixed
 */
-abstract public function undo();
+public function undo(){}
 
 }

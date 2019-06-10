@@ -35,7 +35,7 @@ const SRC = [
  'Q'        => 'JK\\ORM\\Q'
 ],
 'commands' => [
- \JK\Foundation\Commands\GenerateController::class,
+ \JK\Foundation\Commands\GenerateControllerCommand::class,
 ],
 'locator' => [
   'cache_dir' => '/temp/cache/',

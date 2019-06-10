@@ -4,7 +4,10 @@ namespace app\controllers;
 use JK\Routing\Controller;
 
 
-class AdminController  extends Controller
+/**
+ * @package [ class ]
+*/
+class NewController  extends Controller
 {
   
   /**

@@ -54,12 +54,8 @@ public static function instance()
 */
 private static function connect()
 {
-	$connection = Config::get('db.connection');
+	$connection = Config::get('database.connection');
 	$config = self::config($connection);
-  echo '<pre>';
-  print_r($config);
-  echo '</pre>';
-
 	return Connection::make($connection, $config);
 }
 
@@ -68,54 +64,17 @@ private static function connect()
  * Get config by driver
  * 
  * @param string $key
+ * 
  * @return array
  */
-public static function config($key)
+private static function config($key=null)
 {
-     $data = Config::retrieveGroup('db');
+     $data = Config::retrieveGroup('database');
      if(!empty($data[$key]))
      {
          $data = $data[$key];
      }
      return $data ?? [];
 }
-
-
-
-/**
- * Excecute Query
- * Ex: DB::execute('SELECT * FROM `users`')->fetchAll();
- * @param string $sql 
- * @param array $params 
- * @return \PDOStatement
-*/
-public static function execute($sql, $params=[])
-{
-   try
-   {
-      self::instance()->beginTransaction();
-      $stmt = self::instance()->prepare($sql);
-      $stmt->execute($params);
-      self::instance()->commit();
-      return $stmt;
-
-   }catch(\PDOException $e){
-      self::instance()->rollback();
-      throw new DatabaseException($e->getMessage(), 404);
-   }
-
-}
-
-
-/**
- * Excecute Query
- * @param string $sql 
- * @return bool
-*/
-public static function exec($sql)
-{
-     return self::instance()->exec($sql);
-}
-
 
 }
