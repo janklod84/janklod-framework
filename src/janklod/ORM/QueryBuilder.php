@@ -333,7 +333,7 @@ public function sql()
     $output = [];
     foreach($this->builders as $builder => $params)
     {
-        $output[] = $this->build($builder, $params);
+        $output[] = $this->call($builder, $params);
     }
     return join(' ', $output);
 }
@@ -445,13 +445,13 @@ $alias = null
 
 
 /**
-* Build part
+* Call builder and params
 * 
 * @param string $builder
 * @param array  $params
 * @return string
 */
-protected function build($builder, $params)
+protected function call($builder, $params)
 {
       $builder_name = sprintf(
        '\\JK\\ORM\\Builders\\%sBuilder', 

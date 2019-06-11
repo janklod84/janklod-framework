@@ -359,7 +359,7 @@ public function delete($value=null, $field='id')
 /**
  * Fetch columns table
  * 
- * Ex: Query::table('test')->columns()
+ * Ex: Query::table('users')->columns()
  * or  Query::table()->columns() [ If table yet setted ! ]
  * 
  * @param string $table 
