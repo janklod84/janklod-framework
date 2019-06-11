@@ -26,7 +26,7 @@ private $user;
 */
 public function before()
 {
-     Query::setup(\DB::instance());
+     Query::setup(\DB::instance(), 'users');
 
      # пользователь может попасть в систему 
      # только когда он будет авторизован
@@ -69,7 +69,7 @@ public function index()
       'role' => 3
     ];
 
-    Query::table('users')
+    Query::table()
           ->create($data);
     
 }

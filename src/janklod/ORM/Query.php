@@ -111,9 +111,15 @@ public function alias($alias='QB')
 */
 public static function table($table='')
 {
-    if(self::$table === '')
+    if(self::$table !== '')
     {
-        self::$table = $table;
+        return new static;
+    }else{
+       if($table === '')
+       {
+          exit('Empty Table!');
+       }
+       self::$table = $table;
     }
     return new static;
 }
@@ -304,6 +310,29 @@ public function create($params=[])
 }
 
 
+/**
+ * Update record
+ * 
+ * Ex: Query::table('users')->update([
+ *   'field1' => value1
+ * ], 3)
+ * 
+ * @param array $params
+ * @param mixed $value 
+ * @param string $field
+ * @return 
+*/
+public function update($params=[], $value=null, $field='id')
+{
+  if($params && $value)
+  {
+       $sql = self::$builder
+                  ->update(self::$table)
+                  ->set($params)
+                  ->where($field, $value);
+       return self::execute($sql, self::$builder->values);
+  }
+}
 
 /**
  * Return status execution
