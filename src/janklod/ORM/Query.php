@@ -356,6 +356,22 @@ public function delete($value=null, $field='id')
 
 
 
+/**
+ * Fetch columns table
+ * 
+ * Ex: Query::table('test')->columns()
+ * or  Query::table()->columns() [ If table yet setted ! ]
+ * 
+ * @param string $table 
+ * @return array
+*/
+public function columns()
+{
+   self::ensureSetup();
+   $sql = self::$builder->showColumn(self::$table);
+   return self::execute($sql)->results();
+}
+
 
 /**
  * Return status execution
@@ -447,7 +463,7 @@ public function close()
  * 
  * @return array
 */
-public function queries()
+public static function queries()
 {
     return self::$queries;
 } 

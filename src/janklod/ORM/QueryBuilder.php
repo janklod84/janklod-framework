@@ -284,7 +284,7 @@ public function delete($table='', $alias='')
 * 
 * @param string $table 
 * @param string $alias
-* @return string
+* @return self
 */
 public function truncate($table = null, $alias=null)
 {
@@ -301,7 +301,7 @@ public function truncate($table = null, $alias=null)
  * 
  * @param string $table 
  * @param string $alias
- * @return string
+ * @return self
 */
 public function showColumn($table = null, $alias=null)
 {
@@ -352,6 +352,7 @@ public function __toString()
 
 /**
  * COUNT of column
+ * 
  * @param string $column 
  * @param string $table 
  * @param string $alias
@@ -378,6 +379,7 @@ public function avg($column='', $table='', $alias = null)
 
 /**
  * SUM of column 
+ * 
  * @param string $column 
  * @param string $table 
  * @param string $alias
@@ -392,6 +394,7 @@ public function sum($column='', $table='', $alias = null)
 
 /**
  * MAX of column 
+ * 
  * @param string $column 
  * @param string $table
  * @param string $alias 
@@ -406,6 +409,7 @@ public function max($column='', $table='', $alias = null)
 
 /**
  * MIN of column 
+ * 
  * @param string $column 
  * @param string $table 
  * @param string $alias 
@@ -443,8 +447,8 @@ $alias = null
 /**
 * Build part
 * 
-* @param string $type
-* @param string $params
+* @param string $builder
+* @param array  $params
 * @return string
 */
 protected function build($builder, $params)

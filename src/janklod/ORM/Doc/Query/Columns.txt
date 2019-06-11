@@ -1,0 +1,4 @@
+$pdo = \DB::instance(); 
+Query::setup($pdo);
+
+debug(Query::table()->columns());
