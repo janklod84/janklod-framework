@@ -18,7 +18,6 @@ protected $file;
 /**
  * Constructor
  * 
- * @param string $file 
  * @return void
  */
 public function __construct()
