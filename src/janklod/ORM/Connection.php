@@ -22,7 +22,6 @@ class Connection
  * @const array [ allowed keys ]
 */
 const ALLOWED_CONFIG_KEYS = [
- 'driver',
  'dbname',
  'host',
  'port',

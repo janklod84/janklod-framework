@@ -14,7 +14,7 @@ class InsertBuilder extends CustomBuilder
      */
      public function build()
      {
-             $table = $this->get('table');
+             $table = $this->table();
              $insertQuery = sprintf('INSERT INTO `%s`', $table);
              if($columns = $this->get('columns'))
              {

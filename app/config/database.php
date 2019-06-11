@@ -9,15 +9,13 @@ return [
 |------------------------------------------------------------------
 */
 
-'connection' => 'mysql', // mysql, sqlite, ...
+'connection' => 'mysql', // drivers [ mysql, sqlite, ...]
 'sqlite' => [
-   'driver'   => 'sqlite',
    'dbname'   => '../test.sqlite',	 
    'options'  => [],
    'prefix'   => ''
  ],
  'mysql' => [
-    'driver'    => 'mysql',
     'dbname'    => 'dbproject',
     'host'      => 'localhost',
     'port'      => '3306',

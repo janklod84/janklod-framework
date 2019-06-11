@@ -14,20 +14,21 @@ class SelectBuilder extends CustomBuilder
      */
      public function build()
      {
-         $select = '*';
+         $select =  $this->selected(
+          $this->get('selects')
+         );
          
-         if($selects = $this->params())
-         {
-             if(is_array($selects[0]))
-             {
-                  $select = $this->fields($selects[0]);
-             }else{
-                  $select = $this->fields($selects);
-             }
-
-         }
-         
-         $select =  trim($select, ','); 
          return sprintf('SELECT %s', $select);
+     }
+
+     
+     /**
+      * Recurive
+      * @param array $selects 
+      * @return 
+     */
+     private function recursive($selects)
+     {
+
      }
 }

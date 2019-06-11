@@ -8,4 +8,9 @@ namespace JK\ORM;
 class Model 
 {
 	
+	 /**
+	  * @var string $table
+	 */
+	 public static $table='';
+
 }

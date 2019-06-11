@@ -38,6 +38,7 @@ public function table($table='')
 
 /**
  * Get Table
+ * 
  * @return string
 */
 public function getTable()
@@ -58,7 +59,7 @@ public function getTable()
 public function select(...$selects)
 {
      $this->clear();
-     $this->builders['select'] = $selects;
+     $this->builders['select'] = compact('selects');
      return $this;
 }
 

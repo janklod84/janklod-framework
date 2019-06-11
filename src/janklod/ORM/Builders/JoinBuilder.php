@@ -28,7 +28,7 @@ class JoinBuilder extends CustomBuilder
                       {
                               $joined .= sprintf(' %s JOIN `%s` ON %s ', 
                                               $typed, 
-                                              $join['table'], 
+                                              $this->table(), 
                                               $join['condition']);
                       }
               }

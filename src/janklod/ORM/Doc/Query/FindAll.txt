@@ -1,0 +1,17 @@
+Query::setup(\DB::instance(), 'users');
+
+
+$selects = ['username', 'password', 'role'];
+$result1 = Query::getTable()
+                ->findAll($selects);
+debug($result1);
+
+$result2 = Query::getTable()
+                ->findAll('id', 'username');
+debug($result2);
+
+
+$result3 = Query::getTable()
+            ->findAll();
+
+debug($result3);

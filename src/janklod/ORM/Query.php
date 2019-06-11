@@ -66,7 +66,7 @@ public static function setup(PDO $connection, $table='')
     if(is_null(self::$instance))
     {
          self::$connection = $connection;
-         // self::$builder    = new QueryBuilder();
+         self::$builder    = new QueryBuilder();
          self::$table      = $table;
          self::$connected  = true;
          self::$instance   = new static;
@@ -128,6 +128,47 @@ public static function table($table='')
     return new static;
 }
 
+/**
+ * Get Table
+ * 
+ * @param bool $return
+ * @return string|self
+*/
+public static function getTable($return=false)
+{
+   if($return === true)
+   {
+      return self::$table;
+   }
+   return new static;
+}
+
+
+
+/**
+ * Make transaction
+ * 
+ * @param \Closure $callback
+ * @return mixed
+ * @throws \Exception
+*/
+public static function transaction(\Closure $callback)
+{
+    try
+    {
+        self::ensureSetup();
+        self::$connection->beginTransaction();
+        call_user_func($callback, self::$builder);
+        self::$connection->commit();
+
+    }catch(\PDOException $e){
+
+         self::$connection->rollback();
+         throw new Exception($e->getMessage());
+    }
+
+}
+
 
 /**
  * Execute Query
@@ -174,11 +215,9 @@ public static function execute($sql, $params=[])
 
       // debug
       self::$executed = false;
-      $html  = "<h4>Error Mysql:</h4>";
+      $html  = "<h4>Last Query:</h4>";
       $html .= "<p>%s</p>";
-      $html .= "<h4>Last Query:</h4>";
-      $html .= "<p>%s</p>";
-      echo sprintf($html, $e->getMessage(), $sql);
+      echo sprintf($html, $sql);
       
       // capture exception
       throw new Exception($e->getMessage(), 404);
@@ -190,52 +229,55 @@ public static function execute($sql, $params=[])
 
 
 /**
- * Make transaction
- * 
- * @param \Closure $callback
- * @return mixed
- * @throws \Exception
-*/
-public static function transaction(\Closure $callback)
-{
-    try
-    {
-        self::ensureSetup();
-        self::$connection->beginTransaction();
-        call_user_func($callback, self::$builder);
-        self::$connection->commit();
-
-    }catch(\PDOException $e){
-
-         self::$connection->rollback();
-         throw new Exception($e->getMessage());
-    }
-
-}
-
-/**
  * Make where query
  * 
- * @param  mixed $value
+ * $result = Query::table('users')->where('id', 3);
+ * $result = Query::getTable()->where('id', 3); [ if table is setted yet!]
+ * debug($result);
+ * 
  * @param  string $id
+ * @param  mixed $value
  * @param  string $operator
- * @return self
+ * @return array
 */
-public function where($value, $field='id', $operator='=')
+public function where($field='', $value=null, $operator='=')
 {
+     self::ensureSetup();
+     $sql = self::$builder->select()
+                          ->from(self::$table)
+                          ->where($field, $value, $operator)
+                          ->limit(1);
      
-     return $this;
+     return self::execute($sql, self::$builder->values)
+                 ->first();
 }
 
 /**
  * Find all records
  * 
- * @param mixed $args
+ * 
+ * $result = Query::getTable()->findAll();
+ * 
+ * $selects = ['username', 'password'];
+ * $result = Query::getTable()->findAll($selects);
+ * 
+ * $result = Query::getTable()->findAll('username', 'role');
+ * debug($result);
+ * 
+ * @param mixed ...$selects
  * @return array
 */
-public function findAll(...$args)
+public function findAll(...$selects)
 {
-
+     self::ensureSetup();
+     $sql = self::$builder->select($selects)
+                          ->from(self::$table);
+     echo $sql, '<br>';
+     
+     /*
+     return self::execute($sql)
+                 ->results();
+     */
 }
 
 
@@ -243,14 +285,15 @@ public function findAll(...$args)
  * Return status execution
  * 
  * Exemple:
- * if(Query::execute(sql)->done())
+ * if(Query::done())
  * {
  *    // do something
  * }
  * @return bool
 */
-public function done(): bool
+public static function done(): bool
 {
+   self::ensureSetup();
    return self::$executed;
 }
 

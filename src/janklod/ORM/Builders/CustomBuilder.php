@@ -37,20 +37,90 @@ abstract public function build();
 
 
 /**
-* Field builder
+* Get selected columns
 *
-* @param array $columns 
+* @param array $selects
 * @return string
 */
-protected function fields($columns = null)
+protected function selected($selects=[])
 {
-    $part = '';
-    if(!is_null($columns))
+    $columns = $this->get_select_columns($selects);
+    $selected = '';
+    if(!empty($columns))
     {
-        $part = '`' . implode('`, `', $columns) . '`';
+        foreach($columns as $column)
+        {
+           if(is_string($column))
+           {
+              $selected .= sprintf('`%s`,', $column);
+           }else{
+              $selected = $this->attributes($column);
+           }
+       }
+       return trim($selected, ',');
     }
-    return $part;
+    return "*";
+
 }
+
+
+/**
+ * Get select columns
+ * 
+ * @param array $columns 
+ * @return array
+*/
+public function get_select_columns($columns)
+{
+     if(!empty($columns))
+     {
+        return is_array($columns[0]) ? $columns[0] : $columns;
+     }
+}
+
+
+
+/**
+* Get selected columns
+*
+* @return string
+*/
+protected function selectedOne($columns=[])
+{
+    if(!empty($columns))
+    {
+        $selected = '';
+        foreach($columns as $column)
+        {
+             if(is_string($column))
+             {
+                $selected .= sprintf('`%s`,', $column);
+             }else{
+                $selected = $this->attributes($column);
+             }
+        }
+        return trim($selected, ',');
+    }else{
+        return "*";
+    }
+
+}
+
+
+/**
+ * Build attributes
+ * 
+ * @param array $columns
+ * @return string
+*/
+protected function attributes($columns)
+{
+    if(is_array($columns))
+    {
+        return '`' . implode('`,`', $columns) . '`';
+    }
+}
+
 
 
 /**
