@@ -12,24 +12,23 @@ class Schedule extends Console
 
 // protected $name = 'schedule';
 
+protected $file;
+
+
 /**
  * Constructor
  * 
  * @param string $file 
  * @return void
  */
-public function __construct($file='')
+public function __construct()
 {
-	/*
-	$this->set_base_command(
-      __DIR__.'/commands.php'
-    );
-    */
+    $this->file = Application::instance()->file;
 
     $this->set_base_command(
     	Configuration::SRC['commands']
     );
-	parent::__construct($file);
+	parent::__construct($this->file->to('routes/console.php'));
 }
 
 }
