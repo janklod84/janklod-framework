@@ -243,7 +243,7 @@ public function findAll(...$args)
  * Return status execution
  * 
  * Exemple:
- * if(Query::execution(sql)->done())
+ * if(Query::execute(sql)->done())
  * {
  *    // do something
  * }
