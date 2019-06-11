@@ -62,15 +62,6 @@ public function index()
     // debug(Query::getTable()->findAll(['username', 'role']));
 
     $builder = new QueryBuilder();
-
-    $data = [
-      'username' => 'Michelle122',   
-      'password' => md5('Qwerty'),  
-      'role' => 3
-    ];
-
-    Query::table()
-          ->create($data);
     
 }
 

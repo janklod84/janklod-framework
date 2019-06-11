@@ -1,0 +1,11 @@
+$pdo = \DB::instance(); 
+Query::setup($pdo);
+
+$data = [
+      'username' => 'Michelle122',   
+      'password' => md5('Qwerty'),  
+      'role' => 3
+];
+
+Query::table()
+      ->create($data);

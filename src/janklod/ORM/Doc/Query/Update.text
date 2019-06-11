@@ -1,0 +1,7 @@
+ Query::setup(\DB::instance(), 'users');
+ $data = [
+      'username' => 'UpdatedJean122',   
+];
+
+Query::table()
+      ->update($data, 5);

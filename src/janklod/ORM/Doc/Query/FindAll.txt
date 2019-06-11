@@ -1,5 +1,12 @@
 Query::setup(\DB::instance(), 'users');
 
+======================================================================
+FIND ALL
+======================================================================
+$result = Query::table()
+            ->findAll();
+debug($result);	
+
 
 $selects = ['username', 'password', 'role'];
 $result1 = Query::table()

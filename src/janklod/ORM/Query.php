@@ -199,6 +199,7 @@ public static function execute($sql, $params=[])
 /**
  * Execute simple query
  * 
+ * Query::exec('CREATE DATABASE `test`');
  * @param string $sql 
  * @return bool
 */
@@ -241,7 +242,7 @@ public static function transaction(\Closure $callback)
  * Make where query
  * 
  * $result = Query::table('users')->where('id', 3);
- * $result = Query::getTable()->where('id', 3); [ if table is setted yet!]
+ * $result = Query::table()->where('id', 3); [ if table is setted yet!]
  * debug($result);
  * 
  * @param  string $id
@@ -264,12 +265,12 @@ public function where($field='', $value=null, $operator='=')
  * Find all records
  * 
  * 
- * $result = Query::getTable()->findAll();
+ * $result = Query::table()->findAll();
  * 
  * $selects = ['username', 'password'];
- * $result = Query::getTable()->findAll($selects);
+ * $result = Query::table()->findAll($selects);
  * 
- * $result = Query::getTable()->findAll('username', 'role');
+ * $result = Query::table()->findAll('username', 'role');
  * debug($result);
  * 
  * @param mixed ...$selects
@@ -333,6 +334,29 @@ public function update($params=[], $value=null, $field='id')
        return self::execute($sql, self::$builder->values);
   }
 }
+
+
+/**
+ * Delete one record
+ * 
+ * @param array $params
+ * @param mixed $value 
+ * @param string $field
+ * @return 
+*/
+public function delete($value=null, $field='id')
+{
+   if($value)
+   {
+        $sql = self::$builder
+                   ->delete(self::$table)
+                   ->where($field, $value);
+        return self::execute($sql, self::$builder->values);
+   }
+}
+
+
+
 
 /**
  * Return status execution
