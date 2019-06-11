@@ -173,21 +173,20 @@ private function beforeRender()
      $session = $this->request->session();
      Auth::check($session);
       
-     // Configuration assets
-     Asset::map(Config::group('asset'), base_url());
      
      // Configuration views
-     $this->view->partialDir(Config::get('view.partial'));
-     $layout = $this->currentLayout();
+     // $this->view->partialDir(Config::get('view.partial'));
+     $layout = $this->layout();
      $this->view->setLayout($layout);
 }
 
 
 /**
 * Get current layout
+* 
 * @return mixed
 */
-protected function currentLayout()
+protected function layout()
 {
    if(!$this->layout)
    { return false; }

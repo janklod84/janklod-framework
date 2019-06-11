@@ -81,6 +81,7 @@ public function initialize()
 */
 public function run()
 {   
+  
    if(!$this->request->is('cli'))
    {
 	    // Run all services and modules

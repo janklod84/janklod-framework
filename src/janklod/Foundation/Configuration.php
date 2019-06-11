@@ -17,6 +17,7 @@ const SRC = [
 \JK\Http\Facades\ResponseProvider::class,
 \JK\Routing\Facades\RouterProvider::class, 
 \JK\Loader\Facades\LoaderProvider::class,
+\JK\View\Facades\AssetProvider::class,
 \JK\View\Facades\ViewProvider::class,
 \JK\Database\Facades\DatabaseProvider::class,
 \JK\Validation\Facades\ValidationProvider::class,

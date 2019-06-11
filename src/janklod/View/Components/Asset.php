@@ -136,10 +136,11 @@ public static function style(array $styles)
 
 /**
 * Render all type asset format
+* 
 * @param string $type 
 * @return void
 */
-public static function render(string $type='')
+public static function render(string $type)
 {
   if(isset(self::$assets[$type]))
   {
