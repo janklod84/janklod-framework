@@ -17,7 +17,7 @@ class QueryBuilder
 */
 protected $table = '';
 protected $builders = [];
-public    $values = [];
+public $values = [];
 
 
 /**
