@@ -87,26 +87,13 @@ protected function get_select_columns($columns)
 */
 protected function attributes($columns)
 {
-    if(is_array($columns))
-    {
-        return '`' . implode('`,`', $columns) . '`';
-    }
-}
-
-
-/**
-* THIS TO REPLACE TO function [ attributes() ]
-* 
-* @param array $columns 
-* @return string
-*/
-protected function fields($columns = null)
-{
-    if(!empty($columns))
+    if(is_array($columns) && !empty($columns))
     {
         return '`' . implode('`, `', $columns) . '`';
     }
 }
+
+
 
 /**
 * Get table

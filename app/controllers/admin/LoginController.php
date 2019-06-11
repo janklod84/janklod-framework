@@ -26,7 +26,7 @@ private $user;
 */
 public function before()
 {
-     Query::setup(\DB::instance(), 'users');
+     Query::setup(\DB::instance());
 
      # пользователь может попасть в систему 
      # только когда он будет авторизован
@@ -58,15 +58,20 @@ public function __construct($app)
 */
 public function index()
 {
+    
+    // debug(Query::getTable()->findAll(['username', 'role']));
 
-    /*
-    $builder->insert('orders', [
-      'username' => 'John',   
+    $builder = new QueryBuilder();
+
+    $data = [
+      'username' => 'Michelle122',   
       'password' => md5('Qwerty'),  
-      'role' => 2
-    ])->sql();
-    */
-    // $this->show();
+      'role' => 3
+    ];
+
+    Query::table('users')
+          ->create($data);
+    
 }
 
 

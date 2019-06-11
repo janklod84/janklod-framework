@@ -90,20 +90,6 @@ public static function connect($driver='mysql', $config=[], $table='')
 
 
 /**
- * Execute simple query
- * 
- * @param string $sql 
- * @return bool
-*/
-public static function exec($sql='')
-{
-    self::ensureSetup();
-    return self::$connection 
-                 ->exec($sql);
-}
-
-
-/**
  * Set alias of class
  * 
  * @param string $alias 
@@ -116,6 +102,7 @@ public function alias($alias='QB')
 
 
 
+
 /**
  * Add table
  * 
@@ -124,49 +111,24 @@ public function alias($alias='QB')
 */
 public static function table($table='')
 {
-    self::$table = $table;
+    if(self::$table === '')
+    {
+        self::$table = $table;
+    }
     return new static;
 }
 
 /**
  * Get Table
  * 
- * @param bool $return
- * @return string|self
+ * @return string
 */
-public static function getTable($return=false)
+public static function getTable()
 {
-   if($return === true)
-   {
-      return self::$table;
-   }
-   return new static;
-}
-
-
-
-/**
- * Make transaction
- * 
- * @param \Closure $callback
- * @return mixed
- * @throws \Exception
-*/
-public static function transaction(\Closure $callback)
-{
-    try
+    if(self::$table !== '')
     {
-        self::ensureSetup();
-        self::$connection->beginTransaction();
-        call_user_func($callback, self::$builder);
-        self::$connection->commit();
-
-    }catch(\PDOException $e){
-
-         self::$connection->rollback();
-         throw new Exception($e->getMessage());
+        return self::$table;
     }
-
 }
 
 
@@ -229,6 +191,47 @@ public static function execute($sql, $params=[])
 
 
 /**
+ * Execute simple query
+ * 
+ * @param string $sql 
+ * @return bool
+*/
+public static function exec($sql='')
+{
+    self::ensureSetup();
+    return self::$connection 
+                 ->exec($sql);
+}
+
+
+
+/**
+ * Make transaction
+ * 
+ * @param \Closure $callback
+ * @return mixed
+ * @throws \Exception
+*/
+public static function transaction(\Closure $callback)
+{
+    try
+    {
+        self::ensureSetup();
+        self::$connection->beginTransaction();
+        call_user_func($callback, self::$builder);
+        self::$connection->commit();
+
+    }catch(\PDOException $e){
+
+         self::$connection->rollback();
+         throw new Exception($e->getMessage());
+    }
+
+}
+
+
+
+/**
  * Make where query
  * 
  * $result = Query::table('users')->where('id', 3);
@@ -242,7 +245,6 @@ public static function execute($sql, $params=[])
 */
 public function where($field='', $value=null, $operator='=')
 {
-     self::ensureSetup();
      $sql = self::$builder->select()
                           ->from(self::$table)
                           ->where($field, $value, $operator)
@@ -269,13 +271,38 @@ public function where($field='', $value=null, $operator='=')
 */
 public function findAll(...$selects)
 {
-     self::ensureSetup();
      $sql = self::$builder->select($selects)
                           ->from(self::$table);
-                          
+
      return self::execute($sql)
                  ->results();
 }
+
+
+
+/**
+ * Create new record
+ * 
+ * Ex: Query::table('users')->create([
+ *   'field1' => value1,
+ *   'field2' => value2,
+ *   'field3' => value3
+ * ])
+ * 
+ * @param array $params 
+ * @return 
+*/
+public function create($params=[])
+{
+  if(!empty($params))
+  {
+      $sql = self::$builder
+                  ->insert(self::$table)
+                  ->set($params);
+      return self::execute($sql, self::$builder->values);
+  }
+}
+
 
 
 /**
@@ -290,13 +317,14 @@ public function findAll(...$selects)
 */
 public static function done(): bool
 {
-   self::ensureSetup();
    return self::$executed;
 }
 
 
 /**
  * Fetch all records
+ * 
+ * Ex: Query::execute('SELECT * FROM my_table')->results();
  * 
  * @return mixed
 */

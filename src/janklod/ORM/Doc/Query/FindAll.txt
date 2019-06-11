@@ -2,16 +2,16 @@ Query::setup(\DB::instance(), 'users');
 
 
 $selects = ['username', 'password', 'role'];
-$result1 = Query::getTable()
+$result1 = Query::table()
                 ->findAll($selects);
 debug($result1);
 
-$result2 = Query::getTable()
+$result2 = Query::table()
                 ->findAll('id', 'username');
 debug($result2);
 
 
-$result3 = Query::getTable()
+$result3 = Query::table()
             ->findAll();
 
 debug($result3);
@@ -21,15 +21,15 @@ Query::setup(\DB::instance(), 'users');
 
 echo '<h3>QUERY</h3>';
 $selects = ['username', 'password', 'role'];
-Query::getTable()
+Query::table()
  ->findAll($selects);
 // debug($result1);
 
 
-$result2 = Query::getTable()
+$result2 = Query::table()
             ->findAll('id', 'username');
 debug($result2);
 
 
-$result3 = Query::getTable()
+$result3 = Query::table()
         ->findAll();

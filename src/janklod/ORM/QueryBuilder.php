@@ -207,12 +207,12 @@ public function join($condition='', $type='INNER', $table='')
 
 /**
   * Insert data 
-  * 
-  * @param array $params 
+  *  
   * @param string $table
+  * @param array $params
   * @return self
  */
- public function insert($params = [], $table='')
+ public function insert($table='', $params = [])
  {
   $this->clear();
   $this->table = $table;
@@ -228,11 +228,11 @@ public function join($condition='', $type='INNER', $table='')
 /**
 * Update data
 * 
-* @param array $params
 * @param string $table 
+* @param array $params
 * @return self
 */
-public function update($params = [], $table='')
+public function update($table='', $params = [])
 {
   $this->clear();
   $this->table = $table;

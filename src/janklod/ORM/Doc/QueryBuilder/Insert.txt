@@ -1,0 +1,10 @@
+$data = [
+      'username' => 'John',   
+      'password' => md5('Qwerty'),  
+      'role' => 2
+];
+
+echo $builder->insert('users')
+             ->set($data);
+
+debug($builder->values);

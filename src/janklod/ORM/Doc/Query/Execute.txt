@@ -19,13 +19,13 @@ $result = Query::table('users')
 2.
 $pdo = \DB::instance(); 
 Query::setup($pdo, 'users');
-$result = Query::getTable()
+$result = Query::table()
                 ->where('id', 3);
 debug($result);
 
 ======================================================================
 FIND ALL
 ======================================================================
-$result = Query::getTable()
+$result = Query::table()
             ->findAll();
 debug($result);	
