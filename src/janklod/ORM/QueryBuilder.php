@@ -318,14 +318,15 @@ public function clear()
 
 /**
  * Create SQL
+ * 
  * @return string
 */
 public function sql()
 {
     $output = [];
-    foreach($this->sql as $type => $params)
+    foreach($this->sql as $key => $params)
     {
-        $output[] = $this->build($type, $params);
+        $output[] = $this->build($key, $params);
     }
     return join(' ', $output);
 }

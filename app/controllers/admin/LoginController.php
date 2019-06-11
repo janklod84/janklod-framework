@@ -62,11 +62,10 @@ public function index()
 
     $selects = ['username', 'password', 'role', 'deleted'];
 
-    echo $builder->select('id', 'client', 'transaction');
-                 // ->from('orders', 'o');
+    echo $builder->select('id', 'client', 'transaction')
+                 ->from('orders', 'o');
  
     echo '<br>';
-    die;
     echo $builder->select('username', 'password', 'role')
                  ->from('users', 'u')
                  ->where('id', 3);
