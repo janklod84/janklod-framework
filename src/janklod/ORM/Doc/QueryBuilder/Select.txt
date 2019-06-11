@@ -1,0 +1,14 @@
+$builder = new QueryBuilder();
+
+1.
+$selects = ['username', 'password', 'role', 'deleted'];
+echo $builder->select($selects)
+             ->from('users', 'u')
+             ->sql();
+2.
+echo $builder->select('username', 'password', 'role', 'deleted')
+             ->from('users', 'u')
+             ->sql();
+
+Result:
+SELECT `username`, `password`, `role`, `deleted` FROM `users` AS u 

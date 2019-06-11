@@ -14,9 +14,9 @@ class SelectBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $selects = $this->params();
          $select = '*';
-         if(!empty($selects))
+         
+         if($selects = $this->params())
          {
              if(is_array($selects[0]))
              {
@@ -26,13 +26,8 @@ class SelectBuilder extends CustomBuilder
              }
 
          }
-
-         $select =  trim($select, ','); 
-         if($this->table)
-         {
-             $select .= sprintf(' FROM `%s` ', $this->table);
-         }
          
+         $select =  trim($select, ','); 
          return sprintf('SELECT %s', $select);
      }
 }

@@ -16,22 +16,8 @@ class QueryBuilder
 * @var array  $values
 */
 protected $table = '';
-protected $sql = '';
+protected $sql = [];
 public $values = [];
-const NS_BUILDER = '\\JK\\ORM\\Builders\\%sBuilder';
-
-
-/**
- * Constructor
- * Ex: $queryBuilder = new QueryBuilder('users');
- * 
- * @param string $table 
- * @return void
- */
-public function __construct($table='')
-{
-    $this->table = $table;
-}
 
 
 /**
@@ -41,7 +27,10 @@ public function __construct($table='')
 */
 public function table($table='')
 {
-    $this->table = $table;
+    if($this->table === '')
+    {
+       $this->table = $table;
+    }
     return $this;
 }
 
@@ -58,8 +47,10 @@ public function getTable()
 
 /**
  * Select 
+ * 
  * Ex: $this->select('username', 'login', '...')
  * Ex: $this->select() 'By default' all columns will be selected '*'
+ * 
  * @param string ...$selects 
  * @return self
 */
@@ -201,7 +192,7 @@ public function limit($limit='', $offset = 0)
 */
 public function join($condition='', $type='INNER', $table='')
 {
-	$this->table = $table;
+	  $this->table = $table;
     $this->sql['join'][$type][] = compact('condition');
     return $this;
 }
@@ -280,6 +271,69 @@ public function delete($table='', $alias='')
 
 
 /**
+* Truncate table
+* @param string $table 
+* @return string
+*/
+public function truncate($table = null)
+{
+    $this->clear();
+    $this->sql['truncate'] = compact('table');
+    return $this;
+}
+
+
+
+/**
+ * Show all columns of table
+ * @param string $table 
+ * @return string
+*/
+public function showColumn($table = null)
+{
+  $this->clear();
+  $this->sql['showColumn'] = compact('table');
+  return $this;
+}
+
+
+/**
+* Remove values
+* @return void
+*/
+public function clear()
+{
+    $this->sql = [];
+    $this->values = [];
+}
+
+/**
+ * Create SQL
+ * @return string
+*/
+public function sql()
+{
+    $output = [];
+    foreach($this->sql as $type => $params)
+    {
+        $output[] = $this->build($type, $params);
+    }
+    return join(' ', $output);
+}
+
+
+/**
+ * Get output as string
+ * @return string
+*/
+public function __toString()
+{
+    return $this->sql();
+}
+
+
+
+/**
  * COUNT of column
  * @param string $column 
  * @param string $table 
@@ -346,71 +400,6 @@ public function min($column='', $table='', $alias = null)
 }
 
 
-
-/**
-* Truncate table
-* @param string $table 
-* @return string
-*/
-public function truncate($table = null)
-{
-      $this->clear();
-      $this->sql['truncate'] = compact('table');
-      return $this;
-}
-
-
-
-/**
- * Show all columns of table
- * @param string $table 
- * @return string
-*/
-public function showColumn($table = null)
-{
-  $this->clear();
-  $this->sql['showColumn'] = compact('table');
-  return $this;
-}
-
-
-/**
-* Remove values
-* @return void
-*/
-public function clear()
-{
-    $this->sql = [];
-    $this->values = [];
-    $this->table  = '';
-}
-
-/**
- * Create SQL
- * @return string
-*/
-public function sql()
-{
-    $output = [];
-    foreach($this->sql as $type => $params)
-    {
-        $output[] = $this->build($type, $params);
-    }
-    return join(' ', $output);
-}
-
-
-/**
- * Get output as string
- * @return string
-*/
-public function __toString()
-{
-    return $this->sql();
-}
-
-
-
 /**
  * Function
  * @param string $column 
@@ -425,7 +414,8 @@ $type=null,
 $alias = null
 )
 {
-    $this->sql['function'] = compact('column', 'table', 'type', 'alias');
+    $this->table = $table;
+    $this->sql['function'] = compact('column', 'type', 'alias');
     return $this;
 } 
 
@@ -439,7 +429,10 @@ $alias = null
 */
 protected function build($class_name, $params)
 {
-      $builder_name = sprintf(self::NS_BUILDER, ucfirst($class_name));
+      $builder_name = sprintf(
+       '\\JK\\ORM\\Builders\\%sBuilder', 
+       ucfirst($class_name)
+      );
       if(!class_exists($builder_name))
       {
           die(sprintf('class <strong>%s</strong> does not exist!', $builder_name));

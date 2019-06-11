@@ -14,7 +14,9 @@ class FromBuilder extends CustomBuilder
      */
      public function build()
      {
-     	 $table = $this->table();
-         return sprintf('FROM %s', $table);
+     	 if($table = $this->table())
+     	 {
+            return sprintf('FROM %s', $table);
+         }
      }
 }

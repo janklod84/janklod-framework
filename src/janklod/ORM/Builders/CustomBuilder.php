@@ -38,17 +38,18 @@ abstract public function build();
 
 /**
 * Field builder
-* [ '`' . implode('`, `', $columns) . '`' ]
+*
 * @param array $columns 
 * @return string
 */
 protected function fields($columns = null)
 {
-    if(!empty($columns))
+    $part = '';
+    if(!is_null($columns))
     {
-        return '`' . implode('`, `', $columns) . '`';
+        $part = '`' . implode('`, `', $columns) . '`';
     }
-    return '*';
+    return $part;
 }
 
 
@@ -59,32 +60,32 @@ protected function fields($columns = null)
 protected function table()
 {
    $tableString = '';
-   $table = $this->get('table') ?: $this->table;
-   if($table)
+   if($this->table)
    {
-       $tableString .= sprintf('`%s`', $table);
+       $tableString .= sprintf('`%s`', $this->table);
        if($alias = $this->get('alias'))
        {
            $tableString .= ' AS '.$alias;
        }
-       return $tableString;
    }
+   return $tableString;
 }
 
 
 /**
 * assign fields
+* 
 * @param array $fields 
 * @return string
 */
 protected function assign($fields = [])
 {
-   $set = '';
+   $set = [];
    foreach($fields as $field)
    {
-       $set .= sprintf(' `%s` = ?,', $field);
+       array_push($set, sprintf(' `%s` = ?', $field));
    }
-   return trim($set, ',');
+   return join(',', $set);
 }
 
 
