@@ -306,7 +306,7 @@ public function showColumn($table = null, $alias=null)
 
 
 /**
-* Remove values
+* Remove datas
 * 
 * @return void
 */
