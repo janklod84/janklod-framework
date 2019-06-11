@@ -198,9 +198,9 @@ public function limit($limit='', $offset = 0)
 */
 public function join($condition='', $type='INNER', $table='')
 {
-	  $this->table = $table;
-    $this->builders['join'][$type][] = compact('condition');
-    return $this;
+  $this->table = $table;
+  $this->builders['join'][$type][] = compact('condition');
+  return $this;
 }
 
 
