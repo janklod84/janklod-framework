@@ -354,7 +354,7 @@ public function __toString()
  * @param string $column 
  * @param string $table 
  * @param string $alias
- * @return QueryBuilder
+ * @return self
 */
 public function count($column='', $table='', $alias = null)
 {
@@ -367,7 +367,7 @@ public function count($column='', $table='', $alias = null)
  * @param string $column 
  * @param string $table 
  * @param string $alias
- * @return QueryBuilder
+ * @return self
 */
 public function avg($column='', $table='', $alias = null)
 {
@@ -380,7 +380,7 @@ public function avg($column='', $table='', $alias = null)
  * @param string $column 
  * @param string $table 
  * @param string $alias
- * @return QueryBuilder
+ * @return self
 */
 public function sum($column='', $table='', $alias = null)
 {
@@ -394,7 +394,7 @@ public function sum($column='', $table='', $alias = null)
  * @param string $column 
  * @param string $table
  * @param string $alias 
- * @return QueryBuilder
+ * @return self
 */
 public function max($column='', $table='', $alias = null)
 {
@@ -408,7 +408,7 @@ public function max($column='', $table='', $alias = null)
  * @param string $column 
  * @param string $table 
  * @param string $alias 
- * @return QueryBuilder
+ * @return self
 */
 public function min($column='', $table='', $alias = null)
 {

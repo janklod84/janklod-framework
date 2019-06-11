@@ -58,29 +58,7 @@ public function __construct($app)
 */
 public function index()
 {
-    $builder = new QueryBuilder();
-
-    $selects = ['username', 'password', 'role', 'deleted'];
-
-    echo $builder->select('id', 'client', 'transaction')
-                 ->from('orders', 'o');
- 
-    echo '<br>';
-    echo $builder->select('username', 'password', 'role')
-                 ->from('users', 'u')
-                 ->where('id', 3);
-
-
-    debug($builder->values);
-
-    echo '<br>';
-    echo $builder->select()
-                 ->from('products', 'p')
-                 ->where('id', 6)
-                 ->where('name', 'tomates');
-
-
-    debug($builder->values);
+    
 
     /*
     $builder->insert('orders', [
