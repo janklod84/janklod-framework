@@ -339,7 +339,6 @@ public function update($params=[], $value=null, $field='id')
 /**
  * Delete one record
  * 
- * @param array $params
  * @param mixed $value 
  * @param string $field
  * @return 
