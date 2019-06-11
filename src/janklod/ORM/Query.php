@@ -272,12 +272,9 @@ public function findAll(...$selects)
      self::ensureSetup();
      $sql = self::$builder->select($selects)
                           ->from(self::$table);
-     echo $sql, '<br>';
-     
-     /*
+                          
      return self::execute($sql)
                  ->results();
-     */
 }
 
 

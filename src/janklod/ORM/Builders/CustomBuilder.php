@@ -45,9 +45,9 @@ abstract public function build();
 protected function selected($selects=[])
 {
     $columns = $this->get_select_columns($selects);
-    $selected = '';
     if(!empty($columns))
     {
+        $selected = '';
         foreach($columns as $column)
         {
            if(is_string($column))
@@ -65,45 +65,17 @@ protected function selected($selects=[])
 
 
 /**
- * Get select columns
+ * Get selects
  * 
  * @param array $columns 
  * @return array
 */
-public function get_select_columns($columns)
+protected function get_select_columns($columns)
 {
      if(!empty($columns))
      {
         return is_array($columns[0]) ? $columns[0] : $columns;
      }
-}
-
-
-
-/**
-* Get selected columns
-*
-* @return string
-*/
-protected function selectedOne($columns=[])
-{
-    if(!empty($columns))
-    {
-        $selected = '';
-        foreach($columns as $column)
-        {
-             if(is_string($column))
-             {
-                $selected .= sprintf('`%s`,', $column);
-             }else{
-                $selected = $this->attributes($column);
-             }
-        }
-        return trim($selected, ',');
-    }else{
-        return "*";
-    }
-
 }
 
 
@@ -122,6 +94,19 @@ protected function attributes($columns)
 }
 
 
+/**
+* THIS TO REPLACE TO function [ attributes() ]
+* 
+* @param array $columns 
+* @return string
+*/
+protected function fields($columns = null)
+{
+    if(!empty($columns))
+    {
+        return '`' . implode('`, `', $columns) . '`';
+    }
+}
 
 /**
 * Get table

@@ -12,3 +12,29 @@ echo $builder->select('username', 'password', 'role', 'deleted')
 
 Result:
 SELECT `username`, `password`, `role`, `deleted` FROM `users` AS u 
+
+===========================================================================
+
+
+$builder = new \JK\ORM\QueryBuilder();
+
+$selects = ['username', 'password', 'role'];
+
+echo '<h3>QUERY BUILDER</h3>';
+echo $builder->select($selects)
+         ->from('users')
+         ->sql();
+
+echo '<br>';  
+
+echo $builder->select('field1', 'field2')
+         ->from('users')
+         ->sql();
+
+echo '<br>';  
+
+echo $builder->select()
+         ->from('users')
+         ->sql();
+
+echo '<br>';  

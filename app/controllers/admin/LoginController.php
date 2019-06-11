@@ -58,56 +58,7 @@ public function __construct($app)
 */
 public function index()
 {
-    /*
-    $result = Query::table('users')
-                    ->where('id', 3);
-   
-    $result = Query::getTable()
-                    ->where('id', 3);
-    debug($result);
-    'username', 'password', 'role'
-    */
-    
-    $builder = new \JK\ORM\QueryBuilder();
 
-    $selects = ['username', 'password', 'role'];
-   
-    echo '<h3>QUERY BUILDER</h3>';
-    echo $builder->select($selects)
-                 ->from('users')
-                 ->sql();
-
-    echo '<br>';  
-
-    echo $builder->select('field1', 'field2')
-                 ->from('users')
-                 ->sql();
-
-    echo '<br>';  
-
-    echo $builder->select()
-                 ->from('users')
-                 ->sql();
-
-    echo '<br>';     
-    
-
-    echo '<h3>QUERY</h3>';
-    $selects = ['username', 'password', 'role'];
-    Query::getTable()
-         ->findAll($selects);
-    // debug($result1);
-
-
-    $result2 = Query::getTable()
-                    ->findAll('id', 'username');
-    debug($result2);
-
-
-    $result3 = Query::getTable()
-                ->findAll();
-
-    // debug($result3);
     /*
     $builder->insert('orders', [
       'username' => 'John',   
