@@ -12,12 +12,12 @@ class QueryBuilder
    
 /**
 * @var string $table
-* @var array  $sql
+* @var array  $builders
 * @var array  $values
 */
 protected $table = '';
-protected $sql = [];
-public $values = [];
+protected $builders = [];
+public    $values = [];
 
 
 /**
@@ -58,13 +58,14 @@ public function getTable()
 public function select(...$selects)
 {
      $this->clear();
-     $this->sql['select'] = $selects;
+     $this->builders['select'] = $selects;
      return $this;
 }
 
 
 /**
  * From
+ * 
  * @param string $table 
  * @param string $alias 
  * @return self
@@ -72,13 +73,14 @@ public function select(...$selects)
 public function from($table='', $alias='')
 {
     $this->table = $table;
-    $this->sql['from'] = compact('alias');
+    $this->builders['from'] = compact('alias');
     return $this;
 }
 
 
 /**
   * Where
+  * 
   * where('id', 5)
   * where('login', 'superadmin')
   * where('login', '%test%', 'LIKE')
@@ -99,6 +101,7 @@ public function where($column='', $value=null, $operator='=')
 
 /**
  * Condition AND
+ * 
  * @param string $column 
  * @param string $value 
  * @param string $operator 
@@ -113,6 +116,7 @@ public function and($column = '', $value = '', $operator = '=')
 
 /**
  * Condition OR
+ * 
  * @param string $column 
  * @param string $value 
  * @param string $operator 
@@ -127,6 +131,7 @@ public function or($column = '', $value = '', $operator = '=')
 
 /**
   * Conditions
+  * 
   * by default $operator is '='
   * and By default AND
   * 
@@ -149,7 +154,7 @@ public function condition($condition='', $value, $type='AND')
 {
    if(!$this->isBinded($condition)) 
    { exit('You must to bind param : '. $condition); }
-   $this->sql['where'][$type][] = $condition;
+   $this->builders['where'][$type][] = $condition;
    $this->addValue($value);
    return $this;
 }
@@ -159,11 +164,11 @@ public function condition($condition='', $value, $type='AND')
  * Order Query [Filter]
  * @param string $field
  * @param string $sort 
- * @return $this
+ * @return self
 */
 public function orderBy($field='', $sort='ASC')
 {
-    $this->sql['orderBy'][] = compact('field', 'sort');
+    $this->builders['orderBy'][] = compact('field', 'sort');
     return $this;
 }
 
@@ -176,7 +181,7 @@ public function orderBy($field='', $sort='ASC')
 */
 public function limit($limit='', $offset = 0)
 {
-    $this->sql['limit'] = compact('limit', 'offset');
+    $this->builders['limit'] = compact('limit', 'offset');
     return $this;
 }
 
@@ -194,7 +199,7 @@ public function limit($limit='', $offset = 0)
 public function join($condition='', $type='INNER', $table='')
 {
 	  $this->table = $table;
-    $this->sql['join'][$type][] = compact('condition');
+    $this->builders['join'][$type][] = compact('condition');
     return $this;
 }
 
@@ -211,7 +216,7 @@ public function join($condition='', $type='INNER', $table='')
   $this->clear();
   $this->table = $table;
   $columns = array_keys($params);
-  $this->sql['insert'] = compact('columns');
+  $this->builders['insert'] = compact('columns');
   $this->addValue(
     array_values($params)
   );
@@ -231,7 +236,7 @@ public function update($params = [], $table='')
   $this->clear();
   $this->table = $table;
   $columns = array_keys($params);
-  $this->sql['update'] = compact('columns');
+  $this->builders['update'] = compact('columns');
   $this->addValue(
     array_values($params)
   );
@@ -241,12 +246,13 @@ public function update($params = [], $table='')
 
  /**
   * Set data
+  * 
   * @param array $data 
   * @return self
  */
  public function set($data=[])
  {
-   $this->sql['set'] = array_keys($data);
+   $this->builders['set'] = array_keys($data);
    $this->addValue(
       array_values($data)
    );
@@ -266,7 +272,7 @@ public function delete($table='', $alias='')
 {
     $this->clear();
     $this->table = $table;
-    $this->sql['delete'] = compact('alias');
+    $this->builders['delete'] = compact('alias');
     return $this;
 }
 
@@ -283,7 +289,7 @@ public function truncate($table = null, $alias=null)
 {
     $this->clear();
     $this->table = $table;
-    $this->sql['truncate'] = compact('alias');
+    $this->builders['truncate'] = compact('alias');
     return $this;
 }
 
@@ -300,7 +306,7 @@ public function showColumn($table = null, $alias=null)
 {
   $this->clear();
   $this->table = $table;
-  $this->sql['showColumn'] = compact('alias');
+  $this->builders['showColumn'] = compact('alias');
   return $this;
 }
 
@@ -312,7 +318,7 @@ public function showColumn($table = null, $alias=null)
 */
 public function clear()
 {
-    $this->sql = [];
+    $this->builders = [];
     $this->values = [];
 }
 
@@ -324,9 +330,9 @@ public function clear()
 public function sql()
 {
     $output = [];
-    foreach($this->sql as $key => $params)
+    foreach($this->builders as $builder => $params)
     {
-        $output[] = $this->build($key, $params);
+        $output[] = $this->build($builder, $params);
     }
     return join(' ', $output);
 }
@@ -412,9 +418,11 @@ public function min($column='', $table='', $alias = null)
 
 /**
  * Function
+ * 
  * @param string $column 
  * @param string $table
  * @param string $type 
+ * @param string $alias 
  * @return self
 */
 protected function functionQuery(
@@ -425,7 +433,7 @@ $alias = null
 )
 {
     $this->table = $table;
-    $this->sql['function'] = compact('column', 'type', 'alias');
+    $this->builders['function'] = compact('column', 'type', 'alias');
     return $this;
 } 
 
@@ -433,15 +441,16 @@ $alias = null
 
 /**
 * Build part
+* 
 * @param string $type
 * @param string $params
 * @return string
 */
-protected function build($class_name, $params)
+protected function build($builder, $params)
 {
       $builder_name = sprintf(
        '\\JK\\ORM\\Builders\\%sBuilder', 
-       ucfirst($class_name)
+       ucfirst($builder)
       );
       if(!class_exists($builder_name))
       {
