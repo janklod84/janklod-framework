@@ -22,6 +22,7 @@ public $values = [];
 
 /**
  * Add Table
+ * 
  * @param string $table 
  * @return self
 */
@@ -208,8 +209,8 @@ public function join($condition='', $type='INNER', $table='')
  public function insert($params = [], $table='')
  {
   $this->clear();
-  $columns = array_keys($params);
   $this->table = $table;
+  $columns = array_keys($params);
   $this->sql['insert'] = compact('columns');
   $this->addValue(
     array_values($params)
@@ -228,8 +229,8 @@ public function join($condition='', $type='INNER', $table='')
 public function update($params = [], $table='')
 {
   $this->clear();
-  $columns = array_keys($params);
   $this->table = $table;
+  $columns = array_keys($params);
   $this->sql['update'] = compact('columns');
   $this->addValue(
     array_values($params)
@@ -256,6 +257,7 @@ public function update($params = [], $table='')
 
 /**
  * Delete
+ * 
  * @param string $table 
  * @param string $alias
  * @return self
@@ -272,13 +274,16 @@ public function delete($table='', $alias='')
 
 /**
 * Truncate table
+* 
 * @param string $table 
+* @param string $alias
 * @return string
 */
-public function truncate($table = null)
+public function truncate($table = null, $alias=null)
 {
     $this->clear();
-    $this->sql['truncate'] = compact('table');
+    $this->table = $table;
+    $this->sql['truncate'] = compact('alias');
     return $this;
 }
 
@@ -286,19 +291,23 @@ public function truncate($table = null)
 
 /**
  * Show all columns of table
+ * 
  * @param string $table 
+ * @param string $alias
  * @return string
 */
-public function showColumn($table = null)
+public function showColumn($table = null, $alias=null)
 {
   $this->clear();
-  $this->sql['showColumn'] = compact('table');
+  $this->table = $table;
+  $this->sql['showColumn'] = compact('alias');
   return $this;
 }
 
 
 /**
 * Remove values
+* 
 * @return void
 */
 public function clear()
