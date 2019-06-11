@@ -28,7 +28,7 @@ class SelectBuilder extends CustomBuilder
          }
 
          $select =  trim($select, ','); 
-         if($this->table !== '')
+         if($this->table)
          {
              $select .= sprintf(' FROM `%s` ', $this->table);
          }

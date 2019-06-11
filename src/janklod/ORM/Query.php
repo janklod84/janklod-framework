@@ -82,11 +82,7 @@ public static function setup(PDO $connection, $table='')
  * @param string $table 
  * @return self
  */
-public static function connect(
-$driver='mysql', 
-$config=[], 
-$table=''
-)
+public static function connect($driver='mysql', $config=[], $table='')
 {
       $connection = Connection::make($driver, $config);
       return self::setup($connection, $table);
@@ -136,7 +132,8 @@ public static function table($table='')
 /**
  * Execute Query
  * 
- * Ex: Query::execute('SELECT * FROM `users` WHERE id = ?', ['id' => 3]);
+ * Ex: Query::execute('SELECT * FROM `users` WHERE id = ?', [3]);
+ * Ex: Query::execute('SELECT * FROM `users` WHERE id = :id', ['id' => 3]);
  * 
  * @param string $sql 
  * @param array  $params 
