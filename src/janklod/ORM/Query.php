@@ -24,11 +24,10 @@ class Query
 * @var  int             $lastId       [ Last insert id ]
 * @var  array           $arguments    [ ]
 * @var  array           $queries      [ Total executed SQL queries ]
-* @var  bool            $error        [ Error status ]
 * @var  bool            $executed     [ Excecution status ]
 * @var  bool            $connected    [ Connection status ]
 * @var  string          $fetchHandler [ FetchMode handler ]
-* @var  \JK\ORM\Queries\QB $builder
+* @var  QueryBuilder    $builder      [ Query builder ]
 * @var  string          $sql          [ SQL request ]
 * @var  string          $table        [ Name of table ]
 */
@@ -40,7 +39,6 @@ protected static $count;
 protected static $lastId;
 protected static $arguments = [];
 protected static $queries   = [];
-protected static $error     = false;
 protected static $executed  = false;
 protected static $connected = false;
 protected static $builder;
@@ -68,10 +66,24 @@ public static function setup(PDO $connection, $table='')
          self::$connection = $connection;
          self::$builder    = new QueryBuilder();
          self::$table      = $table;
-         self::$connected  = true;
          self::$instance   = new static;
+         self::connection_status();
     }
     return self::$instance;
+}
+
+/**
+ * Get connection status
+ * 
+ * @return void
+ */
+public static function connection_status()
+{
+     if(self::$connected === true)
+     {
+         exit('You are already connected to Query [ ORM ]');
+     }
+     self::$connected = true;
 }
 
 /**
