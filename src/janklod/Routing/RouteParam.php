@@ -30,13 +30,15 @@ private static $namedRoutes = [];
  * 
  * @param   string   $path 
  * @param   string   $callback 
+ * @param   string   $name 
  * @param   string   $method 
  * @return  void
  */
-public function __construct($path, $callback, $method='')
+public function __construct($path, $callback, $name=null, $method='GET')
 {
     $this->setPath($path);
     $this->setCallback($callback);
+    $this->setName($name);
     $this->setMethod($method);
 }
 
@@ -131,6 +133,37 @@ public function setName($name)
 public function name()
 {
     return $this->name;
+}
+
+
+/**
+ * Add named routes
+ * 
+ * @param string $name 
+ * @return void
+*/
+public function namedRoutes($name)
+{
+   self::$namedRoutes[$name] = $this;
+}
+
+
+/**
+ * Do somes actions before storage
+ * 
+ * @return void
+*/
+public function beforeStorage()
+{
+	if(is_string($this->callback) && $this->name === null)
+    {
+          $this->setName($this->callback);
+    }
+
+    if($this->name)
+    {
+         $this->namedRoutes($this->name);
+    }
 }
 
 

@@ -83,6 +83,7 @@ public static function group($options = [], \Closure $callback)
 }
 
 
+
 /**
 * Add prefixed routes and controller
 * 
@@ -108,7 +109,9 @@ public static function prefix($prefixes = [], \Closure $callback)
 */
 public static function module(string $module, \Closure $callback)
 {  
-    
+     self::$module = $module;
+     call_user_func($callback);
+     $module = [];
 }
 
 
@@ -121,7 +124,9 @@ public static function module(string $module, \Closure $callback)
 */
 public static function middleware($middleware=[], \Closure $callback)
 {  
-    
+     self::$middleware = $middleware;
+     call_user_func($callback);
+     $middleware = [];
 }
 
 
@@ -151,8 +156,10 @@ public static function url(string $name, array $params = [])
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route custom
-     $route = new RouteParam($path, $callback, $method);
+     $route = new RouteParam($path, $callback, $name, $method);
 
+     # before storage
+     $route->beforeStorage();
 
      # storage routes
      RouteCollection::store($method, $route);
