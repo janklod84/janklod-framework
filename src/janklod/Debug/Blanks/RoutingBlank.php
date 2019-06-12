@@ -33,7 +33,7 @@ public function output()
       $html .= '#';
       $html .= '</th>';
       $html .= '<th scope="row">'; 
-      $html .= '<code>/';
+      $html .= '<code>';
       $html .=  $this->app->get('current.route')['path'];
       $html .= '</code>'; 
       $html .= '</th>';

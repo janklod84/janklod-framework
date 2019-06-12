@@ -12,6 +12,14 @@ class RouterProvider extends ServiceProvider
 {
         
 
+private function dd($arr, $die=false)
+{
+	 echo '<pre>';
+	 print_r($arr);
+	 echo '</pre>';
+	 if($die) die;
+}
+
 /**
  * Call routes
  * @return void
@@ -19,6 +27,10 @@ class RouterProvider extends ServiceProvider
 public function boot()
 {
    $this->app->file->call('routes/app.php');
+
+   $router = new Router();
+   $router->dispatch();
+   $this->dd($router);
 }
 
 
@@ -30,10 +42,11 @@ public function boot()
 public function register()
 {
 	// add more fonctionnalites here [ http://localhost:8000/ ]
-	$url = $this->app->request->get('url') ?? '/?';
-    $this->app->singleton('router', function () use($url) {
-         return new Router($url);
-    });
+	// $url = $this->app->request->get('url') ?? '/?';
+	// $url = $this->app->request->get('url') ?? '';
+ //    $this->app->singleton('router', function () use($url) {
+ //         return new Router($url);
+ //    });
 }
 
 
@@ -44,9 +57,9 @@ public function register()
 */
 public function after()
 {
-	$this->app->router->addRoutes(
-	  \JK\Routing\Route\RouteCollection::all()
-	);
+	// $this->app->router->addRoutes(
+	//   \JK\Routing\Route\RouteCollection::all()
+	// );
 }
 
 

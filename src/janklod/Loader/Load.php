@@ -43,7 +43,7 @@ public function __construct($app)
 public function callAction($callback, $matches=[])
 {
       $output = null;
-
+     
       if(is_string($callback) && strpos($callback, '@') !== false) 
       {
           list($controller, $action) = explode('@', $callback, 2);
@@ -56,19 +56,24 @@ public function callAction($callback, $matches=[])
             'current.action' => $action
           ]);
           
+          $callback = [$controllerObj, $action];
+          if(!is_callable($callback))
+          {
+              throw new \Exception(
+                '<b>Sorry, Can not call this route. 
+                May be current route already used</b>'
+              );
+              
+          }
           $this->call([$controllerObj, 'before']);
-          $output = call_user_func_array([$controllerObj , $action], $matches);
+          $output = call_user_func_array($callback, $matches);
           $this->call([$controllerObj, 'after']);
           
           // show message
           $this->notify();
 
-     }else{
-         
-        if($callback instanceof \Closure)
-        {
-            $output = call_user_func($callback, $matches);
-        }
+     }else if($callback instanceof \Closure){
+          $output = call_user_func($callback, $matches);
      }
      return $output;
 }

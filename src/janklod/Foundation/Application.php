@@ -81,14 +81,13 @@ public function initialize()
 */
 public function run()
 {   
-  
    if(!$this->request->is('cli'))
    {
 	    // Run all services and modules
       $this->initialize();
 
       // Call method terminate
-      $this->terminate($this->request, $this->response);
+      // $this->terminate($this->request, $this->response);
    }
 }
 

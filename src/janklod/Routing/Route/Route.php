@@ -2,15 +2,6 @@
 namespace JK\Routing\Route;
 
 
-use JK\Routing\Route\Controls\{
-    OptionControl,
-    PathControl,
-    CallbackControl, 
-    ModuleControl,
-    MiddlewareControl
-};
-
-
 /**
  * @package JK\Routing\Route\Route 
 */ 
@@ -18,18 +9,25 @@ class Route
 {
       
 
+/**
+ * @var string   $module
+ * @var array    $prefix
+ * @var array    $middleware
+*/
+protected static $module     = '';
+protected static $prefix     = [];
+protected static $middleware = [];
+
+
+
 
 /**
 * Add routes by method GET
 * 
-* Ex: Route::get('/', 'HomeController@index', 'welcome.page');
-* Ex: Route::get('/about', function() {
-*      echo 'HI Friends!';
-* });
 * 
-* @param string $path 
-* @param mixed $callback 
-* @param string $name 
+* @param  string $path 
+* @param  \Closure|string $callback 
+* @param  string $name 
 * @return RouteParam
 */
 public static function get(string $path, $callback, string $name = null)
@@ -41,11 +39,9 @@ public static function get(string $path, $callback, string $name = null)
 /**
 * Add routes by method POST
 * 
-* Ex: Route::post('/contact', 'HomeController@send');
-* 
-* @param string $path 
-* @param mixed $callback 
-* @param string $name 
+* @param  string $path 
+* @param  \Closure|string $callback 
+* @param  string $name 
 * @return RouteParam
 */
 public static function post(string $path, $callback, string $name = null)
@@ -53,8 +49,6 @@ public static function post(string $path, $callback, string $name = null)
     return self::add($path, $callback, $name, 'POST');
 }
 
-
-// TO IMPLEMENTS METHODS PUT, PATCH, DELETE, OPTIONS .. 
 
 /**
 * Add new package or resources of routes
@@ -77,24 +71,7 @@ public static function resource(string $path, string $controller)
 
 /**
 * Add routes group
-* $options = [
-*   'prefix' => [
-*      'path' => 'admin',
-*      'controller' => 'Backend'
-*   ], 
-*   'middleware' => [
-*    .....
-*   ],
-*   'module' => '...'
-* ];
-* 
-* Route::group($options, function () {
-* 
-*  Route::get('/login', 'LoginController@index');
-*  ....
-*  ....
-* 
-* });
+*
 * 
 * @param array $options
 * @param \Closure $callback
@@ -102,27 +79,12 @@ public static function resource(string $path, string $controller)
 */
 public static function group($options = [], \Closure $callback)
 {  
-    OptionControl::addOptions($options);
-    call_user_func($callback); 
-    OptionControl::cleanOptions();
+    
 }
 
 
 /**
 * Add prefixed routes and controller
-* 
-* $prefixes = [
-*  'path' => 'admin',
-*  'controller' => 'Backend'
-* ];
-* 
-* Route::prefix($prefixes, function () {
-* 
-*  Route::get('/login', 'LoginController@index');
-*  ....
-*  ....
-* 
-* });
 * 
 * @param array $prefixes
 * @param \Closure $callback
@@ -130,30 +92,21 @@ public static function group($options = [], \Closure $callback)
 */
 public static function prefix($prefixes = [], \Closure $callback)
 {  
-    OptionControl::addOption('prefix', $prefixes);
-    return self::group($prefixes, $callback);
+     
 }
 
 
 /**
-* Add route modules
+* Add route module
 * 
-* Route::module('eshop', function () {
-*   Route::get('/', '....')
-*   Route::get('/articles', '....')
-*   Route::post('/contact', '....')
-*   .....
 * 
-* });
-* 
-* @param string $module [Module name]
+* @param string $module [ Module name ]
 * @param \Closure $callback
 * @return void
 */
-public static function module($module, \Closure $callback)
+public static function module(string $module, \Closure $callback)
 {  
-    OptionControl::addOption('module', $module);
-    return self::group($module, $callback);
+    
 }
 
 
@@ -164,16 +117,16 @@ public static function module($module, \Closure $callback)
 * @param \Closure $callback
 * @return void
 */
-public static function middleware($middleware, \Closure $callback)
+public static function middleware($middleware=[], \Closure $callback)
 {  
-    OptionControl::addOption('middleware', $middleware);
-    return self::group($middleware, $callback);
+    
 }
 
 
 
 /**
  * Get URL Named route
+ * 
  * @param string $name 
  * @param array $params 
  * @return string
@@ -184,42 +137,24 @@ public static function url(string $name, array $params = [])
 }
 
 
+
 /**
-* Add routes by request
+* Add routes
 *
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-*
 * @return RouteParam
 */
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
-     # add all route params
-     $route = new RouteParam([
-        'path'               => $path, 
-        'pattern'            => PathControl::pattern($path),
-        'callback'           => CallbackControl::prepare($callback),
-        'name'               => $name,
-        'method'             => strtoupper($method),  
-        'middleware'         => OptionControl::retrieveGroup('middleware'),
-        'module'             => OptionControl::retrieveGroup('module')
-     ]);
+     # route custom
+     $route = new RouteParam($path, $callback);
 
-     # before storage
-     if(is_string($callback) && $name === null)
-     {
-          $route->setParam('name', $callback);
-     }
 
-     if($name)
-     {
-         $route->namedRoutes($name);
-     }
-    
-     # store route collection by method
+     # storage routes
      RouteCollection::store($method, $route);
-     return $route;
 }
+
 
 }

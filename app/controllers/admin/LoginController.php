@@ -66,6 +66,12 @@ public function index()
 }
 
 
+public function test()
+{
+
+}
+
+
 private function show()
 {
     $this->setMeta('Вход');
