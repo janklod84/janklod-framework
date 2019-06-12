@@ -9,19 +9,24 @@ class RouteParam
 {
 	 
 /**
-* @var  string  $path         [ Route path     ]
-* @var  string  $pattern      [ Route pattern  ]
-* @var  mixed   $callback     [ Route callback ]
-* @var  string  $name         [ Route name     ]
-* @var  string  $method       [ Route method   ]
-* @var  array   $regex        [ Route regex    ]
-* @var  array   $namedRoutes  [ Named routes   ]
+* @var  string  $path         [ Route path        ]
+* @var  mixed   $callback     [ Route callback    ]
+* @var  string  $name         [ Route name        ]
+* @var  string  $method       [ Route method      ]
+* @var  string  $module       [ Route module      ]
+* @var  array   $regex        [ Route regex       ]
+* @var  array   $prefixes     [ Route prefixes    ]
+* @var  array   $middlewares  [ Route middlewares ]
+* @var  array   $namedRoutes  [ Named routes      ]
 */
 private $path;
 private $callback;
 private $name;
 private $method;
+private $module;
 private $regex = [];
+private $prefixes = [];
+private $middlewares = [];
 private static $namedRoutes = [];
 
 
