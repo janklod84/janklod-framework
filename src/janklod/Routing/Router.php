@@ -109,6 +109,10 @@ public function match($pattern): bool
 */
 public function dispatch($method='GET')
 {
+    
+    debug($this->routes);
+    die;
+    /*
     foreach($this->routes($method) as $route)
     {
         if($this->match($route->replacePattern()))
@@ -125,6 +129,7 @@ public function dispatch($method='GET')
        }
     }
     return $this->dispatcher;
+    */
 }
 
 
