@@ -4,12 +4,12 @@ namespace JK\Foundation\Console;
 
 
 /**
- * Class [ Factory ] Task execute task from console 
+ * Class [ Factory ] TaskGenerator
  * Receiver command 
  *
- * @package JK\Foundation\Console\Task
+ * @package JK\Foundation\Console\TaskGenerator
 */ 
-class Task
+class TaskGenerator
 {
      
 const GEN_NAMESPACE = '\\JK\\Foundation\\Generators\\%sGenerator';
