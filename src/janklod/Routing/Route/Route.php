@@ -222,5 +222,4 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
      return $route;
 }
 
-
 }
