@@ -10,6 +10,7 @@ class RouteParam
 	 
 /**
 * @var  string  $path         [ Route path        ]
+* @var  string  $pattern      [ Route pattern     ]
 * @var  mixed   $callback     [ Route callback    ]
 * @var  string  $name         [ Route name        ]
 * @var  string  $method       [ Route method      ]
@@ -20,6 +21,7 @@ class RouteParam
 * @var  array   $namedRoutes  [ Named routes      ]
 */
 private $path;
+private $pattern;
 private $callback;
 private $name;
 private $method;
@@ -142,6 +144,81 @@ public function name()
 
 
 /**
+ * Add prefixes
+ * 
+ * @param array $prefixes 
+ * @return void
+*/
+public function addPrefixes($prefixes)
+{
+     $this->prefixes = $prefixes;
+}
+
+
+/**
+ * Get prefix
+ * 
+ * @param  $key 
+ * @return string
+*/
+public function prefix($key)
+{
+     return $this->prefixes[$key] ?? null;
+}
+
+
+
+/**
+ * Add middlewares
+ * 
+ * @param array $middlewares 
+ * @return void
+*/
+public function addMiddlewares($middlewares)
+{
+     $this->middlewares = $middlewares;
+}
+
+
+/**
+ * Get middleware
+ * 
+ * @param  $key 
+ * @return string
+*/
+public function middleware($key)
+{
+     return $this->middlewares[$key] ?? null;
+}
+
+
+/**
+ * Add module
+ * 
+ * @param string $module
+ * @return void
+*/
+public function addModule($module)
+{
+    $this->module = $module;
+}
+
+
+
+/**
+ * Get module
+ * 
+ * @param  $key 
+ * @return string
+*/
+public function module()
+{
+     return $this->module;
+}
+
+
+
+/**
  * Add named routes
  * 
  * @param string $name 
@@ -155,12 +232,10 @@ public function namedRoutes($name)
 
 /**
  * Get Url
- * RouteParameter::url('named.route', 
- * ['param1' => value1, 'param2' => value2 ...]
- * )
+ * 
  * @param string $name 
  * @param array $params 
- * @return mixed
+ * @return string
 */
 public static function url($name, $params = [])
 {
@@ -224,8 +299,12 @@ private function has($key)
     return isset($this->regex[$key]);
 }
 
+
+
 /**
   * Return match param
+  * 
+  * 
   * @param string $match 
   * @return string 
 */

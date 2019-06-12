@@ -151,15 +151,16 @@ public static function url(string $name, array $params = [])
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
+* @param string $method
 * @return RouteParam
 */
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route param
      $route = new RouteParam($path, $callback, $name, $method);
-     $route->setPrefix(self::$prefixes);
-     $route->setMiddleware(self::$middlewares);
-     $route->setModule(self::$module);
+     $route->addPrefixes(self::$prefixes);
+     $route->addMiddlewares(self::$middlewares);
+     $route->addModule(self::$module);
 
 
      # before storage
