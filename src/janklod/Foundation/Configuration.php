@@ -23,6 +23,7 @@ const SRC = [
 \JK\Loader\Facades\LoaderProvider::class,
 \JK\View\Facades\AssetProvider::class,
 \JK\View\Facades\ViewProvider::class,
+\JK\Security\Facades\AuthenticateProvider::class,
 \JK\Database\Facades\DatabaseProvider::class,
 \JK\Validation\Facades\ValidationProvider::class,
 ],

@@ -49,23 +49,25 @@ public function __construct($app)
 
 /**
  * Run application services
+ * 
  * @return void
 */
 public function run()
 {
     foreach(self::$runners as $runner)
     {
-       $this->callRunner($runner);
+       $this->call($runner);
     }
 }
 
 
 /**
  * Get callback
+ * 
  * @param string $runner 
  * @return void
 */
-private function callRunner($runner)
+private function call($runner)
 {
 	 if(!class_exists($runner))
 	 {

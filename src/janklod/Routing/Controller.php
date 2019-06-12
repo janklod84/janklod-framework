@@ -3,8 +3,6 @@ namespace JK\Routing;
 
 
 use \Config;
-use \Asset;
-use \Auth;
 use \HTML;
 use \View;
 
@@ -169,11 +167,6 @@ public function json($response=[])
 */
 private function beforeRender()
 {
-     // Check session for Authentication
-     $session = $this->request->session();
-     Auth::check($session);
-      
-     
      // Configuration views
      // $this->view->partialDir(Config::get('view.partial'));
      $layout = $this->layout();
