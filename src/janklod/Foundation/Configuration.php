@@ -10,7 +10,7 @@ class Configuration
 
 
 const MODULE_DIR = [
-    'controller' => 'app/controllers', 
+   'controller' => 'app/controllers', 
 ];
 
 /**
@@ -18,32 +18,32 @@ const MODULE_DIR = [
 */
 const SRC = [
 'providers' => [
-	\JK\Http\Facades\ResponseProvider::class,
-	\JK\Routing\Facades\RouterProvider::class, 
-	\JK\Loader\Facades\LoaderProvider::class,
-	\JK\View\Facades\AssetProvider::class,
-	\JK\View\Facades\ViewProvider::class,
-	\JK\Security\Facades\AuthenticateProvider::class,
-	\JK\Database\Facades\DatabaseProvider::class,
-	\JK\Validation\Facades\ValidationProvider::class,
+\JK\Http\Facades\ResponseProvider::class,
+\JK\Routing\Facades\RouterProvider::class, 
+\JK\Loader\Facades\LoaderProvider::class,
+\JK\View\Facades\AssetProvider::class,
+\JK\View\Facades\ViewProvider::class,
+\JK\Security\Facades\AuthenticateProvider::class,
+\JK\Database\Facades\DatabaseProvider::class,
+\JK\Validation\Facades\ValidationProvider::class,
 ],
 'alias' => [
-    'Route'    => 'JK\\Routing\\Route\\Route',
-    'Request'  => 'JK\\Http\\Request',
-    'Auth'     => 'JK\\Security\\Authenticate\\Auth',
-    'Asset'    => 'JK\\View\\Components\\Asset',
-    'View'     => 'JK\\View\\View',
-    'HTML'     => 'JK\\View\\Components\\HTML', 
-    'Config'   => 'JK\\Config\\Config',
-    'Url'      => 'JK\\Helper\\Url',
-    'DI'       => 'JK\\DI\\Container',
-    'DB'       => 'JK\\Database\\Database',
-    'Query'    => 'JK\\ORM\\Query',
-    'QB'       => 'JK\\ORM\\QueryBuilder'
+'Route'    => 'JK\\Routing\\Route\\Route',
+'Request'  => 'JK\\Http\\Request',
+'Auth'     => 'JK\\Security\\Authenticate\\Auth',
+'Asset'    => 'JK\\View\\Components\\Asset',
+'View'     => 'JK\\View\\View',
+'HTML'     => 'JK\\View\\Components\\HTML', 
+'Config'   => 'JK\\Config\\Config',
+'Url'      => 'JK\\Helper\\Url',
+'DI'       => 'JK\\DI\\Container',
+'DB'       => 'JK\\Database\\Database',
+'Query'    => 'JK\\ORM\\Query',
+'QB'       => 'JK\\ORM\\QueryBuilder'
 ],
 'commands' => [
-    \JK\Foundation\Commands\MakeControllerCommand::class,
-    \JK\Foundation\Commands\MakeModelCommand::class,
+\JK\Foundation\Commands\MakeControllerCommand::class,
+\JK\Foundation\Commands\MakeModelCommand::class,
 ],
 'cache_dir'     => '/temp/cache/',
 'migration_dir' => '/temp/database/migrations/',
