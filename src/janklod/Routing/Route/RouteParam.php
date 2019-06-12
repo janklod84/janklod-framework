@@ -4,92 +4,77 @@ namespace JK\Routing\Route;
 
 /**
  * Route Params
+ * 
  * @package JK\Routing\Route\RouteParam
 */ 
 class RouteParam
 {
-
-     
+   
 /**
- * @var string  $path          [ Route path ]
- * @var string  $pattern       [ Route pattern ]
- * @var mixed   $callback      [ Route target callback ]
- * @var string  $name          [ Route name ]
- * @var string  $method        [ Route method ]
- * @var array   $regex         [ Contain Route Regex  ]
- * @var array   $namedRoutes   [ Contain Named Routes ]
+ * @var array $params      [ Contain Route Params ]
+ * @var array $regex       [ Contain Route Regex  ]
+ * @var array $namedRoutes [ Contain Named Routes ]
 */ 
-private $path;
-private $pattern;
-private $callback;
-private $name;
-private $method;
-private $regex = [];
+private $params = [];
+private $regex  = [];
 private static $namedRoutes = [];
 
 
 /**
  * Constructor
  * 
+ * 
  * @param array $params
  * @return void
 */
-public function __construct($path, $callback, $name=null, $method='GET')
+public function __construct($params = [])
 {
-       $this->setPath($path);
-       $this->setCallback($callback);
-       $this->setName($name);
-       $this->setMethod($method);
+      $this->addParams($params);
 }
 
 
 /**
- * Set Path
- * 
- * @param string $path 
+ * Add Params
+ * @param array $params 
  * @return void
 */
-public function setPath($path)
+public function addParams($params = [])
 {
-     $this->path = $path;
+    $this->params = array_merge($this->params, $params);
 }
 
 
 /**
- * Get Path
- * 
- * @return string
-*/
-public function path()
+ * Set route params
+ * @param string $key 
+ * @param string $value 
+ * @return void
+ */
+public function setParam($key, $value)
 {
-     return $this->path;
+     $this->params[$key] = $value;
 }
 
 
-
 /**
- * Set Callback
- * 
- * @param string $callback 
+ * Set route params
+ * @param string $key 
  * @return void
 */
-public function setCallback($callback)
+public function getParam($key)
 {
-     $this->callback = $callback;
+     return $this->params[$key];
 }
 
 
 /**
- * Get callback
- * 
- * @return mixed
+ * Get route parameters
+ * @return array
 */
-public function callback()
+public function parameters()
 {
-     return $this->callback;
+    return $this->params ?? [];
 }
-
-
 
 
 /**
@@ -199,12 +184,14 @@ private function paramMatch($match)
 */
 private function getUrl($params)
 {
-    $path = $this->path;
+    $path = $this->getParam('path');
+
     foreach($params as $k => $v)
     {
         $path = str_replace(":$k", $v, $path);
     } 
     return $path;
 }
+
 
 }

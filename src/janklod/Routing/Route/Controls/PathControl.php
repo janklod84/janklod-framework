@@ -11,6 +11,7 @@ class PathControl
 	
 /**
  * Trainling Slahes
+ * 
  * @param string $path 
  * @return string
 */
@@ -22,10 +23,11 @@ public static function sanitize($path)
 
 /**
  * Give current ordinary path
+ * 
  * @param string $path 
  * @return string
 */
-public static function current($path)
+public static function target($path)
 {
      return self::path($path);
 }
@@ -44,10 +46,11 @@ public static function pattern($path)
 
 /**
  * Map prefixed Path
+ * 
  * @param string $path 
  * @return string
 */
-public static function path($path)
+private static function path($path)
 {
     $path = self::sanitize($path);
     if(OptionControl::hasPrefix('path'))
