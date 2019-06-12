@@ -1,3 +1,4 @@
+$builder = new QueryBuilder();
 $data = [
       'username' => 'John',   
       'password' => md5('Qwerty'),  

@@ -60,7 +60,7 @@ public static function setup(PDO $connection, $table='')
     if(is_null(self::$instance))
     {
          self::$connection = $connection;
-         self::$builder    = QB::instance();
+         self::$builder    = new QueryBuilder();
          self::$table      = $table;
          self::$instance   = new static;
          self::$setup = true;

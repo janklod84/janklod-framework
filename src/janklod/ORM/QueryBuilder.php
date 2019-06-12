@@ -3,11 +3,11 @@ namespace JK\ORM;
 
 
 /**
- * Class QueryBuilder
+ * Class QueryBuilder [ build sql query ]
  * 
- * @package JK\ORM\QB
+ * @package JK\ORM\QueryBuilder
 */
-class QB
+class QueryBuilder
 {
    
 /**
@@ -21,19 +21,6 @@ protected $builders = [];
 private static $instance;
 public $values = [];
 
-/**
- * Get Query Builder instance
- * 
- * @return self
-*/
-public static function instance()
-{
-    if(is_null(self::$instance))
-    {
-        self::$instance = new static;
-    }
-    return self::$instance;
-}
 
 
 /**
@@ -357,6 +344,7 @@ public function sql()
 
 /**
  * Get output as string
+ * 
  * @return string
 */
 public function __toString()
@@ -484,6 +472,7 @@ protected function call($builder, $params)
 
 /**
  * Add Value
+ * 
  * @param mixed $value 
  * @return void
 */
@@ -500,6 +489,7 @@ protected function addValue($value=null)
 
 /**
  * Condition operator
+ * 
  * @param string $column 
  * @param string $operator 
  * @return string
@@ -517,6 +507,7 @@ protected function conditionOperator($column, $operator)
 
 /**
  * Determine if condition is binded
+ * 
  * @param string $condition 
  * @return bool
 */
@@ -529,6 +520,7 @@ protected function isBinded($condition)
 
 /**
  * Determine if has parsed data or params
+ * 
  * @param array $params 
  * @param string $indicate 
  * @return 

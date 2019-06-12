@@ -1,4 +1,4 @@
-$builder = new QueryBuilder();
+$builder = QB::instance();
 
 1.
 $selects = ['username', 'password', 'role', 'deleted'];
