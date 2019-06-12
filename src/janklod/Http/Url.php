@@ -53,7 +53,8 @@ public static function base()
 
 /**
  * Remove Query String
- * Return string without GET parameters
+ * 
+ * 
  * @param string $url request URL
  * @return string
 */
@@ -62,7 +63,7 @@ public static function removeQS($url='')
     if($url)
     {
         $params = explode('&', $url, 2);
-        if(false === strpos($params[0], '='))
+        if(strpos($params[0], '=') === false)
         {
             return rtrim($params[0], '/');
         }else{

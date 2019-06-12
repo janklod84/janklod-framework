@@ -185,42 +185,6 @@ public static function fetchInto($object=null, $arguments = [])
 }
 
 
-/**
-* Set Fetch mode
-* 
-* @return void
-*/
-public static function setFetchMode()
-{
-    $class = sprintf(
-      '\\JK\\ORM\\Fetch\\%s', 
-      ucfirst(self::$fetchHandler)
-    );
-    if(!class_exists($class))
-    {
-        exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
-    } 
-    $obj = new $class(self::$statement, self::$arguments);
-    call_user_func([$obj, 'setMode']);
-}
-
-
-/**
-* Register fetch params
-* 
-* @param string $fetchHandler [ name of class ]
-* @param array $arguments
-* @return void
-*/
-private static function fetchModeRegister(
-$fetchHandler = null, 
-$arguments = []
-)
-{
-     self::$fetchHandler = $fetchHandler; 
-     self::$arguments    = $arguments;
-}
-
 
 /**
  * Execute Query
@@ -588,6 +552,43 @@ public static function html()
  $template .= '</tbody>';
  $template .= '</table>';
  echo $template;
+}
+
+
+/**
+* Set Fetch mode
+* 
+* @return void
+*/
+private static function setFetchMode()
+{
+    $class = sprintf(
+      '\\JK\\ORM\\Fetch\\%s', 
+      ucfirst(self::$fetchHandler)
+    );
+    if(!class_exists($class))
+    {
+        exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
+    } 
+    $obj = new $class(self::$statement, self::$arguments);
+    call_user_func([$obj, 'setMode']);
+}
+
+
+/**
+* Register fetch params
+* 
+* @param string $fetchHandler [ name of class ]
+* @param array $arguments
+* @return void
+*/
+private static function fetchModeRegister(
+$fetchHandler = null, 
+$arguments = []
+)
+{
+     self::$fetchHandler = $fetchHandler; 
+     self::$arguments    = $arguments;
 }
 
 

@@ -24,12 +24,15 @@ public function boot()
 
 /**
  * Register service
+ * 
  * @return void
 */
 public function register()
 {
-    $this->app->singleton('router', function () {
-         return new Router($_GET['url']);
+	// add more fonctionnalites here [ http://localhost:8000/ ]
+	$url = $this->app->request->get('url') ?? '/?';
+    $this->app->singleton('router', function () use($url) {
+         return new Router($url);
     });
 }
 
