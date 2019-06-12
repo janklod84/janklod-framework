@@ -10,6 +10,7 @@ use JK\Routing\Route\Controls\{
     MiddlewareControl
 };
 
+
 /**
  * @package JK\Routing\Route\Route 
 */ 
@@ -29,13 +30,9 @@ class Route
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteParameter
+* @return RouteParam
 */
-public static function get(
-string $path, 
-$callback, 
-string $name = null
-)
+public static function get(string $path, $callback, string $name = null)
 {
     return self::add($path, $callback, $name, 'GET');
 }
@@ -49,13 +46,9 @@ string $name = null
 * @param string $path 
 * @param mixed $callback 
 * @param string $name 
-* @return RouteParameter
+* @return RouteParam
 */
-public static function post(
-string $path, 
-$callback, 
-string $name = null
-)
+public static function post(string $path, $callback, string $name = null)
 {
     return self::add($path, $callback, $name, 'POST');
 }
@@ -187,7 +180,7 @@ public static function middleware($middleware, \Closure $callback)
 */
 public static function url(string $name, array $params = [])
 {
-       return RouteParameter::url($name, $params);
+       return RouteParam::url($name, $params);
 }
 
 
@@ -198,12 +191,12 @@ public static function url(string $name, array $params = [])
 * @param mixed $callback 
 * @param string $name 
 *
-* @return RouteParameter
+* @return RouteParam
 */
-public static function add($path, $callback, $name = null,  $method = 'GET')
+public static function addRoute($path, $callback, $name = null,  $method = 'GET')
 {
      # route custom
-     $route = new RouteParameter([
+     $route = new RouteParam([
         'path'               => PathControl::current($path), 
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::prepare($callback),
@@ -229,5 +222,25 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
      return $route;
 }
 
+
+/**
+* Add routes by request
+*
+* @param string $path 
+* @param mixed $callback 
+* @param string $name 
+*
+* @return RouteParam
+*/
+public static function add($path, $callback, $name = null,  $method = 'GET')
+{
+     # route parameter
+     $route = new RouteParam($path, $callback, $name, $method);
+     
+     # before storage
+     # store route collection by method
+     RouteCollection::store($method, $route);
+     return $route;
+}
 
 }
