@@ -4,15 +4,13 @@ namespace JK\Foundation\Console;
 
 
 /**
- * Class [ Factory ] TaskGenerator
+ * Class [ Factory ] Task
  * Receiver command 
  *
- * @package JK\Foundation\Console\TaskGenerator
+ * @package JK\Foundation\Console\Task
 */ 
-class TaskGenerator
+class Task
 {
-     
-const GEN_NAMESPACE = '\\JK\\Foundation\\Generators\\%sGenerator';
 
 
 /**
@@ -25,7 +23,9 @@ const GEN_NAMESPACE = '\\JK\\Foundation\\Generators\\%sGenerator';
 public function generate($name, $input)
 {
   $name = ucfirst(strtolower($name));
-  $generator = sprintf(self::GEN_NAMESPACE, $name);
+  $generator = sprintf(
+  '\\JK\\Foundation\\Console\\Generators\\%sGenerator', 
+  $name);
 
   if(!class_exists($generator))
   { exit(sprintf('Sorry, class [%s] does not exist!', $generator)); }

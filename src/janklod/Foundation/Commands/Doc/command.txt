@@ -1,8 +1,0 @@
-cmd/>php console make:controller admin
-
-Will generate controller: [ AdminController inside directory app/controllers/ ]
-
-
-cmd/>php console make:controller admin  --no-prefixed
-
-Will generate controller: [ Admin inside directory app/controllers/ ]

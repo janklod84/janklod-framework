@@ -41,7 +41,8 @@ const SRC = [
  'Query'    => 'JK\\ORM\\Query'
 ],
 'commands' => [
- \JK\Foundation\Commands\GenerateControllerCommand::class,
+ \JK\Foundation\Commands\MakeControllerCommand::class,
+ \JK\Foundation\Commands\MakeModelCommand::class,
 ],
 'locator' => [
   'cache_dir' => '/temp/cache/',

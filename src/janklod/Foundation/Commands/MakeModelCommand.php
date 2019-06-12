@@ -3,11 +3,11 @@ namespace JK\Foundation\Commands;
 
 
 /**
- * Class generate controller 
+ * Class MakeModelCommand
  *
- * @package JK\Foundation\Commands\GenerateControllerCommand
+ * @package JK\Foundation\Commands\MakeModelCommand
 */ 
-class GenerateControllerCommand extends CustomCommand
+class MakeModelCommand extends CustomCommand
 {
      
 
@@ -15,8 +15,7 @@ class GenerateControllerCommand extends CustomCommand
  * @var string $signature    [ Signature of command   ]
  * @var string $description  [ Description of command ]
 */
-// protected $signature  = 'make:controller {--option}';
-protected $signature   = 'make:controller';
+protected $signature   = 'make:model';
 protected $description = 'description of command';
 
 
@@ -31,25 +30,6 @@ public function __construct()
 }
 
 
-/**
- * @param \JK\Console\IO\InputInterface $input 
-*/
-/*
-public function options($input)
-{
-	if(!is_null($input))
-	{
-		$argument = $input->argument(1);
-		if($input->account() > 1)
-		{
-			$argument = str_replace(
-			 ['{--option}'], [$input->argument(2)], $this->signature
-		   );
-		}
-		return $argument;
-	}
-}
-*/
 
 
 /**
@@ -65,11 +45,11 @@ public function execute($input=null, $output=null)
    {
 	   if($input->argument(1) === $this->signature) 
 	   {
-	   	   if($controller = $this->task->generate('controller', $input))
+	   	   if($model = $this->task->generate('model', $input))
 	       {
 	       	  // $output->newLine();
 	          $output->writeln(
-	          	sprintf('Controller [ %s ] successfully generated!', $controller)
+	          	sprintf('Model [ %s ] successfully generated!', $model)
 	          );
 	          $output->writeln('End Execution!');
 	       }

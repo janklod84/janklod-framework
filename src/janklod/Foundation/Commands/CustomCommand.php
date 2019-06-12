@@ -4,7 +4,7 @@ namespace JK\Foundation\Commands;
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Console\TaskGenerator;
+use JK\Foundation\Console\Task;
 
 
 
@@ -29,7 +29,7 @@ protected $task;
 public function __construct()
 {
      parent::__construct();
-     $this->task = new TaskGenerator();
+     $this->task = new Task();
 }
 
 
