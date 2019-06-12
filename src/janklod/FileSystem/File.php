@@ -196,12 +196,14 @@ public function make($directory='', $filename='')
  * 
  * @param string $filename 
  * @param string $content 
+ * @param bool   $to
  * @return bool
  * @throws FileException
 */
-public function put($filename='', $content='')
+public function put($filename='', $content='', $root = false)
 {
-   if(!file_put_contents($this->to($filename), $content))
+   if($root === true){ $filename = $this->to($filename); }
+   if(!file_put_contents($filename, $content))
    {
        throw new FileException(
         sprintf(

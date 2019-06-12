@@ -2,6 +2,8 @@
 namespace JK\Foundation\Generators;
 
 
+use JK\Foundation\Application;
+
 
 /**
  * @package JK\Foundation\Generators\CustomGenerator
@@ -11,10 +13,13 @@ abstract class CustomGenerator
 
 /**
  * @var \JK\Console\IO\InputInterface $input
+ * @var \JK\FileSystem\File $file
  * @var string $basePath
 */
 protected $input;
 protected $root = '';
+protected $file;
+
 
 
 /**
@@ -25,11 +30,11 @@ protected $root = '';
 */
 public function __construct($input)
 {
+    // input arguments
     $this->input = $input;
-    if(defined('ROOT') && ROOT)
-    {
-        $this->root = trim(ROOT, '/');
-    }
+
+    // Access to file
+    $this->file = Application::instance()->file;
 }
   
 

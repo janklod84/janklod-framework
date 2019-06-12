@@ -4,7 +4,7 @@ namespace JK\Foundation\Console;
 
 
 /**
- * Class Task execute task from console 
+ * Class [ Factory ] Task execute task from console 
  * Receiver command 
  *
  * @package JK\Foundation\Console\Task

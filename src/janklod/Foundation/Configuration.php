@@ -9,6 +9,10 @@ class Configuration
 {
 
 
+const MODULE_DIR = [
+ 'controller' => 'app/controllers', 
+];
+
 /**
 * Base Configuration of application
 */

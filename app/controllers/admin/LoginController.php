@@ -63,7 +63,7 @@ public function index()
 
     $builder = new QueryBuilder();
     
-    debug(Query::table()->columns());
+    // debug(Query::table()->columns());
 
     // $this->show();
 }

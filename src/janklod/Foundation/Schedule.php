@@ -10,8 +10,11 @@ use JK\Console\Console;
 class Schedule extends Console 
 {
 
+/**
+ * @var string $name
+ * @var \JK\FileSystem\File $file
+*/
 // protected $name = 'schedule';
-
 protected $file;
 
 

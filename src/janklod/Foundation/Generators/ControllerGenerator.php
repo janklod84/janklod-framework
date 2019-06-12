@@ -15,8 +15,9 @@ class ControllerGenerator extends CustomGenerator
 */
 public function generate()
 {
-
-  $controller_dir =  $this->basePath('app/controllers');
+  
+  /*-- Configuration:MODULE_DIR['controller']; --*/
+  $controller_dir =  'app/controllers'; 
   $name =  ucfirst($this->input(2)).'Controller';
   if($this->input(3) === '--no-prefixed')
   {
@@ -24,10 +25,11 @@ public function generate()
   }
   $controller_name = $name;
   $filename = sprintf('%s.php', $controller_name);
-  $generatedFile = $this->make($controller_dir, $filename);
+  $generatedFile = $this->file->make($controller_dir, $filename);
+
   $content = sprintf($this->blank(), $controller_name);
   
-  if($this->put($generatedFile, $content))
+  if($this->file->put($generatedFile, $content))
   {
       return $controller_name;
   }
