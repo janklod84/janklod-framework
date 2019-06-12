@@ -59,13 +59,15 @@ public function __construct($app)
 public function index()
 {
     
-    // debug(Query::getTable()->findAll(['username', 'role']));
-
-    $builder = new QueryBuilder();
-    
+    // debug(Query::table()->findAll(['username', 'role'])); 
     // debug(Query::table()->columns());
+    Query::table()->findAll(['username', 'role']);
+    Query::table()->columns();
 
-    // $this->show();
+    // $builder = new QueryBuilder();
+
+    Query::html();
+    $this->show();
 }
 
 

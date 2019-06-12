@@ -22,7 +22,7 @@ class Query
 * @var  array           $result       [ Result query ]
 * @var  int             $count        [ Row affected count ]
 * @var  int             $lastId       [ Last insert id ]
-* @var  array           $arguments    [ ]
+* @var  array           $arguments    [ Arguments ]
 * @var  array           $queries      [ Total executed SQL queries ]
 * @var  bool            $executed     [ Excecution status ]
 * @var  bool            $connected    [ Connection status ]
@@ -61,30 +61,18 @@ protected static $table;
 */
 public static function setup(PDO $connection, $table='')
 {
+    self::connection_status();
     if(is_null(self::$instance))
     {
          self::$connection = $connection;
          self::$builder    = new QueryBuilder();
          self::$table      = $table;
          self::$instance   = new static;
-         self::connection_status();
+         self::$connected = true;
     }
     return self::$instance;
 }
 
-/**
- * Get connection status
- * 
- * @return void
- */
-public static function connection_status()
-{
-     if(self::$connected === true)
-     {
-         exit('You are already connected to Query [ ORM ]');
-     }
-     self::$connected = true;
-}
 
 /**
  * Make connection
@@ -482,14 +470,73 @@ public static function queries()
 
 
 /**
+ * Get htmt executed queries
+ * This template use bootstrap 3-4
+ * 
+ * Ex: Query::html();
+ * 
+ * @return void
+*/
+public static function html()
+{
+ 
+ debug(self::queries());
+ self::ensureSetup();
+ $i = 1;
+ $template  = '<table class="table">';
+ $template .= '<thead>';
+ $template .= '<tr>';
+ $template .= '<th scope="col">#</th>';
+ $template .= '<th scope="col">Executed Queries :</th>';
+ $template .= '</tr>';
+ $template .= '<tbody>';
+ $template .= '<tr>';
+ if(!empty(self::$queries)):
+ foreach(self::$queries as $query):
+ $template .= '<td>'. $i++ .'</td>';
+ $template .= '<td>'. $query .'</td>';
+ $template .= '</tr>';
+ endforeach;
+ else:
+ $template .= '<td></td>';
+ $template .= '<td col="2">No Query Executed!</td>';
+ endif;
+ $template .= '</tr>';
+ $template .= '</tbody>';
+ $template .= '</table>';
+ echo $template;
+}
+
+
+/**
+ * Get connection status
+ * 
+ * @return void
+*/
+private static function connection_status()
+{
+     if(self::$connected === true)
+     {
+         exit('You are already connected to Query [ ORM ]');
+     }
+     
+}
+
+
+/**
  * Add Query
  * 
  * @param string $sql
  * @return void
 */
-private static function addQuery($sql)
+private static function addQuery($query)
 {
-     array_push(self::$queries, $sql);
+    if($query instanceof QueryBuilder)
+    {
+        array_push(self::$queries, $query->sql());
+    }elseif(is_string($query)){
+       array_push(self::$queries, $query);
+    }
 }
 
 
