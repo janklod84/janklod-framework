@@ -12,7 +12,7 @@
 ************************************/
 
 $options = [
-  // 'path' => '/admin',
+  'path' => '/admin',
   'controller' => 'admin'
 ];
 
@@ -22,6 +22,7 @@ Route::prefix($options, function () {
     Route::get('/test', 'LoginController@test');
     Route::get('/dashboard', 'DashboardController@index');
 });
+
 
 
 

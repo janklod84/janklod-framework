@@ -95,7 +95,7 @@ public static function prefix($prefixes = [], \Closure $callback)
 {  
      self::$prefixes = $prefixes;
      call_user_func($callback);
-     $prefixes = [];
+     self::$prefixes = [];
 }
 
 
@@ -111,7 +111,7 @@ public static function module(string $module, \Closure $callback)
 {  
      self::$module = $module;
      call_user_func($callback);
-     $module = [];
+     self::$module = '';
 }
 
 
@@ -126,7 +126,7 @@ public static function middleware($middlewares=[], \Closure $callback)
 {  
      self::$middlewares = $middlewares;
      call_user_func($callback);
-     $middleware = [];
+     self::$middlewares = [];
 }
 
 
@@ -157,8 +157,10 @@ public static function url(string $name, array $params = [])
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route param
+     $path     = self::path($path);
+     $callback = self::callback($callback);
+
      $route = new RouteParam($path, $callback, $name, $method);
-     $route->addPrefixes(self::$prefixes);
      $route->addMiddlewares(self::$middlewares);
      $route->addModule(self::$module);
 
@@ -173,5 +175,52 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
      return $route;
 }
 
+
+/**
+ * Get prefix
+ * 
+ * @param string $key 
+ * @return string
+*/
+public static function prefixed($key)
+{
+     return self::$prefixes[$key] ?? '';
+}
+
+
+/**
+ * Get path
+ * 
+ * @param string $path 
+ * @return string 
+*/
+public static function path($path)
+{
+    $path = trim($path, '/');
+    if($prefix = self::prefixed('path'))
+    {
+         $path = trim($prefix, '/') . '/'. $path;
+    }
+    return trim($path, '/');
+}
+
+
+/**
+ * Get callabck
+ * 
+ * @param string $callback 
+ * @return string
+*/
+public static function callback($callback)
+{
+     if(is_string($callback))
+     {
+        if($prefix = self::prefixed('controller'))
+        {
+             $callback = $prefix.'\\'. $callback; 
+        }
+     }
+     return $callback;
+}
 
 }

@@ -16,7 +16,6 @@ class RouteParam
 * @var  string  $method       [ Route method      ]
 * @var  string  $module       [ Route module      ]
 * @var  array   $regex        [ Route regex       ]
-* @var  array   $prefixes     [ Route prefixes    ]
 * @var  array   $middlewares  [ Route middlewares ]
 * @var  array   $namedRoutes  [ Named routes      ]
 */
@@ -27,7 +26,6 @@ private $name;
 private $method;
 private $module;
 private $regex = [];
-private $prefixes = [];
 private $middlewares = [];
 private static $namedRoutes = [];
 
@@ -169,30 +167,6 @@ public function name()
 }
 
 
-/**
- * Add prefixes
- * 
- * @param array $prefixes 
- * @return void
-*/
-public function addPrefixes($prefixes)
-{
-     $this->prefixes = $prefixes;
-}
-
-
-/**
- * Get prefix
- * 
- * @param  $key 
- * @return string
-*/
-public function prefix($key)
-{
-     return $this->prefixes[$key] ?? null;
-}
-
-
 
 /**
  * Add middlewares
@@ -204,6 +178,8 @@ public function addMiddlewares($middlewares)
 {
      $this->middlewares = $middlewares;
 }
+
+
 
 
 /**
