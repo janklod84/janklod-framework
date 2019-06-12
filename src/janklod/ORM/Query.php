@@ -90,7 +90,7 @@ public static function connect($driver='mysql', $config=[], $table='')
  * @param string $alias 
  * @return void
 */
-public function alias($alias='QB')
+public function alias($alias='Q')
 {
    class_alias(__CLASS__, $alias);
 }
@@ -115,8 +115,8 @@ public static function table($table='')
           exit('Empty Table!');
        }
        self::$table = $table;
+       return new static;
     }
-    return new static;
 }
 
 
