@@ -149,6 +149,110 @@ public function namedRoutes($name)
 
 
 /**
+ * Get Url
+ * RouteParameter::url('named.route', 
+ * ['param1' => value1, 'param2' => value2 ...]
+ * )
+ * @param string $name 
+ * @param array $params 
+ * @return mixed
+*/
+public static function url($name, $params = [])
+{
+     if(!isset(self::$namedRoutes[$name]))
+     {
+           return false;
+     }
+     return self::$namedRoutes[$name]->getUrl($params);
+}
+
+
+/**
+* Add regex
+* 
+* @param mixed $parameter 
+* @param mixed $regex 
+* @return self
+*/
+public function with($parameter, $regex = null)
+{
+   if(is_array($parameter) && is_null($regex))
+   {
+      foreach($parameter as $index => $exp)
+      {
+           # recursive
+          $this->with($index, $exp);
+      }
+
+   }else{
+       $this->regex[$parameter] = str_replace('(', '(?:', $regex);
+   }
+
+   return $this;
+}
+
+
+
+/**
+  * Replace param in path
+  * 
+  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
+  * 
+  * @return string
+*/
+public function pattern()
+{
+    return preg_replace_callback('#:([\w]+)#', 
+      [$this, 'paramMatch'], $this->path
+   );
+}
+
+
+/**
+ * Determine if has item Regex
+ * 
+ * @param string $key 
+ * @return bool
+*/
+private function has($key)
+{
+    return isset($this->regex[$key]);
+}
+
+/**
+  * Return match param
+  * @param string $match 
+  * @return string 
+*/
+private function paramMatch($match)
+{
+     if($this->has($match[1]))
+     {
+          return '('. $this->regex[$match[1]] . ')';
+     }
+     return '([^/]+)';
+}
+
+
+/**
+  * Get Url
+  * 
+  * @param array $params 
+  * @return string
+*/
+private function getUrl($params)
+{
+    $path = $this->path;
+
+    foreach($params as $k => $v)
+    {
+        $path = str_replace(":$k", $v, $path);
+    } 
+    return $path;
+}
+
+
+/**
  * Do somes actions before storage
  * 
  * @return void
