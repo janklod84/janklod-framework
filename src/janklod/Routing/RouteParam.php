@@ -77,12 +77,12 @@ public function path()
 /**
  * Set pattern
  * 
- * @param string $path 
+ * @param string $pattern 
  * @return void
 */
-public function setPattern($path)
+public function setPattern($pattern)
 {
-    $this->pattern = '#^'. trim($path, '/') . '$#i';
+    $this->pattern = '#^'. $pattern . '$#i';
 }
 
 

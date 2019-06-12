@@ -30,10 +30,20 @@ Route::get('/me', function () {
    die('Me!');
 });
 
-
+/*
 Route::get('/about', function () {
    die('About!');
 });
+
+
+Route::get('/about/:id', function () {
+   die('About!');
+})->with('id' => '[0-9]+');
+*/
+
+Route::get('/about/:id', function () {
+   die('About!');
+})->with(['id' => '[0-9]+']);
 
 
 // Route::get('/test', function () {

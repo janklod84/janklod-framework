@@ -130,21 +130,6 @@ public static function middleware($middlewares=[], \Closure $callback)
 }
 
 
-
-/**
- * Get URL Named route
- * 
- * @param string $name 
- * @param array $params 
- * @return string
-*/
-public static function url(string $name, array $params = [])
-{
-       return RouteParam::url($name, $params);
-}
-
-
-
 /**
 * Add routes
 *
@@ -174,6 +159,22 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
      # return current route
      return $route;
 }
+
+
+
+
+/**
+ * Get URL Named route
+ * 
+ * @param string $name 
+ * @param array $params 
+ * @return string
+*/
+public static function url(string $name, array $params = [])
+{
+       return RouteParam::url($name, $params);
+}
+
 
 
 /**
