@@ -197,7 +197,7 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # add all route params
      $route = new RouteParam([
-        'path'               => PathControl::target($path), 
+        'path'               => $path, 
         'pattern'            => PathControl::pattern($path),
         'callback'           => CallbackControl::prepare($callback),
         'name'               => $name,

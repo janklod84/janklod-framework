@@ -23,7 +23,6 @@ private static $namedRoutes = [];
 /**
  * Constructor
  * 
- * 
  * @param array $params
  * @return void
 */

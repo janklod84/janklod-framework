@@ -8,30 +8,6 @@ namespace JK\Routing\Route\Controls;
 class PathControl
 {
 
-	
-/**
- * Trainling Slahes
- * 
- * @param string $path 
- * @return string
-*/
-public static function sanitize($path)
-{
-	 return trim($path, '/');
-}
-
-
-/**
- * Give current ordinary path
- * 
- * @param string $path 
- * @return string
-*/
-public static function target($path)
-{
-     return self::path($path);
-}
-
 
 /**
  * Generate path pattern
@@ -59,6 +35,18 @@ private static function path($path)
          $path = self::sanitize($prefix) .'/' . $path;
     }
     return $path;
+}
+
+
+/**
+ * Trainling Slahes
+ * 
+ * @param string $path 
+ * @return string
+*/
+private static function sanitize($path)
+{
+     return trim($path, '/');
 }
 
 }
