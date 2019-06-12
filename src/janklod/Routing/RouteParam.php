@@ -43,6 +43,7 @@ private static $namedRoutes = [];
  */
 public function __construct($path, $callback, $name=null, $method='GET')
 {
+	$this->setPath($path);
     $this->setPattern($path);
     $this->setCallback($callback);
     $this->setName($name);

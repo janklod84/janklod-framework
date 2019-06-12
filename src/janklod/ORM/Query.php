@@ -152,6 +152,8 @@ public static function fetchClass($entity=null, $arguments = [])
    return new static;
 }
 
+
+
 /**
 * Fetch column
 * @param int $colno [number of column]
@@ -202,6 +204,8 @@ public static function execute($sql, $params=[])
    try
    {
       self::ensureSetup();
+      
+      // to add begin transaction ...
 
       // prepare request sql
       self::$statement = self::$connection->prepare($sql);
@@ -226,8 +230,11 @@ public static function execute($sql, $params=[])
       // last insert id
       self::$lastId = self::$connection->lastInsertId();
            
-      
+      // to add commit ...
+
    }catch(PDOException $e){
+      
+      // to add rollback ...
 
       // debug
       self::$executed = false;
