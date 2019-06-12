@@ -43,7 +43,7 @@ private static $namedRoutes = [];
  */
 public function __construct($path, $callback, $name=null, $method='GET')
 {
-    $this->setPath($path);
+    $this->setPattern($path);
     $this->setCallback($callback);
     $this->setName($name);
     $this->setMethod($method);
@@ -72,6 +72,31 @@ public function path()
 {
     return $this->path;
 }
+
+
+
+/**
+ * Set pattern
+ * 
+ * @param string $path 
+ * @return void
+*/
+public function setPattern($path)
+{
+    $this->pattern = '#^'. trim($path, '/') . '$#i';
+}
+
+
+/**
+ * Get pattern
+ * 
+ * @return string
+*/
+public function pattern()
+{
+    return $this->pattern;
+}
+
 
 
 /**
@@ -276,14 +301,12 @@ public function with($parameter, $regex = null)
 /**
   * Replace param in path
   * 
-  * Ex: $path = ([0-9]+)-([a-z\-0-9]+)
-  * 
   * @return string
 */
-public function pattern()
+public function convertPattern()
 {
     return preg_replace_callback('#:([\w]+)#', 
-      [$this, 'paramMatch'], $this->path
+      [$this, 'paramMatch'], $this->pattern
    );
 }
 
@@ -304,8 +327,7 @@ private function has($key)
 /**
   * Return match param
   * 
-  * 
-  * @param string $match 
+  * @param array $match 
   * @return string 
 */
 private function paramMatch($match)
@@ -315,24 +337,6 @@ private function paramMatch($match)
           return '('. $this->regex[$match[1]] . ')';
      }
      return '([^/]+)';
-}
-
-
-/**
-  * Get Url
-  * 
-  * @param array $params 
-  * @return string
-*/
-private function getUrl($params)
-{
-    $path = $this->path;
-
-    foreach($params as $k => $v)
-    {
-        $path = str_replace(":$k", $v, $path);
-    } 
-    return $path;
 }
 
 
@@ -354,6 +358,26 @@ public function beforeStorage()
     }
 }
 
+
+
+
+
+/**
+  * Get Url
+  * 
+  * @param array $params 
+  * @return string
+*/
+protected function getUrl($params)
+{
+    $path = $this->path;
+
+    foreach($params as $k => $v)
+    {
+        $path = str_replace(":$k", $v, $path);
+    } 
+    return $path;
+}
 
 
 }
