@@ -25,7 +25,7 @@ class Query
 * @var  array           $arguments    [ Arguments ]
 * @var  array           $queries      [ Total executed SQL queries ]
 * @var  bool            $executed     [ Excecution status ]
-* @var  bool            $connected    [ Connection status ]
+* @var  bool            $setup    [ Connection status ]
 * @var  string          $fetchHandler [ FetchMode handler ]
 * @var  QueryBuilder    $builder      [ Query builder ]
 * @var  string          $sql          [ SQL request ]
@@ -40,16 +40,11 @@ protected static $lastId;
 protected static $arguments = [];
 protected static $queries   = [];
 protected static $executed  = false;
-protected static $connected = false;
+protected static $setup = false;
 protected static $builder;
 protected static $sql;
 protected static $table;
-
-// protected static $fetchHandler = 'FetchObject';
-
-
-// Fetch handler namespace
-// const FH_NS = '\\JK\\Statement\\Fetch\\%s';
+protected static $fetchHandler = 'FetchObject';
 
 
 /**
@@ -65,10 +60,10 @@ public static function setup(PDO $connection, $table='')
     if(is_null(self::$instance))
     {
          self::$connection = $connection;
-         self::$builder    = new QueryBuilder();
+         self::$builder    = QB::instance();
          self::$table      = $table;
          self::$instance   = new static;
-         self::$connected = true;
+         self::$setup = true;
     }
     return self::$instance;
 }
@@ -124,6 +119,8 @@ public static function table($table='')
     return new static;
 }
 
+
+
 /**
  * Get Table
  * 
@@ -135,6 +132,93 @@ public static function getTable()
     {
         return self::$table;
     }
+}
+
+
+
+/**
+* Fetch class
+* 
+* @param string $entity [class name]
+* @param array $arguments ['mode' => 'PDO::FETCH_CLASS|PDO::FETCH_OBJ..']
+* @return 
+*/
+public static function fetchClass($entity=null, $arguments = [])
+{
+   self::fetchModeRegister('FetchClass', [
+     'entity' => $entity,
+     'arguments' => $arguments
+   ]);
+   return new static;
+}
+
+/**
+* Fetch column
+* @param int $colno [number of column]
+* @param array $arguments ['mode' => 'PDO::FETCH_COLUMN|PDO::FETCH_OBJ..']
+* @return 
+*/
+public static function fetchColumn($colno=null, $arguments = [])
+{
+    self::fetchModeRegister('FetchColumn', [  
+      'column' => $colno, 
+      'arguments' => $arguments
+    ]);
+    return new static;
+}
+
+
+/**
+* Fetch into
+* 
+* @param object $object
+* @param array $arguments ['mode' => 'PDO::FETCH_INTO|PDO::FETCH_OBJ..']
+* @return 
+*/
+public static function fetchInto($object=null, $arguments = [])
+{
+    self::fetchModeRegister('FetchInto', [  
+      'object' => $object,   
+      'arguments' => $arguments
+    ]);
+    return new static;
+}
+
+
+/**
+* Set Fetch mode
+* 
+* @return void
+*/
+public static function setFetchMode()
+{
+    $class = sprintf(
+      '\\JK\\ORM\\Fetch\\%s', 
+      ucfirst(self::$fetchHandler)
+    );
+    if(!class_exists($class))
+    {
+        exit(sprintf('class <strong>%s</strong> does not exist!', $class));   
+    } 
+    $obj = new $class(self::$statement, self::$arguments);
+    call_user_func([$obj, 'setMode']);
+}
+
+
+/**
+* Register fetch params
+* 
+* @param string $fetchHandler [ name of class ]
+* @param array $arguments
+* @return void
+*/
+private static function fetchModeRegister(
+$fetchHandler = null, 
+$arguments = []
+)
+{
+     self::$fetchHandler = $fetchHandler; 
+     self::$arguments    = $arguments;
 }
 
 
@@ -167,7 +251,7 @@ public static function execute($sql, $params=[])
       }
 
       // set fetch mode
-      // self::setFetchMode();
+      self::setFetchMode();
 
       // get results
       self::$result = self::$statement->fetchAll();
@@ -479,8 +563,7 @@ public static function queries()
 */
 public static function html()
 {
- 
- debug(self::queries());
+
  self::ensureSetup();
  $i = 1;
  $template  = '<table class="table">';
@@ -509,21 +592,6 @@ public static function html()
 
 
 /**
- * Get connection status
- * 
- * @return void
-*/
-private static function connection_status()
-{
-     if(self::$connected === true)
-     {
-         exit('You are already connected to Query [ ORM ]');
-     }
-     
-}
-
-
-/**
  * Add Query
  * 
  * @param string $sql
@@ -541,13 +609,28 @@ private static function addQuery($query)
 
 
 /**
+ * Get connection status
+ * 
+ * @return void
+*/
+private static function connection_status()
+{
+     if(self::$setup === true)
+     {
+         exit('You are already connected to Query [ ORM ]');
+     }
+     
+}
+
+
+/**
  * Make sure has setting up [setup]
  * 
  * @return void
 */
 private static function ensureSetup()
 {
-    if(self::$connected === false)
+    if(self::$setup === false)
     {
         exit('Sorry you must to setup [Query (ORM) ]');
     }

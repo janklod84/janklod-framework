@@ -5,19 +5,35 @@ namespace JK\ORM;
 /**
  * Class QueryBuilder
  * 
- * @package JK\ORM\QueryBuilder
+ * @package JK\ORM\QB
 */
-class QueryBuilder
+class QB
 {
    
 /**
-* @var string $table
-* @var array  $builders
-* @var array  $values
+* @var  string  $table
+* @var  array   $builders
+* @var  self    $instance
+* @var  array   $values
 */
 protected $table = '';
 protected $builders = [];
+private static $instance;
 public $values = [];
+
+/**
+ * Get Query Builder instance
+ * 
+ * @return self
+*/
+public static function instance()
+{
+    if(is_null(self::$instance))
+    {
+        self::$instance = new static;
+    }
+    return self::$instance;
+}
 
 
 /**

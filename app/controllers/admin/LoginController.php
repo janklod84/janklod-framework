@@ -4,7 +4,7 @@ namespace app\controllers\admin;
 
 use \Auth;
 use \Query;
-use \JK\ORM\QueryBuilder;
+use \JK\ORM\QB;
 use \DB;
 use app\models\Managers\UserManager;
 use JK\Routing\Controller;
@@ -58,14 +58,18 @@ public function __construct($app)
 */
 public function index()
 {
+    Query::fetchClass('app\\models\\User');
+    $results = Query::table()->findAll();
     
-    // debug(Query::table()->findAll(['username', 'role'])); 
-    // debug(Query::table()->columns());
-    Query::table()->findAll(['username', 'role']);
-    Query::table()->columns();
+    debug($results);
 
-    // $builder = new QueryBuilder();
+    $sql = QB::instance()->select('username', 'role')
+                                   ->from('users', 'u');
+    echo $sql, '<br>';
 
+    $sql = QB::instance()->insert('users', ['username' => 'John', 'role' => 4]);
+    echo $sql, '<br>';
+    debug(QB::instance()->values);
     Query::html();
     $this->show();
 }
