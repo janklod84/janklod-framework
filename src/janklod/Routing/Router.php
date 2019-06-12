@@ -38,17 +38,6 @@ public function __construct($url = '')
 }
 
 
-/**
- * Add Url
- * 
- * @param string $url
- * @return void
-*/
-public function url($url)
-{
-   
-}
-
 
 /**
  * Determine if route match URL
@@ -70,7 +59,9 @@ public function match()
 */
 public function dispatch($method='GET')
 {
-     
+      echo '<pre>';
+      print_r(RouteCollection::all());
+      echo '</pre>';
 }
 
 

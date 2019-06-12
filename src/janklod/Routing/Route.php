@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Routing\Route;
+namespace JK\Routing;
 
 
 /**
- * @package JK\Routing\Route\Route 
+ * @package JK\Routing\Route 
 */ 
 class Route 
 {
@@ -11,11 +11,11 @@ class Route
 
 /**
  * @var string   $module
- * @var array    $prefix
+ * @var array    $prefixes
  * @var array    $middleware
 */
 protected static $module     = '';
-protected static $prefix     = [];
+protected static $prefixes   = [];
 protected static $middleware = [];
 
 
@@ -92,7 +92,9 @@ public static function group($options = [], \Closure $callback)
 */
 public static function prefix($prefixes = [], \Closure $callback)
 {  
-     
+     self::$prefixes = $prefixes;
+     call_user_func($callback);
+     $prefixes = [];
 }
 
 
@@ -149,11 +151,14 @@ public static function url(string $name, array $params = [])
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
      # route custom
-     $route = new RouteParam($path, $callback);
+     $route = new RouteParam($path, $callback, $method);
 
 
      # storage routes
      RouteCollection::store($method, $route);
+
+     # return current route
+     return $route;
 }
 
 

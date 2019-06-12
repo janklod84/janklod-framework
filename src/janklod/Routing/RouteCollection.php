@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Routing\Route;
+namespace JK\Routing;
 
 
 
 /**
- * @package JK\Routing\Route\RouteCollection
+ * @package JK\Routing\RouteCollection
 */ 
 class RouteCollection 
 {

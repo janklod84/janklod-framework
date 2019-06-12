@@ -30,7 +30,6 @@ public function boot()
 
    $router = new Router();
    $router->dispatch();
-   $this->dd($router);
 }
 
 

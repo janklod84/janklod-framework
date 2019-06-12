@@ -28,7 +28,7 @@ const SRC = [
 \JK\Validation\Facades\ValidationProvider::class,
 ],
 'alias' => [
-'Route'    => 'JK\\Routing\\Route\\Route',
+'Route'    => 'JK\\Routing\\Route',
 'Request'  => 'JK\\Http\\Request',
 'Auth'     => 'JK\\Security\\Authenticate\\Auth',
 'Asset'    => 'JK\\View\\Components\\Asset',
