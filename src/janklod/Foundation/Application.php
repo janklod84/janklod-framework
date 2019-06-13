@@ -10,6 +10,7 @@ use \Config;
 
 /**
  * Application
+ * 
  * @package JK\Foundation\Application
 */ 
 final class Application
@@ -100,6 +101,8 @@ public function run()
  * Get one times instance of Application
  * [ Using pattern Singleton ]
  * 
+ * Ex: $app = Application::instance();
+ * 
  * @param  string $root
  * @return self
 */
@@ -158,7 +161,7 @@ public function push($data=[])
 * Create new instance and inject params automatically
 * Create new object 
 * 
-* [ex: (new \JK\Application())->make(Blog::class) ]
+* [ex: Application::instance()->make(Blog::class) ]
 * $obj = $this->app->make(
 * 'JanKlod\\Test', 
 * ['id' => 1, 'slug' => 'jean'
