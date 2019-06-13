@@ -95,34 +95,6 @@ public function run($method='GET')
 }
 
 
-/**
- * Get request method
- * 
- * @return string
-*/
-public function requestMethod($parsed)
-{
-   if(is_null($parsed))
-   {
-   	  return $_SERVER['REQUEST_METHOD'] ?? '';
-   }
-}
-
-
-/**
- * Get url
- * 
- * @return string
-*/
-public function url($parsed)
-{
-   if(is_null($parsed))
-   {
-   	  return $_SERVER['REQUEST_URI'] ?? '';
-   }
-}
-
-
 
 /**
  * Get route params
@@ -144,6 +116,5 @@ public function matches()
 {
      return $this->matches;
 }
-
 
 }
