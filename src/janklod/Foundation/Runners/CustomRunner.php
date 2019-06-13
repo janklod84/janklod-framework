@@ -2,14 +2,14 @@
 namespace JK\Foundation\Runners;
 
 use JK\Config\Config;
-use JK\Foundation\Configuration;
+use JK\Foundation\Source;
 
 
 
 /**
  * @package JK\Foundation\Runners\CustomRunner 
 */
-abstract class CustomRunner 
+abstract class CustomRunner  
 {
 
 
@@ -49,7 +49,7 @@ protected function call(callable $callback, $arguments=[])
 protected static function get($key)
 {
    $config = Config::get('app.'.$key) ?: []; 
-   return array_merge(Configuration::SRC[$key], $config);
+   return array_merge(Source::CONFIG[$key], $config);
 }
 
 } 

@@ -18,6 +18,7 @@ class Schedule extends Console
 protected $file;
 
 
+
 /**
  * Constructor
  * 
@@ -28,7 +29,7 @@ public function __construct()
     $this->file = Application::instance()->file;
 
     $this->set_base_command(
-    	Configuration::SRC['commands']
+    	Source::CONFIG['commands']
     );
 	parent::__construct($this->file->to('routes/console.php'));
 }

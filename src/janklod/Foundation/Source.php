@@ -3,21 +3,23 @@ namespace JK\Foundation;
 
 
 /**
- * @package JK\Foundation\Configuration
+ * @package JK\Foundation\Source
 */ 
-class Configuration
+class Source
 {
 
-
-const MODULE_DIR = [
-   'controller' => 'app/controllers', 
-];
 
 /**
 * Base Configuration of application
 */
-const SRC = [
+const CONFIG = [
+'runners' => [
+\JK\Foundation\Runners\AliasRunner::class,
+\JK\Foundation\Runners\ProviderRunner::class,
+\JK\Foundation\Runners\FunctionRunner::class
+],
 'providers' => [
+\JK\Http\Facades\RequestProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
 \JK\Routing\Facades\RouterProvider::class, 
 \JK\Loader\Facades\LoaderProvider::class,
@@ -39,17 +41,17 @@ const SRC = [
 'DI'       => 'JK\\DI\\Container',
 'DB'       => 'JK\\Database\\Database',
 'Query'    => 'JK\\ORM\\Query',
-'QB'       => 'JK\\ORM\\QueryBuilder'
+'QB'       => 'JK\\ORM\\QueryBuilder',
 ],
 'commands' => [
 \JK\Foundation\Commands\MakeControllerCommand::class,
 \JK\Foundation\Commands\MakeModelCommand::class,
 ],
-'cache_dir'     => '/temp/cache/',
-'migration_dir' => '/temp/database/migrations/',
-'seed_dir'      => '/temp/database/seeds/',
-'log_file'      => 'temp/log/error.txt'
-
+'cache.dir'     => '/temp/cache/',
+'migration.dir' => '/temp/database/migrations/',
+'seed.dir'      => '/temp/database/seeds/',
+'session.dir'   => '/temp/framework/sessions',
+'log.file'      => 'temp/logs/',
 ];
 			
 }

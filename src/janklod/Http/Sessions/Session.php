@@ -12,9 +12,37 @@ class Session
 
 /**
  * @var bool $status
+ * @var string $filename
 */
 private static $status = false;
 
+
+/**
+ * Set directory where will be saved sessions
+ * 
+ * @param string $directory
+ * @return void
+*/
+private static function saveTo($directory)
+{
+     if(is_dir($directory))
+     {
+         ini_set('session.save_path', $directory);
+         ini_set('session.gc_probability', 1);
+     }
+}
+
+
+
+/**
+ * Get current path where stored sessions
+ * 
+ * @return string
+*/
+private static function savedPath()
+{
+    return session_save_path();
+}
 
 
 /**
@@ -22,13 +50,14 @@ private static $status = false;
  * 
  * @return void
 */
-public static function start()
+public static function start($directory='')
 {
-      if(session_status() === PHP_SESSION_NONE)
-      {
-      	   session_start();
-           self::$status = true;
-      }
+    self::saveTo($directory);
+    if(session_status() === PHP_SESSION_NONE)
+    {
+	     session_start();
+         self::$status = true;
+    }
 }
 
 
@@ -39,9 +68,9 @@ public static function start()
 * @param mixed $value 
 * @return void
 */
-public function put($name, $value)
+public static function put($name, $value)
 {
-    $this->ensureStarted();
+    self::ensureStarted();
     return $_SESSION[$name] = $value;
 }
 
@@ -52,21 +81,22 @@ public function put($name, $value)
 * @param string $key 
 * @return bool
 */
-public function has($key): bool
+public static function has($key): bool
 {
-   $this->ensureStarted();
+   self::ensureStarted();
    return isset($_SESSION[$key]);
 }
 
 
 /**
 * Get item from $_SESSION
+* 
 * @param string $key 
 * @return mixed
 */
-public function get($key)
+public static function get($key)
 {
-    $this->ensureStarted();
+    self::ensureStarted();
     if($this->has($key))
     {
         return $_SESSION[$key];
@@ -77,12 +107,13 @@ public function get($key)
 
 /**
  * Remove key in the session [delete]
+ * 
  * @param string $key
  * @return void
 */
-public function remove($key)
+public static function remove($key)
 {
-  $this->ensureStarted();
+    self::ensureStarted();
 	if($this->has($key))
 	{
 	   unset($_SESSION[$key]);
@@ -92,11 +123,12 @@ public function remove($key)
 
 /**
  * Unset all data
+ * 
  * @return void
 */
-public function clear()
+public static function clear()
 {
-    $this->ensureStarted();
+    self::ensureStarted();
     $_SESSION = [];
     session_destroy();
 }
@@ -105,24 +137,26 @@ public function clear()
 
 /**
 * Get all item from $_SESSION
+* 
 * @return array
 */
-public function all()
+public static function all()
 {
-   $this->ensureStarted();
-	 return $_SESSION ?? [];
+   self::ensureStarted();
+   return $_SESSION ?? [];
 }
 
 
 /**
  * Make sure has started session
+ * 
  * @return void
  */
-private function ensureStarted()
+private static function ensureStarted()
 {
     if(!self::$status)
     {
-       exit('Sorry you must to start session !');
+        throw new \Exception('Sorry you must <b>No Session started!</b>');
     }
 }
 

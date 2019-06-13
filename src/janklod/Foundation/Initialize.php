@@ -3,7 +3,6 @@ namespace JK\Foundation;
 
 
 use JK\Config\Config;
-use JK\Http\Sessions\Session;
 
 
 /**
@@ -17,15 +16,6 @@ class Initialize
 */
 private $app;
 
-/**
- * Runners
-*/
-private static $runners = [
- \JK\Foundation\Runners\AliasRunner::class,
- \JK\Foundation\Runners\ProviderRunner::class,
- \JK\Foundation\Runners\FunctionRunner::class
-];
-
 
 /**
  * Constructor
@@ -34,14 +24,11 @@ private static $runners = [
 */
 public function __construct($app)
 {
-	// Start session
-	Session::start();
-
 	// Get container
     $this->app = $app;
     
     // Load all configuration
-    \JK\Config\Config::basePath(
+    Config::basePath(
      $this->app->file->to('app/config')
     )->map();
 }
@@ -54,9 +41,9 @@ public function __construct($app)
 */
 public function run()
 {
-    foreach(self::$runners as $runner)
+    foreach(Source::CONFIG['runners'] as $runner)
     {
-       $this->call($runner);
+        $this->call($runner);
     }
 }
 
@@ -76,9 +63,9 @@ private function call($runner)
 	 	  404
 	 	 );
 	 }
-
-	 $callback = [new $runner($this->app), 'init'];
-
+     
+     $runnerObj = new $runner($this->app);
+     $callback = [$runnerObj, 'init'];
 	 if(!is_callable($callback))
 	 {
          throw new \Exception(
@@ -86,7 +73,7 @@ private function call($runner)
 	 	  404
 	 	 );
 	 }
-	 call_user_func($callback);
+     call_user_func($callback);
 }
 
 }

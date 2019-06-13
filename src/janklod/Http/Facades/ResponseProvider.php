@@ -6,7 +6,7 @@ use JK\Http\Response;
 
 
 /**
- * @package JanKlod\Http\Facades\ResponseProvider
+ * @package JK\Http\Facades\ResponseProvider
 */
 class ResponseProvider extends ServiceProvider
 {

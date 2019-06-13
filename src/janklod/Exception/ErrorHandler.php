@@ -59,7 +59,7 @@ public static function exceptionHandler($exception)
 
     }else{
     
-            $log = ROOT . '/temp/log/' . date('Y-m-d') . '.txt';
+            $log = ROOT . '/temp/log/janklod-' . date('Y-m-d') . '.txt';
             ini_set('error_log', $log);
             $message = "Uncaught exception: '" . get_class($exception) . "'";
             $message .= " with message '" . $exception->getMessage() . "'";
