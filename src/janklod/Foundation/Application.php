@@ -237,7 +237,7 @@ private function handle(RequestInterface $request)
  * 
  * @param JK\Http\RequestInterface $request 
  * @param JK\Http\ResponseInterface $response 
- * @return 
+ * @return void
 */
 private function terminate(
 RequestInterface $request, 
