@@ -26,36 +26,50 @@ private $output;
 */
 public function process($callback, $matches)
 {
-	if(is_string($callback) && strpos($callback, '@') !== false) 
-	{
+if($this->is_string_callback($callback)) 
+{
 
-	  // Generate valid callback from string parsed
-	  list($controller, $action) = explode('@', $callback, 2);
-	  $controller_object = $this->controller($controller);
-      $action = strtolower($action);
+  // Generate valid callback from string parsed
+  list($controller, $action) = explode('@', $callback, 2);
 
-	  $callback = [$controller_object, $action];
-	  $this->validate_callable($callback, 
-	  '<b>Sorry, Can not call this route. 
-	   May be current route already used</b>'
-	  );
-	 
-	  $this->call([$controller_object, 'before']);
-	  $this->output = call_user_func($callback, $matches);
-	  $this->call([$controller_object, 'after']);
-	  
-	  // registration current route and current action in container
-	   $this->app->add([
-	    'current.controller' => get_class($controller_object),
-	    'current.action'     => $action
-	  ]);
-	  
-	}else if($callback instanceof \Closure) {
-	  $this->output = call_user_func($callback, $matches);
-	}
-	return $this->output;
+  // Get controller object and action
+  $controller_object = $this->controller($controller);
+  $action = strtolower($action);
+
+  $callback = [$controller_object, $action];
+  $this->validate_callable($callback, 
+  '<b>Sorry, Can not call this route. 
+   May be current route already used</b>'
+  );
+ 
+  $this->call([$controller_object, 'before']);
+  $this->output = $this->call($callback, $matches);
+  $this->call([$controller_object, 'after']);
+  
+  // registration current route and current action in container
+   $this->app->add([
+    'current.controller' => get_class($controller_object),
+    'current.action'     => $action
+  ]);
+  
+}else if($callback instanceof \Closure) {
+  $this->output = $this->call($callback, $matches);
+}
+return $this->output;
 }
 
+
+/**
+ * Determine if callback is string
+ * 
+ * @param mixed $callback 
+ * @return bool
+*/
+private function is_string_callback($callback)
+{
+  return is_string($callback) 
+         && strpos($callback, '@') !== false;
+}
 
 /**
 * Get controller name

@@ -30,11 +30,12 @@ public function __construct($app)
 * Callback
 * 
 * @param callable $callback
+* @param array $params
 * @return void
 */
-protected function call(callable $callback)
+protected function call(callable $callback, $params=[])
 {
-   call_user_func($callback);
+   call_user_func($callback, $params);
 }
 
 
