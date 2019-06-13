@@ -11,10 +11,10 @@ if(!function_exists('debug'))
  */
 function debug($parsed, $die = false)
 {
-	 echo '<pre>';
-	 print_r($parsed);
-	 echo '</pre>';
-     if($die) die;
+ echo '<pre>';
+ print_r($parsed);
+ echo '</pre>';
+ if($die) die;
     
 }
 }
@@ -29,9 +29,9 @@ if(!function_exists('dd'))
 */
 function dd($parsed)
 {
-	 echo '<pre>';
-	 var_dump($parsed);
-	 echo '</pre>';
-     die;
+ echo '<pre>';
+ var_dump($parsed);
+ echo '</pre>';
+ die;
 }
 }
