@@ -8,30 +8,45 @@ namespace JK\Foundation\Generators;
 class ModelGenerator extends CustomGenerator
 {
 
-    
+
 /**
-* Generate model
+ * @var string $directory
+*/
+protected $directory = 'app/models';
+
+
+/**
+ * Do something before generated action
+ * 
+ * @return void
+*/
+protected function before()
+{
+    $name =  ucfirst($this->input(2));
+    $content = sprintf($this->blank(), $name);
+    $this->setContent($content);
+    $filename = sprintf('%s.php', $name);
+    $this->setFilename($filename);
+    $fullname = sprintf('app\\models\\%s', $name);
+    $message =  sprintf(
+      'Model [ %s ] successfully generated!', 
+      $fullname
+    );
+    $this->success($message);
+}
+
+
+/**
+* Generate controller
 * 
 * @return void
 */
 public function generate()
 {
-     
-  /*-- Configuration:MODULE_DIR['model']; --*/
-  $model_dir =  'app/models'; 
-  $name =  ucfirst($this->input(2));
-  $model_name = $name;
-  $filename = sprintf('%s.php', $model_name);
-  $generated_file = $this->file->make($model_dir, $filename);
-
-  $content = sprintf($this->blank(), $model_name);
-  
-  if($this->file->put($generated_file, $content))
-  {
-      return sprintf('app\\models\\%s', $model_name);
-  }
-  return false;
+    parent::generate();
 }
+
+
 
 
 /**
