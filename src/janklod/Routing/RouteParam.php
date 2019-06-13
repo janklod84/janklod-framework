@@ -218,7 +218,6 @@ public function addModule($module)
 /**
  * Get module
  * 
- * @param  $key 
  * @return string
 */
 public function module()
