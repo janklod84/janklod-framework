@@ -1,15 +1,23 @@
 #!/usr/bin/env php
 <?php 
+
+/*
+|------------------------------------------------------------------
+|   Framework console
+|   Ex: cmd/desktop>php console --help
+|   Ex: cmd/desktop>php console make:controller home
+|   Ex: cmd/desktop>php console make:model user
+|------------------------------------------------------------------
+*/
+
 if(php_sapi_name() != 'cli') die('Restricted');
 define('JKSTART', microtime(true));
 
-require(__DIR__.'/func.php');
 require(__DIR__.'/vendor/autoload.php');
 
 $app = require(__DIR__.'/bootstrap/app.php');
-
 $status  = $app->console->run(
- $input = new JK\Console\IO\InputArgv,
- new JK\Console\IO\Output
+	 $input = new JK\Console\IO\InputArgv,
+	 new JK\Console\IO\Output
 );
 exit($status);
