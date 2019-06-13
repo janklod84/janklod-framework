@@ -82,13 +82,14 @@ public function description()
 /**
  * Determine if input match signature
  * 
- * @param $input 
- * @return 
+ * @param InputInterface $input 
+ * @return bool
  */
 public function match($input)
 {
-
+   return $input->argument(0) === $this->signature;
 }
+
 
 /**
  * Configuration command

@@ -118,7 +118,7 @@ public function name($name)
  * @param OutputInterface $output 
  * @return void
 */
-public function execute($signature, InputInterface $input, OutputInterface $output)
+public function execute($signature='', InputInterface $input, OutputInterface $output)
 {
      // block access no cli request
      self::blockAccess();

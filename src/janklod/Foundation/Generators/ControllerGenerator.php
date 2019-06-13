@@ -1,13 +1,47 @@
 <?php 
-namespace JK\Foundation\Console\Generators;
+namespace JK\Foundation\Generators;
 
 
 /**
- * @package JK\Foundation\Console\Generators\ControllerGenerator
+ * @package JK\Foundation\Generators\ControllerGenerator
 */ 
 class ControllerGenerator extends CustomGenerator
 {
-      
+  
+/**
+ * @var string $directory
+ * @var string $fullname   [ Fullname of generated controller ]
+*/
+protected $directory = 'app/controllers';
+protected $fullname  = 'app\\controllers\\%s';
+
+
+
+/**
+ * Do something before generated action
+ * 
+ * @return void
+*/
+protected function before()
+{
+    $name =  ucfirst($this->input(2)).'Controller';
+    if($this->input(3) === '--no-prefixed')
+    {
+        $name = $this->input(2);
+    }
+    $content = sprintf($this->blank(), $name);
+    $this->setContent($content);
+    $filename = sprintf('%s.php', $name);
+    $this->setFilename($filename);
+    $fullname = sprintf('app\\controllers\\%s', $name);
+    $message =  sprintf(
+      'Controller [ %s ] successfully generated!', 
+      $fullname
+    );
+    $this->success($message);
+}
+
+
 /**
 * Generate controller
 * 
@@ -15,25 +49,7 @@ class ControllerGenerator extends CustomGenerator
 */
 public function generate()
 {
-  
-  /*-- Configuration:MODULE_DIR['controller']; --*/
-  $controller_dir =  'app/controllers'; 
-  $name =  ucfirst($this->input(2)).'Controller';
-  if($this->input(3) === '--no-prefixed')
-  {
-      $name = $this->input(2);
-  }
-  $controller_name = $name;
-  $filename = sprintf('%s.php', $controller_name);
-  $generated_file = $this->file->make($controller_dir, $filename);
-
-  $content = sprintf($this->blank(), $controller_name);
-  
-  if($this->file->put($generated_file, $content))
-  {
-      return sprintf('app\\controllers\\%s', $controller_name);
-  }
-  return false;
+    parent::generate();
 }
 
 

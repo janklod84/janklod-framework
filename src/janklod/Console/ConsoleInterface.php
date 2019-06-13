@@ -24,7 +24,7 @@ interface ConsoleInterface
  * @return void
 */
 public function execute(
-$signature, 
+$signature='', 
 InputInterface $input, 
 OutputInterface $output
 );

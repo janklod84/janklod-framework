@@ -2,12 +2,10 @@
 namespace JK\FileSystem;
 
 
-
-
 /**
  * @package JK\FileSystem\File 
 */ 
-class File 
+class File
 {
       
 /**

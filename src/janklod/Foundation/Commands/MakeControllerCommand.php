@@ -40,24 +40,11 @@ public function __construct()
 */
 public function execute($input=null, $output=null)
 {
-	 $this->console->execute($this->signature, $input, $output);
-   /*
-   if($input && $output)
-   {
-	   if($input->argument(1) === $this->signature) 
-	   {
-	   	   if($controller = $this->console->generate('controller', $input))
-	       {
-	       	  // $output->newLine();
-	          $output->writeln(
-	          	sprintf('Controller [ %s ] successfully generated!', $controller)
-	          );
-	          $output->writeln('End Execution!');
-	       }
-	   }
-	   
-   }
-   */
+	 return $this->console->execute(
+	 	       $this->signature, 
+	 	       $input, 
+	 	       $output
+	 );
 }
 
 /**

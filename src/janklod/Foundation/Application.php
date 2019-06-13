@@ -31,6 +31,11 @@ private static $instance;
 private $app;
 
 
+/**
+ * @var string $root  [ Application root ]
+*/
+private $root;
+
 
 /**
 * prevent instance from being cloned
@@ -57,6 +62,9 @@ private function __construct($root)
 {
    // Get container
    $this->app = $this->container();
+   
+   // root application
+   $this->root = $root;
 
    // bind file in container
    $this->bind('file', 
@@ -64,6 +72,17 @@ private function __construct($root)
    );
 }
 
+
+
+/**
+ * Root of application
+ * 
+ * @return string
+*/
+public function root(): string
+{
+    return $this->root;
+}
 
 
 /**
