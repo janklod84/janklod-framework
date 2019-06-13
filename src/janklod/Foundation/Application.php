@@ -79,7 +79,7 @@ private function __construct($root)
  * 
  * @return string
 */
-public function root(): string
+public function root()
 {
     return $this->root;
 }

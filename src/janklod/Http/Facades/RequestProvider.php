@@ -23,7 +23,7 @@ public function boot()
 {
     // Start session
 	Session::start(
-      $this->app->file->to(Source::CONFIG['session.path'])
+      $this->app->file->to(Source::CONFIG['session.dir'])
 	);
 }
 
