@@ -274,20 +274,23 @@ public function namedRoutes($name)
 }
 
 
+
 /**
- * Get Url
+ * Do somes actions before storage
  * 
- * @param string $name 
- * @param array $params 
- * @return string
+ * @return void
 */
-public static function url($name, $params = [])
+public function beforeStorage()
 {
-     if(!isset(self::$namedRoutes[$name]))
-     {
-           return false;
-     }
-     return self::$namedRoutes[$name]->getUrl($params);
+  if(is_string($this->callback) && $this->name === null)
+  {
+     $this->setName($this->callback);
+  }
+
+  if($this->name)
+  {
+     $this->namedRoutes($this->name);
+  }
 }
 
 
@@ -317,6 +320,7 @@ public function with($parameter, $regex = null)
 
 
 
+
 /**
   * Replace param in path
   * 
@@ -330,13 +334,32 @@ public function convertPattern()
 }
 
 
+
+/**
+ * Get Url
+ * 
+ * @param string $name 
+ * @param array $params 
+ * @return string
+*/
+public static function url($name, $params = [])
+{
+     if(!isset(self::$namedRoutes[$name]))
+     {
+           return false;
+     }
+     return self::$namedRoutes[$name]->getUrl($params);
+}
+
+
+
 /**
  * Determine if has item Regex
  * 
  * @param string $key 
  * @return bool
 */
-private function has($key)
+protected function has($key)
 {
     return isset($this->regex[$key]);
 }
@@ -349,7 +372,7 @@ private function has($key)
   * @param array $match 
   * @return string 
 */
-private function paramMatch($match)
+protected function paramMatch($match)
 {
      if($this->has($match[1]))
      {
@@ -357,28 +380,6 @@ private function paramMatch($match)
      }
      return '([^/]+)';
 }
-
-
-/**
- * Do somes actions before storage
- * 
- * @return void
-*/
-public function beforeStorage()
-{
-  if(is_string($this->callback) && $this->name === null)
-  {
-     $this->setName($this->callback);
-  }
-
-  if($this->name)
-  {
-     $this->namedRoutes($this->name);
-  }
-}
-
-
-
 
 
 /**
