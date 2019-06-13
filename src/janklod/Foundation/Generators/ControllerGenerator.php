@@ -10,10 +10,8 @@ class ControllerGenerator extends CustomGenerator
   
 /**
  * @var string $directory
- * @var string $fullname   [ Fullname of generated controller ]
 */
 protected $directory = 'app/controllers';
-protected $fullname  = 'app\\controllers\\%s';
 
 
 

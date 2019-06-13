@@ -4,7 +4,7 @@ namespace JK\Foundation\Commands;
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Console\Console;
+use JK\Foundation\Console\Generate;
 
 
 
@@ -29,7 +29,7 @@ protected $console;
 public function __construct()
 {
      parent::__construct();
-     $this->console = new Console();
+     $this->console = new Generate();
 }
 
 

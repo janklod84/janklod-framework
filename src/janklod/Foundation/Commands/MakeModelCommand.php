@@ -19,6 +19,7 @@ protected $signature   = 'make:model';
 protected $description = 'description of command';
 
 
+
 /**
  * Constructor
  * 
@@ -31,7 +32,6 @@ public function __construct()
 
 
 
-
 /**
  * Execute command
  * 
@@ -41,21 +41,11 @@ public function __construct()
 */
 public function execute($input=null, $output=null)
 {
-   if($input && $output)
-   {
-	   if($input->argument(1) === $this->signature) 
-	   {
-	   	   if($model = $this->console->generate('model', $input))
-	       {
-	       	  // $output->newLine();
-	          $output->writeln(
-	          	sprintf('Model [ %s ] successfully generated!', $model)
-	          );
-	          $output->writeln('End Execution!');
-	       }
-	   }
-	   
-   }
+	 return $this->console->execute(
+	 	       $this->signature, 
+	 	       $input, 
+	 	       $output
+	 );
 }
 
 /**
@@ -64,5 +54,6 @@ public function execute($input=null, $output=null)
 * @return mixed
 */
 public function undo(){}
+
 
 }

@@ -13,12 +13,12 @@ use JK\Foundation\Generators\{
 
 
 /**
- * class [ Factory ] Console
+ * class [ Factory ] Generate
  * Receiver
  *
- * @package JK\Foundation\Console\Console
+ * @package JK\Foundation\Console\Generate
 */ 
-class Console implements ConsoleInterface
+class Generate implements ConsoleInterface
 {
 
 /**
@@ -43,26 +43,25 @@ InputInterface $input,
 OutputInterface $output
 )
 {
-    if($input->argument(1) !== $signature)
-    {  exit('No matches commands!'); }
-
-    switch($signature)
-    {
-        case 'make:controller':
-           $this->action = $this->generate(
-             new ControllerGenerator($input, $output)
-           );
-        break;
-        case 'make:model':
-           $this->action = $this->generate(
-             new ModelGenerator($input, $output)
-           );
-        break;
-        default:
-           $this->action = 'Not Found signature!';
-        break;
+    $argument = '#^'. $input->argument(1) . '$#';
+    if(preg_match($argument, $signature, $matches))
+    {  
+        switch($signature)
+        {
+            case 'make:controller':
+               $this->action = $this->do(
+                 new ControllerGenerator($input, $output)
+               );
+            break;
+            case 'make:model':
+               $this->action = $this->do(
+                 new ModelGenerator($input, $output)
+               );
+            break;
+            return $this->action;
+        }
     }
-    return $this->action;
+    
 }
 
 
@@ -75,7 +74,7 @@ OutputInterface $output
  * @var \JK\Console\IO\OutputInterface $output
  * @return bool
 */
-public function generate(GeneratorInterface $generator)
+public function do(GeneratorInterface $generator)
 {
   $handler = [$generator, 'generate'];
   if(is_callable($handler))
