@@ -59,6 +59,7 @@ protected function module($directory='', $name='')
  * 
  * @param string $class_name 
  * @return void
+ * @throws \Exception
 */
 protected function validate_class($class_name)
 {
@@ -77,6 +78,7 @@ protected function validate_class($class_name)
  * @param  callback $callback 
  * @param  string $message 
  * @return void
+ * @throws \Exception
 */
 protected function validate_callable($callback, $message='No callable')
 {
