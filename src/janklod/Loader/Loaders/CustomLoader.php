@@ -58,7 +58,6 @@ protected function module($directory='', $name='')
  * Make sure class exist
  * 
  * @param string $class_name 
- * @param string $message
  * @return void
 */
 protected function validate_class($class_name)
