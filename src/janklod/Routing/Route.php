@@ -3,6 +3,8 @@ namespace JK\Routing;
 
 
 /**
+ * class Route
+ * 
  * @package JK\Routing\Route 
 */ 
 class Route 
@@ -12,7 +14,7 @@ class Route
 /**
  * @var string   $module
  * @var array    $prefixes
- * @var array    $middleware
+ * @var array    $middlewares
 */
 protected static $module      = '';
 protected static $prefixes    = [];
@@ -125,9 +127,13 @@ public static function middleware($middlewares=[], \Closure $callback)
 */
 public static function group($options = [], \Closure $callback)
 {  
-      // prefix
-      // middleware 
-      // module 
+      self::$prefix      = $options['prefix'] ?? null;
+      self::$middlewares = $options['middlewares'] ?? null;
+      self::$module      = $options['module'] ?? null;
+      call_user_func($callback);
+      self::$prefix       = [];
+      self::$middlewares  = [];
+      self::$module       = '';
 }
 
 
