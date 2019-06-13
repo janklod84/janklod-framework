@@ -14,18 +14,29 @@ use JK\Http\Uploads\UploadedFile;
 */ 
 class Request implements RequestInterface
 {
-      
+
+/**
+ * @const array $globalParams
+*/     
 private $globalParams = [
   'REQUEST_URI', 
   'PATH_INFO', 
   'QUERY_STRING'
 ];
 
+/**
+ * @const array $ipIndexes
+*/
 private $ipIndexes = [
   'HTTP_CLIENT_IP',
   'HTTP_X_FORWARDED_FOR',
   'HTTP_X_FORWARDED_FOR'
 ];
+
+/**
+ * @var mixed request body $body
+*/
+private $body;
 
 
 /**
@@ -183,6 +194,28 @@ public function ip()
    return $ip;
 }
 
+
+/**
+ * Set body
+ * 
+ * @param mixed $body
+ * @return void
+*/
+public function setBody($body='')
+{
+    $this->body = $body;
+}
+
+
+/**
+ * Get body
+ * 
+ * @return mixed
+*/
+public function body()
+{
+    return $this->body;
+}
 
 
 /**
