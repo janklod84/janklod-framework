@@ -63,13 +63,13 @@ protected function module($directory='', $name='')
 */
 protected function validate_class($class_name)
 {
-	if(!class_exists($class_name))
-    {
-         throw new \Exception(
-           sprintf('class <strong>%s</strong> does not exit!', $class_name), 
-           404
-        );
-    }
+  if(!class_exists($class_name))
+  {
+     throw new \Exception(
+       sprintf('class <strong>%s</strong> does not exit!', $class_name), 
+       404
+    );
+  }
 }
 
 /**
@@ -81,10 +81,10 @@ protected function validate_class($class_name)
 */
 protected function validate_callable($callback, $message='No callable')
 {
-	 if(!is_callable($callback))
-     {
-	      throw new \Exception($message);
-	 }
+   if(!is_callable($callback))
+   {
+      throw new \Exception($message);
+   }
 }
 
 }
