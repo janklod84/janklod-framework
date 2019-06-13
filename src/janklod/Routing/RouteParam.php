@@ -355,7 +355,7 @@ private function paramMatch($match)
 */
 public function beforeStorage()
 {
-	if(is_string($this->callback) && $this->name === null)
+	  if(is_string($this->callback) && $this->name === null)
     {
           $this->setName($this->callback);
     }
