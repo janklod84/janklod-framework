@@ -211,7 +211,7 @@ protected function process($input, $output)
  * Header
  * 
  * @param string $message 
- * @return string
+ * @return void
 */
 protected function blank_head($message='')
 {

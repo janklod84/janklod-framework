@@ -42,4 +42,25 @@ public static function lowerCamelCase($name)
 }
 
 
+     
+/**
+* Replace pattern
+* 
+* Ex: Common::convertPattern('#{([\w]+)}#', callable, '/url/to/{id}');
+* 
+* @param  string    $mask 
+* @param  callable  $callable 
+* @param  string    $pattern 
+* @return string
+*/
+public static function convertPattern(
+string $mask, 
+callable $callable, 
+string $pattern
+)
+{
+   return preg_replace_callback($mask, $callable, $pattern);
+}
+
+
 }

@@ -62,11 +62,7 @@ public static function meta()
    $meta = '';
    foreach(self::$metas as $name => $content)
    {
-	    $meta .= sprintf(
-		   self::MASK_META['content'], 
-		   $name, 
-		   $content
-	    ) . PHP_EOL;
+	  $meta .= sprintf(self::MASK_META['content'], $name, $content) . PHP_EOL;
    }
    echo $meta;
 }
