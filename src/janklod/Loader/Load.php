@@ -36,7 +36,7 @@ public function __construct($app)
 /**
 * Call action
 * 
-* @param  string|\Closure $callback
+* @param  string|\Closure $callback 
 * @param  array  $matches
 * @return mixed
 */
