@@ -3,8 +3,8 @@ namespace JK\Loader;
 
 
 use \Exception;
-use \Config;
-use JK\Debug\Debogger;
+use JK\Loader\Loaders\ActionLoader;
+
 
 
 /**
@@ -18,9 +18,7 @@ class Load
 * @var  
 */
 private $app;
-private $controller;
 private $models = [];
-private $callback;
 
 
 
@@ -37,120 +35,16 @@ public function __construct($app)
 
 /**
 * Call action
-* @param \JK\Container\ContainerInterface $app
+* 
+* @param  string|\Closure $callback
+* @param  array  $matches
 * @return mixed
 */
 public function callAction($callback, $matches=[])
 {
-      $output = null;
-     
-      if(is_string($callback) && strpos($callback, '@') !== false) 
-      {
-          list($controller, $action) = explode('@', $callback, 2);
-
-          $controllerObj = $this->controller($controller);
-          $action = strtolower($action);
-          
-          $this->app->add([
-            'current.controller' => get_class($controllerObj),
-            'current.action' => $action
-          ]);
-          
-          $callback = [$controllerObj, $action];
-          if(!is_callable($callback))
-          {
-              throw new \Exception(
-                '<b>Sorry, Can not call this route. 
-                May be current route already used</b>'
-              );
-              
-          }
-          $this->call([$controllerObj, 'before']);
-          $output = call_user_func_array($callback, $matches);
-          $this->call([$controllerObj, 'after']);
-          
-          // show message
-          $this->notify();
-
-     }else if($callback instanceof \Closure){
-          $output = call_user_func($callback, $matches);
-     }
-     return $output;
+   $loader = new ActionLoader($this->app);
+   return $loader->process($callback, $matches);
 }
-
-
-/**
- * Show messages
- * 
- * @return void
-*/
-public function notify()
-{
-   $debogger = new Debogger($this->app);
-   $debogger->output(\Config::get('app.debug'));
-}
-
-
-/**
-* Callback
-* 
-* @param callable $callback
-* @return void
-*/
-public function call(callable $callback)
-{
-   call_user_func($callback);
-}
-
-
-
-/**
- * Get module name
- * @param string $directory 
- * @param string $name 
- * @return string
-*/
-public function getModule($directory='', $name='')
-{
-  $directory = rtrim($directory, '\\');
-   return sprintf('%s\\%s', $directory, $name);
-}
-
-
-/**
-* Get controller
-* @param string $name
-* @return object
-* @throws \Exception
-*/
-public function controller($name)
-{
-    $controller = $this->getModule('\\app\\controllers', $name);
-    if(!class_exists($controller))
-    {
-         throw new LoadException(
-           sprintf('class <strong>%s</strong> does not exit!', $controller), 
-           404
-        );
-    }
-
-    return new $controller($this->app) ?: new \stdClass();
-}
-
-
-
-
-/**
-* Load module [To add more functionalites later]
-* @param string $name
-* @return string
-* @throws \Exception
-*/
-public function module(string $name)
-{
-     return $this->getModule('\\modules', $name);
-}
-
 
 
 /**

@@ -4,6 +4,8 @@ namespace JK\Foundation;
 
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
+use JK\Debug\Debogger;
+use \Config;
 
 
 /**
@@ -210,23 +212,6 @@ public function __get($key)
    return $this->get($key);
 }
 
-/**
- * Storage params for pretty print
- * 
- * @return void
-*/
-private function bindParams()
-{
-    /*
-    $this->push([
-      'current.route'   => $this->router->params(),
-      'current.queries' => '', //\JK\ORM\Q::queries(),
-      'config' => '', // Config::all()
-     ]);
-     */
-
-}
-
 
 /**
  * Handle request
@@ -234,7 +219,7 @@ private function bindParams()
  * @param \JK\Http\RequestInterface  $request 
  * @return mixed
 */
-private function handle(RequestInterface $request)
+public function handle(RequestInterface $request)
 {
      $method     = $request->method();
      $dispatcher = $this->router->run($method);
@@ -251,7 +236,7 @@ private function handle(RequestInterface $request)
  * @param JK\Http\ResponseInterface $response 
  * @return void
 */
-private function terminate(
+public function terminate(
 RequestInterface $request, 
 ResponseInterface $response
 )
@@ -259,6 +244,39 @@ ResponseInterface $response
    $output = (string) $this->handle($request);
    $response->setBody($output);
    $response->send(); 
+   
+   // show message
+   $this->notify();
+}
+
+
+/**
+ * Show messages
+ * 
+ * @return void
+*/
+private function notify()
+{
+   $debogger = new Debogger($this->app);
+   $debogger->output(\Config::get('app.debug'));
+}
+
+
+/**
+ * Storage params for pretty print
+ * 
+ * @return void
+*/
+private function bindParams()
+{
+    /*
+    $this->push([
+      'current.route'   => $this->router->params(),
+      'current.queries' => '', //\JK\ORM\Q::queries(),
+      'config' => '', // Config::all()
+     ]);
+     */
+
 }
 
 }
