@@ -14,7 +14,7 @@ interface MiddlewareInterface
 	* Handle the middleware
 	* 
 	* @param \JK\Container\ContainerInterface $app
-	* @param string $next
+	* @param  string $next
 	* @return mixed
 	*/
 	public function handle(ContainerInterface $app, $next);

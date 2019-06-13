@@ -15,16 +15,16 @@ interface ConsoleInterface
 {
 
 
-
 /**
- * Run and execute commands
+ * Excecute command
  * 
- * @param InputInterface $input
- * @param OutputInterface $output
- * 
- * @return mixed
+ * @param string $signature 
+ * @param InputInterface $input 
+ * @param OutputInterface $output 
+ * @return void
 */
-public function run(
+public function execute(
+$signature, 
 InputInterface $input, 
 OutputInterface $output
 );

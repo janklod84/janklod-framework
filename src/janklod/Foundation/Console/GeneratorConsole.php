@@ -2,6 +2,10 @@
 namespace JK\Foundation\Console;
 
 
+use JK\Console\ConsoleInterface;
+use JK\Console\IO\InputInterface;
+use JK\Console\IO\OutputInterface;
+
 
 /**
  * class [ Factory ] GeneratorConsole
@@ -13,6 +17,32 @@ class GeneratorConsole
 {
 
 
+/**
+ * Run and execute commands
+ * 
+ * @param string $task
+ * @param InputInterface $input
+ * @param OutputInterface $output
+ * 
+ * @return mixed
+*/
+public function execute($task='', $input, $output)
+{
+     
+}
+
+
+
+public function controller()
+{
+
+}
+
+
+public function model()
+{
+
+}
 /**
  * Generator item
  * 

@@ -110,6 +110,45 @@ public function name($name)
 }
 
 
+/**
+ * Excecute command
+ * 
+ * @param string $signature 
+ * @param InputInterface $input 
+ * @param OutputInterface $output 
+ * @return void
+*/
+public function execute($signature, InputInterface $input, OutputInterface $output)
+{
+     // block access no cli request
+     self::blockAccess();
+     
+     // get head 
+     $this->blank_head();
+
+     // Make sure input name file matches
+     if($signature !== $this->name)
+     {
+         exit(
+          sprintf(
+           'Sorry command [ %s ] does not match console file name [ %s ]', 
+           $input->argument(0), 
+           $this->name
+          )
+         );
+     }
+     
+     // Get Help
+     $first = $input->argument(1);
+     if($first === '--help' || $first === '-h')
+     {
+         exit($this->help());
+     }
+     
+     // execution processing
+     return $this->process($input, $output);
+}
+
 
 /**
  * Run and execute commands
@@ -121,23 +160,27 @@ public function name($name)
 */
 public function run(InputInterface $input, OutputInterface $output)
 {
-   // block access no cli request
-   self::blockAccess();
+    return $this->execute($input->argument(0), $input, $output);
+}
 
-   // make sure input name file matches
-   if($input->argument(0) !== $this->name)
-   {
-       exit(
-        sprintf(
-         'Sorry command [ %s ] does not match console file name [ %s ]', 
-         $input->argument(0), 
-         $this->name
-        )
-       );
-   }
-   
-   // execution processing
-   return $this->process($input, $output);
+
+/**
+ * Get Help
+ * 
+ * cmd>php console --help
+ * @return string
+*/
+public function help()
+{
+    $output = 'HELP Commands:'."\n\n";
+    foreach(self::$commands as $command)
+    {
+       $commandInterface = $this->readCommand($command);
+       $output .= $commandInterface->signature();
+       $output .= "\n\t". $commandInterface->description();
+       $output .= "\n";
+    }
+    return $output;
 }
 
 
@@ -161,6 +204,22 @@ protected function process($input, $output)
        }
    }
    return $message ?? 'No messages!';
+}
+
+
+/**
+ * Header
+ * 
+ * @param string $message 
+ * @return string
+*/
+protected function blank_head($message='')
+{
+   $html  = '+-----------------+-----------------+'."\n"; 
+   $html .= '+----  JK Framework Console --------+'."\n"; 
+   $html .= '+-----------------+-----------------+'."\n"; 
+   $html .= "\n";
+   echo $html;
 }
 
 

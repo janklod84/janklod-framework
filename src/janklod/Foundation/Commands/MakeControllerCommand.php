@@ -40,6 +40,8 @@ public function __construct()
 */
 public function execute($input=null, $output=null)
 {
+	 $this->console->execute($this->signature, $input, $output);
+   /*
    if($input && $output)
    {
 	   if($input->argument(1) === $this->signature) 
@@ -55,6 +57,7 @@ public function execute($input=null, $output=null)
 	   }
 	   
    }
+   */
 }
 
 /**

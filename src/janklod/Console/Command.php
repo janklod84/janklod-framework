@@ -80,6 +80,17 @@ public function description()
 
 
 /**
+ * Determine if input match signature
+ * 
+ * @param $input 
+ * @return 
+ */
+public function match($input)
+{
+
+}
+
+/**
  * Configuration command
  * 
  * @return void
