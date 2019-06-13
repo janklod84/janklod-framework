@@ -45,13 +45,14 @@ public function __construct($app)
      $this->request  = $app->request;
      $this->load     = $app->load;
      $this->response = $app->response;
-     $this->beforeRender();
+     $this->onConstructor();
 }
 
 
 /**
 * Must to add later next functionnality
 * Do something before calling action
+* 
 * @return void
 */
 public function before() {}
@@ -60,6 +61,7 @@ public function before() {}
 /**
 * Must to add later next functionnality
 * Do something after calling action
+* 
 * @return void
 */
 public function after(){}
@@ -68,6 +70,7 @@ public function after(){}
 
 /**
 * Set data
+* 
 * @param array $data 
 * @return void
 */
@@ -95,6 +98,7 @@ public function formatTitle($title='', $current = null, $divider='|')
 
 /**
  * Set meta datas
+ * 
  * @param string $title 
  * @param string $desc 
  * @param string $keywords 
@@ -108,15 +112,6 @@ protected function setMeta($title='', $desc = '', $keywords='')
 
 /**
 * View render
-* Ex: Can write like
-* 
-* Function view('site.home.index') 
-* Function view('site.home.index', compact('users', '...')) 
-* $this->render('site.home.index');
-* $this->render('site.home.index', compact('users', '...'));
-* $this->render('/site/home/index');
-* $this->render('/site/home/index', compact('users', '...'));
-* $this->render('/site/home/index', ['users' => $users , 'test' => $test]);
 *
 * @param string $view 
 * @param array $data 
@@ -127,23 +122,11 @@ protected function render($view, $data = [])
      $this->view->setView($view);
      $this->view->setData($data);
      $this->view->render();
-     $this->app->add([
-        'current.view.path'   => $this->view->viewPath(),
-        'current.layout.path' => $this->view->layoutPath()
-     ]);
 }
 
 
 /**
  * Get Json Encoding datas
- * 
- * Ex: 
- *  $this->json([
- *      'Bonjour les amis' => 'Comment ca va ?', 
- *      'error' => false,
- *      'status' => 'OK'
- *   ]);
- * {"Bonjour les amis":"Comment ca va ?","error":false,"status":"OK"}
  * 
  * 
  * @param array $response 
@@ -151,45 +134,50 @@ protected function render($view, $data = [])
 */
 public function json($response=[])
 {
-      $this->response->withHeader([
-          "Access-Control-Allow-Origin: *",
-          "Content-Type: application/json; charset=UTF-8"
-      ]);
-      $this->response->setCode(200);
-      echo $this->response->asJson($response);
-      exit;
+    $this->response->withHeader([
+        "Access-Control-Allow-Origin: *",
+        "Content-Type: application/json; charset=UTF-8"
+    ]);
+    $this->response->setCode(200);
+    echo $this->response->asJson($response); 
+    
+    /*
+    $status = $this->response->asJson($response); 
+    exit($status);
+    */
+    exit;
 }
 
 
 /**
- * Do action before render
+ * Do some action on constructor
+ * 
  * @return void
 */
-private function beforeRender()
+private function onConstructor()
 {
-     // Configuration views
-     // $this->view->partialDir(Config::get('view.partial'));
-     $layout = $this->layout();
-     $this->view->setLayout($layout);
+   $this->addLayout();
 }
 
 
 /**
-* Get current layout
+* Add layout
 * 
 * @return mixed
 */
-protected function layout()
+protected function addLayout()
 {
    if(!$this->layout)
-   { return false; }
-   else{ 
-     if(Config::get('view.layout') !== '')
-     {
-          $this->layout = Config::get('view.layout');
-     }
-     return 'layouts/'. $this->layout;
-  }
+   {
+     $layout = false; 
+   }else{ 
+       if(Config::get('view.layout') !== '')
+       {
+            $this->layout = Config::get('view.layout');
+       }
+       $layout = 'layouts/'. $this->layout;
+   }
+   $this->view->setLayout($layout);
 }
 
 

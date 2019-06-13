@@ -12,6 +12,7 @@ class ViewProvider extends ServiceProvider
         
     /**
      * Register service
+     * 
      * @return void
     */
     public function register()
@@ -21,5 +22,19 @@ class ViewProvider extends ServiceProvider
                 $this->app->file->to('app/views/')
              );
         });
+    }
+
+    
+    /**
+     * Add provides
+     * 
+     * @return void
+    */
+    public function after()
+    {
+        $this->app->add([
+            'current.view.path'   => $this->app->view->viewPath(),
+            'current.layout.path' => $this->app->view->layoutPath()
+        ]);
     }
 }
