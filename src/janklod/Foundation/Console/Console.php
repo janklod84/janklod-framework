@@ -29,9 +29,9 @@ private $action;
 
 
 /**
- * Run and execute commands
+ * Execute concrete command
  * 
- * @param string $task
+ * @param string $signature
  * @param InputInterface $input
  * @param OutputInterface $output
  * 
