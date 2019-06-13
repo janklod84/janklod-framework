@@ -2,7 +2,6 @@
 namespace JK\Foundation;
 
 
-// use JK\Routing\Dispatcher;
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
 

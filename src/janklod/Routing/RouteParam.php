@@ -250,6 +250,17 @@ public function item($key, $value)
      $this->params[$key] = $value;
 }
 
+/**
+ * Get param item
+ * 
+ * @param string $key 
+ * @return mixed
+*/
+public function param($key)
+{
+   return $this->params[$key] ?? null;
+}
+
 
 /**
  * Add named routes

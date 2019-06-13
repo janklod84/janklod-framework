@@ -21,14 +21,4 @@ class SelectBuilder extends CustomBuilder
          return sprintf('SELECT %s', $select);
      }
 
-     
-     /**
-      * Recurive
-      * @param array $selects 
-      * @return 
-     */
-     private function recursive($selects)
-     {
-
-     }
 }
