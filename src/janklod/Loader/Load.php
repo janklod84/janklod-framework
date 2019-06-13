@@ -3,7 +3,10 @@ namespace JK\Loader;
 
 
 use \Exception;
-use JK\Loader\Loaders\ActionLoader;
+use JK\Loader\Loaders\{
+ ActionLoader,
+ ModelLoader
+};
 
 
 
