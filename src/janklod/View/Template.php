@@ -26,6 +26,7 @@ class Tempate
 
 /**
  * Used in the layouts to embed the head and body
+ * 
  * @method content
  * @param string $type can be head or body
  * @return string returns the output buffer of head and body
@@ -42,6 +43,7 @@ public static function content($type)
 
 /**
  * Add type we want to add in buffer
+ * 
  * @param string $type
  * @return void
 */
@@ -52,6 +54,7 @@ public static function addType($type)
 
 /**
  * start the output buffer for the head or body
+ * 
  * @param string 
  * @return void
 */
@@ -64,6 +67,7 @@ public static function start($type)
 
 /**
  * Get output
+ * 
  * @return void
 */
 public function end()

@@ -68,7 +68,7 @@ public function index()
 
 public function test()
 {
-
+    echo __METHOD__.'<br>';
 }
 
 

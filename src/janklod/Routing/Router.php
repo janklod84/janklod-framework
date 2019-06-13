@@ -10,18 +10,17 @@ class Router
        
 
 /**
- * @var  array       $params
- * @var  array       $matches
- * @var  array       $routes
- * @var  object      $route
- * @var  Dispatcher  $dispatcher
- * @var  string      $url
+ * @var  array        $params
+ * @var  array        $matches
+ * @var  array        $routes
+ * @var  RouteParam   $route
+ * @var  Dispatcher   $dispatcher
+ * @var  string       $url
 */
 private $params  = [];
 private $matches = [];
 private $routes  = [];
 private $route;
-private $dispatcher;
 private $url;
 
 
@@ -34,7 +33,19 @@ private $url;
 */
 public function __construct($url = '')
 {
-      
+      $this->addUrl($url);
+}
+
+
+/**
+ * Add Url
+ * 
+ * @param  string $url 
+ * @return void
+*/
+public function addUrl($url='')
+{
+	 $this->url = trim($url, '/');
 }
 
 
@@ -42,11 +53,24 @@ public function __construct($url = '')
 /**
  * Determine if route match URL
  * 
- * @return 
-*/
-public function match()
+ * @param string $url 
+ * @param string $method 
+ * @return array|bool
+ */
+public function match($url=null, $method=null)
 {
-     
+   foreach(RouteCollection::group($method) as $route)
+   {
+       $pattern = $route->convertPattern();
+       if(preg_match($pattern, $url, $matches))
+       {
+           array_shift($matches);
+           $this->matches = $matches;
+           $this->route = $route;
+           return $route->parameters();
+       }
+   }
+   return false;
 }
 
 
@@ -57,12 +81,47 @@ public function match()
  * @param  string $method
  * @return Dispatcher
 */
-public function dispatch($method='GET')
+public function run($method='GET')
 {
-      echo '<pre>';
-      print_r(RouteCollection::all());
-      echo '</pre>';
+    if($this->match($this->url, $method))
+    {
+    	 return new Dispatcher(
+    	           $this->route->callback(), 
+                   $this->matches
+               );
+    }else{
+    	return new Dispatcher('NotFoundController@page404');
+    }
 }
+
+
+/**
+ * Get request method
+ * 
+ * @return string
+*/
+public function requestMethod($parsed)
+{
+   if(is_null($parsed))
+   {
+   	  return $_SERVER['REQUEST_METHOD'] ?? '';
+   }
+}
+
+
+/**
+ * Get url
+ * 
+ * @return string
+*/
+public function url($parsed)
+{
+   if(is_null($parsed))
+   {
+   	  return $_SERVER['REQUEST_URI'] ?? '';
+   }
+}
+
 
 
 /**
@@ -72,7 +131,7 @@ public function dispatch($method='GET')
 */
 public function params()
 {
-    
+     return $this->params;
 }
 
 
@@ -83,7 +142,7 @@ public function params()
 */
 public function matches()
 {
-    
+     return $this->matches;
 }
 
 

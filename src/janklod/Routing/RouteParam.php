@@ -17,6 +17,7 @@ class RouteParam
 * @var  string  $module       [ Route module      ]
 * @var  array   $regex        [ Route regex       ]
 * @var  array   $middlewares  [ Route middlewares ]
+* @var  array   $params       [ Route params      ]
 * @var  array   $namedRoutes  [ Named routes      ]
 */
 private $path;
@@ -27,6 +28,7 @@ private $method;
 private $module;
 private $regex = [];
 private $middlewares = [];
+private $params = [];
 private static $namedRoutes = [];
 
 
@@ -49,7 +51,6 @@ public function __construct($path, $callback, $name=null, $method='GET')
 }
 
 
-
 /**
  * Set path
  * 
@@ -59,6 +60,7 @@ public function __construct($path, $callback, $name=null, $method='GET')
 public function setPath($path)
 {
     $this->path = $path;
+    $this->item('path', $this->path);
 }
 
 
@@ -83,6 +85,7 @@ public function path()
 public function setPattern($pattern)
 {
     $this->pattern = '#^'. $pattern . '$#i';
+    $this->item('pattern', $this->pattern);
 }
 
 
@@ -107,6 +110,7 @@ public function pattern()
 public function setCallback($callback)
 {
     $this->callback = $callback;
+    $this->item('callback', $this->callback);
 }
 
 
@@ -130,6 +134,7 @@ public function callback()
 public function setMethod($method)
 {
     $this->method = $method;
+    $this->item('method', $this->method);
 }
 
 
@@ -153,6 +158,7 @@ public function method()
 public function setName($name)
 {
     $this->name = $name;
+    $this->item('name', $this->name);
 }
 
 
@@ -169,14 +175,15 @@ public function name()
 
 
 /**
- * Add middlewares
+ * Add middleware
  * 
  * @param array $middlewares 
  * @return void
 */
-public function addMiddlewares($middlewares)
+public function addMiddleware($middlewares)
 {
      $this->middlewares = $middlewares;
+     $this->item('middlewares', $this->middlewares);
 }
 
 
@@ -203,6 +210,7 @@ public function middleware($key)
 public function addModule($module)
 {
     $this->module = $module;
+    $this->item('module', $this->module);
 }
 
 
@@ -218,6 +226,29 @@ public function module()
      return $this->module;
 }
 
+
+
+/**
+ * Get item params
+ * @return array
+*/
+public function parameters()
+{
+    return $this->params;
+}
+
+
+/**
+ * Set item param
+ * 
+ * @param string $key 
+ * @param mixed $value 
+ * @return void
+*/
+public function item($key, $value)
+{
+     $this->params[$key] = $value;
+}
 
 
 /**

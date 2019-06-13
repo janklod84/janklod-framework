@@ -13,7 +13,8 @@ class RoutingBlank extends CustomBlank
  * @return string
 */
 public function output()
-{
+{ 
+  /*
   if(!empty($this->app->get('current.route')))
   {
       $html  = '<table class="table table-striped">';
@@ -58,6 +59,7 @@ public function output()
       $html .= '</table>';
       return $html;
    }
+   */
 }
 
 }

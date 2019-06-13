@@ -70,21 +70,6 @@ public static function resource(string $path, string $controller)
 
 
 /**
-* Add routes group
-*
-* 
-* @param array $options
-* @param \Closure $callback
-* @return void
-*/
-public static function group($options = [], \Closure $callback)
-{  
-    
-}
-
-
-
-/**
 * Add prefixed routes and controller
 * 
 * @param array $prefixes
@@ -130,6 +115,23 @@ public static function middleware($middlewares=[], \Closure $callback)
 }
 
 
+
+/**
+* Add routes group
+*
+* @param array $options
+* @param \Closure $callback
+* @return void
+*/
+public static function group($options = [], \Closure $callback)
+{  
+      // prefix
+      // middleware 
+      // module 
+}
+
+
+
 /**
 * Add routes
 *
@@ -146,7 +148,7 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
      $callback = self::callback($callback);
 
      $route = new RouteParam($path, $callback, $name, $method);
-     $route->addMiddlewares(self::$middlewares);
+     $route->addMiddleware(self::$middlewares);
      $route->addModule(self::$module);
 
 

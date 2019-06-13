@@ -2,7 +2,7 @@
 namespace JK\Foundation;
 
 
-use JK\Routing\Dispatcher;
+// use JK\Routing\Dispatcher;
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
 
@@ -53,7 +53,7 @@ private function __wakeup(){}
 private function __construct($root)
 {
    // Get container
-   $this->app = $this->getContainer();
+   $this->app = $this->container();
 
    // bind file in container
    $this->bind('file', 
@@ -83,11 +83,11 @@ public function run()
 {   
    if(!$this->request->is('cli'))
    {
-	    // Run all services and modules
-      $this->initialize();
+	     // Run all services and modules
+       $this->initialize();
 
       // Call method terminate
-      // $this->terminate($this->request, $this->response);
+      $this->terminate($this->request, $this->response);
    }
 }
 
@@ -114,7 +114,7 @@ public static function instance($root = null): self
 * Dependency Injection Container
 * @return \JK\Container\ContainerInterface
 */
-public function getContainer()
+public function container()
 {
     return (new \JK\DI\ContainerBuilder())
            ->build();
@@ -206,11 +206,13 @@ public function __get($key)
 */
 private function bindParams()
 {
+    /*
     $this->push([
       'current.route'   => $this->router->params(),
       'current.queries' => '', //\JK\ORM\Q::queries(),
       'config' => '', // Config::all()
      ]);
+     */
 
 }
 
@@ -224,15 +226,7 @@ private function bindParams()
 private function handle(RequestInterface $request)
 {
      $method = $request->method();
-     $dispatcher = $this->router->dispatch($method);
-     if(is_null($dispatcher))
-     {
-          $dispatcher = $this->make(
-          Dispatcher::class, 
-          ['NotFoundController@page404']
-         );
-     }
-     $this->bindParams();
+     $dispatcher = $this->router->run($method);
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      return $this->load->callAction($callback, $matches);

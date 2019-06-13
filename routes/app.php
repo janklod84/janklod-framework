@@ -12,15 +12,15 @@
 ************************************/
 
 $options = [
-  'path' => '/admin',
+  // 'path' => '/admin',
   'controller' => 'admin'
 ];
 
 Route::prefix($options, function () {
     Route::get('/', 'LoginController@index', 'sign.up');
-    Route::post('/', 'LoginController@index');
     Route::get('/test', 'LoginController@test');
     Route::get('/dashboard', 'DashboardController@index');
+    Route::post('/', 'LoginController@index');
 });
 
 
