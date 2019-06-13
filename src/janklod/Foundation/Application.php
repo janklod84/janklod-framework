@@ -46,6 +46,7 @@ private function __wakeup(){}
 
 /**
   * Contructor
+  * 
   * @param string $root
   * @return void
 */
@@ -64,6 +65,7 @@ private function __construct($root)
 
 /**
  * Inialize all services of application
+ * 
  * @return void
 */
 public function initialize()
@@ -76,14 +78,15 @@ public function initialize()
 
 /**
   * Break Point of Application
+  * 
   * @return mixed
 */
 public function run()
 {   
    if(!$this->request->is('cli'))
    {
-	     // Run all services and modules
-       $this->initialize();
+	    // Run all services and modules
+      $this->initialize();
 
       // Call method terminate
       $this->terminate($this->request, $this->response);
@@ -93,7 +96,8 @@ public function run()
 
 /**
  * Get one times instance of Application
- * Using pattern Singleton
+ * [ Using pattern Singleton ]
+ * 
  * @param  string $root
  * @return self
 */
@@ -111,6 +115,7 @@ public static function instance($root = null): self
 /**
 * Get container
 * Dependency Injection Container
+* 
 * @return \JK\Container\ContainerInterface
 */
 public function container()
@@ -122,7 +127,9 @@ public function container()
 
 
 /**
-  * Bind key and value in DIC [Dependency Injection Container]
+  * Bind key and value in DIC 
+  * [Dependency Injection Container]
+  * 
   * @param string $key 
   * @param type $resolver 
   * @return void
@@ -135,6 +142,7 @@ public function bind(string $key, $resolver)
 
 /**
  * Add data to container
+ * 
  * @param array $data 
  * @return void
 */
@@ -167,6 +175,7 @@ public function make(string $name, $arguments = null): object
 
 /**
 * Set object as singleton
+* 
 * @param string $key 
 * @param mixed|callable $resolver 
 * @return void
@@ -179,7 +188,8 @@ public function singleton(string $key, $resolver)
 
 
 /**
- * get resolver by key 
+ * Get resolver by key 
+ * 
  * @param string $key 
  * @return mixed
 */
@@ -191,6 +201,7 @@ public function get(string $key)
 
 /**
 * Call automatically item from container
+* 
 * @param string $key 
 * @return mixed
 */
@@ -201,6 +212,7 @@ public function __get($key)
 
 /**
  * Storage params for pretty print
+ * 
  * @return void
 */
 private function bindParams()
@@ -224,7 +236,7 @@ private function bindParams()
 */
 private function handle(RequestInterface $request)
 {
-     $method = $request->method();
+     $method     = $request->method();
      $dispatcher = $this->router->run($method);
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();

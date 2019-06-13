@@ -44,7 +44,7 @@ public function execute($input=null, $output=null)
    {
 	   if($input->argument(1) === $this->signature) 
 	   {
-	   	   if($controller = $this->task->generate('controller', $input))
+	   	   if($controller = $this->console->generate('controller', $input))
 	       {
 	       	  // $output->newLine();
 	          $output->writeln(

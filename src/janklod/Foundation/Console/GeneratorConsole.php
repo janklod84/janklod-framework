@@ -4,12 +4,12 @@ namespace JK\Foundation\Console;
 
 
 /**
- * Class [ Factory ] Task
- * Receiver command 
+ * class [ Factory ] GeneratorConsole
+ * Receiver
  *
- * @package JK\Foundation\Console\Task
+ * @package JK\Foundation\Console\GeneratorConsole
 */ 
-class Task
+class GeneratorConsole
 {
 
 

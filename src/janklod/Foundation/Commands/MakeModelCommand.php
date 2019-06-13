@@ -45,7 +45,7 @@ public function execute($input=null, $output=null)
    {
 	   if($input->argument(1) === $this->signature) 
 	   {
-	   	   if($model = $this->task->generate('model', $input))
+	   	   if($model = $this->console->generate('model', $input))
 	       {
 	       	  // $output->newLine();
 	          $output->writeln(

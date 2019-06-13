@@ -4,7 +4,7 @@ namespace JK\Foundation\Commands;
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Console\Task;
+use JK\Foundation\Console\GeneratorConsole;
 
 
 
@@ -17,9 +17,9 @@ abstract class CustomCommand extends Command
 {
 
 /**
- * @var \JK\Foundation\Console\Task;
+ * @var \JK\Foundation\Console\GeneratorConsole;
  */
-protected $task;
+protected $console;
 
 /**
  * Constructor
@@ -29,7 +29,7 @@ protected $task;
 public function __construct()
 {
      parent::__construct();
-     $this->task = new Task();
+     $this->console = new GeneratorConsole();
 }
 
 
