@@ -218,7 +218,7 @@ public function setCode(int $code)
 */
 public function asJson($content=[])
 {
-    self::$stored['asJson'][] = $content;
+    self::$stored['json'][] = $content;
     return json_encode($content);
 }
 

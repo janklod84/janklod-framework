@@ -226,6 +226,8 @@ public static function files()
     return self::$files;
 }
 
+
+
 /**
  * Add path
  * @param string $path 

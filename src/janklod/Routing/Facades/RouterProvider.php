@@ -26,9 +26,7 @@ public function boot()
    $this->app->file->call('routes/app.php');
 
    // set url
-   // add more fonctionnalites here [ http://localhost:8000/ ]
-   // $url = $this->app->request->get('url') ?? '/?';
-   $this->url = $this->app->request->get('url') ?? '';
+   $this->url = $this->app->request->get('url');
 }
 
 
@@ -40,7 +38,7 @@ public function boot()
 public function register()
 {
     $this->app->singleton('router', function () {
-         return new Router($this->url);
+         return $this->app->make(Router::class, [$this->url]);
     });
 }
 
