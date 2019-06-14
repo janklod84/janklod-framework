@@ -21,17 +21,6 @@ protected static $prefixes    = [];
 protected static $middlewares = [];
 
 
-/**
- * Constructor
- * 
- * @param  string $path 
- * @param  array $options 
- * @return RouteParam
-*/
-public function __construct($path='', $options = [])
-{
-      return self::map($path, $options);
-}
 
 
 /**
@@ -148,6 +137,7 @@ public static function group($options = [], \Closure $callback)
 }
 
 
+
 /**
 * Add routes
 *
@@ -159,8 +149,14 @@ public static function group($options = [], \Closure $callback)
 */
 public static function add($path, $callback, $name = null,  $method = 'GET')
 {
-     # add param
-     $route = self::param($path, $callback, $name, $method);
+     # route param
+     $path     = self::path($path);
+     $callback = self::callback($callback);
+
+     $route = new RouteParam($path, $callback, $name, $method);
+     $route->addMiddleware(self::$middlewares);
+     $route->addModule(self::$module);
+
 
      # before storage
      $route->beforeStorage();
@@ -170,42 +166,6 @@ public static function add($path, $callback, $name = null,  $method = 'GET')
 
      # return current route
      return $route;
-}
-
-
-
-/**
- * Optional route
- * 
- * @param string $path 
- * @param array $options 
- * @return RouteParam
-*/
-public static function option($path='', $options = [])
-{
-      $route = self::map($path, $options);
-      RouteCollection::store($method, $route);
-      return $route;
-}
-
-
-
-/**
- * Optional route
- * 
- * @param string $path 
- * @param array $options 
- * @return RouteParam
-*/
-public static function map($path='', $options = [])
-{
-      $callback = $options['callback'] ?? null;
-      $name     = $options['name'] ?? null;
-      $method   = $options['method'] ?? null;
-      self::$prefix = $options['prefix'] ?? null;
-      $route = self::param($path, $callback, $name, $method);
-      self::$prefix = [];
-      return $route;
 }
 
 
@@ -270,29 +230,6 @@ public static function callback($callback)
         }
      }
      return $callback;
-}
-
-
-
-/**
- * add params
- * 
- * @param string $path 
- * @param string|\Closure $callback 
- * @param string $name 
- * @param string $method 
- * @return RouteParam
-*/
-protected static function param($path, $callback, $name=null, $method='GET')
-{
-     # route param
-     $path     = self::path($path);
-     $callback = self::callback($callback);
-
-     $route = new RouteParam($path, $callback, $name, $method);
-     $route->addMiddleware(self::$middlewares);
-     $route->addModule(self::$module);
-     return $route;
 }
 
 }
