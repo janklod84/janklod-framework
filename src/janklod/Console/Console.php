@@ -23,6 +23,7 @@ class Console implements ConsoleInterface
 protected static $commands = [];
 protected $name = 'console';
 
+
 /**
  * constructor
  * 
@@ -40,21 +41,29 @@ public function __construct($file = null)
 
 
 /**
- * Push commands configuration
+ * Add commands from file or array
  * 
- * @param array $commands 
+ * @param string|array $parsed
  * @return void
 */
-public static function addCommands($commands=[])
+public static function addCommands($parsed=null)
 {
-    if(!empty($commands))
-    {
+   $commands = (array) $parsed;
+   if(is_string($parsed) && is_file($parsed))
+   {
+       $commands = require(
+       realpath($parsed)
+       );
+   }
+   if(!empty($commands))
+   {
        self::$commands = array_merge(
           self::$commands, 
           $commands
-      );
-    }
+       );
+   }
 }
+
 
 
 /**
@@ -79,35 +88,6 @@ public static function commands()
      return self::$commands;
 }
 
-
-public static function command($signature='', \Closure $closure)
-{
-      call_user_func($closure);
-      return new static;
-}
-
-
-public function describe($description='')
-{
-
-}
-
-/**
- * Set base commands
- *
- * @return void
-*/
-public function set_base_command($parsed=null)
-{
-   $commands = (array) $parsed;
-   if(is_string($parsed) && is_file($parsed))
-   {
-       $commands = require(
-       realpath($parsed)
-       );
-   }
-   self::addCommands($commands);
-}
 
 
 /**
@@ -179,7 +159,7 @@ public function run(InputInterface $input, OutputInterface $output)
 /**
  * Get Help
  * 
- * cmd>php console --help
+ * cmd>php console --help|--h
  * @return string
 */
 public function help()
@@ -187,7 +167,7 @@ public function help()
     $output = 'HELP Commands:'."\n\n";
     foreach(self::$commands as $command)
     {
-       $commandInterface = $this->readCommand($command);
+       $commandInterface = $this->createCommand($command);
        $output .= $commandInterface->signature();
        $output .= "\n\t". $commandInterface->description();
        $output .= "\n";
@@ -209,7 +189,7 @@ protected function process($input, $output)
    $message = '';
    foreach(self::$commands as $command)
    {
-       if($commandInterface = $this->readCommand($command))
+       if($commandInterface = $this->createCommand($command))
        {
           $commandInterface->execute($input, $output);
           $message = $output->message();
@@ -227,6 +207,7 @@ protected function process($input, $output)
 */
 protected function blank_head($message='')
 {
+   $html  = "\n";
    $html  = '+-----------------+-----------------+'."\n"; 
    $html .= '+----  JK Framework Console --------+'."\n"; 
    $html .= '+-----------------+-----------------+'."\n"; 
@@ -253,7 +234,7 @@ protected static function blockAccess()
  * @param  $command
  * @return \JK\Console\CommandInterface
  */
-protected function readCommand($command): CommandInterface
+protected function createCommand($command): CommandInterface
 {
     if($this->is_class($command))
     {

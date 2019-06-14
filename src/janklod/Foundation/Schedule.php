@@ -27,10 +27,7 @@ protected $file;
 public function __construct()
 {
     $this->file = Application::instance()->file;
-
-    $this->set_base_command(
-    	Source::CONFIG['commands']
-    );
+    self::addCommands(Source::CONFIG['commands']);
 	parent::__construct($this->file->to('routes/console.php'));
 }
 

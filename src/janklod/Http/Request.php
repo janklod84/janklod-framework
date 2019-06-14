@@ -228,7 +228,8 @@ public function is($key='xxx'): bool
    switch($key)
    {
         case 'secure':
-          return $this->server('HTTPS') == 'on';
+          return $this->server('HTTPS') == 'on'
+          || $this->server('SERVER_PORT') == 443;
         break;
         case 'cli':
           return $this->cli('argc') > 0 
