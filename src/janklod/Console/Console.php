@@ -80,6 +80,18 @@ public static function commands()
 }
 
 
+public static function command($signature='', \Closure $closure)
+{
+      call_user_func($closure);
+      return new static;
+}
+
+
+public function describe($description='')
+{
+
+}
+
 /**
  * Set base commands
  *
@@ -140,7 +152,7 @@ public function execute($signature='', InputInterface $input, OutputInterface $o
      
      // Get Help
      $first = $input->argument(1);
-     if($first === '--help' || $first === '-h')
+     if($first === '--help' || $first === '--h')
      {
          exit($this->help());
      }
