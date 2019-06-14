@@ -1,12 +1,12 @@
 <?php 
-namespace JK\Foundation\Console;
+namespace JK\Foundation\Generator;
 
 
 /**
  * class [ Factory ] Generator
  * Receiver
  *
- * @package JK\Foundation\Console\Generator
+ * @package JK\Foundation\Generator\Generator
 */ 
 class Generator
 {

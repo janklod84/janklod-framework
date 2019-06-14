@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Foundation\Console;
+namespace JK\Foundation\Generator;
 
 use \Exception;
 
@@ -7,7 +7,7 @@ use \Exception;
 /**
  * Class GeneratorAdapter
  *
- * @package JK\Foundation\Console\GeneratorFactory
+ * @package JK\Foundation\Generator\GeneratorFactory
 */ 
 class GeneratorFactory
 {
@@ -43,7 +43,7 @@ public function __construct($input, $output)
 public function get($name='')
 {
    $classname = sprintf(
-   '\\JK\\Foundation\\Generators\\%sGenerator', 
+   '\\JK\\Foundation\\Generator\\Generators\\%sGenerator', 
    ucfirst($name)
    );
    if(! class_exists($classname))

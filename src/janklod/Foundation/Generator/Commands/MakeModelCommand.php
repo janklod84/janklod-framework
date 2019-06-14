@@ -1,13 +1,13 @@
 <?php 
-namespace JK\Foundation\Commands;
+namespace JK\Foundation\Generator\Commands;
 
 
 /**
- * Class DeleteControllerCommand
+ * Class MakeModelCommand
  *
- * @package JK\Foundation\Commands\DeleteControllerCommand
+ * @package JK\Foundation\Generator\Commands\MakeModelCommand
 */ 
-class DeleteControllerCommand extends CustomCommand
+class MakeModelCommand extends CustomCommand
 {
      
 
@@ -15,11 +15,12 @@ class DeleteControllerCommand extends CustomCommand
  * @var string $signature    [ Signature of command   ]
  * @var string $description  [ Description of command ]
 */
-protected $signature   = 'delete:controller';
+protected $signature   = 'make:model';
 protected $description = [
-'This command delete controller.',
-'Ex : php console delete:controller user',
+'This command generate new model.',
+'Ex : php console make:model user.', 
 ];
+
 
 
 /**
@@ -43,7 +44,7 @@ public function __construct()
 */
 public function execute($input=null, $output=null)
 {
-     parent::execute($input, $output);
+	 parent::execute($input, $output);
 	 return $this->console->execute($this->signature);
 }
 
@@ -53,5 +54,6 @@ public function execute($input=null, $output=null)
 * @return mixed
 */
 public function undo(){}
+
 
 }

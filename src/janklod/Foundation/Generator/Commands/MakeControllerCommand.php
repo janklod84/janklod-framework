@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Foundation\Commands;
+namespace JK\Foundation\Generator\Commands;
 
 
 /**
  * Class MakeControllerCommand
  *
- * @package JK\Foundation\Commands\MakeControllerCommand
+ * @package JK\Foundation\Generator\Commands\MakeControllerCommand
 */ 
 class MakeControllerCommand extends CustomCommand
 {

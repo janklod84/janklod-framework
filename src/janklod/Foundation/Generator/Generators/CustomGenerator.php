@@ -1,10 +1,10 @@
 <?php 
-namespace JK\Foundation\Generators;
+namespace JK\Foundation\Generator\Generators;
 
 
 use JK\Foundation\Application;
 use JK\FileSystem\FileGenerator;
-use JK\Foundation\Console\GeneratorInterface;
+use JK\Foundation\Generator\GeneratorInterface;
 
 
 

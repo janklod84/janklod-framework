@@ -1,17 +1,17 @@
 <?php 
-namespace JK\Foundation\Commands;
+namespace JK\Foundation\Generator\Commands;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Console\Generator;
+use JK\Foundation\Generator\Generator;
 
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Foundation\Commands\CustomCommand 
+ * @package JK\Foundation\Generator\Commands\CustomCommand 
 */ 
 abstract class CustomCommand extends Command
 {

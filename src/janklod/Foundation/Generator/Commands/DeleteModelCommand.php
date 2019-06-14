@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Foundation\Commands;
+namespace JK\Foundation\Generator\Commands;
 
 
 /**
  * Class DeleteModelCommand
  *
- * @package JK\Foundation\Commands\DeleteModelCommand
+ * @package JK\Foundation\Generator\Commands\DeleteModelCommand
 */ 
 class DeleteModelCommand extends CustomCommand
 {

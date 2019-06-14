@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Foundation\Console;
+namespace JK\Foundation\Generator;
 
 
 /**
  * Class GeneratorAdapter
  *
- * @package JK\Foundation\Console\GeneratorAdapter
+ * @package JK\Foundation\Generator\GeneratorAdapter
 */ 
 class GeneratorAdapter
 {
