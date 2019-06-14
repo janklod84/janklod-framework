@@ -9,11 +9,19 @@ interface GeneratorInterface
 {
 
 /**
- * Blank of custom to generate
+ * Generate file
  * 
  * @return string
 */
-public function generate();
+public function make();
+
+
+/**
+ * Delete generated file
+ * 
+ * @return bool
+*/
+public function delete();
 
 
 /**

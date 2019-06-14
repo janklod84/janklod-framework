@@ -7,7 +7,7 @@ use JK\Routing\Controller;
 /**
  * @package [ class ]
 */
-class Controller_User  extends Controller
+class HomeController  extends Controller
 {
   
   /**

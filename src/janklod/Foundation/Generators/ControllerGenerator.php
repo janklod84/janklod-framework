@@ -14,7 +14,6 @@ class ControllerGenerator extends CustomGenerator
 protected $directory = 'app/controllers';
 
 
-
 /**
  * Do something before generated action
  * 
@@ -22,21 +21,13 @@ protected $directory = 'app/controllers';
 */
 protected function before()
 {
-    $name =  ucfirst($this->input(2)).'Controller';
-    if($this->input(3) === '--no-suffix')
-    {
-        $name = $this->input(2);
-    }
+    $lower = strtolower($this->input(2));
+    $name =  ucfirst($lower).'Controller';
     $content = sprintf($this->blank(), $name);
     $this->setContent($content);
     $filename = sprintf('%s.php', $name);
     $this->setFilename($filename);
-    $fullname = sprintf('app\\controllers\\%s', $name);
-    $message =  sprintf(
-      'Controller [ %s ] successfully generated!', 
-      $fullname
-    );
-    $this->success($message);
+    $this->name = sprintf('app\\controllers\\%s', $name);
 }
 
 
@@ -45,10 +36,44 @@ protected function before()
 * 
 * @return void
 */
-public function generate()
+public function make()
 {
-    parent::generate();
+     $success =  sprintf(
+      'Controller [ %s ] successfully generated!', 
+      $this->name
+     );
+     $fail = sprintf(
+     'Cant make file [ %s ], may be something went wrong!',  
+     $this->name
+     );
+     $this->success($success);
+     $this->fail($fail);
+     parent::make();
 }
+
+
+/**
+ * Delete generated file
+ * 
+ * @return bool
+*/
+public function delete()
+{
+   /* Full path of controller $this->path() */
+   $success =  sprintf(
+      'Controller [ %s ] successfully deleted!', 
+      $this->name
+   );
+   $fail = sprintf(
+    'Cant not delete controller [%s], may be file does not exist!', 
+    $this->name
+   );
+   $this->success($success);
+   $this->fail($fail);
+   parent::delete();
+}
+
+
 
 
 /**

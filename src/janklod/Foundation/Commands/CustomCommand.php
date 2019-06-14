@@ -4,7 +4,7 @@ namespace JK\Foundation\Commands;
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Console\Generate;
+use JK\Foundation\Console\Generator;
 
 
 
@@ -17,7 +17,7 @@ abstract class CustomCommand extends Command
 {
 
 /**
- * @var \JK\Foundation\Console\GeneratorConsole;
+ * @var FileConsole;
  */
 protected $console;
 
@@ -29,7 +29,6 @@ protected $console;
 public function __construct()
 {
      parent::__construct();
-     $this->console = new Generate();
 }
 
 
@@ -48,10 +47,13 @@ public function configure() {}
  * @param JK\Console\IO\OutputInterface $output
  * @return mixed
 */
-abstract public function execute(
+public function execute(
 InputInterface $input=null, 
 OutputInterface $output=null
-);
+)
+{
+	$this->console = new Generator($input, $output);
+}
 
 
 /**

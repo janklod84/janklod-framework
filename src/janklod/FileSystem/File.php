@@ -2,6 +2,9 @@
 namespace JK\FileSystem;
 
 
+use \Exception;
+
+
 /**
  * @package JK\FileSystem\File 
 */ 
@@ -17,11 +20,9 @@ const DS = DIRECTORY_SEPARATOR;
 
 
 /**
-* root file
-* @var string
+* @var  string  $root  [ Root directory of file ]
 */
 private $root;
-
 
 
 
@@ -130,18 +131,18 @@ public function info($path, $key='')
 /**
  * Map many files
  * $this->map('routes')
- * $this->map('directory/you/want/to/map')
+ * $this->map('directory/you/want/to/map/*')
  * @param string $path 
  * @return array
 */
 public function map($path='')
 {
-   if(strpos($path, '*'))
+   if(strpos($path, '*') !== false)
    {
-      return false;
+      $path = trim($path, '/');
+      return glob($this->to($path));
    }
-   $path = trim($path, '/');
-   return glob($this->to($path.'/*'));
+   return false;
 }
 
 
@@ -185,7 +186,7 @@ public function make($directory='', $filename='')
         404
       );
    }
-   return $file;
+   return true;
 }
 
 
@@ -193,14 +194,12 @@ public function make($directory='', $filename='')
  * Put content to file
  * 
  * @param string $filename 
- * @param string $content 
- * @param bool   $to
- * @return bool
+ * @param string $content
+ * @return string
  * @throws FileException
 */
-public function put($filename='', $content='', $root = false)
+public function put($filename='', $content='')
 {
-   if($root === true){ $filename = $this->to($filename); }
    if(!file_put_contents($filename, $content))
    {
        throw new FileException(
@@ -213,6 +212,67 @@ public function put($filename='', $content='', $root = false)
    return true;
 }
 
+
+/**
+ * Generate file and add content
+ * 
+ * @param  string  $directory 
+ * @param  string  $filename 
+ * @param  string  $content 
+ * @return string
+ * @throws \Exception
+*/
+public function generator($directory, $filename, $content='')
+{
+   $fullpath = $this->to(sprintf('%s/%s', $directory, $filename));
+   if($content)
+   {
+       return $this->put($fullpath, $content);
+   }
+   return $this->make($directory, $filename);
+}
+
+
+/**
+ * Remove file from directory
+ * 
+ * @param string $filename 
+ * @return bool
+ * @throws FileException
+*/
+public function remove($filename)
+{
+  $filename = str_replace('/', DIRECTORY_SEPARATOR, $filename);
+  if(! unlink($filename))
+  {
+      throw new FileException(
+       sprintf(
+        'You can not remove file [ %s ], Because does not exist!', 
+         $filename
+       )
+      );
+  }
+  return true;
+}
+
+
+
+/**
+ * Remove many files
+ * 
+ * @param string $mask
+ * @return bool
+ */
+public function clear($mask='some/dir/*.txt')
+{
+   if(! array_map('unlink', $this->map($mask)))
+   {
+      throw new FileException('You can not remove files');
+   }
+   return true;
+}
+
+
 /**
  * Get content file
  * 
@@ -224,6 +284,8 @@ public function content($filename)
     return file_get_contents($this->to($filename));
 }
 
+
+
 /**
 * Prepare path 
 * @param string $path 
@@ -231,11 +293,11 @@ public function content($filename)
 */
 private function fullPath($path)
 {
-return str_replace('/', self::DS, $this->root) . self::DS. str_replace(
+   return str_replace('/', self::DS, $this->root) . self::DS. str_replace(
            ['/', '\\'], 
            static::DS, 
            trim($path, '/')
-       );
+   );
 }
 
 /**

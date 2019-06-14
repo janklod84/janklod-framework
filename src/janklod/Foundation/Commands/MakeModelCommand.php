@@ -18,10 +18,7 @@ class MakeModelCommand extends CustomCommand
 protected $signature   = 'make:model';
 protected $description = [
 'This command generate new model.',
-'How used it ? ',
-'Do : php <current_file> make:model <name_of_model_you_want_to_generate>',
 'Ex : php console make:model user.', 
-'it\'ll generate model [ User ]'
 ];
 
 
@@ -47,11 +44,8 @@ public function __construct()
 */
 public function execute($input=null, $output=null)
 {
-	 return $this->console->execute(
-	 	       $this->signature, 
-	 	       $input, 
-	 	       $output
-	 );
+	 parent::execute($input, $output);
+	 return $this->console->execute($this->signature);
 }
 
 /**

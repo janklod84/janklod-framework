@@ -20,14 +20,17 @@ implements GeneratorInterface
  * @var InputInterface    $output     [ Output interface ]
  * @var File              $file       [ File ]
  * @var string            $directory  [ Name of Directory ]
- * @var string            $name       [ Name of File ]
- * @var string            $message    [ Message for file generated successfully ]
+ * @var string            $name       [ Name of file or class name]
+ * @var string            $success    [ Success Message ]
+ * @var string            $fail       [ Fail  Message  ]
 */
 protected $input;
 protected $output;
 protected $root;
-protected $directory = '';
-protected $message   = 'File successfully generated!';
+protected $directory  = '';
+protected $name    = '';
+protected $success = 'Success operation!';
+protected $fail    = 'Something went wrong'; // default message
 
 
 /**
@@ -74,11 +77,23 @@ protected function before(){}
 
 
 /**
+ * Add name
+ * 
+ * @param string $name 
+ * @return void
+*/
+public function addName($name='')
+{
+     $this->name = $name;
+}
+
+
+/**
  * Add success message
  * 
- * @param string $message
+ * @param string $message 
  * @return void
- */
+*/
 public function success($message='')
 {
      $this->success = $message;
@@ -86,20 +101,56 @@ public function success($message='')
 
 
 /**
- * Blank of custom to generate
+ * Add fail message
  * 
- * @return mixed
+ * @param string $message 
+ * @return void
 */
-public function generate()
+public function fail($message='')
 {
-	if($this->put())
+     $this->fail = $message;
+}
+
+
+/**
+* Generate controller
+* 
+* @return void
+*/
+public function make()
+{
+     $this->callAction([$this, 'put']);
+}
+
+
+/**
+ * Delete generated file
+ * 
+ * @return bool
+*/
+public function delete()
+{
+   $this->callAction([$this, 'remove']);
+}
+
+
+/**
+ * call Action
+ * 
+ * @param callable $callable
+ * @return void
+*/
+protected function callAction(callable $callable)
+{
+	if(call_user_func($callable))
     {
        $this->output->writeln($this->success);
 
     }else{
-       $this->output->writeln('Something went wrong!');
+       $this->output->writeln($this->fail);
     }
 }
+
 
 
 /**
@@ -108,4 +159,5 @@ public function generate()
  * @return string
 */
 abstract public function blank();
+
 }

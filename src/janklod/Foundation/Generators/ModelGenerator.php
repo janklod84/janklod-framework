@@ -27,26 +27,51 @@ protected function before()
     $this->setContent($content);
     $filename = sprintf('%s.php', $name);
     $this->setFilename($filename);
-    $fullname = sprintf('app\\models\\%s', $name);
-    $message =  sprintf(
-      'Model [ %s ] successfully generated!', 
-      $fullname
-    );
-    $this->success($message);
+    $this->name = sprintf('app\\models\\%s', $name);
 }
 
 
 /**
-* Generate controller
+* Generate model
 * 
 * @return void
 */
-public function generate()
+public function make()
 {
-    parent::generate();
+     $success =  sprintf(
+      'Model [ %s ] successfully generated!', 
+      $this->name
+     );
+     $fail = sprintf(
+     'Cant make model [ %s ], may be something went wrong!',  
+     $this->name
+     );
+     $this->success($success);
+     $this->fail($fail);
+     parent::make();
 }
 
 
+/**
+ * Delete generated file
+ * 
+ * @return bool
+*/
+public function delete()
+{
+   /* Full path of model $this->path() */
+   $success =  sprintf(
+      'Model [ %s ] successfully deleted!', 
+      $this->name
+   );
+  $fail = sprintf(
+    'Cant not delete model [ %s ], may be file does not exist!', 
+    $this->name
+   );
+   $this->success($success);
+   $this->fail($fail);
+   parent::delete();
+}
 
 
 /**

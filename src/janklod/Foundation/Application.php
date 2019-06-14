@@ -71,10 +71,10 @@ private function __construct($root)
     new \JK\FileSystem\File($root)
    );
 
-   /*
-   @require_once __DIR__.'/../CacheSystem/index.php';
-   exit('End testing ...');
-   */
+
+   // @require_once __DIR__.'/../index.php';
+   // exit('End testing ...');
+
 }
 
 

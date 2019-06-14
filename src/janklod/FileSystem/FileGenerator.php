@@ -13,13 +13,12 @@ class FileGenerator
  * @var string   $directory  [ Name of Directory ]
  * @var string   $filename   [ Name of File ]
  * @var string   $content    [ Content ]
- * @var string   $generated  [ Full Path generated File ]
 */
 protected $file;
 protected $directory = '';
 protected $filename  = '';
 protected $content   = '';
-protected $generated = '';
+
 
 
 /**
@@ -108,28 +107,41 @@ public function content()
 */
 public function put()
 {
-     $this->generated = $this->file->make(
-         $this->directory, 
-         $this->filename
-     );
-     return $this->file->put($this->generated, $this->content);
+    return $this->file->generator(
+        $this->directory, 
+        $this->filename, 
+        $this->content
+    );
 }
-
 
 
 /**
- * Full name generated File
+ * Get full path generated file
  * 
  * @return string
 */
-public function generated()
+public function path()
 {
-	if($this->generated === '')
-	{
-		 exit('No File Generated!');
-	}
-	return $this->generated;
+   $to = sprintf('%s/%s', $this->directory, $this->filename);
+   if($this->file->exists($to))
+   {
+      return $this->file->to($to);
+   }
+   return false;
 }
 
+
+/**
+ * Remove generated file
+ * 
+ * @return bool
+*/
+public function remove()
+{
+    if($path = $this->path())
+    {
+        return $this->file->remove($path);
+    }
+}
 
 }
