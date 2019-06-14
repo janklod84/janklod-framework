@@ -11,12 +11,12 @@
 | BACKEND CONTROLLERS
 ************************************/
 
-$options = [
+$prefixes = [
   // 'path' => '/admin',
   'controller' => 'admin'
 ];
 
-Route::prefix($options, function () {
+Route::prefix($prefixes, function () {
     Route::get('/', 'LoginController@index', 'sign.up');
     Route::get('/test', 'LoginController@test');
     Route::get('/dashboard', 'DashboardController@index');

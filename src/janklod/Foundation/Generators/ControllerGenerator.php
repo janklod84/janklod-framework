@@ -23,7 +23,7 @@ protected $directory = 'app/controllers';
 protected function before()
 {
     $name =  ucfirst($this->input(2)).'Controller';
-    if($this->input(3) === '--no-prefixed')
+    if($this->input(3) === '--no-suffix')
     {
         $name = $this->input(2);
     }

@@ -16,7 +16,13 @@ class MakeModelCommand extends CustomCommand
  * @var string $description  [ Description of command ]
 */
 protected $signature   = 'make:model';
-protected $description = 'description of command';
+protected $description = [
+'This command generate new model.',
+'How used it ? ',
+'Do : php <current_file> make:model <name_of_model_you_want_to_generate>',
+'Ex : php console make:model user.', 
+'it\'ll generate model [ User ]'
+];
 
 
 

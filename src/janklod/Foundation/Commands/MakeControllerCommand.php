@@ -16,7 +16,15 @@ class MakeControllerCommand extends CustomCommand
  * @var string $description  [ Description of command ]
 */
 protected $signature   = 'make:controller';
-protected $description = 'description of command';
+protected $description = [
+'This command generate new controller.',
+'How used it ? ',
+'Do : php <current_file> make:controller <name_of_controller_you_want_to_generate>',
+'Ex : php console make:controller user.', 
+'it\'ll generate controller [ UserController ]',
+'you can generate your controller without suffix Controller',
+'Ex: php console make:controller Controller_User --no-suffix'
+];
 
 
 /**

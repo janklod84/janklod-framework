@@ -16,7 +16,7 @@ abstract class Command implements CommandInterface
  * @var string $description   [ Description of command ]
 */
 protected $signature   = 'command:test';
-protected $description = 'description of command';
+protected $description = ['description of command'];
 
 
 /**
@@ -52,7 +52,7 @@ public function addSignature($signature='')
 */
 public function addDescription($description='')
 {
-   $this->description = $description;
+   $this->description[] = $description;
    return $this;
 }
 

@@ -91,14 +91,13 @@ public static function commands()
 
 
 /**
- * Set name of file to execute
+ * Get current console name
  * 
- * @param string $name 
  * @return void
 */
-public function name($name)
+public function name()
 {
-     $this->name = $name;
+   return $this->name;
 }
 
 
@@ -164,12 +163,12 @@ public function run(InputInterface $input, OutputInterface $output)
 */
 public function help()
 {
-    $output = 'HELP Commands:'."\n\n";
+    $output = 'HELP COMMANDS:'."\n\n";
     foreach(self::$commands as $command)
     {
        $commandInterface = $this->createCommand($command);
-       $output .= $commandInterface->signature();
-       $output .= "\n\t". $commandInterface->description();
+       $output .= $commandInterface->signature() ."\n";
+       $output .= "\n\t" . join("\n\t", $commandInterface->description()) ."\n";
        $output .= "\n";
     }
     return $output;
