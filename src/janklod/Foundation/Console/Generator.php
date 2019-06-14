@@ -2,15 +2,8 @@
 namespace JK\Foundation\Console;
 
 
-use JK\Foundation\Generators\GeneratorInterface;
-use JK\Foundation\Generators\{
-    ControllerGenerator,
-    ModelGenerator
-};
-
-
 /**
- * class [ Factory ] FileConsole
+ * class [ Factory ] Generator
  * Receiver
  *
  * @package JK\Foundation\Console\Generator
@@ -19,9 +12,14 @@ class Generator
 {
 
 
+/**
+ *@var  InputInterface   $input 
+ *@var  OutputInterface  $output 
+ *@var  GeneratorFactory $factory
+*/
 private $input;
 private $output;
-
+private $factory;
 
 
 /**
@@ -33,8 +31,7 @@ private $output;
  */
 public function __construct($input, $output)
 {
-     $this->input  = $input;
-     $this->output = $output;
+     $this->factory = new GeneratorFactory($input, $output);
 }
 
 
@@ -50,19 +47,19 @@ public function execute($signature='')
       {
           case 'make:controller':
             return $this->controller()
-                   ->make();
+                        ->make();
           break;
           case 'delete:controller':
             return $this->controller()
-                   ->delete();
+                        ->delete();
           break;
           case 'make:model':
              return $this->model()
-                   ->make();
+                         ->make();
           break;
           case 'delete:model':
             return $this->model()
-                   ->delete();
+                        ->delete();
           break;
 
       }
@@ -70,26 +67,24 @@ public function execute($signature='')
 }
 
 
-
 /**
- * Controller generator
+ * Get controller
  * 
- * @return ControllerGenerator
+ * @return 
 */
-public function controller(): ControllerGenerator
+public function controller()
 {
-    return new ControllerGenerator($this->input, $this->output);
+   return $this->factory->get('controller');
 }
 
-
 /**
- * Model generator
+ * Get model
  * 
- * @return ModelGenerator
+ * @return 
 */
-public function model(): ModelGenerator
+public function model()
 {
-    return new ModelGenerator($this->input, $this->output);
+   return $this->factory->get('model');
 }
 
 }
