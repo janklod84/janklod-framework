@@ -109,7 +109,11 @@ public function name()
  * @param OutputInterface $output 
  * @return void
 */
-public function execute($signature='', InputInterface $input, OutputInterface $output)
+public function execute(
+$signature='', 
+InputInterface $input, 
+OutputInterface $output
+)
 {
      // block access no cli request
      self::blockAccess();
@@ -149,7 +153,10 @@ public function execute($signature='', InputInterface $input, OutputInterface $o
  * 
  * @return string
 */
-public function run(InputInterface $input, OutputInterface $output)
+public function run(
+InputInterface $input, 
+OutputInterface $output
+)
 {
     return $this->execute($input->argument(0), $input, $output);
 }
@@ -166,9 +173,9 @@ public function help()
     $output = 'HELP COMMANDS:'."\n\n";
     foreach(self::$commands as $command)
     {
-       $commandInterface = $this->createCommand($command);
-       $output .= $commandInterface->signature() ."\n";
-       $output .= "\n\t" . join("\n\t", $commandInterface->description()) ."\n";
+       $cmd = $this->createCommand($command);
+       $output .= $cmd->signature() ."\n";
+       $output .= "\n\t" . join("\n\t", $cmd->description()) ."\n";
        $output .= "\n";
     }
     return $output;
@@ -188,13 +195,16 @@ protected function process($input, $output)
    $message = '';
    foreach(self::$commands as $command)
    {
-       if($commandInterface = $this->createCommand($command))
-       {
-          $commandInterface->execute($input, $output);
-          $message = $output->message();
-       }
+        $cmd = $this->createCommand($command);
+        $argument = '#^'. $input->argument(1) . '$#';
+        $signature = $cmd->signature();
+        if(preg_match($argument, $signature))
+        {
+           $cmd->execute($input, $output);
+           return $output->message() ?? 'No messages!';
+        }
    }
-   return $message ?? 'No messages!';
+   exit("\t".'No matched command!'. "\n");
 }
 
 

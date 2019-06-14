@@ -43,9 +43,6 @@ InputInterface $input,
 OutputInterface $output
 )
 {
-    $argument = '#^'. $input->argument(1) . '$#';
-    if(preg_match($argument, $signature, $matches))
-    {  
         switch($signature)
         {
             case 'make:controller':
@@ -60,7 +57,6 @@ OutputInterface $output
             break;
             return $this->action;
         }
-    }
     
 }
 

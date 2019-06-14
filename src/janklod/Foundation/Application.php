@@ -70,6 +70,11 @@ private function __construct($root)
    $this->bind('file', 
     new \JK\FileSystem\File($root)
    );
+
+   /*
+   @require_once __DIR__.'/../CacheSystem/index.php';
+   exit('End testing ...');
+   */
 }
 
 
