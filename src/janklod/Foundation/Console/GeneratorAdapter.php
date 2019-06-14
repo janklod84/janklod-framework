@@ -2,8 +2,6 @@
 namespace JK\Foundation\Console;
 
 
-use JK\Foundation\Generators\GeneratorInterface;
-
 /**
  * Class GeneratorAdapter
  *

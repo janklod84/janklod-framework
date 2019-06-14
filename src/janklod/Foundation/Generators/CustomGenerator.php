@@ -4,15 +4,14 @@ namespace JK\Foundation\Generators;
 
 use JK\Foundation\Application;
 use JK\FileSystem\FileGenerator;
+use JK\Foundation\Console\GeneratorInterface;
 
 
 
 /**
  * @package JK\Foundation\Generators\FileGenerator
 */ 
-abstract class CustomGenerator 
-extends FileGenerator 
-implements GeneratorInterface
+abstract class CustomGenerator extends FileGenerator implements GeneratorInterface
 {
 
 /**

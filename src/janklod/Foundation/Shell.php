@@ -5,16 +5,16 @@ use JK\Console\Console;
 
 
 /**
- * @package JK\Foundation\Schedule 
+ * @package JK\Foundation\Shell 
 */ 
-class Schedule extends Console 
+class Shell extends Console 
 {
 
 /**
  * @var string $name
  * @var \JK\FileSystem\File $file
 */
-// protected $name = 'schedule';
+// protected $name = 'shell';
 protected $file;
 
 
