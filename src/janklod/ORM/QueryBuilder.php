@@ -13,12 +13,10 @@ class QueryBuilder
 /**
 * @var  string  $table
 * @var  array   $builders
-* @var  self    $instance
 * @var  array   $values
 */
 protected $table = '';
 protected $builders = [];
-private static $instance;
 public $values = [];
 
 
