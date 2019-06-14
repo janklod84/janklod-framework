@@ -109,7 +109,7 @@ public function run()
  {
    // Run all services and modules
    $this->initialize();
-
+  
    // Call method terminate
    $this->terminate($this->request, $this->response);
  }

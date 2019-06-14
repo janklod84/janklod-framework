@@ -17,33 +17,6 @@ class Session
 private static $status = false;
 
 
-/**
- * Set directory where will be saved sessions
- * 
- * @param string $directory
- * @return void
-*/
-private static function saveTo($directory)
-{
-     if(is_dir($directory))
-     {
-         ini_set('session.save_path', $directory);
-         ini_set('session.gc_probability', 1);
-     }
-}
-
-
-
-/**
- * Get current path where stored sessions
- * 
- * @return string
-*/
-private static function savedPath()
-{
-    return session_save_path();
-}
-
 
 /**
  * Ensure if session is started
@@ -97,7 +70,7 @@ public static function has($key): bool
 public static function get($key)
 {
     self::ensureStarted();
-    if($this->has($key))
+    if(self::has($key))
     {
         return $_SESSION[$key];
     }
@@ -114,7 +87,7 @@ public static function get($key)
 public static function remove($key)
 {
     self::ensureStarted();
-	if($this->has($key))
+	if(self::has($key))
 	{
 	   unset($_SESSION[$key]);
 	}
@@ -144,6 +117,35 @@ public static function all()
 {
    self::ensureStarted();
    return $_SESSION ?? [];
+}
+
+
+
+/**
+ * Set directory where will be saved sessions
+ * 
+ * @param string $directory
+ * @return void
+*/
+private static function saveTo($directory)
+{
+     if(is_dir($directory))
+     {
+         ini_set('session.save_path', $directory);
+         ini_set('session.gc_probability', 1);
+     }
+}
+
+
+
+/**
+ * Get current path where stored sessions
+ * 
+ * @return string
+*/
+private static function savedPath()
+{
+    return session_save_path();
 }
 
 
