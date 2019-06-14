@@ -19,7 +19,7 @@ const CONFIG = [
 \JK\Foundation\Runners\FunctionRunner::class
 ],
 'providers' => [
-\JK\Http\Facades\RequestProvider::class,
+\JK\Http\Facades\SessionProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
 \JK\Routing\Facades\RouterProvider::class, 
 \JK\Loader\Facades\LoaderProvider::class,

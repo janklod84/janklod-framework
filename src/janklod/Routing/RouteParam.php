@@ -60,7 +60,7 @@ public function __construct($path, $callback, $name=null, $method='GET')
 public function setPath($path)
 {
     $this->path = $path;
-    $this->item('path', $this->path);
+    $this->register('path', $this->path);
 }
 
 
@@ -85,7 +85,7 @@ public function path()
 public function setPattern($pattern)
 {
     $this->pattern = '#^'. $pattern . '$#i';
-    $this->item('pattern', $this->pattern);
+    $this->register('pattern', $this->pattern);
 }
 
 
@@ -110,7 +110,7 @@ public function pattern()
 public function setCallback($callback)
 {
     $this->callback = $callback;
-    $this->item('callback', $this->callback);
+    $this->register('callback', $this->callback);
 }
 
 
@@ -134,7 +134,7 @@ public function callback()
 public function setMethod($method)
 {
     $this->method = $method;
-    $this->item('method', $this->method);
+    $this->register('method', $this->method);
 }
 
 
@@ -158,7 +158,7 @@ public function method()
 public function setName($name)
 {
     $this->name = $name;
-    $this->item('name', $this->name);
+    $this->register('name', $this->name);
 }
 
 
@@ -183,7 +183,7 @@ public function name()
 public function addMiddleware($middlewares)
 {
      $this->middlewares = $middlewares;
-     $this->item('middlewares', $this->middlewares);
+     $this->register('middlewares', $this->middlewares);
 }
 
 
@@ -210,7 +210,7 @@ public function middleware($key)
 public function addModule($module)
 {
     $this->module = $module;
-    $this->item('module', $this->module);
+    $this->register('module', $this->module);
 }
 
 
@@ -228,7 +228,7 @@ public function module()
 
 
 /**
- * Get item params
+ * Get register params
  * @return array
 */
 public function parameters()
@@ -238,19 +238,19 @@ public function parameters()
 
 
 /**
- * Set item param
+ * Register param
  * 
  * @param string $key 
  * @param mixed $value 
  * @return void
 */
-public function item($key, $value)
+public function register($key, $value)
 {
      $this->params[$key] = $value;
 }
 
 /**
- * Get param item
+ * Get param register
  * 
  * @param string $key 
  * @return mixed
@@ -353,7 +353,7 @@ public static function url($name, $params = [])
 
 
 /**
- * Determine if has item Regex
+ * Determine if has register Regex
  * 
  * @param string $key 
  * @return bool
