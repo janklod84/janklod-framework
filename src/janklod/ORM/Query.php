@@ -108,12 +108,8 @@ public static function table($table='')
 {
     if(self::$table !== '')
     {
-        return new static;
+        return new static; // continue
     }else{
-       if($table === '')
-       {
-          exit('Empty Table!');
-       }
        self::$table = $table;
        return new static;
     }

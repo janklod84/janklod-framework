@@ -51,7 +51,7 @@ public static function make($driver='mysql', $config = [])
 
     if(self::has_driver($driver))
     {
-        return ConnectionFactory::pdo($driver, $config)->connect();
+        return ConnectionFactory::pdo($driver, $config);
     }
 
   }catch(\PDOException $e){

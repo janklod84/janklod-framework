@@ -1,5 +1,5 @@
 <?php 
-namespace JK\ORM\Extensions;
+namespace JK\ORM;
 
 
 use JK\ORM\Drivers\{

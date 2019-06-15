@@ -19,7 +19,7 @@ class Model
 * @var array  $fillable
 * @var array  $guarded
 */
-public $table='';
+protected $table    = '';
 protected $fillable = [];
 protected $guarded  = ['id'];
 

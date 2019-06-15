@@ -14,4 +14,3 @@ $cache->set('fname', 'Jean')
       ->set('lname', 'Kouassi')
       ->set('email', 'jeanyao@ymail.com');
 */
-      
