@@ -88,6 +88,19 @@ public function description()
 }
 
 
+
+/**
+ * Get Input argument [ I'll had more fonctionnalites later ]
+ * 
+ * @param mixed $indice 
+ * @return string
+*/
+public function argument($indice='')
+{
+     return $this->input->argument($indice);
+}
+
+
 /**
  * Determine if input match signature
  * 
@@ -95,7 +108,7 @@ public function description()
  */
 public function match()
 {
-   return $this->input->argument(0) === $this->signature;
+   return $this->argument(0) === $this->signature;
 }
 
 
