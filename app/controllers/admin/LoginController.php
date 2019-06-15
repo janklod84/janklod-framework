@@ -35,13 +35,14 @@ public function before()
 
 /**
 * Constructor
-* @param \JK\Container\ContainerInterface $app 
+* 
+* @param \JK\Container\Contracts\ContainerInterface $app 
 * @return void
 */
 public function __construct($app)
 {
      parent::__construct($app);
-     /* debug(\DB::instance('users')->findAll()); */
+     /* debug(\DB::connect('users')->findAll()); */
 }
 
 
@@ -60,7 +61,7 @@ public function index()
     // Delete user where id = 5 : User::delete(5)
     // debug(User::delete(5));
 
-
+    
     Query::html();
     $this->show();
 }

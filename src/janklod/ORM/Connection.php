@@ -107,6 +107,20 @@ public static function make($driver='mysql', $config = [], $alias = false)
 }
 
 
+/**
+ * Get PDO
+ * 
+ * @return \PDO
+*/
+public static function pdo()
+{
+     if(self::isConnected())
+     {
+         return self::$connection;
+     }
+}
+
+
 
 /**
  * Make sure has available driver

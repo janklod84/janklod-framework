@@ -19,7 +19,7 @@ class DatabaseProvider extends ServiceProvider
 */
 public function boot()
 {
-     DB::connect();
+     DB::open();
 }  
 
 
@@ -33,8 +33,13 @@ public function register()
 }
 
 
+/**
+ * Do something after registrer
+ * 
+ * @return void
+*/
 public function after()
 {
-	// DB::deconnect();
+	// DB::close();
 }
 }

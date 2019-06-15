@@ -3,7 +3,11 @@ namespace JK\Database;
 
 
 use \Config;
-use  JK\ORM\Connection;
+use  JK\ORM\{
+  Connection,
+  Query 
+};
+use \Exception;
 
 
 
@@ -23,15 +27,84 @@ private static $connection;
 
 
 /**
- * Connection to the database
+ * Open connection to the database
+ * 
+ * Ex: Database::open();
+ * Ex: Database::open('DB');
  * 
  * @return void
 */
-public static function connect()
+public static function open($alias='')
 {
+   # check connection
    $driver = Config::get('database.connection');
    $config = self::config($driver);
    self::$connection = Connection::make($driver, $config, 'Query');
+
+   # add alias
+   if($alias) { class_alias(__CLASS__, $alias); }
+}
+
+
+/**
+ * connect connection 
+ * Database::open('DB');
+ * 
+ * Database::connect('users')->findAll();
+ * Database::connect()->pdo() \PDO
+ * 
+ * @param string $table 
+ * @return mixed
+ * @throws \Exception
+*/
+public static function connect($table='')
+{
+     if(self::$connection)
+     {
+     	  if($table !== '')
+     	  {
+     	  	   return Query::table($table);
+     	  }
+     	  return new static;
+
+     }else{
+
+     	  throw new Exception('No connection checked!');
+     }
+}
+
+
+/**
+ * Execute query SQL
+ * 
+ * Database::execute('SELECT * FROM my_table WHERE id = ?', [3]);
+ * Database::execute('SELECT * FROM my_table WHERE id = :id', ['id' => 3]);
+ * 
+ * $sql = 'SELECT * FROM my_table';
+ * Database::execute($sql)->results(); // first, ...
+ * 
+ * @param string $sql 
+ * @param array $params 
+ * @return \Query
+ */
+public static function execute($sql, $params=[])
+{
+    return Query::execute($sql, $params);
+}
+
+
+
+
+/**
+ * Get PDO
+ * 
+ * Database::connect()->pdo() \PDO
+ * 
+ * @return null|\PDO
+*/
+public function pdo(): ?PDO
+{
+	 return Connection::pdo();
 }
 
 
@@ -40,7 +113,7 @@ public static function connect()
  * 
  * @return 
 */
-public static function deconnect() {}
+public static function close() {}
 
 
 /**
