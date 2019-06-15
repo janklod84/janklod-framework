@@ -1,12 +1,13 @@
 <?php 
-namespace JK\FileSystem\Cache;
+namespace JK\FileSystem;
 
 
-use JK\FileSystem\Contracts\CacheableInterface;
+use JK\CacheSystem\Contracts\CacheableInterface ;
+use JK\FileSystem\Exceptions\FileCacheException;
 
 
 /**
- * @package JK\FileSystem\Cache\FileCache 
+ * @package JK\FileSystem\FileCache 
 */ 
 class FileCache  implements  CacheableInterface
 {

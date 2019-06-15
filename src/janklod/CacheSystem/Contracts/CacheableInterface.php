@@ -1,8 +1,8 @@
 <?php 
-namespace JK\FileSystem\Contracts;
+namespace JK\CacheSystem\Contracts;
 
 /**
- * @package JK\FileSystem\Contracts\CacheableInterface 
+ * @package JK\CacheSystem\Contracts\CacheableInterface 
 */ 
 interface CacheableInterface 
 {
