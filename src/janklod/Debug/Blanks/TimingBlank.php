@@ -33,6 +33,7 @@ public function output()
 
 /**
 * Get message
+* 
 * @param string $code 
 * @return mixed
 */

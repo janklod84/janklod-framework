@@ -201,12 +201,27 @@ protected function process($input, $output)
         if(preg_match($argument, $signature))
         {
            $cmd->execute($input, $output);
+           $output->writeln($this->end_msg());
            return $output->message() ?? 'No messages!';
         }
    }
    exit("\t".'No matched command!'. "\n");
 }
 
+
+/**
+ * Show end message
+ * 
+ * @return string
+ */
+protected function end_msg()
+{
+    $times = round(microtime(true) - JKSTART, 5);
+    $html  = "\n";
+    $html .= 'End execution shell script'. "\n";
+    $html .= 'Times execution ( ' . $times . ' ) seconds.';
+    return $html;
+}
 
 /**
  * Header

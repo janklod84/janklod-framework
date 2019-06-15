@@ -5,23 +5,36 @@ use JK\DI\ServiceProvider;
 use \DB;
 
 
-
 /**
  * @package JK\Database\Facades\DatabaseProvider
 */ 
 class DatabaseProvider extends ServiceProvider
 {
-        
+
+
+/**
+ * Bootstrap
+ * 
+ * @return void
+*/
+public function boot()
+{
+     DB::connect();
+}  
+
+
 /**
  * Register service
  * @return void
 */
 public function register()
 {
-    $this->app->singleton('db', function () {
-        return DB::instance();
-    });
+  
 }
 
 
+public function after()
+{
+	// DB::deconnect();
+}
 }

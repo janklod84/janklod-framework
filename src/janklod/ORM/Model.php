@@ -2,7 +2,9 @@
 namespace JK\ORM;
 
 
-use PDO;
+use \PDO;
+use \ReflectionClass;
+use \Exception;
 
 
 /**
@@ -15,13 +17,18 @@ class Model
 
 	
 /**
-* @var string $table
-* @var array  $fillable
-* @var array  $guarded
+* @var string  $table         [ Table name ]
+* @var bool    $softDelete    [ Deleting record soft ]
+* @var array   $fillable      [ This is attributes you can add data ]
+* @var array   $guarded       [ Attributes that won't get passed via the save method.]
+* @var array   $hidden        [ Hidden attributes working via solftdelete ]
 */
-protected $table    = '';
-protected $fillable = [];
-protected $guarded  = ['id'];
+protected static $table;
+protected $solfDeleted  = false;
+protected $fillable     = [];
+protected $guarded      = ['id'];
+protected $hidden       = [];
+
 
 
 /**
@@ -30,15 +37,14 @@ protected $guarded  = ['id'];
 * @param PDO $pdo 
 * @return void
 */
-public function __construct(\PDO $pdo)
-{
-	Query::setup($pdo, $this->table);
-}
+public function __construct() {}
+
 
 
 
 /**
  * Do some action before storage data
+ * 
  * @return void
 */
 protected function beforeSave(){}
@@ -46,9 +52,12 @@ protected function beforeSave(){}
 
 /**
  * Do some action after storage data
+ * 
  * @return void
 */
 protected function afterSave(){}
+
+
 
 
 /**
@@ -68,14 +77,14 @@ public function save()
  * 
  * @return array
 */
-public static function all(): array
+public static function all()
 {
-    return Query::table()->findAll();
+    return self::query()->findAll();
 }
 
 
 /**
- * Find item from database by id
+ * Find First item from database by id
  * 
  * @param int $id
  * @return array
@@ -96,20 +105,44 @@ public static function one(int $id)
 */
 public static function where($value, $field='id', $operator='=')
 {
-    return Query::table()->where($field, $value, $operator);
+    return self::query()->where($field, $value, $operator);
 }
 
 
 /**
  * Delete item from Database
  * 
- * @param mixed $value 
+ * @param mixed  $value 
  * @param string $field 
  * @return bool
 */
 public static function delete($value, $field='id')
 {
-	return Query::table()->delete($value, $field);
+	return self::query()->delete($value, $field);
 }
+
+
+/**
+ * Get Query
+ * 
+ * @return \Query
+*/
+public static function query()
+{
+	 $model = get_called_class();
+     $reflected = new ReflectionClass($model);
+     $properties = $reflected->getStaticProperties();
+     if(! self::$table = $properties['table'])
+     {
+     	  throw new Exception(
+     	  sprintf(
+     	  	'Property <strong>table</strong> is not setted in current class Model 
+     	  	[ <strong>%s</strong> ]', $model
+     	  ));
+     }
+	 return Query::table(self::$table);
+}
+
+
 
 }

@@ -32,6 +32,41 @@ const ALLOWED_CONFIG_KEYS = [
 ];
 
 
+/**
+ * @var  \PDO  $connection   [ Connection instance ]
+*/
+private static $connection;
+
+
+/**
+* prevent instance from being cloned
+* 
+* @return void
+*/
+private function __clone(){}
+
+
+
+/**
+* prevent instance from being unserialized
+* 
+* @return void
+*/
+private function __wakeup(){}
+
+
+
+
+/**
+ * Determine if has connection
+ * 
+ * @return bool
+*/
+public static function isConnected(): bool
+{
+    return self::$connection instanceof \PDO;
+}
+
 
 /**
  * Make connection
@@ -41,7 +76,7 @@ const ALLOWED_CONFIG_KEYS = [
  * @return \PDO 
  * @throws \Exception
 */
-public static function make($driver='mysql', $config = [])
+public static function make($driver='mysql', $config = [], $alias = false)
 {
   try 
   {
@@ -51,7 +86,17 @@ public static function make($driver='mysql', $config = [])
 
     if(self::has_driver($driver))
     {
-        return ConnectionFactory::pdo($driver, $config);
+        if(!self::isConnected())
+        {
+            self::$connection = ConnectionFactory::pdo($driver, $config);
+            if($alias)
+            {
+                class_alias('\\JK\\ORM\\Query', $alias);
+                Query::setup(self::$connection);
+                return true;
+            }
+        }
+        return self::$connection;
     }
 
   }catch(\PDOException $e){

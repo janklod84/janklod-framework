@@ -26,11 +26,11 @@ class Query
 * @var  array           $queries      [ Total executed SQL queries ]
 * @var  bool            $executed     [ Excecution status ]
 * @var  bool            $setup    [ Connection status ]
-* @var  string          $fetchHandler [ FetchMode handler ]
 * @var  QueryBuilder    $builder      [ Query builder ]
 * @var  object          $model        [ Model class object ]
 * @var  string          $sql          [ SQL request ]
 * @var  string          $table        [ Name of table ]
+* @var  string          $fetchHandler [ FetchMode handler ]
 */
 protected static $instance;
 protected static $connection;
@@ -58,66 +58,11 @@ protected static $fetchHandler = 'FetchObject';
 */
 public static function setup(PDO $connection, $table='')
 {
-    self::connection_status();
     self::$connection = $connection;
     self::$builder    = new QueryBuilder();
     self::$table      = $table;
-    self::$setup = true;
+    self::$setup      = true;
     return new static;
-}
-
-
-/**
- * Make connection
- * 
- * @param string $driver 
- * @param array $config 
- * @param string $table 
- * @return self
- */
-public static function connect($driver='mysql', $config=[], $table='')
-{
-      $connection = Connection::make($driver, $config);
-      return self::setup($connection, $table);
-}
-
-
-/**
- * Set alias of class
- * 
- * @param string $alias 
- * @return void
-*/
-public function withAlias($alias='Q')
-{
-    class_alias(__CLASS__, $alias);
-    return $this;
-}
-
-
-/**
- * Add table name
- * 
- * @param string $table
- * @return self
-*/
-public function withTable($table='')
-{
-     self::$table = $table;
-     return $this;
-}
-
-
-/**
- * Add model
- * 
- * @param object
- * @return self
-*/
-public function withModel(object $model)
-{
-     self::$model = $model;
-     return $this;
 }
 
 
@@ -125,19 +70,41 @@ public function withModel(object $model)
  * Add table
  * 
  * @param string $table 
+ * @param object $model
  * @return self
 */
-public static function table($table='')
+public static function table($table='', object $model = null)
 {
+    self::$model = $model;
     if(self::$table !== '')
     {
         return new static; 
     }else{
        self::$table = $table;
-       return new static;
+       return new static; 
     }
+
+    
 }
 
+
+/**
+ * Get model object
+ * 
+ * @param string $classname 
+ * @return object
+ */
+public static function getModel($classname)
+{
+    if(!class_exists($classname))
+    {
+         throw new \Exception(
+          sprintf('Sorry class <strong>%s</strong> does not exist!', $classname)
+        );
+         
+    }
+    return new $classname();
+}
 
 
 /**
@@ -328,6 +295,7 @@ public static function transaction(\Closure $callback)
 */
 public function where($field='', $value=null, $operator='=')
 {
+     self::ensureSetup();
      $sql = self::$builder->select()
                           ->from(self::$table)
                           ->where($field, $value, $operator)
@@ -354,6 +322,7 @@ public function where($field='', $value=null, $operator='=')
 */
 public function findAll(...$selects)
 {
+     self::ensureSetup();
      $sql = self::$builder->select($selects)
                           ->from(self::$table);
 
@@ -377,6 +346,7 @@ public function findAll(...$selects)
 */
 public function create($params=[])
 {
+  self::ensureSetup();
   if(!empty($params))
   {
       $sql = self::$builder
@@ -401,6 +371,7 @@ public function create($params=[])
 */
 public function update($params=[], $value=null, $field='id')
 {
+   self::ensureSetup();
   if($params && $value)
   {
        $sql = self::$builder
@@ -421,6 +392,7 @@ public function update($params=[], $value=null, $field='id')
 */
 public function delete($value=null, $field='id')
 {
+    self::ensureSetup();
    if($value)
    {
         $sql = self::$builder
@@ -530,6 +502,7 @@ public function lastId()
 */
 public function errors()
 {
+    self::ensureSetup();
     return self::$statement
                 ->errorInfo();
 }
@@ -542,6 +515,7 @@ public function errors()
 */
 public function close()
 {
+     self::ensureSetup();
     return self::$statement->closeCursor();
 }
 
@@ -649,20 +623,6 @@ private static function addQuery($query)
 }
 
 
-/**
- * Get connection status
- * 
- * @return void
-*/
-private static function connection_status()
-{
-     if(self::$setup === true)
-     {
-         exit('You are already connected to Query [ ORM ]');
-     }
-     
-}
-
 
 /**
  * Make sure has setting up [setup]
@@ -672,9 +632,9 @@ private static function connection_status()
 private static function ensureSetup()
 {
     if(self::$setup === false)
-    {
-        exit('Sorry you must to setup [Query (ORM) ]');
-    }
+     {
+         exit('No connection checked to Query [ ORM ]');
+     }
 }
 
 }

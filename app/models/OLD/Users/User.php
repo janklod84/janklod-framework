@@ -2,10 +2,12 @@
 namespace app\models;
 
 
+use JK\ORM\Model;
+
 /**
  * @package app\models\User
 */ 
-class User extends  BaseModel
+class User extends  Model
 {
 
 	  

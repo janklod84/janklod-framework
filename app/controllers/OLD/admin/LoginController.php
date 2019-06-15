@@ -4,9 +4,10 @@ namespace app\controllers\admin;
 
 use \Auth;
 use \Query;
+use \JK\ORM\QueryBuilder;
+use \DB;
+use app\models\Managers\UserManager;
 use JK\Routing\Controller;
-use app\models\User;
-
 
 
 /**
@@ -16,6 +17,8 @@ class LoginController extends Controller
 {
      
 
+private $user;
+
 
 /**
  * Do all behaviours before actions
@@ -23,6 +26,8 @@ class LoginController extends Controller
 */
 public function before()
 {
+     Query::setup(\DB::instance(), 'users');
+
      # пользователь может попасть в систему 
      # только когда он будет авторизован
      if(Auth::isLogged())
@@ -41,7 +46,7 @@ public function before()
 public function __construct($app)
 {
      parent::__construct($app);
-     /* debug(\DB::instance('users')->findAll()); */
+     // $this->user = new UserManager($app);
 }
 
 
@@ -53,11 +58,10 @@ public function __construct($app)
 */
 public function index()
 {
-    debug(User::all());
-
+    Query::fetchClass('app\\models\\User');
+    $results = Query::table()->findAll();
     
-    
-    // Query::html();
+    Query::html();
     $this->show();
 }
 

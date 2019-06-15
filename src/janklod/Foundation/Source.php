@@ -40,7 +40,6 @@ const CONFIG = [
 'Url'      => 'JK\\Helper\\Url',
 'DI'       => 'JK\\DI\\Container',
 'DB'       => 'JK\\Database\\Database',
-'Query'    => 'JK\\ORM\\Query',
 'QB'       => 'JK\\ORM\\QueryBuilder',
 ],
 'commands' => [

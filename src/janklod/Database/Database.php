@@ -3,8 +3,8 @@ namespace JK\Database;
 
 
 use \Config;
-use \PDO;
-use JK\ORM\Connection;
+use  JK\ORM\Connection;
+
 
 
 /**
@@ -16,68 +16,36 @@ final class Database
 
 
 /**
- * @var  \PDO  $instance    [ Connection instance ]
+ * @var  connection
 */
-private static $instance;
 private static $connection;
 
 
-/**
-* prevent instance from being cloned
-* 
-* @return void
-*/
-private function __clone(){}
-
-
 
 /**
-* prevent instance from being unserialized
-* 
-* @return void
-*/
-private function __wakeup(){}
-
-
-
-
-/**
- * Determine if has connection
+ * Connection to the database
  * 
- * @return bool
+ * @return void
 */
-public static function isConnected(): bool
+public static function connect()
 {
-    return self::$instance instanceof PDO;
-}
-
-
-
-/**
- * Get connection instance
- * 
- * @return \PDO
-*/
-public static function instance()
-{
-  if(is_null(self::$instance))
-  {
-      self::$instance = self::connect();
-  }
-  return self::$instance;
+	 $driver = Config::get('database.connection');
+     $config = self::config($driver);
+     self::$connection = Connection::make($driver, $config, 'Query');
 }
 
 
 /**
- * Connect to database
+ * Deconnection to the database
  * 
- * @return \PDO 
+ * @return 
 */
-private static function connect(): PDO
+public static function deconnect()
 {
-  $driver = Config::get('database.connection');
-  $config = self::config($driver);
-  return Connection::make($driver, $config);
+    if(self::$connection)
+    {
+    	 self::$connection = null;
+    }
 }
 
 
@@ -87,7 +55,7 @@ private static function connect(): PDO
  * @param string $key
  * @return array
  */
-private static function config($key=null)
+public static function config($key=null)
 {
    $data = Config::retrieveGroup('database');
    if(!empty($data[$key]))
