@@ -1,12 +1,13 @@
 <?php 
-namespace JK\DI\Containers;
+namespace JK\DI\Locator;
 
+
+use JK\DI\Contracts\RegistrableInterface;
 
 /**
- * This class manage all Registry
- * @package JK\DI\Containers\Registry
+ * @package JK\DI\Locator\Registry
 */ 
-class Registry implements RegisterInterface
+class Registry implements RegistrableInterface
 {
 
 

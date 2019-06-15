@@ -1,7 +1,7 @@
 <?php 
 namespace JK\View\Facades;
 
-use JK\Service\ServiceProvider;
+use JK\DI\ServiceProvider;
 use JK\View\View;
 
 /**

@@ -3,6 +3,8 @@ namespace JK\FileSystem;
 
 
 use \Exception;
+use JK\FileSystem\Cache\ApcCache;
+
 
 
 /**
@@ -222,7 +224,7 @@ public function put($filename='', $content='')
  * @return string
  * @throws \Exception
 */
-public function generator($directory, $filename, $content='')
+public function generate($directory, $filename, $content='')
 {
    $fullpath = $this->to(sprintf('%s/%s', $directory, $filename));
    if($content)
@@ -263,7 +265,7 @@ public function remove($filename)
  * @param string $mask
  * @return bool
  */
-public function clear($mask='some/dir/*.txt')
+public function clear($mask='to/dir/*.txt')
 {
    if(! array_map('unlink', $this->map($mask)))
    {
@@ -284,6 +286,18 @@ public function content($filename)
     return file_get_contents($this->to($filename));
 }
 
+
+
+/**
+ * Cache
+ * 
+ * @param string $type 
+ * @return 
+*/
+public function cache($type='apc')
+{
+    return new ApcCache();
+}
 
 
 /**

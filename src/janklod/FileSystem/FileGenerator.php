@@ -107,7 +107,7 @@ public function content()
 */
 public function put()
 {
-    return $this->file->generator(
+    return $this->file->generate(
         $this->directory, 
         $this->filename, 
         $this->content

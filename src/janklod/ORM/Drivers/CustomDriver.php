@@ -3,12 +3,13 @@ namespace JK\ORM\Drivers;
 
 
 use \PDO;
+use JK\ORM\Contracts\DriverInterface;
 
 
 /**
  * @package JK\ORM\Drivers\CustomDriver 
 */ 
-abstract class CustomDriver 
+abstract class CustomDriver implements DriverInterface
 {
 
 

@@ -1,17 +1,18 @@
 <?php 
 namespace JK\DI;
 
-/*
-use JK\DI\Containers\
-{
+
+use JK\DI\Locator\{
     Registry,
-    Singleton,
-    RegisterInterface
+    Singleton
 };
-*/
-use JK\DI\Containers\Registry;
-use JK\DI\Containers\Singleton;
-use JK\DI\Containers\RegisterInterface;
+
+use JK\DI\Contracts\{
+  ContainerInterface,
+  RegistrableInterface
+};
+
+
 
 /**
  * @package JK\DI\Container
@@ -203,6 +204,18 @@ public function make($classname, $arguments = null)
 }
 
 
+
+/**
+ * Integration service locator
+ * 
+ * @return mixed
+ */
+public function locator()
+{
+    // TO Implements
+}
+
+
 /**
 * Get item by key from container
 * Ex:
@@ -215,7 +228,7 @@ public function get($key)
 {
    if($this->has($key))
    {
-       if($this->container[$key] instanceof RegisterInterface)
+       if($this->container[$key] instanceof RegistrableInterface)
        {
             return $this->container[$key]->get($key);
        }else{

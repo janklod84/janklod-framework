@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Validation\Facades;
 
-use JK\Service\ServiceProvider;
+use JK\DI\ServiceProvider;
 use JK\Validation\Validator;
 
 /**

@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Security\Facades;
 
-use JK\Service\ServiceProvider;
+use JK\DI\ServiceProvider;
 use JK\Security\Authenticate\Auth;
 
 

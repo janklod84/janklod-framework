@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Http\Facades;
 
-use JK\Service\ServiceProvider;
+use JK\DI\ServiceProvider;
 use JK\Http\Response;
 
 

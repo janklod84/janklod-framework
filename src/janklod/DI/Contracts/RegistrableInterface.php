@@ -1,8 +1,8 @@
 <?php 
-namespace JK\DI\Containers;
+namespace JK\DI\Contracts;
 
 
-interface RegisterInterface 
+interface RegistrableInterface 
 {
 
 /**

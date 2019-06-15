@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Http\Facades;
 
-use JK\Service\ServiceProvider;
+use JK\DI\ServiceProvider;
 use JK\Http\Sessions\Session;
 use JK\Foundation\Source;
 
@@ -36,6 +36,8 @@ public function boot()
 		  $this->session_dir = false;
 	}
 
+	Session::start($this->session_dir);
+
 }
 
 
@@ -47,15 +49,5 @@ public function register()
 {
 }
 
-
-/**
- * Do some actions after registring
- * 
- * @return void
-*/
-public function after()
-{
-	Session::start($this->session_dir);
-}
 
 }

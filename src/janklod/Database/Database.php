@@ -3,6 +3,7 @@ namespace JK\Database;
 
 
 use \Config;
+use \PDO;
 use JK\ORM\Connection;
 
 
@@ -18,6 +19,8 @@ final class Database
  * @var  \PDO  $instance    [ Connection instance ]
 */
 private static $instance;
+private static $connection;
+
 
 /**
 * prevent instance from being cloned
@@ -34,6 +37,19 @@ private function __clone(){}
 * @return void
 */
 private function __wakeup(){}
+
+
+
+
+/**
+ * Determine if has connection
+ * 
+ * @return bool
+*/
+public static function isConnected(): bool
+{
+    return self::$instance instanceof PDO;
+}
 
 
 
@@ -57,7 +73,7 @@ public static function instance()
  * 
  * @return \PDO 
 */
-private static function connect()
+private static function connect(): PDO
 {
   $driver = Config::get('database.connection');
   $config = self::config($driver);

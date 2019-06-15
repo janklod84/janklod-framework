@@ -17,10 +17,10 @@ public function init()
 {
     // to change here later get path more dynamically
     $file  = new \JK\FileSystem\File(
-    	realpath(__DIR__.'/../../')
+    	realpath(__DIR__)
     );
   
-    foreach($file->map('Functions/*') as $functionPath)
+    foreach($file->map('/Functions/*') as $functionPath)
     {
            if(is_file($functionPath))
            {

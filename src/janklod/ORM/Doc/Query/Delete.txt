@@ -1,5 +1,0 @@
-$pdo = \DB::instance(); 
-Query::setup($pdo);
-
-Query::table()
-      ->delete(4);

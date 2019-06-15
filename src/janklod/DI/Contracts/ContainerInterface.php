@@ -1,9 +1,9 @@
 <?php 
-namespace JK\DI;
+namespace JK\DI\Contracts;
 
 
 /**
- * @package JK\DI\ContainerInterface 
+ * @package JK\DI\Contracts\ContainerInterface
 */ 
 interface ContainerInterface 
 {

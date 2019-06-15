@@ -6,10 +6,6 @@ use \PDO;
 use \PDOException;
 use \Exception;
 
-use JK\ORM\Drivers\{
- MySQLDriver,
- SQLiteDriver
-};
 
 
 /**
@@ -49,13 +45,13 @@ public static function make($driver='mysql', $config = [])
 {
   try 
   {
-    $driver = mb_strtolower($driver);
-    self::config_validate($config);
+    $driver = strtolower($driver);
+    self::validation($config);
     extract($config);
 
-    if(self::is_valid_driver($driver))
+    if(self::has_driver($driver))
     {
-       return self::connect($driver, $config);
+        return ConnectionFactory::pdo($driver, $config)->connect();
     }
 
   }catch(\PDOException $e){
@@ -68,75 +64,13 @@ public static function make($driver='mysql', $config = [])
 
 
 /**
- * Call MySQL connection
- * 
- * [
- * 'dbname'   => '',
- * 'host'     => '',
- * 'port'     => '',
- * 'charset'  => '',
- * 'username' => '',
- * 'password' => '',
- * 'options'  => ''
- * ];
- *
- * @param array $config 
- * @return \PDO
-*/
-private static function mysql($config=[])
-{
-    return call_user_func([new MySQLDriver($config), 'connect']);
-}
-
-
-/**
- * Call SQLite connection
- * 
- * [
- * 'dbname'   => '',
- * 'options'  => ''
- * ];
- * 
- * @param array $config 
- * @return \PDO
-*/
-private static function sqlite($config=[])
-{
-   return call_user_func([new SQLiteDriver($config), 'connect']);
-}
-
-
-/**
- * Get current connection
- * 
- * @param string $driver 
- * @param string $config 
- * @return mixed
- * @throws \Exception
-*/
-private static function connect($driver, $config)
-{
-     $method = strtolower($driver);
-     $callback = [new static, $method];
-     if(!is_callable($callback))
-     {
-          throw new Exception(
-            sprintf('Sorry, Connection to [%s] does not implemented yet!', $driver), 
-            404
-          );
-          
-     }
-     return call_user_func($callback, $config);
-}
-
-/**
  * Make sure has available driver
  * 
  * @param string $driver 
  * @return bool
  * @throws \Exception 
 */
-private static function is_valid_driver($driver=null)
+private static function has_driver($driver=null)
 {
      if(!in_array($driver, PDO::getAvailableDrivers(), true))
      {
@@ -153,7 +87,7 @@ private static function is_valid_driver($driver=null)
  * @return void
  * @throws \Exception
 */
-private static function config_validate($config)
+private static function validation($config)
 {
    foreach(array_keys($config) as $key)
    {

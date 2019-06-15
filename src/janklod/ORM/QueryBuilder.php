@@ -31,7 +31,7 @@ public function table($table='')
 {
     if($this->table === '')
     {
-       $this->table = $table;
+         $this->table = $table;
     }
     return $this;
 }

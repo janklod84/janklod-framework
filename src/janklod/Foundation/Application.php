@@ -5,6 +5,7 @@ namespace JK\Foundation;
 use JK\Http\RequestInterface;
 use JK\Http\ResponseInterface;
 use JK\Debug\Debogger;
+use JK\FileSystem\File;
 use \Config;
 
 
@@ -26,7 +27,7 @@ private static $instance;
 
 /**
  * Container Dependency Injection Interface
- * @var  JK\Container\ContainerInterface $app
+ * @var  JK\DI\Contracts\ContainerInterface $app
 */
 private $app;
 
@@ -67,14 +68,15 @@ private function __construct($root)
    $this->root = $root;
 
    // bind file in container
-   $this->bind('file', 
-    new \JK\FileSystem\File($root)
-   );
+   $this->bind('file', function () {
+      return $this->make(File::class, [$this->root]);
+   });
 
-
-   // @require_once __DIR__.'/../index.php';
-   // exit('End testing ...');
-
+   
+  /*
+   @require_once __DIR__.'/../index.php';
+   exit('End testing ...');
+   */
 }
 
 

@@ -24,7 +24,7 @@ protected $guarded  = ['id'];
 /**
  * Constructor
  * 
- * @param \JK\Container\ContainerInterface $app
+ * @param ContainerInterface $app
  * @return void
 */
 public function __construct($app)

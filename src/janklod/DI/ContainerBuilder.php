@@ -2,6 +2,8 @@
 namespace JK\DI;
 
 
+use JK\DI\Contracts\ContainerInterface;
+
 /**
  * @package JK\DI\ContainerBuilder
 */ 

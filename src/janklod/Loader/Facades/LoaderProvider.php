@@ -1,7 +1,7 @@
 <?php 
 namespace JK\Loader\Facades;
 
-use JK\Service\ServiceProvider;
+use JK\DI\ServiceProvider;
 use JK\Loader\Load;
 
 /**

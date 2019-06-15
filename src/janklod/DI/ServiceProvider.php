@@ -1,18 +1,18 @@
 <?php 
-namespace JK\Service;
+namespace JK\DI;
 
 
-use JK\DI\ContainerInterface;
+use JK\DI\Contracts\ContainerInterface;
 
 
 /**
- * @package JK\Service\ServiceProvider
+ * @package JK\DI\ServiceProvider
 */ 
 abstract class ServiceProvider 
 {
        
 /**
-* @var \JK\DI\ContainerInterface
+* @var JK\DI\Contracts\ContainerInterface
 */
 protected $app;
 
