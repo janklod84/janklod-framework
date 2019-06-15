@@ -28,6 +28,7 @@ class Query
 * @var  bool            $setup    [ Connection status ]
 * @var  string          $fetchHandler [ FetchMode handler ]
 * @var  QueryBuilder    $builder      [ Query builder ]
+* @var  object          $model        [ Model class object ]
 * @var  string          $sql          [ SQL request ]
 * @var  string          $table        [ Name of table ]
 */
@@ -42,6 +43,7 @@ protected static $queries   = [];
 protected static $executed  = false;
 protected static $setup = false;
 protected static $builder;
+protected static $model;
 protected static $sql;
 protected static $table;
 protected static $fetchHandler = 'FetchObject';
@@ -57,15 +59,11 @@ protected static $fetchHandler = 'FetchObject';
 public static function setup(PDO $connection, $table='')
 {
     self::connection_status();
-    if(is_null(self::$instance))
-    {
-         self::$connection = $connection;
-         self::$builder    = new QueryBuilder();
-         self::$table      = $table;
-         self::$instance   = new static;
-         self::$setup = true;
-    }
-    return self::$instance;
+    self::$connection = $connection;
+    self::$builder    = new QueryBuilder();
+    self::$table      = $table;
+    self::$setup = true;
+    return new static;
 }
 
 
@@ -90,12 +88,37 @@ public static function connect($driver='mysql', $config=[], $table='')
  * @param string $alias 
  * @return void
 */
-public function alias($alias='Q')
+public function withAlias($alias='Q')
 {
-   class_alias(__CLASS__, $alias);
+    class_alias(__CLASS__, $alias);
+    return $this;
 }
 
 
+/**
+ * Add table name
+ * 
+ * @param string $table
+ * @return self
+*/
+public function withTable($table='')
+{
+     self::$table = $table;
+     return $this;
+}
+
+
+/**
+ * Add model
+ * 
+ * @param object
+ * @return self
+*/
+public function withModel(object $model)
+{
+     self::$model = $model;
+     return $this;
+}
 
 
 /**
@@ -108,7 +131,7 @@ public static function table($table='')
 {
     if(self::$table !== '')
     {
-        return new static; // continue
+        return new static; 
     }else{
        self::$table = $table;
        return new static;
@@ -121,13 +144,15 @@ public static function table($table='')
  * Get Table
  * 
  * @return string
+ * @throws \Exception
 */
 public static function getTable()
 {
-    if(self::$table !== '')
+    if(self::$table === '')
     {
-        return self::$table;
+       throw new Exception('Sorry, no table yet setted!');        
     }
+    return self::$table;
 }
 
 
@@ -421,6 +446,18 @@ public function columns()
    self::ensureSetup();
    $sql = self::$builder->showColumn(self::$table);
    return self::execute($sql)->results();
+}
+
+
+/**
+ * Storage data in to database
+ * 
+ * @param object $model
+ * @return bool
+*/
+public function store(object $model=null)
+{
+
 }
 
 

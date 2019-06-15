@@ -30,18 +30,11 @@ protected $guarded  = ['id'];
  * @param ContainerInterface $app
  * @return void
 */
-public function __construct($app = null)
+public function __construct($app)
 {
    $this->app = $app;
-   parent::__construct(Database::instance(), $this->table);
+   parent::__construct(Database::instance());
 }
 
-
-/**
-public static function findAll()
-{
-    Query::table()->findAll();
-}
-*/
 
 }

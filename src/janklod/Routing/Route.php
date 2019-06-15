@@ -117,6 +117,19 @@ public static function middleware($middlewares=[], \Closure $callback)
 }
 
 
+/**
+* Add route api
+* 
+* @param string   $api [ api key ]
+* @param \Closure $callback
+* @return void
+*/
+public static function api($api='', \Closure $callback)
+{  
+      // TO Implements
+}
+
+
 
 /**
 * Add routes group
