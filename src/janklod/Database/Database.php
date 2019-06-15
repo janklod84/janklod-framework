@@ -29,7 +29,7 @@ private static $connection;
 */
 public static function connect()
 {
-	 $driver = Config::get('database.connection');
+   $driver = Config::get('database.connection');
    $config = self::config($driver);
    self::$connection = Connection::make($driver, $config, 'Query');
 }
