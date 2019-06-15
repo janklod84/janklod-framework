@@ -23,27 +23,12 @@ protected $description = [
 
 
 /**
- * Constructor
- * 
- * @return void
-*/
-public function __construct()
-{
-     parent::__construct();
-}
-
-
-
-/**
  * Execute command
  * 
- * @param JK\Console\IO\InputInterface $input
- * @param JK\Console\IO\OutputInterface $output
  * @return mixed
 */
-public function execute($input=null, $output=null)
+public function execute()
 {
-     parent::execute($input, $output);
 	 return $this->console->execute($this->signature);
 }
 

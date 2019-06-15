@@ -11,18 +11,25 @@ use JK\Console\IO\OutputInterface;
 interface CommandInterface 
 {
 
+
+/**
+ * Construct
+ * 
+ * @param ?InputInterface|null $input 
+ * @param ?OutputInterface|null $output 
+ * @return void
+*/
+public function __construct(InputInterface $input = null, OutputInterface $output = null);
+
+
 /**
  * Execute command
  * 
- * @param JK\Console\IO\InputInterface $input
- * @param JK\Console\IO\OutputInterface $output
  * 
  * @return mixed
 */
-public function execute(
-?InputInterface $input = null, 
-?OutputInterface $output = null
-);
+public function execute();
+
 
 /**
 * Rollback command

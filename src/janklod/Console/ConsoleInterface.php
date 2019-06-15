@@ -18,15 +18,11 @@ interface ConsoleInterface
 /**
  * Excecute command
  * 
- * @param string $signature 
+ * @param string $compile 
  * @param InputInterface $input 
  * @param OutputInterface $output 
  * @return void
 */
-public function execute(
-$signature='', 
-InputInterface $input, 
-OutputInterface $output
-);
+public function execute($compile ='', InputInterface $input, OutputInterface $output);
 
 }

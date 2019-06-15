@@ -6,6 +6,8 @@ use JK\Console\IO\OutputInterface;
 use JK\Console\CommandInterface;
 
 
+use \ReflectionClass;
+
 
 /**
  * Class Console [Excecute command]
@@ -102,18 +104,27 @@ public function name()
 
 
 /**
+ * Block Access for not cli action
+ * 
+ * @return void
+*/
+protected static function blockAccess()
+{
+  if(php_sapi_name() != 'cli')
+  { die('Restricted'); } 
+}
+
+
+
+/**
  * Excecute command
  * 
- * @param string $signature 
+ * @param string $compile 
  * @param InputInterface $input 
  * @param OutputInterface $output 
  * @return void
 */
-public function execute(
-$signature='', 
-InputInterface $input, 
-OutputInterface $output
-)
+public function execute($compile='', InputInterface $input, OutputInterface $output)
 {
      // block access no cli request
      self::blockAccess();
@@ -122,7 +133,7 @@ OutputInterface $output
      $this->blank_head();
 
      // Make sure input name file matches
-     if($signature !== $this->name)
+     if($compile !== $this->name)
      {
          exit(
           sprintf(
@@ -153,10 +164,7 @@ OutputInterface $output
  * 
  * @return string
 */
-public function run(
-InputInterface $input, 
-OutputInterface $output
-)
+public function run(InputInterface $input, OutputInterface $output)
 {
     return $this->execute($input->argument(0), $input, $output);
 }
@@ -195,18 +203,74 @@ protected function process($input, $output)
    $message = '';
    foreach(self::$commands as $command)
    {
-        $cmd = $this->createCommand($command);
+        $cmd = $this->createCommand($command, [$input, $output]);
         $argument = '#^'. $input->argument(1) . '$#';
         $signature = $cmd->signature();
+
         if(preg_match($argument, $signature))
         {
-           $cmd->execute($input, $output);
+           $cmd->execute();
            $output->writeln($this->end_msg());
            return $output->message() ?? 'No messages!';
         }
    }
    exit("\t".'No matched command!'. "\n");
 }
+
+
+/**
+ * Create command object
+ * 
+ * @param  string $command
+ * @param  array  $arguments
+ * @return \JK\Console\CommandInterface
+ */
+protected function createCommand($command, $arguments=[]): CommandInterface
+{
+    if($this->is_class($command))
+    {
+         $reflection = new ReflectionClass($command);
+
+         $command = $reflection->newInstanceArgs($arguments);
+    }
+
+    if(!$this->is_command($command))
+    {
+        exit(
+         sprintf(
+          'Sorry [%s] is not implements CommandInterface', 
+          $command
+        )
+       );   
+    }
+    return $command;
+}
+
+
+
+/**
+ * Determine if given param is class
+ * @param mixed $command 
+ * @return bool
+*/
+protected function is_class($command): bool
+{
+    return is_string($command) && class_exists($command);
+}
+
+
+/**
+ * Determine if given argument 
+ * is instance of CommandInterface
+ * 
+ * @param mixed $command 
+ * @return bool
+*/
+protected function is_command($command): bool
+{
+   return $command instanceof CommandInterface;
+}
+
 
 
 /**
@@ -237,68 +301,6 @@ protected function blank_head($message='')
    $html .= '+-----------------+-----------------+'."\n"; 
    $html .= "\n";
    echo $html;
-}
-
-
-/**
- * Block Access for not cli action
- * 
- * @return void
-*/
-protected static function blockAccess()
-{
-  if(php_sapi_name() != 'cli')
-  { die('Restricted'); } 
-}
-
-
-/**
- * Create command object
- * 
- * @param  $command
- * @return \JK\Console\CommandInterface
- */
-protected function createCommand($command): CommandInterface
-{
-    if($this->is_class($command))
-    {
-         $command = new $command();
-    }
-
-    if(!$this->is_command($command))
-    {
-        exit(
-		     sprintf(
-          'Sorry [%s] is not implements CommandInterface', 
-          $command
-        )
-		   );   
-    }
-    return $command;
-}
-
-/**
- * Determine if given param is class
- * @param mixed $command 
- * @return bool
-*/
-protected function is_class($command): bool
-{
-    return is_string($command) 
-           && class_exists($command);
-}
-
-
-/**
- * Determine if given argument 
- * is instance of CommandInterface
- * 
- * @param mixed $command 
- * @return bool
-*/
-protected function is_command($command): bool
-{
-   return $command instanceof CommandInterface;
 }
 
 

@@ -12,22 +12,31 @@ abstract class Command implements CommandInterface
 {
 
 /**
- * @var string $signature      [ Signature of command   ]
- * @var string $description   [ Description of command ]
+ * @var InputInterface  $input
+ * @var OutputInterface $output
+ * @var string $signature         [ Signature of command   ]
+ * @var string $description       [ Description of command ]
 */
+protected $input;
+protected $output;
 protected $signature   = 'command:test';
 protected $description = ['description of command'];
+
 
 
 /**
  * Constructor
  * 
+ * @param InputInterface|null $input 
+ * @param OutputInterface|null $output 
  * @return void
-*/
-public function __construct()
+ */
+public function __construct(InputInterface $input = null, OutputInterface $output = null)
 {
-   if(is_callable([$this, 'configure']))
-   {  $this->configure(); }
+   $this->input = $input;
+   $this->output = $output;
+
+   if(is_callable([$this, 'configure'])) {  $this->configure(); }
 }
 
 
@@ -82,12 +91,11 @@ public function description()
 /**
  * Determine if input match signature
  * 
- * @param InputInterface $input 
  * @return bool
  */
-public function match($input)
+public function match()
 {
-   return $input->argument(0) === $this->signature;
+   return $this->input->argument(0) === $this->signature;
 }
 
 
@@ -102,15 +110,9 @@ public function configure(){}
 /**
  * Execute command
  * 
- * @param JK\Console\IO\InputInterface $input
- * @param JK\Console\IO\OutputInterface $output
- * 
  * @return mixed
 */
-abstract public function execute(
-InputInterface $input=null, 
-OutputInterface $output=null
-);
+abstract public function execute();
 
 
 /**

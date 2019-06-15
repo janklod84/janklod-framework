@@ -17,18 +17,22 @@ abstract class CustomCommand extends Command
 {
 
 /**
- * @var FileConsole;
+ * @var Generator $console
  */
 protected $console;
 
+
 /**
- * Constructor
- * 
- * @return void
+* Constructor
+* 
+* @param JK\Console\IO\InputInterface $input
+* @param JK\Console\IO\OutputInterface $output
+* @return void
 */
-public function __construct()
+public function __construct(InputInterface $input=null, OutputInterface $output=null)
 {
-     parent::__construct();
+     parent::__construct($input, $output);
+     $this->console = new Generator($this->input, $this->output);
 }
 
 
@@ -43,17 +47,9 @@ public function configure() {}
 /**
  * Execute command
  * 
- * @param JK\Console\IO\InputInterface $input
- * @param JK\Console\IO\OutputInterface $output
  * @return mixed
 */
-public function execute(
-InputInterface $input=null, 
-OutputInterface $output=null
-)
-{
-	$this->console = new Generator($input, $output);
-}
+abstract public function execute();
 
 
 /**
