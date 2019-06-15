@@ -4,7 +4,7 @@ namespace JK\Foundation\Generator\Generators;
 
 use JK\Foundation\Application;
 use JK\FileSystem\FileGenerator;
-use JK\Foundation\Generator\GeneratorInterface;
+use JK\Foundation\Contracts\GeneratorInterface;
 
 
 

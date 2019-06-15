@@ -2,6 +2,9 @@
 namespace JK\Foundation\Generator;
 
 
+use JK\Foundation\Contracts\GeneratorInterface;
+
+
 /**
  * Class GeneratorAdapter
  *

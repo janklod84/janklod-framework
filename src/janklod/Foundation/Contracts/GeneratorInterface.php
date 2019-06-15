@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Foundation\Generator;
+namespace JK\Foundation\Contracts;
 
 
 /**
- * @package JK\Foundation\Generator\GeneratorInterface
+ * @package JK\Foundation\Contracts\GeneratorInterface
 */ 
 interface GeneratorInterface
 {
