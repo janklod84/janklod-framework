@@ -317,7 +317,7 @@ public function where($field='', $value=null, $operator='=')
  * $result = Query::table()->findAll('username', 'role');
  * debug($result);
  * 
- * @param mixed ...$selects
+ * @param string|array ...$selects
  * @return array
 */
 public function findAll(...$selects)
@@ -371,7 +371,7 @@ public function create($params=[])
 */
 public function update($params=[], $value=null, $field='id')
 {
-   self::ensureSetup();
+  self::ensureSetup();
   if($params && $value)
   {
        $sql = self::$builder
@@ -392,7 +392,7 @@ public function update($params=[], $value=null, $field='id')
 */
 public function delete($value=null, $field='id')
 {
-    self::ensureSetup();
+   self::ensureSetup();
    if($value)
    {
         $sql = self::$builder

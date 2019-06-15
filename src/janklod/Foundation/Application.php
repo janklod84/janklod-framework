@@ -251,7 +251,7 @@ public function __get($key)
 public function handle(RequestInterface $request)
 {
      $method     = $request->method();
-     $dispatcher = $this->router->run($method);
+     $dispatcher = $this->router->dispatch($method);
      $callback   = $dispatcher->getCallback();
      $matches    = $dispatcher->getMatches();
      return $this->load->callAction($callback, $matches);

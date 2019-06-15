@@ -81,7 +81,7 @@ public function match($url=null, $method=null)
  * @param  string $method
  * @return Dispatcher
 */
-public function run($method='GET')
+public function dispatch($method='GET')
 {
     if($this->match($this->url, $method))
     {

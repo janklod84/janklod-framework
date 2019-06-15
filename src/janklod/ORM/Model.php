@@ -91,19 +91,19 @@ public static function all()
 */
 public static function one(int $id)
 {
-    return self::where($id);
+    return self::where('id', $id);
 }
 
 
 /**
  * Find item from database
  * 
- * @param mixed  $value 
  * @param string $field 
  * @param string $operator 
+ * @param mixed  $value 
  * @return array
 */
-public static function where($value, $field='id', $operator='=')
+public static function where($field='', $value=null, $operator='=')
 {
     return self::query()->where($field, $value, $operator);
 }

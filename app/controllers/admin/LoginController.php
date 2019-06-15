@@ -53,11 +53,15 @@ public function __construct($app)
 */
 public function index()
 {
-    debug(User::all());
 
-    
-    
-    // Query::html();
+    // Fetch all users : User::all();
+    // Fetch one record by id :  User::one(1);
+    // Fetch where : User::where('username', 'Michelle124')
+    // Delete user where id = 5 : User::delete(5)
+    debug(User::delete(5));
+
+
+    Query::html();
     $this->show();
 }
 

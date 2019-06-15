@@ -1,0 +1,4 @@
+Fetch all users : User::all();
+Fetch one record by id :  User::one(1);
+Fetch where : User::where('username', 'aasswww124')
+Delete user where id = 5 : User::delete(5)

@@ -30,8 +30,8 @@ private static $connection;
 public static function connect()
 {
 	 $driver = Config::get('database.connection');
-     $config = self::config($driver);
-     self::$connection = Connection::make($driver, $config, 'Query');
+   $config = self::config($driver);
+   self::$connection = Connection::make($driver, $config, 'Query');
 }
 
 
@@ -40,13 +40,7 @@ public static function connect()
  * 
  * @return 
 */
-public static function deconnect()
-{
-    if(self::$connection)
-    {
-    	 self::$connection = null;
-    }
-}
+public static function deconnect() {}
 
 
 /**

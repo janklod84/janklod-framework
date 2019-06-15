@@ -26,6 +26,7 @@ private static $connection;
   * Connect to available driver
   * 
   * @param string $driver 
+  * @param array $config
   * @return \PDO
 */ 
 public static function pdo($driver='', $config=[])
