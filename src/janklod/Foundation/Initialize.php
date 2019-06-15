@@ -24,13 +24,12 @@ private $app;
 */
 public function __construct($app)
 {
-	// Get container
+    // Get container
     $this->app = $app;
-    
+
     // Load all configuration
-    Config::basePath(
-     $this->app->file->to('app/config')
-    )->map();
+    $path = $this->app->file->to('app/config/*');
+    Config::map($path);
 }
 
 

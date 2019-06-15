@@ -11,23 +11,9 @@ class Config
 /**
 * @var array $stored       [ Repository all stored data  ]
 * @var array $files        [ Repository all stored files ]
-* @var string $configPath  [ Base path configs ]
 */
 protected static $stored = [];
 protected static $files  = []; 
-protected static $configPath='';
-
-
-/**
-* set base path config
-* @param string $configPath
-* @return self
-*/
-public static function basePath(string $configPath='')
-{
-     self::$configPath = trim($configPath, '/');
-     return new static;
-}
 
 
 /**
@@ -44,11 +30,15 @@ public static function store($data=[])
 
 /**
  * Load many files 
+ * 
+ * @param string $path
  * @return void
 */
-public function map()
+public static function map($path='')
 {
-      $path = self::$configPath ."/*";
+      if(strpos($path, '*') === false)
+      { exit('No valid parsed try to write like [your/path/to/*]'); }
+
       foreach(glob($path) as $configPath)
       {
          if(is_file($configPath))
@@ -61,7 +51,6 @@ public function map()
             }
          }
       }
-
 }
 
 
@@ -81,8 +70,7 @@ public static function load($parsed='')
         $exp = explode('.', $parsed);
         $group = $exp[0] ?? '';
         $item  = $exp[1] ?? '';
-        self::saveFile($group);
-    
+
         // retrieve group or item
         if(self::isStored($group))
         {
@@ -102,24 +90,19 @@ public static function load($parsed='')
  * Config::saveFile('app')
  * 
  * @param string $group
+ * @param string $filename
  * @return void
 */
-public static function saveFile($group)
+public static function saveFile($group, $filename)
 {
-    if(self::$configPath !== '')
+    if($path = realpath($filename))
     {
-        $file = self::$configPath . '/' . mb_strtolower($group) . '.php';
-       
-        if($path = realpath($file))
-        {
-             if(!in_array($group, self::$stored))
-             {
-                 self::store([$group => require($path)]);
-             }
-             self::addFile($path);
-        }
+         if(!in_array($group, self::$stored))
+         {
+             self::store([$group => require($path)]);
+         }
+         self::addFile($path);
     }
-   
 }
 
 /**
