@@ -11,7 +11,28 @@ use JK\FileSystem\Contracts\CacheableInterface;
 class FileCache  implements  CacheableInterface
 {
 
-	
+
+/**
+ * Cache directory
+ * 
+ * @var string $cache_dir
+*/
+protected $cache_dir = '';
+
+
+
+/**
+ * Constructor
+ * 
+ * @param string $cache_dir 
+ * @return void
+*/
+public function __construct($cache_dir='')	
+{
+     $this->cache_dir = $cache_dir;
+}
+
+
 /**
 * Save data to the cache
 * 

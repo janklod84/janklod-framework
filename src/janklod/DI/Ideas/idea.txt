@@ -1,0 +1,4 @@
+function localise()
+{
+	return new ServiceLocator();
+}

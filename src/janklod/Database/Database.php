@@ -37,7 +37,7 @@ private static $connection;
 public static function open($alias='')
 {
    # check connection
-   $driver = Config::get('database.connection');
+   $driver = self::config('connection');
    $config = self::config($driver);
    self::$connection = Connection::make($driver, $config, 'Query');
 
@@ -124,7 +124,7 @@ public static function close() {}
  */
 public static function config($key=null)
 {
-   $data = Config::retrieveGroup('database');
+   $data = Config::group('database');
    if(!empty($data[$key]))
    {
        $data = $data[$key];
