@@ -13,21 +13,12 @@ class User extends  BaseModel
 * @var string $table
 */
 protected static $table = 'users';
-protected $fillable = ['test'];
-
 
 /**
-* @var int    $id
-* @var string $username
-* @var string $password
-* @var mixed  $role
+ * @var array $fillable
 */
-/*
-public $id;
-public $username;
-public $password;
-public $role = 1;
-*/
-
+protected $fillable = [
+	'username', 'password', 'role'
+];
 
 }

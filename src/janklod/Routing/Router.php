@@ -61,12 +61,14 @@ public function match($url=null, $method=null)
 {
    foreach(RouteCollection::group($method) as $route)
    {
-       $pattern = $route->convertPattern();
-       if(preg_match($pattern, $url, $matches))
+       $regex = $route->convertPattern();
+       if(preg_match($regex, $url, $matches))
        {
            array_shift($matches);
            $this->matches = $matches;
            $this->route = $route;
+           $route->register('matches', $matches);
+           $route->register('regex', $regex);
            return $route->parameters();
        }
    }
