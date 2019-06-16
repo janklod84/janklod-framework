@@ -10,13 +10,11 @@ class Router
        
 
 /**
- * @var  array        $params
  * @var  array        $matches
  * @var  array        $routes
  * @var  RouteParam   $route
  * @var  string       $url
 */
-private $params  = [];
 private $matches = [];
 private $routes  = [];
 private $route;
@@ -65,7 +63,7 @@ public function match($url=null, $method=null)
        {
            array_shift($matches);
            $this->matches = $matches;
-           $this->route = $route;
+           $this->route   = $route;
            $route->register('matches', $matches);
            $route->register('regex', $regex);
            return $route->parameters();
@@ -93,26 +91,5 @@ public function dispatch($method='GET')
 }
 
 
-
-/**
- * Get route params
- * 
- * @return array
-*/
-public function params()
-{
-     return $this->params;
-}
-
-
-/**
- * Get matches params
- * 
- * @return array
-*/
-public function matches()
-{
-     return $this->matches;
-}
 
 }
