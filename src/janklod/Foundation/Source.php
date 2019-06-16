@@ -49,7 +49,7 @@ const CONFIG = [
 \JK\Foundation\Generator\Commands\DeleteControllerCommand::class,
 \JK\Foundation\Generator\Commands\DeleteModelCommand::class
 ],
-'cache.dir'     => '/temp/cache/',
+'cache.dir'     => '/temp/framework/cache/',
 'migration.dir' => '/temp/database/migrations/',
 'seed.dir'      => '/temp/database/seeds/',
 'session.dir'   => '/temp/framework/sessions',

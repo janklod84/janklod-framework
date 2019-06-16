@@ -55,6 +55,13 @@ public function __construct($app)
 public function index()
 {
 
+    Query::html();
+    $this->show();
+}
+
+
+public function query()
+{
     // Fetch all users : User::all();
     // Fetch one record by id :  User::one(1);
     // Fetch where : User::where('username', 'Michelle124')
@@ -62,15 +69,6 @@ public function index()
     // Show table columns; debug(\DB::connect('users')->columns());
     // Describe table : debug(\DB::connect('users')->describe());
 
-    
-    Query::html();
-    $this->show();
-}
-
-
-public function test()
-{
-    echo __METHOD__.'<br>';
 }
 
 

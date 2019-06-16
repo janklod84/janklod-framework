@@ -126,6 +126,21 @@ protected function render($view, $data = [])
 
 
 /**
+ * Get Cache instance
+ * 
+ * Ex:  $this->cache()->set('key1', 'value1');
+ * Ex:  $this->cache()->get('key1');
+ * Ex:  $this->cache()->delete('key1');
+ * 
+ * @return Current Object cache
+ */
+public function cache()
+{
+   return $this->app->cache;
+}
+
+
+/**
  * Get Json Encoding datas
  * 
  * 
