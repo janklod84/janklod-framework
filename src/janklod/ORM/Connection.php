@@ -18,17 +18,8 @@ class Connection
  * @const array [ allowed keys ]
 */
 const ALLOWED_CONFIG_KEYS = [
- 'dbname',
- 'host',
- 'port',
- 'charset', 
- 'username',
- 'password',
- 'options', 
- 'prefix',
- 'collation',
- 'engine',
- 'autocreate',
+ 'dbname','host','port','charset', 'username','password',
+ 'options', 'prefix','collation','engine','autocreate',
 ];
 
 
