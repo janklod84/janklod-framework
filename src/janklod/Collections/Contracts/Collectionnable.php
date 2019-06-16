@@ -1,12 +1,13 @@
 <?php 
-namespace JK\Collections;
+namespace JK\Collections\Contracts;
 
 
 /**
  * Collection interface
- * @package JK\Collections\CollectionInterface 
+ *
+ * @package JK\Collections\Contracts\Collectionnable
 */ 
-interface CollectionInterface 
+interface Collectionnable extends \IteratorAggregate, \ArrayAccess
 {
        
 
@@ -25,7 +26,7 @@ public function set($key, $value);
   * @param string $key 
   * @return mixed
 */
-public function get($key = null);
+public function get($key);
 
 
 /**

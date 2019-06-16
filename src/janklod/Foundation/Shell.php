@@ -28,7 +28,8 @@ public function __construct()
 {
     $this->file = Application::instance()->file;
     self::addCommands(Source::CONFIG['commands']);
-	parent::__construct($this->file->to('routes/console.php'));
+    $this->file->call('routes/console.php');
+	parent::__construct();
 }
 
 }

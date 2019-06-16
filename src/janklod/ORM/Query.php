@@ -631,11 +631,11 @@ public static function queries()
  * Get htmt executed queries
  * This template use bootstrap 3-4
  * 
- * Ex: Query::html();
+ * Ex: Query::output();
  * 
  * @return void
 */
-public static function html()
+public static function output()
 {
 
  self::ensureSetup();

@@ -32,14 +32,7 @@ protected $name = 'console';
  * @param string $file 
  * @return void
 */
-public function __construct($file = null)
-{
-     if($file && $path = realpath($file))
-     {
-         require($path);
-     }
-
-}
+public function __construct() { }
 
 
 /**

@@ -55,10 +55,8 @@ public function __construct($app)
 public function index()
 {
     
-    // debug(User::all());
 
-    # Get cache
-    Query::html();
+    Query::output();
     $this->show();
 }
 

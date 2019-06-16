@@ -71,12 +71,6 @@ private function __construct($root)
    $this->bind('file', function () {
       return $this->make(File::class, [$this->root]);
    });
-
-   
-   /*
-   @require_once __DIR__.'/../index.php';
-   exit('End testing ...');
-   */
 }
 
 
@@ -112,6 +106,7 @@ public function initialize()
 */
 public function run()
 {   
+ 
  if(!$this->request->is('cli'))
  {
    // Run all services and modules

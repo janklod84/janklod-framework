@@ -57,7 +57,6 @@ set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 $app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 
 
-
 /*
 |-------------------------------------------------------
 |    Run Application
