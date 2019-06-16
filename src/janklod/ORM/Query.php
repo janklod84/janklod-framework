@@ -59,7 +59,7 @@ protected static $fetchHandler = 'FetchObject';
 public static function setup(PDO $connection, $table='')
 {
     self::$connection = $connection;
-    self::$builder    = new QueryBuilder();
+    self::$builder    = new QueryBuilder(); // Query Builder
     self::$table      = $table;
     self::$setup      = true;
     return new static;

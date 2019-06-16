@@ -466,6 +466,7 @@ $alias = null
 * @param string $builder
 * @param array  $params
 * @return string
+* @throws \Exception
 */
 protected function call($builder, $params)
 {
@@ -475,7 +476,9 @@ protected function call($builder, $params)
       );
       if(!class_exists($builder_name))
       {
-          die(sprintf('class <strong>%s</strong> does not exist!', $builder_name));
+          throw new Exception(
+          sprintf('class <strong>%s</strong> does not exist!', $builder_name)
+          );
       }
       $builder_obj = new $builder_name($params, $this->table);
       return call_user_func([$builder_obj, 'build']);

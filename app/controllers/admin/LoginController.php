@@ -54,7 +54,6 @@ public function __construct($app)
 */
 public function index()
 {
-    
 
     Query::output();
     $this->show();
