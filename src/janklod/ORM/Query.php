@@ -405,6 +405,19 @@ public function delete($value=null, $field='id')
 
 
 /**
+ * Describe Table
+ * 
+ * @param string $table 
+ * @return array
+ */
+public function describe()
+{
+    self::ensureSetup();
+    $sql = self::$builder->describe(self::$table);
+    return self::execute($sql)->results();
+}
+
+/**
  * Fetch columns table
  * 
  * Ex: Query::table('users')->columns()

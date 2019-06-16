@@ -14,9 +14,9 @@ class OrderByBuilder extends CustomBuilder
      */
      public function build()
      {
+         $orderString = '';
        	 if($orderBy = $this->params())
        	 {
-              $orderString = '';
               foreach($orderBy as $order)
               {
                    $orderString .= sprintf('%s %s, ', 
@@ -24,8 +24,9 @@ class OrderByBuilder extends CustomBuilder
                                     strtoupper($order['sort'])
                                   );
               }
-              return sprintf('ORDER BY %s', trim($orderString, ', '));
+             $orderString = sprintf('ORDER BY %s', trim($orderString, ', '));
        	 }
+         return $orderString;
      }
 
 

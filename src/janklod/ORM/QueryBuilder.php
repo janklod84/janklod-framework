@@ -270,11 +270,11 @@ public function update($table='', $params = [])
  * @param string $alias
  * @return self
 */
-public function delete($table='', $alias='')
+public function delete($table='')
 {
     $this->clear();
     $this->table = $table;
-    $this->builders['delete'] = compact('alias');
+    $this->builders['delete'] = '';
     return $this;
 }
 
@@ -284,14 +284,13 @@ public function delete($table='', $alias='')
 * Truncate table
 * 
 * @param string $table 
-* @param string $alias
 * @return self
 */
-public function truncate($table = null, $alias=null)
+public function truncate($table = null)
 {
     $this->clear();
     $this->table = $table;
-    $this->builders['truncate'] = compact('alias');
+    $this->builders['truncate'] = '';
     return $this;
 }
 
@@ -301,15 +300,30 @@ public function truncate($table = null, $alias=null)
  * Show all columns of table
  * 
  * @param string $table 
- * @param string $alias
  * @return self
 */
-public function showColumn($table = null, $alias=null)
+public function showColumn($table = null)
 {
   $this->clear();
   $this->table = $table;
-  $this->builders['showColumn'] = compact('alias');
+  $this->builders['showColumn'] = '';
   return $this;
+}
+
+
+
+/**
+ * Describe table
+ * 
+ * @param string $table 
+ * @return self
+ */
+public function describe($table=null)
+{
+    $this->clear();
+    $this->table = $table;
+    $this->builders['describe'] = '';
+    return $this;
 }
 
 
