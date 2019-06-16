@@ -1,9 +1,12 @@
 <?php 
-namespace JK\Foundation\Generator\Generators;
+namespace JK\Foundation\Console\Generator\Generators;
 
+
+
+use JK\Foundation\Console\Generator\CustomGenerator;
 
 /**
- * @package JK\Foundation\Generator\Generators\ModelGenerator
+ * @package JK\Foundation\Console\Generator\Generators\ModelGenerator
 */ 
 class ModelGenerator extends CustomGenerator
 {

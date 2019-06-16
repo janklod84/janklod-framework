@@ -44,10 +44,11 @@ const CONFIG = [
 'QB'       => 'JK\\ORM\\QueryBuilder',
 ],
 'commands' => [
-\JK\Foundation\Generator\Commands\MakeControllerCommand::class,
-\JK\Foundation\Generator\Commands\MakeModelCommand::class,
-\JK\Foundation\Generator\Commands\DeleteControllerCommand::class,
-\JK\Foundation\Generator\Commands\DeleteModelCommand::class
+\JK\Routing\Commands\MakeControllerCommand::class,
+\JK\Routing\Commands\DeleteControllerCommand::class,
+\JK\Database\Commands\MakeModelCommand::class,
+\JK\Database\Commands\DeleteModelCommand::class,
+\JK\Http\Commands\ServerCommand::class
 ],
 'cache.dir'     => '/temp/framework/cache/',
 'migration.dir' => '/temp/database/migrations/',

@@ -1,13 +1,15 @@
 <?php 
-namespace JK\Foundation\Generator\Commands;
+namespace JK\Database\Commands;
 
+
+use JK\Foundation\Console\Generator\GeneratorCommand;
 
 /**
- * Class DeleteModelCommand
+ * Class MakeModelCommand
  *
- * @package JK\Foundation\Generator\Commands\DeleteModelCommand
+ * @package JK\Database\Commands\MakeModelCommand
 */ 
-class DeleteModelCommand extends CustomCommand
+class MakeModelCommand extends GeneratorCommand
 {
      
 
@@ -15,10 +17,10 @@ class DeleteModelCommand extends CustomCommand
  * @var string $signature    [ Signature of command   ]
  * @var string $description  [ Description of command ]
 */
-protected $signature   = 'delete:model';
+protected $signature   = 'make:model';
 protected $description = [
-'This command delete model.',
-'Ex : php console delete:model user.'
+'This command generate new model.',
+'Ex : php console make:model user.', 
 ];
 
 
@@ -33,11 +35,13 @@ public function execute()
 }
 
 
+
 /**
 * Rollback command
 * 
 * @return mixed
 */
 public function undo(){}
+
 
 }

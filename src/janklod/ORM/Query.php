@@ -729,7 +729,7 @@ private static function ensureSetup()
 {
     if(self::$setup === false)
      {
-         exit('No connection checked to Query [ ORM ]');
+         throw new Exception('No connection checked to Query [ ORM ]');
      }
 }
 

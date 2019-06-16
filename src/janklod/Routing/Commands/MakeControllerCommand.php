@@ -1,13 +1,14 @@
 <?php 
-namespace JK\Foundation\Generator\Commands;
+namespace JK\Routing\Commands;
 
+use JK\Foundation\Console\Generator\GeneratorCommand;
 
 /**
  * Class MakeControllerCommand
  *
- * @package JK\Foundation\Generator\Commands\MakeControllerCommand
+ * @package JK\Routing\Commands\MakeControllerCommand
 */ 
-class MakeControllerCommand extends CustomCommand
+class MakeControllerCommand extends GeneratorCommand
 {
      
 

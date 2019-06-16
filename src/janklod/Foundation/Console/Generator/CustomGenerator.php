@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Foundation\Generator\Generators;
+namespace JK\Foundation\Console\Generator;
 
 
 use JK\Foundation\Application;
@@ -8,11 +8,9 @@ use JK\Foundation\Contracts\GeneratorInterface;
 
 
 /**
- * @package JK\Foundation\Generators\FileGenerator
+ * @package JK\Foundation\Console\Generator\CustomGenerator
 */ 
-abstract class CustomGenerator 
-extends FileGenerator 
-implements GeneratorInterface
+abstract class CustomGenerator extends FileGenerator implements GeneratorInterface
 {
 
 /**

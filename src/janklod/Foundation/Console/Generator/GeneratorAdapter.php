@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Foundation\Generator;
+namespace JK\Foundation\Console\Generator;
 
 
 use JK\Foundation\Contracts\GeneratorInterface;
@@ -8,7 +8,7 @@ use JK\Foundation\Contracts\GeneratorInterface;
 /**
  * Class GeneratorAdapter
  *
- * @package JK\Foundation\Generator\GeneratorAdapter
+ * @package JK\Foundation\Console\Generator\GeneratorAdapter
 */ 
 class GeneratorAdapter
 {

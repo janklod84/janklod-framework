@@ -1,20 +1,19 @@
 <?php 
-namespace JK\Foundation\Generator\Commands;
+namespace JK\Foundation\Console\Generator;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
-use JK\Foundation\Generator\Generator;
-
 
 
 /**
  * Class generate controller 
  *
- * @package JK\Foundation\Generator\Commands\CustomCommand 
+ * @package JK\Foundation\Console\Generator\GeneratorCommand 
 */ 
-abstract class CustomCommand extends Command
+abstract class GeneratorCommand extends Command
 {
+
 
 /**
  * @var Generator $console
@@ -32,7 +31,7 @@ protected $console;
 public function __construct(InputInterface $input=null, OutputInterface $output=null)
 {
      parent::__construct($input, $output);
-     $this->console = new Generator($this->input, $this->output);
+     $this->console = new GeneratorConsole($this->input, $this->output);
 }
 
 

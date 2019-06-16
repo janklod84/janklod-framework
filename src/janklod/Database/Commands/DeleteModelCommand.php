@@ -1,13 +1,15 @@
 <?php 
-namespace JK\Foundation\Generator\Commands;
+namespace JK\Database\Commands;
 
+
+use JK\Foundation\Console\Generator\GeneratorCommand;
 
 /**
- * Class DeleteControllerCommand
+ * Class DeleteModelCommand
  *
- * @package JK\Foundation\Generator\Commands\DeleteControllerCommand
+ * @package JK\Database\Commands\DeleteModelCommand
 */ 
-class DeleteControllerCommand extends CustomCommand
+class DeleteModelCommand extends GeneratorCommand
 {
      
 
@@ -15,10 +17,10 @@ class DeleteControllerCommand extends CustomCommand
  * @var string $signature    [ Signature of command   ]
  * @var string $description  [ Description of command ]
 */
-protected $signature   = 'delete:controller';
+protected $signature   = 'delete:model';
 protected $description = [
-'This command delete controller.',
-'Ex : php console delete:controller user',
+'This command delete model.',
+'Ex : php console delete:model user.'
 ];
 
 
@@ -31,6 +33,7 @@ public function execute()
 {
 	 return $this->console->execute($this->signature);
 }
+
 
 /**
 * Rollback command

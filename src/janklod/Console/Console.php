@@ -182,9 +182,8 @@ public function help()
     foreach(self::$commands as $command)
     {
        $cmd = $this->createCommand($command);
-       $output .= $cmd->signature() ."\n";
+       $output .= $cmd->signature();
        $output .= "\n\t" . join("\n\t", $cmd->description()) ."\n";
-       $output .= "\n";
     }
     return $output;
 }
