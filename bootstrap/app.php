@@ -17,6 +17,17 @@ if(!version_compare(PHP_VERSION, '7.1', '>='))
 
 define('ROOT', realpath(__DIR__.'/../'));
 
+
+/*
+|-------------------------------------------------------------------
+|    This debug file will be removed later
+|    it's for development [ later will be pretty print debogging system ]
+|-------------------------------------------------------------------
+*/
+
+require_once realpath(ROOT.'/src/Debug.php');
+
+
 /*
 |-------------------------------------------------------------------
 |    Create new application
