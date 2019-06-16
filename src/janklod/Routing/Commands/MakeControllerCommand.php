@@ -7,7 +7,7 @@ namespace JK\Routing\Commands;
  *
  * @package JK\Routing\Commands\MakeControllerCommand
 */ 
-class MakeControllerCommand extends ComponentGenerateCommand
+class MakeControllerCommand extends GenerateComponentCommand
 {
      
 

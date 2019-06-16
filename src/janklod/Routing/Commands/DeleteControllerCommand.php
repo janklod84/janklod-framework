@@ -8,7 +8,7 @@ namespace JK\Routing\Commands;
  *
  * @package JK\Routing\Commands\DeleteControllerCommand
 */ 
-class DeleteControllerCommand extends ComponentGenerateCommand
+class DeleteControllerCommand extends GenerateComponentCommand
 {
      
 
