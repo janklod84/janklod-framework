@@ -206,7 +206,8 @@ protected function process($input, $output)
            return $output->message() ?? 'No messages!';
         }
    }
-   exit("\t".'No matched command!'. "\n");
+   
+   exit("\t". $this->help() . "\n");
 }
 
 

@@ -3,7 +3,7 @@ namespace JK\Http\Commands;
 
 
 /**
- * Class MakeControllerCommand
+ * Class ServerControllerCommand
  *
  * @package JK\Http\Commands\ServerCommand
 */ 

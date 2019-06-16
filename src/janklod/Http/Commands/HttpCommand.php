@@ -7,7 +7,6 @@ use JK\Console\Command;
 
 
 /**
- * Class generate controller 
  *
  * @package JK\Http\Commands\HttpCommand
 */ 
