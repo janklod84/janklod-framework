@@ -40,18 +40,6 @@ public function configure() {}
 
 
 /**
- * Execute command
- * 
- * @return mixed
-*/
-public function execute()
-{
-	 return $this->console->execute($this->signature);
-}
-
-
-
-/**
 * Rollback command
 * 
 * @return mixed

@@ -22,4 +22,15 @@ protected $description = [
 ];
 
 
+
+/**
+ * Execute command
+ * 
+ * @return mixed
+*/
+public function execute()
+{
+	return $this->console->makeController();
+}
+
 }

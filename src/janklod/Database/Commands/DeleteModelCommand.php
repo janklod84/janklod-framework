@@ -31,8 +31,10 @@ protected $description = [
 */
 public function execute()
 {
-	 return $this->console->execute($this->signature);
+	 return $this->console->deleteModel();
 }
+
+
 
 
 /**

@@ -36,34 +36,48 @@ public function __construct($input, $output)
 
 
 /**
- * Execute concrete command
+ * Make controller
  * 
- * @param string $signature
- * @return mixed
+ * @return string
 */
-public function execute($signature='')
+public function makeController()
 {
-      switch($signature)
-      {
-          case 'make:controller':
-            return $this->controller()
-                        ->make();
-          break;
-          case 'delete:controller':
-            return $this->controller()
-                        ->delete();
-          break;
-          case 'make:model':
-             return $this->model()
-                         ->make();
-          break;
-          case 'delete:model':
-            return $this->model()
-                        ->delete();
-          break;
+    return $this->controller()->make();
+}
 
-      }
-    
+
+
+/**
+ * Delete controller
+ * 
+ * @return void
+*/
+public function deleteController()
+{
+    return $this->controller()->delete();
+}
+
+
+/**
+ * Make model
+ * 
+ * @return string
+*/
+public function makeModel()
+{
+    return $this->model()->make();
+}
+
+
+
+/**
+ * Delete model
+ * 
+ * @return void
+*/
+public function deleteModel()
+{
+    return $this->model()->delete();
 }
 
 
@@ -72,7 +86,7 @@ public function execute($signature='')
  * 
  * @return 
 */
-public function controller()
+private function controller()
 {
    return $this->factory->get('controller');
 }
@@ -82,7 +96,7 @@ public function controller()
  * 
  * @return 
 */
-public function model()
+private function model()
 {
    return $this->factory->get('model');
 }
