@@ -21,7 +21,7 @@ protected $cacheable;
 
 /**
  * Constructor
- */
+*/
 public function __construct(CacheableInterface $cacheable)
 {
     $this->cacheable = $cacheable;
@@ -57,9 +57,10 @@ public function get($key)
 /**
   * Delete the specified cache data
   * 
+  * @param string $key
   * @return bool
 */
-public function delete()
+public function delete($key)
 {
     return $this->cacheable->delete($key);
 }  
