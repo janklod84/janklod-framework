@@ -6,9 +6,8 @@ use JK\Collections\Contracts\Collectionnable;
 
 
 /**
- * simple class Helper for working with array
- * this class 'll be later extends to \ArrayAccess, \IteratorAggregate
- * for good acces to object as array and so on..
+ * Class Collection 
+ * [ for exemple it's used for retrieve item from database ]
  * 
  * @package JK\Collections\Collection 
 */ 
