@@ -6,12 +6,14 @@ use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
 
 
+use JK\Foundation\Console\Generator\GeneratorCommand;
+
 /**
  * Class generate controller 
  *
- * @package JK\Routing\Commands
+ * @package JK\Routing\Commands\ComponentGenerateCommand
 */ 
-abstract class RoutingCommand extends Command
+abstract class ComponentGenerateCommand extends GeneratorCommand
 {
 
 
@@ -25,8 +27,6 @@ abstract class RoutingCommand extends Command
 public function __construct(InputInterface $input=null, OutputInterface $output=null)
 {
      parent::__construct($input, $output);
-     // $this->input; 
-	 // $this->output;
 }
 
 
@@ -38,12 +38,17 @@ public function __construct(InputInterface $input=null, OutputInterface $output=
 public function configure() {}
 
 
+
 /**
  * Execute command
  * 
  * @return mixed
 */
-abstract public function execute();
+public function execute()
+{
+	 return $this->console->execute($this->signature);
+}
+
 
 
 /**
@@ -51,6 +56,7 @@ abstract public function execute();
 * 
 * @return mixed
 */
-abstract public function undo();
+public function undo(){}
+
 
 }

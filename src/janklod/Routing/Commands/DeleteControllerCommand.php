@@ -2,15 +2,13 @@
 namespace JK\Routing\Commands;
 
 
-use JK\Foundation\Console\Generator\GeneratorCommand;
-
 
 /**
  * Class DeleteControllerCommand
  *
  * @package JK\Routing\Commands\DeleteControllerCommand
 */ 
-class DeleteControllerCommand extends GeneratorCommand
+class DeleteControllerCommand extends ComponentGenerateCommand
 {
      
 
@@ -24,22 +22,5 @@ protected $description = [
 'Ex : php console delete:controller user',
 ];
 
-
-/**
- * Execute command
- * 
- * @return mixed
-*/
-public function execute()
-{
-	 return $this->console->execute($this->signature);
-}
-
-/**
-* Rollback command
-* 
-* @return mixed
-*/
-public function undo(){}
 
 }

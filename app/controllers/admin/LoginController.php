@@ -16,7 +16,6 @@ class LoginController extends Controller
 {
      
 
-
 /**
  * Do all behaviours before actions
  * @return 

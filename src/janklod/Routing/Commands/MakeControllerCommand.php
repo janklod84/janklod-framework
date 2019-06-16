@@ -1,14 +1,13 @@
 <?php 
 namespace JK\Routing\Commands;
 
-use JK\Foundation\Console\Generator\GeneratorCommand;
 
 /**
  * Class MakeControllerCommand
  *
  * @package JK\Routing\Commands\MakeControllerCommand
 */ 
-class MakeControllerCommand extends GeneratorCommand
+class MakeControllerCommand extends ComponentGenerateCommand
 {
      
 
@@ -22,24 +21,5 @@ protected $description = [
 'Ex : php console make:controller user.', 
 ];
 
-
-/**
- * Execute command
- * 
- * @return mixed
-*/
-public function execute()
-{
-	 return $this->console->execute($this->signature);
-}
-
-
-
-/**
-* Rollback command
-* 
-* @return mixed
-*/
-public function undo(){}
 
 }
