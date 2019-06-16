@@ -91,10 +91,7 @@ public static function instance($container = [])
 */
 public function add($container = [])
 {
-     $this->container = array_merge(
-                        $this->container, 
-                        $container
-                      );
+     $this->container = array_merge($this->container, $container);
 }
 
 
@@ -128,8 +125,8 @@ public function set($key, $resolver)
 * $app->setInstance(BlogModule::class);
 * $app->setInstance(app\\controller\\BlogController);
 * 
-* @param mixed $instance 
-* @return type
+* @param string|object $instance 
+* @return void
 */
 public function setInstance($instance)
 {
@@ -150,14 +147,12 @@ public function setInstance($instance)
  * $app->registry('db', new Database::instance());
  * 
  * @param string $key 
- * @param mixed $value 
+ * @param mixed  $resolver
  * @return void
 */
 public function registry($key, $resolver)
 {
-    $this->set($key, 
-      new Registry($key, $this->resolverMap($resolver))
-    );
+    $this->set($key, new Registry($key, $this->resolverMap($resolver)));
 }
 
 
@@ -179,9 +174,7 @@ public function registry($key, $resolver)
 */
 public function singleton($key, $resolver)
 {
-    $this->set($key, 
-      new Singleton($key, $this->resolverMap($resolver))
-    );
+    $this->set($key, new Singleton($key, $this->resolverMap($resolver)));
 }
 
 

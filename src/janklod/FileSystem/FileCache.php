@@ -91,7 +91,6 @@ public function get($key)
 * Delete data from cache
 * 
 * @param string $key 
-* @param mixed $data 
 * @return void
 */
 public function delete($key)
