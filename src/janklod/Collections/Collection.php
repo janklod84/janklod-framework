@@ -235,7 +235,7 @@ public function has($key): bool
 */
 public function remove($key)
 {
-	   unset($this->items[$key]);
+   unset($this->items[$key]);
 }
 
 
