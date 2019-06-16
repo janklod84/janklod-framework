@@ -7,6 +7,7 @@
 |   Ex: cmd/desktop>php console --help or --h
 |   Ex: cmd/desktop>php console make:controller home
 |   Ex: cmd/desktop>php console make:model user
+|   Ex: cmd/desktop>php -S localhost:8000 -t public
 |------------------------------------------------------------------
 */
 

@@ -17,8 +17,10 @@ class ServerCommand extends HttpCommand
 */
 protected $signature   = 'server';
 protected $description = [
-'Start server : ',
-'Ex: php console server'
+'Run server : ',
+'Ex: php console server',
+'This command run server on the port <8000>',
+'<command>php -S localhost:8000 -t public'
 ];
 
 
@@ -29,8 +31,7 @@ protected $description = [
 */
 public function execute()
 {
-	 // return $this->console->execute($this->signature);
-	 die($this->signature);
+	 return exec('php -S localhost:8000 -t public');
 }
 
 

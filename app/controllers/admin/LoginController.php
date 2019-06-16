@@ -18,6 +18,7 @@ class LoginController extends Controller
 
 /**
  * Do all behaviours before actions
+ * 
  * @return 
 */
 public function before()
@@ -54,7 +55,7 @@ public function __construct($app)
 public function index()
 {
     
-    debug(User::all());
+    // debug(User::all());
 
     # Get cache
     Query::html();

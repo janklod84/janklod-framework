@@ -25,8 +25,6 @@ abstract class HttpCommand extends Command
 public function __construct(InputInterface $input=null, OutputInterface $output=null)
 {
      parent::__construct($input, $output);
-     // $this->input; 
-	 // $this->output;
 }
 
 
