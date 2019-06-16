@@ -7,11 +7,12 @@ use JK\FileSystem\FileGenerator;
 use JK\Foundation\Contracts\GeneratorInterface;
 
 
-
 /**
  * @package JK\Foundation\Generators\FileGenerator
 */ 
-abstract class CustomGenerator extends FileGenerator implements GeneratorInterface
+abstract class CustomGenerator 
+extends FileGenerator 
+implements GeneratorInterface
 {
 
 /**
@@ -25,7 +26,6 @@ abstract class CustomGenerator extends FileGenerator implements GeneratorInterfa
 */
 protected $input;
 protected $output;
-protected $root;
 protected $directory  = '';
 protected $name    = '';
 protected $success = 'Success operation!';
@@ -44,11 +44,11 @@ public function __construct($input, $output)
     // input and output
     $this->input = $input;
     $this->output = $output;
-    $this->root   = Application::instance()->root();
-    parent::__construct($this->root);
+    $file = Application::instance()->file;
+    parent::__construct($file);
     $this->before();
 }
-  
+
 
 /**
  * Get input argument

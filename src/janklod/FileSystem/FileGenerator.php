@@ -24,12 +24,12 @@ protected $content   = '';
 /**
 * Constructor
 * 
-* @param string $root
+* @param  JK\FileSystem\File $file
 * @return void
 */
-public function __construct($root)
+public function __construct(File $file)
 {
-    $this->file = new File($root);
+    $this->file = $file;
 }
   
 

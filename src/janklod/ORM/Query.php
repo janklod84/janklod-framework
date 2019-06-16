@@ -460,7 +460,7 @@ public function setProperties(object $classObj = null, string $table='')
  * @param array $properties 
  * @return bool
 */
-public function hasAttributes($key='', $properties = []): bool
+public function hasAttribute($key='', $properties = []): bool
 {
    return in_array($key, $properties);
 }

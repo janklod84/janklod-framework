@@ -18,8 +18,6 @@ class FileCache  implements  CacheableInterface
 */
 protected $cache_dir = '';
 
-const DS = DIRECTORY_SEPARATOR;
-
 
 /**
  * Constructor
@@ -28,9 +26,14 @@ const DS = DIRECTORY_SEPARATOR;
  * @return void
 */
 public function __construct($cache_dir='')	
-{ 
-     $this->cache_dir = $cache_dir;
+{
+     if(!is_dir($cache_dir))
+     {
+     	  mkdir($cache_dir, 0777, true);
+     	  $this->cache_dir = $cache_dir;
+     }
 }
+
 
 /**
  * Get cache file
@@ -40,8 +43,7 @@ public function __construct($cache_dir='')
 */
 public function cacheFile($key)
 {
-	$this->cache_dir = str_replace(['/', '\\'], self::DS, $this->cache_dir);
-	return $this->cache_dir . self::DS . md5($key) . '.txt';
+	return $this->cache_dir . DIRECTORY_SEPARATOR . md5($key) . '.txt';
 }
 
 
@@ -74,7 +76,7 @@ public function set($key, $data, $duration = 3600)
 public function get($key)
 {
    $cacheFile = $this->cacheFile($key);
-   if($this->exists($key))
+   if(file_exists($cacheFile))
    {
         $content = unserialize(file_get_contents($cacheFile));
         if(time() <= $content['end_time'])
@@ -99,7 +101,7 @@ public function delete($key)
     $cacheFile = $this->cacheFile($key);
     if($this->exists($key))
     {
-    	  unlink($cacheFile);
+    	unlink($cacheFile);
     }
 
 }
@@ -114,7 +116,7 @@ public function delete($key)
 */
 public function exists($key)
 {
-     return file_exists($this->cacheFile($key));
+   return file_exists($this->cacheFile($key));
 }
 
 

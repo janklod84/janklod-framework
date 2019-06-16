@@ -73,10 +73,10 @@ private function __construct($root)
    });
 
    
-  
+   /*
    @require_once __DIR__.'/../index.php';
    exit('End testing ...');
-   
+   */
 }
 
 

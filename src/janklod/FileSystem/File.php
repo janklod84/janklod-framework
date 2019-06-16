@@ -147,6 +147,7 @@ public function makeFolder($directory='')
    {
        mkdir($folder, 0777, true);
    }
+   return $folder;
 }
 
 
@@ -282,7 +283,7 @@ public function content($filename)
 */
 public function cache($cache_dir ='')
 {
-     $cache_dir = $this->to($cache_dir);
+     $cache_dir = $this->makeFolder($cache_dir);
      return new FileCache($cache_dir);
 }
 

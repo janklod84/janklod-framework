@@ -27,6 +27,7 @@ const CONFIG = [
 \JK\View\Facades\ViewProvider::class,
 \JK\Security\Facades\AuthenticateProvider::class,
 \JK\Database\Facades\DatabaseProvider::class,
+\JK\CacheSystem\Facades\CacheProvider::class,
 \JK\Validation\Facades\ValidationProvider::class,
 ],
 'alias' => [

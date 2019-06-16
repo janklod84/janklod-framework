@@ -33,7 +33,7 @@ public function __construct(CacheableInterface $cacheable)
  * 
  * @param string $key 
  * @param mixed $data 
- * @return void
+ * @return self
 */
 public function set($key, $data)
 {

@@ -6,7 +6,18 @@ namespace JK\FileSystem\Contracts;
 */
 interface FileInterface 
 {
-     
+
+
+/**
+ * Determine if current file exist
+ * 
+ * @param string $path
+ * @return bool
+*/
+public function exists($path);
+
+
+
 /**
 * return full path of file
 * 
@@ -14,4 +25,5 @@ interface FileInterface
 * @return string
 */
 public function to($path);
+
 }
