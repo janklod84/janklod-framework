@@ -15,8 +15,7 @@ class Collection implements Collectionnable
 {
        
 /**
-* container collection
-* @var array $items
+* @var array $items [ Container ]
 */
 private $items = [];
 
@@ -24,6 +23,7 @@ private $items = [];
 
 /**
 * Constructor
+* 
 * @param array $items 
 * @return void
 */
@@ -36,6 +36,7 @@ public function __construct($items = [])
 
 /**
 * Set item
+* 
 * @param string $key 
 * @param mixed $value 
 * @return void
@@ -48,6 +49,7 @@ public function set($key, $value)
 
 /**
   * Get item
+  * 
   * @param string $key 
   * @return mixed
 */
@@ -134,6 +136,7 @@ public function extract($key)
     return new Collection($results);
 }
 
+
 /**
  * Check data without imploded key
  * 
@@ -188,6 +191,7 @@ public function keyExist($key)
 
 /**
 * Get count items
+* 
 * @return int
 */
 public function count()
@@ -198,6 +202,7 @@ public function count()
 
 /**
  * Replace
+ * 
  * @param array $items 
  * @return void
 */
