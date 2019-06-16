@@ -1,5 +1,5 @@
 <?php 
-namespace app\controllers;
+namespace app\controllers\backend;
 
 use JK\Routing\Controller;
 
@@ -7,7 +7,7 @@ use JK\Routing\Controller;
 /**
  * @package [ class ]
 */
-class TestController  extends Controller
+class LoginController  extends Controller
 {
   
   /**

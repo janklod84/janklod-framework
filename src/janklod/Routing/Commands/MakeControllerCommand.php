@@ -18,7 +18,9 @@ class MakeControllerCommand extends GenerateComponentCommand
 protected $signature   = 'make:controller';
 protected $description = [
 'This command generate new controller.',
-'Ex : php console make:controller user.', 
+'Ex : php console make:controller user.',
+'Ex : php console make:controller home --path:backend [ backend name folder ]',
+'For this case it\'ll be generated app\\controllers\\backend\\HomeController'
 ];
 
 

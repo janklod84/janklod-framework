@@ -16,18 +16,21 @@ abstract class CustomGenerator extends FileGenerator implements GeneratorInterfa
 /**
  * @var InputInterface    $input      [ Input interface  ]
  * @var InputInterface    $output     [ Output interface ]
- * @var File              $file       [ File ]
+ * @var string            $root       [ root directory of file ]
  * @var string            $directory  [ Name of Directory ]
- * @var string            $name       [ Name of file or class name]
+ * @var string            $classname  [ Class name  ]
  * @var string            $success    [ Success Message ]
  * @var string            $fail       [ Fail  Message  ]
 */
 protected $input;
 protected $output;
-protected $directory  = '';
-protected $name    = '';
+protected $root;
+protected $directory = '';
+protected $namespace;
+protected $classname = '';
 protected $success = 'Success operation!';
 protected $fail    = 'Something went wrong'; // default message
+
 
 
 /**
@@ -42,9 +45,47 @@ public function __construct($input, $output)
     // input and output
     $this->input = $input;
     $this->output = $output;
-    $file = Application::instance()->file;
-    parent::__construct($file);
+
+    // get namespace
+    $this->namespace = $this->get_namespace();
+
+    $this->root = Application::instance()->root();
+    parent::__construct($this->root);
     $this->before();
+}
+
+
+/**
+ * Get namespace
+ * 
+ * @return string
+*/
+protected function get_namespace()
+{
+    $path = trim($this->directory, '/');
+    return str_replace('/', '\\', $path);
+}
+
+/**
+ * Set classname of current component
+ * 
+ * @param string $classname
+ * @return void
+ */
+protected function setClassName($classname)
+{
+   $this->classname = sprintf('%s\\%s', $this->namespace, $classname);
+}
+
+
+/**
+ * Get name of current component
+ * 
+ * @return string
+*/
+protected function getName()
+{
+     return $this->classname;
 }
 
 

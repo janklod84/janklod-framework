@@ -13,7 +13,10 @@ class ControllerGenerator extends CustomGenerator
 /**
  * @var string $directory
 */
-protected $directory = 'app/controllers';
+protected $directory = 'app/controllers'; 
+// protected $directory = 'Module/Eshop'; // ex: mod/test
+protected $namespace;
+protected $name;
 
 
 /**
@@ -23,13 +26,25 @@ protected $directory = 'app/controllers';
 */
 protected function before()
 {
-    $lower = strtolower($this->input(2));
-    $name =  ucfirst($lower).'Controller';
-    $content = sprintf($this->blank(), $name);
+    $second = strtolower($this->input(2));
+    if($third = $this->input(3))
+    {
+         $parts = explode(':', $third, 2);
+         if(!in_array('--path', $parts))
+         {
+              return false; 
+         }
+         $direction = $parts[1];
+         $this->directory .= '/'. $direction;
+         $this->namespace .= '\\'. $direction;
+    }
+    $name = ucfirst($second).'Controller';
+    $this->setClassName($name);
+    $content = sprintf($this->blank(), $this->namespace, $this->classname, $name);
     $this->setContent($content);
     $filename = sprintf('%s.php', $name);
     $this->setFilename($filename);
-    $this->name = sprintf('app\\controllers\\%s', $name);
+    
 }
 
 
@@ -42,11 +57,11 @@ public function make()
 {
      $success =  sprintf(
       'Controller [ %s ] successfully generated!', 
-      $this->name
+      $this->classname
      );
      $fail = sprintf(
      'Cant make file [ %s ], may be something went wrong!',  
-     $this->name
+      $this->classname
      );
      $this->success($success);
      $this->fail($fail);
@@ -64,11 +79,11 @@ public function delete()
    /* Full path of controller $this->path() */
    $success =  sprintf(
       'Controller [ %s ] successfully deleted!', 
-      $this->name
+      $this->classname
    );
    $fail = sprintf(
     'Cant not delete controller [%s], may be file does not exist!', 
-    $this->name
+    $this->classname
    );
    $this->success($success);
    $this->fail($fail);
@@ -86,13 +101,13 @@ public function delete()
 public function blank()
 {
 $template="<?php 
-namespace app\controllers;
+namespace %s;
 
 use JK\Routing\Controller;
 
 
 /**
- * @package [ class ]
+ * @package %s
 */
 class %s  extends Controller
 {

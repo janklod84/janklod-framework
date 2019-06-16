@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Http\Commands;
+namespace JK\CacheSystem\Commands;
 
 use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
@@ -9,9 +9,9 @@ use JK\Console\Command;
 /**
  * Class generate controller 
  *
- * @package JK\Http\Commands\HttpCommand
+ * @package JK\CacheSystem\Commands\CacheCommand
 */ 
-abstract class HttpCommand extends Command
+abstract class CacheCommand extends Command
 {
 
 

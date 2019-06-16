@@ -26,11 +26,11 @@ protected $directory = 'app/models';
 protected function before()
 {
     $name =  ucfirst($this->input(2));
+    $this->setClassName($name);
     $content = sprintf($this->blank(), $name);
     $this->setContent($content);
     $filename = sprintf('%s.php', $name);
     $this->setFilename($filename);
-    $this->name = sprintf('app\\models\\%s', $name);
 }
 
 
@@ -43,11 +43,11 @@ public function make()
 {
      $success =  sprintf(
       'Model [ %s ] successfully generated!', 
-      $this->name
+      $this->classname
      );
      $fail = sprintf(
      'Cant make model [ %s ], may be something went wrong!',  
-     $this->name
+     $this->classname
      );
      $this->success($success);
      $this->fail($fail);
@@ -65,11 +65,11 @@ public function delete()
    /* Full path of model $this->path() */
    $success =  sprintf(
       'Model [ %s ] successfully deleted!', 
-      $this->name
+      $this->classname
    );
   $fail = sprintf(
     'Cant not delete model [ %s ], may be file does not exist!', 
-    $this->name
+    $this->classname
    );
    $this->success($success);
    $this->fail($fail);

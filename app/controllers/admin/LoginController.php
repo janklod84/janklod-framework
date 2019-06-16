@@ -55,17 +55,8 @@ public function __construct($app)
 public function index()
 {
 
-   $game = new \JK\Library\Game\Game();
-
-   debug($game);
-
-   // set game
-   $game->name = 'Bioshock Infinite';
-   $game->price = 14.99;
-   $game->photo = 'game-default-image.jpg';
-   $game->output();
-
-
+  
+  
 
  
     Query::output();

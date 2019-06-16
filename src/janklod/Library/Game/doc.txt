@@ -1,0 +1,19 @@
+ $game = new \JK\Library\Game\Game();
+
+debug($game);
+
+// set game
+$game->name = 'Bioshock Infinite';
+$game->price = 14.99;
+$game->photo = 'game-default-image.jpg';
+$game->output();
+
+
+$game->name = 'The Witcher';
+$game->price = 27.90;
+$game->photo = 'game-default-image.jpg';
+$game->output();
+
+$game->set('Overwatch', 44.99, 'overwatch.jpg');
+$game->set('Overwatch', 44.99, 'game-default-image.jpg');
+$game->output();

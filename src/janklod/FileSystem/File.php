@@ -213,6 +213,7 @@ public function put($filename='', $content='')
 */
 public function generate($directory, $filename, $content='')
 {
+   $this->makeFolder($directory);
    $fullpath = $this->to(sprintf('%s/%s', $directory, $filename));
    if($content)
    {
