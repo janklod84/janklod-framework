@@ -1,5 +1,5 @@
 /OLD
-/schema
-/tests
-/temp/framework/sessions
-/vendor
+schema
+tests
+temp/framework/sessions
+./vendor
