@@ -19,11 +19,11 @@ class Console implements ConsoleInterface
 
 
 /**
- * @var array $commands [ Container all commands ]
- * @var string $name    [ Name of file to execute ]
+ * @var array $commands    [ Container all commands ]
+ * @var string $compile    [ Name of file to execute ]
 */
 protected static $commands = [];
-protected $name = 'console';
+protected $compile = 'console';
 
 
 /**
@@ -92,7 +92,7 @@ public static function commands()
 */
 public function name()
 {
-   return $this->name;
+   return $this->compile;
 }
 
 
@@ -126,13 +126,13 @@ public function execute($compile='', InputInterface $input, OutputInterface $out
      $this->blank_head();
 
      // Make sure input name file matches
-     if($compile !== $this->name)
+     if($compile !== $this->compile)
      {
          exit(
           sprintf(
            'Sorry command [ %s ] does not match console file name [ %s ]', 
            $input->argument(0), 
-           $this->name
+           $this->compile
           )
          );
      }
