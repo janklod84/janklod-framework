@@ -14,7 +14,6 @@ class Router
  * @var  array        $matches
  * @var  array        $routes
  * @var  RouteParam   $route
- * @var  Dispatcher   $dispatcher
  * @var  string       $url
 */
 private $params  = [];

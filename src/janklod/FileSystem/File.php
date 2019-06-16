@@ -3,14 +3,14 @@ namespace JK\FileSystem;
 
 
 use \Exception;
-use JK\FileSystem\Cache\ApcCache;
-
+use JK\FileSystem\FileCache;
+use JK\FileSystem\Contracts\FileInterface;
 
 
 /**
  * @package JK\FileSystem\File 
 */ 
-class File
+class File implements FileInterface
 {
       
 /**
@@ -66,7 +66,7 @@ public function exists($file): bool
 */
 public function call($file)
 {
-    $this->hasFile($file);
+    $this->has_file($file);
     return require_once($this->to($file));
 }
 
@@ -93,20 +93,6 @@ public function calls($files=[])
   {
      $this->call($file);
   }
-}
-
-
-/**
- * Generate full path to the given path
- * 
- * Ex: (new File(__DIR__))->to('routes/app.php')
- * It'll return full path  __DIR__.'/routes/app.php'
- * @param string $path
- * @return string
-*/
-public function to($path)
-{
-    return $this->fullPath($path);
 }
 
 
@@ -291,35 +277,40 @@ public function content($filename)
 /**
  * Cache
  * 
- * @param string $type 
- * @return 
+ * @param string $cache_dir
+ * @return FileCache
 */
-public function cache($type='apc')
+public function cache($cache_dir ='')
 {
-    return new ApcCache();
+     $cache_dir = $this->to($cache_dir);
+     return new FileCache($cache_dir);
 }
 
 
 /**
-* Prepare path 
-* @param string $path 
-* @return string
+ * Generate full path to the given path
+ * 
+ * Ex: (new File(__DIR__))->to('routes/app.php')
+ * It'll return full path  __DIR__.'/routes/app.php'
+ * 
+ * 
+ * @param string $path
+ * @return string
 */
-private function fullPath($path)
+public function to($path)
 {
-   return str_replace('/', self::DS, $this->root) . self::DS. str_replace(
-           ['/', '\\'], 
-           static::DS, 
-           trim($path, '/')
-   );
+   $full = $this->root . '/' . trim($path, '/');
+   return str_replace(['/', '\\'], self::DS, $full);
 }
+
 
 /**
  * Make sure file exist
+ * 
  * @param string $file 
  * @return void
- */
-private function hasFile($file)
+*/
+private function has_file($file)
 {
      if(!$this->exists($file))
      {

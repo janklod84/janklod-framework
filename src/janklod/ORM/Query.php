@@ -98,7 +98,7 @@ public static function getModel($classname)
 {
     if(!class_exists($classname))
     {
-         throw new \Exception(
+         throw new Exception(
           sprintf('Sorry class <strong>%s</strong> does not exist!', $classname)
         );
          
@@ -422,15 +422,98 @@ public function columns()
 
 
 /**
+ * Set Fields 
+ * Add values properties
+ * 
+ * @param object $classObj
+ * @param string $table
+ * @return array
+*/
+public function setProperties(object $classObj = null, string $table='')
+{
+     self::ensureSetup();
+     $table = $table ?: self::$table;
+     $columns = $this->columns($table);
+     $fields = [];
+     foreach($columns as $column)
+     {
+         $key = $column->Field;
+         if(!property_exists($classObj, $key))
+         {
+             exit(sprintf(
+              'Sorry property <b>%s</b> does not exist in class <b>%s</b>',  
+              $key, 
+              $classObj
+            ));
+         }
+         // FIX here if property has not data or not isset
+         $fields[$key] = $classObj->{$key};
+     }
+     return $fields;
+}
+
+
+/**
+ * Determine if has property in data
+ * 
+ * @param string $key 
+ * @param array $properties 
+ * @return bool
+*/
+public function hasAttributes($key='', $properties = []): bool
+{
+   return in_array($key, $properties);
+}
+
+
+
+/**
  * Storage data in to database
  * 
  * @param object $model
+ * @return int [ Last Insert id ]
+*/
+public function store(object $object)
+{
+    self::ensureSetup();
+    if(self::$table)
+    {
+       if(property_exists($object, 'id'))
+       {
+            $data = $this->setProperties($object);
+            if($this->isNewRecord($object))
+            {
+                // Update record
+                $this->update($data, $object->id);
+            }else{
+                // Create new record
+                $this->create($data);
+            }
+            return $this->lastId();
+       }else{
+          throw new \Exception(
+          'You have not property named [id] try to set it please'
+          );
+       }
+    }else{
+       throw new \Exception(
+       'Data can not be stored because detected [ Empty Table ]'
+       );
+    }
+}
+
+
+
+/**
+ * Determine if record is new or not
+ * @param object $object
  * @return bool
 */
-public function store(object $model=null)
-{
-
+public function isNewRecord(object $object)
+{ 
+   return isset($object->id);
 }
+
 
 
 /**

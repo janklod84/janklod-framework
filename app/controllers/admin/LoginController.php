@@ -60,8 +60,11 @@ public function index()
     // Fetch where : User::where('username', 'Michelle124')
     // Delete user where id = 5 : User::delete(5)
     // debug(User::delete(5));
+    // debug(\DB::connect('users')->columns());
 
-    
+    debug(\DB::connect('users')->columns());
+
+
     Query::html();
     $this->show();
 }

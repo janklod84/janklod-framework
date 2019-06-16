@@ -34,23 +34,23 @@ public function __construct($root)
   
 
 /**
- * Set Directory
+ * Set file directory
  * 
  * @param string $directory
  * @return void
 */
-public function setFolder($directory='')
+public function setDirectory($directory='')
 {
      $this->directory = $directory;
 }
 
 
 /**
- * Get Directory
+ * Get file directory
  * 
  * @return string
 */
-public function folder()
+public function directory()
 {
 	return $this->directory;
 }

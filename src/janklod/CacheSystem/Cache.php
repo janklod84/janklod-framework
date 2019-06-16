@@ -1,0 +1,68 @@
+<?php 
+namespace JK\CacheSystem;
+
+
+use JK\CacheSystem\Contracts\CacheableInterface;
+
+
+/**
+ * Class Cache Adapter
+ * 
+ * @package JK\CacheSystem\Cache 
+*/ 
+class Cache 
+{
+
+/**
+ * @var CacheableInterface
+*/
+protected $cacheable;
+
+
+/**
+ * Constructor
+ */
+public function __construct(CacheableInterface $cacheable)
+{
+    $this->cacheable = $cacheable;
+}
+
+
+/**
+ * Save data to the cache
+ * 
+ * @param string $key 
+ * @param mixed $data 
+ * @return void
+*/
+public function set($key, $data)
+{
+   $this->cacheable->set($key, $data);
+   return $this;
+}
+
+ 
+ /**
+  * Get data from the cache
+  * 
+  * @param  string $key 
+  * @return string
+*/
+public function get($key)
+{
+   return $this->cacheable->get($key);
+}
+ 
+ 
+/**
+  * Delete the specified cache data
+  * 
+  * @return bool
+*/
+public function delete()
+{
+    return $this->cacheable->delete($key);
+}  
+
+
+}
