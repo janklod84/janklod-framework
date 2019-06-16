@@ -223,7 +223,7 @@ public function replace($items)
 */
 public function has($key): bool
 {
-	   return isset($this->items[$key]);
+   return isset($this->items[$key]);
 }
 
 
