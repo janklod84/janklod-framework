@@ -21,6 +21,9 @@ protected $cacheable;
 
 /**
  * Constructor
+ * 
+ * @param CacheableInterface $cacheable 
+ * @return void
 */
 public function __construct(CacheableInterface $cacheable)
 {
