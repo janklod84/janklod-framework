@@ -18,7 +18,7 @@ require(__DIR__.'/vendor/autoload.php');
 
 $app = require(__DIR__.'/bootstrap/app.php');
 $status  = $app->console->run(
-	 $input = new JK\Console\IO\InputArgv,
-	 new JK\Console\IO\Output
+ $input = new JK\Console\IO\InputArgv,
+ new JK\Console\IO\Output
 );
 exit($status);
