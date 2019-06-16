@@ -86,10 +86,7 @@ public function dispatch($method='GET')
 {
     if($this->match($this->url, $method))
     {
-    	 return new Dispatcher(
-    	           $this->route->callback(), 
-                   $this->matches
-               );
+    	 return new Dispatcher($this->route->callback(), $this->matches);
     }else{
     	return new Dispatcher('NotFoundController@page404');
     }
