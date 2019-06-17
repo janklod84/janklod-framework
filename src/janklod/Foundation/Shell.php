@@ -26,14 +26,14 @@ protected $file;
  */
 public function __construct()
 {
-	if(php_sapi_name() == 'cli') 
-    {
-		class_alias(__CLASS__, 'Shell');
-	    $this->file = Application::instance()->file;
-	    self::addCommands(Source::CONFIG['commands']);
-	    $this->file->call('routes/console.php');
-		parent::__construct();
-    }
+  if(php_sapi_name() == 'cli') 
+  {
+    class_alias(__CLASS__, 'Shell');
+    $this->file = Application::instance()->file;
+    self::addCommands(Source::CONFIG['commands']);
+    $this->file->call('routes/console.php');
+    parent::__construct();
+  }
 }
 
 /**
