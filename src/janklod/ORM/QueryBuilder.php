@@ -481,7 +481,11 @@ protected function call($builder, $params)
           );
       }
       $builder_obj = new $builder_name($params, $this->table);
-      return call_user_func([$builder_obj, 'build']);
+      $callback = [$builder_obj, 'build'];
+      if(is_callable($callback))
+      {
+          return call_user_func($callback);
+      }
 }
   
 

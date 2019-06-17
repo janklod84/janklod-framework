@@ -6,6 +6,7 @@ use \Auth;
 use \Query;
 use JK\Routing\Controller;
 use app\models\User;
+use JK\Library\Forms\Form;
 
 
 
@@ -55,12 +56,21 @@ public function __construct($app)
 public function index()
 {
 
-  
-  
+   $form = new Form();
+   $form->open(['action' => '/login','class'  => 'login']);
+   $form->input(['class' => 'form-control', 'id' => 'login'], 'text', 'Login');
+   $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
+   $form->hidden();
+   $form->textarea(['class' => 'form-control', 'id'=> 'password']);
+   $form->close();
 
- 
-    Query::output();
-    $this->show();
+    
+   // $form->output();
+
+
+    // OUTPUT
+    // Query::output();
+    // $this->show();
 }
 
 

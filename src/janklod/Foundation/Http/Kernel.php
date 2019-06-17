@@ -101,7 +101,7 @@ public function terminate(RequestInterface $request, ResponseInterface $response
 {
 
       // notifications
-	  $this->notify();
+	  // $this->notify();
 }
 
 
