@@ -1,8 +1,8 @@
 <?php 
-namespace JK\Caching;
+namespace JK\Library\Caching;
 
 /**
- * @package JK\Caching\CacheInterface 
+ * @package JK\Library\Caching\CacheInterface 
 */ 
 interface CacheInterface 
 {

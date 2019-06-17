@@ -1,13 +1,11 @@
 <?php 
-namespace JK\DI\Locator;
+namespace JK\DI\Registers;
 
-
-use JK\DI\Contracts\RegistrableInterface;
 
 /**
- * @package JK\DI\Locator\Singleton 
+ * @package JK\DI\Registers\Singleton 
 */ 
-class Singleton implements RegistrableInterface
+class Singleton extends CustomRegister
 {
        
  /**

@@ -9,17 +9,17 @@ namespace JK\View;
 class Tempate
 {
 
-  /**
-   * @var string $head
-   * @var string $body
-   * @var string $foot
-   * @var 
-  */
-  private $head;
-  private $body;
-  private $foot;
-  private static $output;
-  private static $types = ['head', 'body', 'foot']; 
+/**
+* @var string $head
+* @var string $body
+* @var string $foot
+* @var 
+*/
+private $head;
+private $body;
+private $foot;
+private static $output;
+private static $types = ['head', 'body', 'foot']; 
 
 
 
@@ -60,8 +60,8 @@ public static function addType($type)
 */
 public static function start($type)
 {
-	   self::$output = $type;
-	   ob_start();
+   self::$output = $type;
+   ob_start();
 }
 
 
@@ -74,10 +74,10 @@ public function end()
 {
     foreach(self::$types as $type)
     {
-         if(self::$output == $type)
-         {
-             $this->{$type} = ob_get_clean();
-         }
+	  if(self::$output == $type)
+	  {
+		 $this->{$type} = ob_get_clean();
+	  }
     }
 }
 

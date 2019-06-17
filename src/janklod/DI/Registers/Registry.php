@@ -1,13 +1,12 @@
 <?php 
-namespace JK\DI\Locator;
+namespace JK\DI\Registers;
 
 
-use JK\DI\Contracts\RegistrableInterface;
 
 /**
- * @package JK\DI\Locator\Registry
+ * @package JK\DI\Registers\Registry
 */ 
-class Registry implements RegistrableInterface
+class Registry extends CustomRegister
 {
 
 

@@ -1,8 +1,8 @@
 <?php 
-namespace JK\Caching;
+namespace JK\Library\Caching;
 
 /**
- * @package JK\Caching\Cache 
+ * @package JK\Library\Caching\Cache 
 */ 
 class Cache 
 {

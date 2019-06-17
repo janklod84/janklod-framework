@@ -31,6 +31,8 @@ private $arguments = null;
 */
 public function __construct($parsed)
 {
+     if(is_object($parsed)) 
+     { return $parsed; }
      if(is_string($parsed) && !class_exists($parsed))
      {
            throw new Exception('class <strong>'. $parsed .'</strong> does not exit');

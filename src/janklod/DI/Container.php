@@ -2,7 +2,7 @@
 namespace JK\DI;
 
 
-use JK\DI\Locator\{
+use JK\DI\Registers\{
     Registry,
     Singleton
 };
@@ -121,9 +121,9 @@ public function set($key, $resolver)
 * 
 * Ex:
 * $app  = Container::instance();
-* $app->setInstance(app\\models\\User);
+* $app->setInstance('app\\models\\User');
 * $app->setInstance(BlogModule::class);
-* $app->setInstance(app\\controller\\BlogController);
+* $app->setInstance('app\\controller\\BlogController');
 * 
 * @param string|object $instance 
 * @return void
