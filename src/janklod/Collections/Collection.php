@@ -22,6 +22,48 @@ private $items = [];
 
 
 /**
+* Get value
+* 
+* @param array $indexes 
+* @param mixed $value 
+* @return null|Collection
+*/
+protected function getValue(array $indexes, $value)
+{
+    $key = array_shift($indexes); // unset first key
+
+    if(empty($indexes))
+    {
+         return $this->getIfEmptyIndexes($key, $value);
+    }else{
+         return $this->getValue($indexes, $value[$key]);
+    }
+}
+
+
+/**
+ * Get values if empty indexes
+ * 
+ * @param string $key 
+ * @param void $value 
+ * @return mixed
+*/
+protected function getIfEmptyIndexes($key, $value)
+{
+   if(!array_key_exists($key, $value))
+   {
+        return null;
+   }
+   if(is_array($value[$key]))
+   {
+       return new Collection($value[$key]);
+   }else{
+       return $value[$key];
+   }
+}
+
+
+/**
 * Constructor
 * 
 * @param array $items 
@@ -57,47 +99,6 @@ public function get($key)
 {
     $index = explode('.', $key);
     return $this->getValue($index, $this->items);
-}
-
-/**
-* Get value
-* 
-* @param array $indexes 
-* @param mixed $value 
-* @return null|Collection
-*/
-protected function getValue(array $indexes, $value)
-{
-    $key = array_shift($indexes); // unset first key
-
-    if(empty($indexes))
-    {
-         return $this->getNotEmptyIndexes($key, $value);
-    }else{
-         return $this->getValue($indexes, $value[$key]);
-    }
-}
-
-
-/**
- * Get not empty indexes
- * 
- * @param string $key 
- * @param void $value 
- * @return mixed
-*/
-protected function getNotEmptyIndexes($key, $value)
-{
-   if(!array_key_exists($key, $value))
-   {
-        return null;
-   }
-   if(is_array($value[$key]))
-   {
-       return new Collection($value[$key]);
-   }else{
-       return $value[$key];
-   }
 }
 
 
