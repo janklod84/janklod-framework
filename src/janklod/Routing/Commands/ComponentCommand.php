@@ -11,9 +11,9 @@ use JK\Foundation\Console\Generator\GeneratorCommand;
 /**
  * Class generate controller 
  *
- * @package JK\Routing\Commands\GenerateComponentCommand
+ * @package JK\Routing\Commands\ComponentCommand
 */ 
-abstract class GenerateComponentCommand extends GeneratorCommand
+abstract class ComponentCommand extends GeneratorCommand
 {
 
 
