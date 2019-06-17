@@ -1,5 +1,0 @@
-$form = new Form();
-$form->open(['action' => '/login','class'  => 'login']);
-$form->input(['class' => 'input-form', 'id' => 'login'], 'text', 'Login');
-$form->input(['class' => 'input-form', 'id'=> 'password'], 'password', 'Password');
-echo $form->close();

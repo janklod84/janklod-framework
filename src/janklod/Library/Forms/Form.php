@@ -47,7 +47,7 @@ protected $output = '';
  * @param array $attributes 
  * @return string
 */
-public function attributes($attributes=[])
+protected function attributes($attributes=[])
 {
    if($attributes)
    {
@@ -58,6 +58,26 @@ public function attributes($attributes=[])
        }
        return $str;
    }
+}
+
+/**
+ * Get Label
+ * 
+ * @param string $label 
+ * @param string $id
+ * @return string
+*/
+protected function label($label, $id='')
+{
+    $output = '';
+    if($label)
+    {
+        $output .= sprintf(
+        '<label for="%s">%s</label>',   
+        $id, $label
+        ).PHP_EOL;
+    }
+    return $output;
 }
 
 
@@ -101,6 +121,8 @@ public function open($data = [])
 */
 public function input($attributes = [], $type='text', $label='')
 {
+     $id = $attributes['id'] ?? null;
+     $this->output .= $this->label($label, $id);
      $this->output .= sprintf(
         '<input type="%s"%s>', $type, $this->attributes($attributes)
      );
@@ -127,7 +149,7 @@ public function hidden($attributes = [], $label='')
 * @param array $attributes 
 * @return void
 */
-public function file($attributes, $label = '')
+public function file($attributes = [], $label = '')
 {
     $this->output .= $this->input($attributes, 'file', $label);
 }
@@ -162,7 +184,13 @@ public function textarea($attributes = [], $label = '', $value = '')
 */
 public function button($attributes = [], $label = '', $type = 'button')
 {
-      
+      $this->output .= sprintf(
+       '<button type="%s"%s>%s</button>', 
+       $type,
+       $this->attributes($attributes),  
+       $label 
+      );
+      $this->output .= PHP_EOL;
 }
 
 

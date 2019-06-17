@@ -61,7 +61,9 @@ public function index()
    $form->input(['class' => 'form-control', 'id' => 'login'], 'text', 'Login');
    $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
    $form->hidden();
-   $form->textarea(['class' => 'form-control', 'id'=> 'password']);
+   $form->textarea(['class' => 'form-control', 'id'=> 'text']);
+   $form->file(['name' => 'photo']);
+   $form->button(['class' => 'btn btn-primary'], 'Submit');
    $form->close();
 
     
