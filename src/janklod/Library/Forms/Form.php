@@ -70,13 +70,25 @@ protected function label($label, $attributes)
 
 
 /**
- * Surround input
- * 
- * @return void
+* Surround field
+* NO FINISH!
+* 
+* @param string $data 
+* @return string
 */
-protected function surround()
+public function surround($data, $attributes = [])
 {
-      //
+     if($this->surround)
+     {
+         $attr = $this->attributes($attributes);
+         $html = sprintf("<{$this->surround} %s>", $attr). PHP_EOL;
+         $html .= $data;
+         $html .= "</{$this->surround}>". PHP_EOL;
+
+     }else{
+
+         return $data;
+     }
 }
 
 
