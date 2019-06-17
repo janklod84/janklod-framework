@@ -27,9 +27,8 @@ protected $compile = 'console';
 
 
 /**
- * constructor
- * 
- * @param string $file 
+ * Constructor
+ *  
  * @return void
 */
 public function __construct() 
@@ -39,6 +38,21 @@ public function __construct()
       $this->commands();
   }
 }
+
+
+/**
+ * Load command
+ * 
+ * Ex: $this->load(__DIR__.'/Commands.php');
+ * 
+ * @param string $command_path
+ * @return void
+*/
+protected function load(string $command_path)
+{
+    self::addCommands($command_path);
+}
+
 
 
 /**
@@ -61,9 +75,7 @@ public static function addCommands($parsed=null)
    $commands = (array) $parsed;
    if(is_string($parsed) && is_file($parsed))
    {
-       $commands = require(
-       realpath($parsed)
-       );
+       $commands = require(realpath($parsed));
    }
    if(!empty($commands))
    {
