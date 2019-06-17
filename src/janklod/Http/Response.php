@@ -2,6 +2,8 @@
 namespace JK\Http;
 
 
+use JK\Http\Contracts\ResponseInterface;
+
 /**
  *  $response = new Response('Привет мир', 301, ['Content: xxx', '...', '...']);
  * 

@@ -14,7 +14,7 @@ class InputArgv implements InputInterface
 */
 public function argument($key=null)
 {   
-   $arguments = $_SERVER['argv'];
+   $arguments = $this->server('argv');
    if($this->is_cli() && !is_null($key))
    {
       return $arguments[$key] ?? null;
@@ -29,7 +29,7 @@ public function argument($key=null)
 */
 public function account()
 {
-   return $_SERVER['argc'];
+   return $this->server('argc');
 }
 
 
@@ -40,7 +40,24 @@ public function account()
 public function is_cli()
 {
 	return (php_sapi_name() != 'cli')
-	       || $_SERVER['argc'] > 0;
+	       || $this->server('argc') > 0;
+}
+
+
+/**
+ * Server arguments
+ * 
+ * @param string $key 
+ * @return mixed
+*/
+public function server($key=null)
+{
+   $server = $_SERVER;
+   if(!is_null($key))
+   {
+   	   return $server[$key] ?? null;
+   }
+   return $server;
 }
 
 }

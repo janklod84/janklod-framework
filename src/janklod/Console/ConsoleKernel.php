@@ -2,18 +2,11 @@
 namespace JK\Console;
 
 
-use JK\Http\Contracts\{
-	KernelInterface,
-	ServerRequestInterface, 
-	ResponseInterface
-};
-
-
 /**
  * 
  * @package JK\Console\ConsoleKernel
 */ 
-class ConsoleKernel implements KernelInterface
+class ConsoleKernel
 {
 
 
@@ -21,12 +14,12 @@ class ConsoleKernel implements KernelInterface
 /**
  * Handler
  * 
- * @param \JK\Http\Contracts\ServerRequestInterface $request 
- * @return \JK\Http\Contracts\ResponseInterface $response
+ * @param \JK\Console\IO\InputInterface   $input 
+ * @return \JK\Console\IO\OutputInterface $output
 */
-public function handle(ServerRequestInterface $request, ResponseInterface $response)
+public function handle($input, $output)
 {
-
+    // return 'status';
 }
 
 
@@ -34,11 +27,11 @@ public function handle(ServerRequestInterface $request, ResponseInterface $respo
 /**
  * Synthese request and response
  * 
- * @param JK\Http\RequestInterface $request 
- * @param  mixed $output 
+ * @param  InputInterface $input
+ * @param  string $status
  * @return void
 */
-public function terminate(RequestInterface $request, $output)
+public function terminate($input, $status)
 {
 
 }

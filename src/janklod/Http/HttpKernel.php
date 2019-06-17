@@ -3,9 +3,8 @@ namespace JK\Http;
 
 
 use JK\Http\Contracts\{
-	KernelInterface,
-	ServerRequestInterface, 
-	ResponseInterface
+ RequestInterface, 
+ ResponseInterface
 };
 
 
@@ -13,34 +12,38 @@ use JK\Http\Contracts\{
  * 
  * @package JK\Http\HttpKernel
 */ 
-class HttpKernel implements KernelInterface
+class HttpKernel
 {
-
 
 
 /**
  * Handler
  * 
- * @param \JK\Http\Contracts\ServerRequestInterface $request 
+ * @param \JK\Http\Contracts\RequestInterface $request 
  * @return \JK\Http\Contracts\ResponseInterface $response
 */
-public function handle(ServerRequestInterface $request, ResponseInterface $response)
+public function handle(RequestInterface $request)
 {
-
+    // get method 
+    // get dispatcher
+    // load action
+    // return Response;
 }
 
 
+// send headers
+
 
 /**
- * Synthese request and response
+ * Send reponse to server
  * 
- * @param JK\Http\RequestInterface $request 
- * @param  mixed $output 
+ * @param  JK\Http\Contracts\RequestInterface  $request 
+ * @param  JK\Http\Contracts\ResponseInterface $response
  * @return void
 */
-public function terminate(RequestInterface $request, $output)
+public function terminate(RequestInterface $request, ResponseInterface $response)
 {
-
+      // capture les notifications etc
 }
 
 

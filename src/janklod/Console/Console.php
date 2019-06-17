@@ -102,9 +102,10 @@ public static function add($command)
 
 /**
  * Return all commands
+ * 
  * @return array
 */
-public static function commands()
+public static function getCommands()
 {
      self::blockAccess();
      return self::$commands;

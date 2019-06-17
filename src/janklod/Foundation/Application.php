@@ -2,8 +2,8 @@
 namespace JK\Foundation;
 
 
-use JK\Http\RequestInterface;
-use JK\Http\ResponseInterface;
+use JK\Http\Contracts\RequestInterface;
+use JK\Http\Contracts\ResponseInterface;
 use JK\Debug\Debogger;
 use JK\FileSystem\File;
 use \Config;
@@ -240,7 +240,7 @@ public function __get($key)
 /**
  * Handle request
  * 
- * @param \JK\Http\RequestInterface  $request 
+ * @param \JK\Http\Contracts\RequestInterface  $request 
  * @return mixed
 */
 public function handle(RequestInterface $request)
@@ -256,21 +256,18 @@ public function handle(RequestInterface $request)
 /**
  * Synthese request and response
  * 
- * @param JK\Http\RequestInterface $request 
- * @param JK\Http\ResponseInterface $response 
+ * @param JK\Http\Contracts\RequestInterface $request 
+ * @param JK\Http\Contracts\ResponseInterface $response 
  * @return void
 */
-public function terminate(
-RequestInterface $request, 
-ResponseInterface $response
-)
+public function terminate(RequestInterface $request, ResponseInterface $response)
 {
    $output = (string) $this->handle($request);
    $response->setBody($output);
    $response->send(); 
    
-   // show message
    $this->notify();
+   // show message
 }
 
 

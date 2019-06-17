@@ -54,7 +54,7 @@ public function commands() {}
 */
 public static function command($signature, \Closure $closure)
 {
-     call_user_func($closure);
+     /* call_user_func($closure); */
 }
 
 }

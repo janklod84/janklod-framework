@@ -1,11 +1,11 @@
 <?php 
-namespace JK\Http\Contracts;
+namespace JK\Http;
 
 
 /**
- * @package JK\Http\Contracts\RequestInterface 
+ * @package JK\Http\RequestInterface 
 */ 
-interface RequestInterface extends ServerRequestInterface
+interface RequestInterface
 {
 	  
 
@@ -48,8 +48,5 @@ public function session();
 * @return mixed
 */
 public function server($key = null);
-
-
-
 
 }

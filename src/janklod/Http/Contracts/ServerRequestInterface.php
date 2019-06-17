@@ -6,11 +6,11 @@ namespace JK\Http\Contracts;
 */ 
 interface ServerRequestInterface 
 {
-	/**
-	 * Return params from server
-	 * 
-	 * @param string $key 
-	 * @return void
-	 */
-	public function server($key=null);
+/**
+ * Return params from server
+ * 
+ * @param string $key 
+ * @return void
+ */
+public function server($key=null);
 }

@@ -6,6 +6,7 @@ use JK\Http\Sessions\Session;
 use JK\Http\Cookies\Cookie;
 use JK\Http\Requests\Input;
 use JK\Http\Uploads\UploadedFile;
+use JK\Http\Contracts\RequestInterface;
 
 
 
@@ -37,6 +38,30 @@ private $ipIndexes = [
  * @var mixed request body $body
 */
 private $body;
+
+
+/**
+ * @var Request $instance  [ Save instance of Request ]
+*/
+private static $instance;
+
+
+
+/**
+ * Get instance of request
+ * 
+ * @return self
+*/
+public static function capture()
+{
+    if(is_null(self::$instance))
+    {
+         self::$instance = new static();
+    }
+    return self::$instance;
+}
+
+
 
 
 /**
@@ -373,15 +398,5 @@ public function prepareURL()
     // TO Implements
 }
 
-
-/**
- * Capture current url
- * 
- * @return url
-*/
-public static function capture()
-{
-
-}
        
 }
