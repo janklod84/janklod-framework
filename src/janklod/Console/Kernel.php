@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Http;
+namespace JK\Console;
 
 
 use JK\Http\Contracts\KernelInterface;
@@ -12,20 +12,6 @@ use JK\Http\Contracts\KernelInterface;
 class Kernel implements KernelInterface
 {
 
-
-private $router;
-
-
-/**
- * Construct
- * 
- * @param Router $router 
- * @return void
-*/
-public function __construct(Router $router)
-{
-      $this->router = $router;
-}
 
 
 /**
