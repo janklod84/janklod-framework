@@ -2,42 +2,11 @@
 namespace JK\Http;
 
 
-use JK\Http\Contracts\KernelInterface;
-
-
 /**
  * 
  * @package JK\Http\Kernel
 */ 
-class Kernel implements KernelInterface
+class Kernel extends HttpKernel
 {
-
-
-
-/**
- * Handler
- * 
- * @param \JK\Http\RequestInterface   $request 
- * @return \JK\Http\ResponseInterface $response
-*/
-public function handle(RequestInterface $request, ResponseInterface $response)
-{
-
-}
-
-
-
-/**
- * Synthese request and response
- * 
- * @param JK\Http\RequestInterface $request 
- * @param  mixed $output 
- * @return void
-*/
-public function terminate(RequestInterface $request, $output)
-{
-
-}
-
 
 }

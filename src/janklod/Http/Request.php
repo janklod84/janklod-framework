@@ -337,9 +337,8 @@ public function url($path = false)
 
 
 /**
- * TO ADD FONCTIONALITY LATER
-  * Determine current path from server
-  * Get Url from global $_SERVER
+  * Determine current url from global variables
+  * 
   * @return string
 */   
 public function fromGlobals()
@@ -366,11 +365,23 @@ public function fromGlobals()
 
 /**
  * Prepare URL
+ * 
  * @return string
 */
 public function prepareURL()
 {
     // TO Implements
+}
+
+
+/**
+ * Capture current url
+ * 
+ * @return url
+*/
+public static function capture()
+{
+
 }
        
 }

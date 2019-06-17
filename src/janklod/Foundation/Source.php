@@ -40,7 +40,7 @@ const CONFIG = [
 'Config'   => 'JK\\Config\\Config',
 'Url'      => 'JK\\Helper\\Url',
 'DI'       => 'JK\\DI\\Container',
-'DB'       => 'JK\\Database\\Database'
+'DB'       => 'JK\\Database\\Database',
 ],
 'commands' => [
 \JK\Routing\Commands\MakeControllerCommand::class,

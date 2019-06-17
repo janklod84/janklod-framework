@@ -5,7 +5,7 @@
          <h3>Страница не найдена</h3>
          <small>Опаа! что то пошло не так!((</small>
          <div>
-         	<a href="<?= base_url() ?>"><small>на главную</small></a>
+         	<a href="/"><small>на главную</small></a>
          </div>
        </div>
       </div>

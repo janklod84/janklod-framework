@@ -20,7 +20,8 @@ protected $description = [
 'Run server : ',
 'Ex: php console server',
 'This command run server on the port <8000>',
-'<command>php -S localhost:8000 -t public'
+'Lunch on your browser http://localhost:8000',
+'Stop server [ Ctrl+C ]'
 ];
 
 
