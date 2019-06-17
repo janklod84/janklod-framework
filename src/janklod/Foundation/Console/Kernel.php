@@ -7,8 +7,11 @@ use JK\Console\IO\{
 	OutputInterface
 };
 
-use JK\Console\Console;
+use JK\Foundation\Application;
+use JK\Foundation\Source;
 
+
+class_alias('JK\\Foundation\\Console\\Shell', 'Shell');
 
 /**
  * 
@@ -27,7 +30,7 @@ private $console;
 */
 public function __construct()
 {
-   $this->console = new Console();
+     $this->console = new Shell();
 }
 
 

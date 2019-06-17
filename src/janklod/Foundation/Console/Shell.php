@@ -1,11 +1,14 @@
 <?php 
-namespace JK\Foundation;
+namespace JK\Foundation\Console;
 
 use JK\Console\Console;
+use JK\Foundation\Application;
+use JK\Foundation\Source;
+
 
 
 /**
- * @package JK\Foundation\Shell 
+ * @package JK\Foundation\Console\Shell 
 */ 
 class Shell extends Console 
 {
@@ -28,7 +31,6 @@ public function __construct()
 {
   if(php_sapi_name() == 'cli') 
   {
-    class_alias(__CLASS__, 'Shell');
     $this->file = Application::instance()->file;
     self::addCommands(Source::CONFIG['commands']);
     $this->file->call('routes/console.php');
@@ -36,13 +38,6 @@ public function __construct()
   }
 }
 
-
-/**
- * Here load commands and require
- * 
- * @return void
-*/
-public function commands() {}
 
 
 /**

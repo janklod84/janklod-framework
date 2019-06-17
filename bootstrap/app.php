@@ -56,20 +56,6 @@ $app->singleton(JK\Foundation\Console\Kernel::class, function () use ($app) {
 });
 
 
-
-/*
-$app->singleton('console', function () use($app) {
-   return $app->make(JK\Foundation\Shell::class);
-});
-
-
-$app->singleton('request', function () use($app) {
-   return $app->make(JK\Http\Request::class);
-});
-
-*/
-
-
 /*
 |-------------------------------------------------------------------
 |    Return instance of application 
