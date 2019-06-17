@@ -259,9 +259,9 @@ public function checkBox($attributes = [], $label = '', $checked = 'on')
 */
 public function close()
 {
-	 $this->output .= '</form>'.PHP_EOL;
-     ob_get_clean(); 
-     echo $this->output;
+ $this->output .= '</form>'.PHP_EOL;
+ ob_get_clean(); 
+ echo $this->output;
 }
 
 
