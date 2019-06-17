@@ -16,22 +16,16 @@ abstract class Controller
      
 /**
 * @var \JK\DI\ContainerInterface $app
-* @var \JK\Loader\Load $load
 * @var \JK\Template\View $view
 * @var \JK\Http\Request $request
 * @var \JK\Http\Response $response
 * @var string $layout
-* @var array $data
-* @var string $autoview 
-* [ set automatically view by using controller and action ]
 */
 protected $app;
-protected $load;
 protected $view;
 protected $request;
 protected $response;
 protected $layout = 'default';
-protected $autoview = true;
 
 
 /**
@@ -45,7 +39,6 @@ public function __construct($app)
      $this->app      = $app;
      $this->view     = $app->view;
      $this->request  = Request::capture();
-     $this->load     = $app->load;
      $this->response = $app->response;
      $this->onConstructor();
 }

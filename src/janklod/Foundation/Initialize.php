@@ -39,10 +39,15 @@ public function __construct($app)
 */
 public function run()
 {
+    // Stating all services
     foreach(Source::CONFIG['runners'] as $runner)
     {
         $this->call($runner);
     }
+
+    // Require all routes
+    $this->app->file->call('routes/app.php');
+
 }
 
 

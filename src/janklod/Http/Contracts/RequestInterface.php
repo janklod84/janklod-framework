@@ -42,14 +42,4 @@ public function cookie();
 public function session();
 
 
-/**
-* Return server
-* @param string $key 
-* @return mixed
-*/
-public function server($key = null);
-
-
-
-
 }

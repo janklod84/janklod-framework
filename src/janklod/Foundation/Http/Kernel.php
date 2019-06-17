@@ -15,11 +15,14 @@ use JK\Routing\Router;
 use JK\Config\Config;
 
 
+use JK\Http\Contracts\RequestHandlerInterface;
+
+
 /**
  * 
  * @package JK\Foundation\Http\Kernel
 */ 
-class Kernel
+class Kernel implements RequestHandlerInterface
 {
 
 
@@ -61,9 +64,6 @@ public function handle(RequestInterface $request): ResponseInterface
 		// Initialize all services [ Bootstrap of application ]
 		(new Initialize($this->app))->run();
 
-		// Require all routes
-		$this->app->file->call('routes/app.php');
-
 		// Get URL
 		$url = $request->get('url');
 
@@ -100,7 +100,7 @@ public function handle(RequestInterface $request): ResponseInterface
 public function terminate(RequestInterface $request, ResponseInterface $response)
 {
 
-      // capture les notifications for now
+      // notifications
 	  $this->notify();
 }
 

@@ -6,6 +6,8 @@ namespace JK\Http\Contracts;
 */ 
 interface ServerRequestInterface 
 {
+
+
 /**
  * Return params from server
  * 
@@ -13,4 +15,15 @@ interface ServerRequestInterface
  * @return void
  */
 public function server($key=null);
+
+
+
+/**
+ * Request Method
+ * 
+ * @return string
+*/
+public function method();
+
+
 }
