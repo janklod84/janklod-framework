@@ -7,7 +7,7 @@ namespace JK\Library;
  * 
  * @package JK\Library\BootstrapForm
 */ 
-class BootstrapForm 
+class BootstrapForm  extends Form
 {
 
 }

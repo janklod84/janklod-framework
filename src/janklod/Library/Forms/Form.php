@@ -16,29 +16,13 @@ class Form
 
 
 /**
-* Type fields container
-* @const array
-*/
-const MASK_FORM = [
-'open'     => '<form %s>', 
-'full'     => '<form %s>%s</form>',
-'label'    => '<label for="%s">%s</label>',
-'input'    => '<input type="%s"%s>',
-'select'   => '<select name="%s">%s</select>',
-'textarea' => '<textarea %s>%s</textarea>',
-'option'   => '<option value="%s">%s</option>',
-'button'   => '<button type="%s"%s>%s</button>',
-// 'surround' => '<%s>%s</%s>'
-];  
-
-
-/**
-* @var array  $data
-* @var array  $builders
+* @var  array   $data
+* @var  string  $output
+* @var  string  $surround
 */
 protected $data = [];
-protected $builders = [];
-protected $output = '';
+protected $output   = '';
+protected $surround = '';
 
 
 /**
@@ -59,6 +43,7 @@ protected function attributes($attributes=[])
        return $str;
    }
 }
+
 
 /**
  * Get Label
@@ -83,6 +68,17 @@ protected function label($label, $attributes)
 
 
 /**
+ * Surround input
+ * 
+ * @return void
+*/
+protected function surround()
+{
+      //
+}
+
+
+/**
  * Construct
  * 
  * @param array $data 
@@ -95,17 +91,17 @@ public function __construct($data=[])
 
 
 /**
- * Open form building
+ * Open form
  * 
- * @param array $data
+ * @param array $attributes
  * @return void
 */
-public function open($data = [])
+public function open($attributes = [])
 {
      ob_start();
      $this->output  = '<!DOCTYPE html>'.PHP_EOL;
      $this->output .= sprintf('<form %s>', 
-        $this->attributes($data)
+        $this->attributes($attributes)
      );
      $this->output .= PHP_EOL;
 }
@@ -113,7 +109,7 @@ public function open($data = [])
 
 
 /**
- * Input
+ * Input General
  * 
  * @param array  $attributes
  * @param string $type 
@@ -131,7 +127,7 @@ public function input($attributes = [], $type='text', $label='')
 
 
 /**
-* Generate field type hidden
+* Input Hidden
 * 
 * @param array  $attributes 
 * @param string $label
@@ -145,7 +141,8 @@ public function hidden($attributes = [], $label='')
 
 
 /**
-* Get input type file
+* Input File
+* 
 * @param array $attributes 
 * @return void
 */
@@ -156,7 +153,7 @@ public function file($attributes = [], $label = '')
 
 
 /**
- * Generate input field type textarea
+ * Textarea
  * 
  * @param array $attributes 
  * @param string $label 
@@ -176,9 +173,22 @@ public function textarea($attributes = [], $label = '', $value = '')
 
 
 /**
- * Get submit input
+ * Select
  * 
+ * @param array $attributes 
+ * @return void
+*/
+public function select($attributes = [])
+{
+   '<select name="%s">%s</select>'. 
+   '<option value="%s">%s</option>';
+}
+
+
+/**
+ * Submit Input
  * 
+ * @param array $attributes
  * @return void
 */
 public function inputSubmit($attributes = [])
@@ -216,7 +226,8 @@ public function button($attributes = [], $value = '', $type = 'button')
 */
 public function checkBox($attributes = [], $label = '', $checked = 'on')
 {
-     
+     ($checked == 'on') ? $attributes['checked'] = 'checked' : '';
+     $this->output .= $this->input($attributes, 'checkbox', null);
 }
 
 
@@ -227,26 +238,9 @@ public function checkBox($attributes = [], $label = '', $checked = 'on')
 */
 public function close()
 {
-	 $this->output .= '</form>';
+	 $this->output .= '</form>'.PHP_EOL;
      ob_get_clean(); 
      echo $this->output;
-}
-
-
-/**
- * Print out
- * 
- * @return void
- */
-public function __toString()
-{
-    return $this->close();
-}
-
-
-public function output()
-{
-   debug($this->builders);
 }
 
 

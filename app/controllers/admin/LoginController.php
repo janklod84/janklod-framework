@@ -57,23 +57,17 @@ public function index()
 {
 
    $form = new Form();
-   $form->open(['action' => '/login','class'  => 'login']);
-   $form->input(['class' => 'form-control', 'id' => 'login'], 'text', 'Login');
+   
+   echo '<h2>Form1</h2>';
+   $form->open(['action' => '/sign-in','class'  => 'sign-in']);
    $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
-   $form->hidden();
    $form->textarea(['class' => 'form-control', 'id'=> 'text'], 'Message', 'Admin?');
-   $form->file(['name' => 'photo']);
-   $form->button(['class' => 'btn btn-primary'], 'Submit');
    $form->inputSubmit(['class' => 'btn btn-primary']);
    $form->close();
-
     
-   // $form->output();
-
-
     // OUTPUT
     // Query::output();
-    // $this->show();
+   $this->show();
 }
 
 
