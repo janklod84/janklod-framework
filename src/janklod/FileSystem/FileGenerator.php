@@ -103,7 +103,7 @@ public function content()
 /**
  * Generate file
  * 
- * @return void
+ * @return mixed
 */
 public function put()
 {
@@ -118,7 +118,7 @@ public function put()
 /**
  * Get full path generated file
  * 
- * @return string
+ * @return string|bool
 */
 public function path()
 {
@@ -134,7 +134,7 @@ public function path()
 /**
  * Remove generated file
  * 
- * @return bool
+ * @return bool|FileException
 */
 public function remove()
 {
