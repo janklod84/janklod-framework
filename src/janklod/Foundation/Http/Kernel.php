@@ -39,12 +39,12 @@ protected $router;
 */
 public function __construct()
 {
-// Get container
-$this->app = Application::instance()->container();
+  // Get container
+  $this->app = Application::instance()->container();
 
-// Load all configuration
-$path = $this->app->file->to('app/config/*');
-Config::map($path);
+  // Load all configuration
+  $path = $this->app->file->to('app/config/*');
+  Config::map($path);
 }
 
 
@@ -56,37 +56,37 @@ Config::map($path);
 */
 public function handle(RequestInterface $request): ResponseInterface
 { 
-if(! $request->is('cli'))
-{
-	// Initialize all services [ Bootstrap of application ]
-    (new Initialize($this->app))->run();
-    
-    // Require all routes
-    $this->app->file->call('routes/app.php');
+	if(! $request->is('cli'))
+	{
+		// Initialize all services [ Bootstrap of application ]
+		(new Initialize($this->app))->run();
 
-    // Get URL
-	$url = $request->get('url');
+		// Require all routes
+		$this->app->file->call('routes/app.php');
 
-    // Instance de Router
-	$this->router = new Router($url);
+		// Get URL
+		$url = $request->get('url');
 
-	// Get request method
-	$method = $request->method();
+		// Instance de Router
+		$this->router = new Router($url);
 
-	// Get dispatcher
-	$dispatcher = $this->router->dispatch($method);
-    
-    // Get callaback and matches params
-	$callback = $dispatcher->getCallback();
-    $matches  = $dispatcher->getMatches();
+		// Get request method
+		$method = $request->method();
 
-    // Storing output for sending to response class
-    $output = $this->app->load->callAction($callback, $matches);
-    
-    // Set output
-    $output = (string) $output;
-    return $this->app->response->withBody($output);
-}
+		// Get dispatcher
+		$dispatcher = $this->router->dispatch($method);
+
+		// Get callaback and matches params
+		$callback = $dispatcher->getCallback();
+		$matches  = $dispatcher->getMatches();
+
+		// Storing output for sending to response class
+		$output = $this->app->load->callAction($callback, $matches);
+
+		// Set output
+		$output = (string) $output;
+		return $this->app->response->withBody($output);
+	}
 }
 
 
