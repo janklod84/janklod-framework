@@ -64,12 +64,13 @@ protected function attributes($attributes=[])
  * Get Label
  * 
  * @param string $label 
- * @param string $id
+ * @param string $attributes
  * @return string
 */
-protected function label($label, $id='')
+protected function label($label, $attributes)
 {
     $output = '';
+    $id = $attributes['id'] ?? null;
     if($label)
     {
         $output .= sprintf(
@@ -121,8 +122,7 @@ public function open($data = [])
 */
 public function input($attributes = [], $type='text', $label='')
 {
-     $id = $attributes['id'] ?? null;
-     $this->output .= $this->label($label, $id);
+     $this->output .= $this->label($label, $attributes);
      $this->output .= sprintf(
         '<input type="%s"%s>', $type, $this->attributes($attributes)
      );
@@ -165,6 +165,7 @@ public function file($attributes = [], $label = '')
 */
 public function textarea($attributes = [], $label = '', $value = '')
 {
+      $this->output .= $this->label($label, $attributes);
       $this->output .= sprintf(
        '<textarea %s>%s</textarea>', 
        $this->attributes($attributes),   
@@ -175,20 +176,32 @@ public function textarea($attributes = [], $label = '', $value = '')
 
 
 /**
+ * Get submit input
+ * 
+ * 
+ * @return void
+*/
+public function inputSubmit($attributes = [])
+{
+    $this->output .= $this->input($attributes, 'submit', null);
+}
+
+
+/**
 * Generate input field type button
 * 
 * @param array $attributes 
-* @param string $label 
+* @param string $value 
 * @param string $type 
 * @return void
 */
-public function button($attributes = [], $label = '', $type = 'button')
+public function button($attributes = [], $value = '', $type = 'button')
 {
       $this->output .= sprintf(
        '<button type="%s"%s>%s</button>', 
        $type,
        $this->attributes($attributes),  
-       $label 
+       $value 
       );
       $this->output .= PHP_EOL;
 }
