@@ -58,12 +58,12 @@ public function index()
 
    $form = new Form();
    
-   echo '<h2>Form1</h2>';
-   $form->open(['action' => '/sign-in','class'  => 'sign-in']);
-   $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
-   $form->textarea(['class' => 'form-control', 'id'=> 'text'], 'Message', 'Admin?');
-   $form->inputSubmit(['class' => 'btn btn-primary']);
-   $form->close();
+   // echo '<h2>Form1</h2>';
+   // $form->open(['action' => '/sign-in','class'  => 'sign-in']);
+   // $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
+   // $form->textarea(['class' => 'form-control', 'id'=> 'text'], 'Message', 'Admin?');
+   // $form->inputSubmit(['class' => 'btn btn-primary']);
+   // $form->close();
     
     // OUTPUT
     // Query::output();

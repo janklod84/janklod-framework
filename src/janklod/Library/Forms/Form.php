@@ -19,10 +19,12 @@ class Form
 * @var  array   $data
 * @var  string  $output
 * @var  string  $surround
+* @var  bool    $closed
 */
 protected $data = [];
-protected $output   = '';
+protected $output   = PHP_EOL;
 protected $surround = '';
+protected $closed   = false;
 
 
 /**
@@ -99,13 +101,34 @@ public function __construct($data=[])
 public function open($attributes = [])
 {
      ob_start();
-     $this->output  = '<!DOCTYPE html>'.PHP_EOL;
-     $this->output .= sprintf('<form %s>', 
+     $attributes['method'] = $attributes['method'] ?? 'POST';
+     $this->output = sprintf('<form %s>', 
         $this->attributes($attributes)
      );
      $this->output .= PHP_EOL;
 }
 
+
+/**
+ * Style inline
+ * 
+ * @param array $attributes 
+ * @return string
+*/
+public function styliser($attributes=[])
+{
+    $styles = $attributes['style'] ?? [];
+    if(is_array($styles) && !empty($styles))
+    {
+        $style = '';
+        foreach($styles as $property => $value)
+        {
+           $style .= sprintf('%s:%s;', $property, $value);
+        }
+        // return sprintf('style="%s"', $style);
+        $attributes['styles'] = $style;
+    }
+}
 
 
 /**
@@ -202,14 +225,12 @@ public function inputSubmit($attributes = [])
 * 
 * @param array $attributes 
 * @param string $value 
-* @param string $type 
 * @return void
 */
-public function button($attributes = [], $value = '', $type = 'button')
+public function button($attributes = [], $value = '')
 {
       $this->output .= sprintf(
-       '<button type="%s"%s>%s</button>', 
-       $type,
+       '<button%s>%s</button>', 
        $this->attributes($attributes),  
        $value 
       );

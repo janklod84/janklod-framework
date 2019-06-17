@@ -1,21 +1,16 @@
 <h1><?php HTML::title(true) ?></h1>
 <?php // partial('test', 'login'); ?>
 <div class="row">
-	<div class="col-md-6">
-		<form action="/" method="POST">
-		  <div class="form-group">
-		   <input type="text" 
-		          name="username" 
-		          class="form-control" 
-		          placeholder="Введите ваш логин">
-		  </div>
-		  <div class="form-group">
-		   <input type="text" 
-		          name="password" 
-		          class="form-control" 
-		          placeholder="Введите ваш пароль">
-		  </div>
-		  <button type="submit" class="btn btn-primary">Отправить</button>
-        </form>
-	</div>
+<div class="col-md-6">
+<?php 
+	$form = new \JK\Library\Forms\BootstrapForm();
+	$form->open(['action' => '/', 'method' => 'POST', 'class'  => 'sign-in']);
+	$form->input(['class' => 'form-control', 'name'=> 'username',
+	'placeholder' => 'Введите ваш логин']);
+	$form->input(['class' => 'form-control', 'name'=> 'password',
+	'placeholder' => 'Введите ваш пароль'], 'password');
+	 $form->button(['type' => 'submit', 'class' => 'btn btn-primary'], 'Отправить');
+	 // $form->close();
+?>
+</div>
 </div>
