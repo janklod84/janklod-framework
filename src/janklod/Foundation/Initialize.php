@@ -1,8 +1,7 @@
 <?php 
 namespace JK\Foundation;
-
-
 use JK\Config\Config;
+
 
 
 /**
@@ -11,10 +10,12 @@ use JK\Config\Config;
 class Initialize
 {
 
+
 /**
  * @var JK\Container\ContainerInterface
 */
 private $app;
+
 
 
 /**
@@ -28,10 +29,6 @@ public function __construct($app)
 {
     // Get container
     $this->app = $app;
-
-    // Load all configuration
-    $path = $this->app->file->to('app/config/*');
-    Config::map($path);
 }
 
 
@@ -57,7 +54,6 @@ public function run()
 */
 private function call($runner)
 {
-
  if(!class_exists($runner))
  {
  	  throw new \Exception(
@@ -80,5 +76,4 @@ private function call($runner)
  }
  call_user_func($callback);
 }
-
 }

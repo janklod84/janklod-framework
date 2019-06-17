@@ -39,20 +39,35 @@ $app = \JK\Foundation\Application::instance(ROOT);
 
 $app->file->call('src/Debug.php');
 
+
+
 /*
 |-------------------------------------------------------------------
 |    Binds importantes interfaces
 |-------------------------------------------------------------------
 */
 
+$app->singleton(JK\Foundation\Http\Kernel::class, function () use ($app) {
+	return $app->make(JK\Foundation\Http\Kernel::class);
+});
 
+$app->singleton(JK\Foundation\Console\Kernel::class, function () use ($app) {
+	return $app->make(JK\Foundation\Console\Kernel::class);
+});
+
+
+
+/*
 $app->singleton('console', function () use($app) {
    return $app->make(JK\Foundation\Shell::class);
 });
 
+
 $app->singleton('request', function () use($app) {
    return $app->make(JK\Http\Request::class);
 });
+
+*/
 
 
 /*

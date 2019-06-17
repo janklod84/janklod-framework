@@ -4,7 +4,7 @@ namespace JK\Foundation;
 
 use JK\Http\Contracts\RequestInterface;
 use JK\Http\Contracts\ResponseInterface;
-use JK\Debug\Debogger;
+
 use JK\FileSystem\File;
 use \Config;
 
@@ -86,37 +86,6 @@ public function root()
 }
 
 
-/**
- * Inialize all services of application
- * 
- * @return void
-*/
-public function initialize()
-{
-   (new Initialize($this->app))
-   ->run();
-}
-
-
-
-/**
-  * Break Point of Application
-  * 
-  * @return mixed
-*/
-public function run()
-{   
- 
- if(!$this->request->is('cli'))
- {
-   // Run all services and modules
-   $this->initialize();
-  
-   // Call method terminate
-   $this->terminate($this->request, $this->response);
- }
-}
-
 
 /**
  * Get one times instance of Application
@@ -182,14 +151,6 @@ public function push($data=[])
 * Create new instance and inject params automatically
 * Create new object 
 * 
-* [ex: Application::instance()->make(Blog::class) ]
-* $obj = $this->app->make(
-* 'JanKlod\\Test', 
-* ['id' => 1, 'slug' => 'jean'
-* ]);
-* $this->make('JanKlod\\Test', [1, jean']);
-* $this->make('JanKlod\\Test');
-* 
 * @param string $name 
 * @return object
 */
@@ -237,50 +198,6 @@ public function __get($key)
 }
 
 
-/**
- * Handle request
- * 
- * @param \JK\Http\Contracts\RequestInterface  $request 
- * @return mixed
-*/
-public function handle(RequestInterface $request)
-{
-     $method     = $request->method();
-     $dispatcher = $this->router->dispatch($method);
-     $callback   = $dispatcher->getCallback();
-     $matches    = $dispatcher->getMatches();
-     return $this->load->callAction($callback, $matches);
-}
-
-
-/**
- * Synthese request and response
- * 
- * @param JK\Http\Contracts\RequestInterface $request 
- * @param JK\Http\Contracts\ResponseInterface $response 
- * @return void
-*/
-public function terminate(RequestInterface $request, ResponseInterface $response)
-{
-   $output = (string) $this->handle($request);
-   $response->setBody($output);
-   $response->send(); 
-   
-   $this->notify();
-   // show message
-}
-
-
-/**
- * Show messages
- * 
- * @return void
-*/
-private function notify()
-{
-   $debogger = new Debogger($this->app);
-   $debogger->output(\Config::get('app.debug'));
-}
 
 
 /**

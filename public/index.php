@@ -57,10 +57,40 @@ set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
 $app = require_once realpath(__DIR__.'/../bootstrap/app.php');
 
 
+
 /*
 |-------------------------------------------------------
-|    Run Application
+|    Check instance of Kernel
+|-------------------------------------------------------
+*/
+$kernel = $app->get(JK\Foundation\Http\Kernel::class);
+
+
+
+/*
+|-------------------------------------------------------
+|    Get Response
 |-------------------------------------------------------
 */
 
-$app->run();
+$response = $kernel->handle(
+  $request = \JK\Http\Request::capture()
+);
+
+
+/*
+|-------------------------------------------------------
+|    Send all headers to navigator
+|-------------------------------------------------------
+*/
+
+$response->send();
+
+
+/*
+|-------------------------------------------------------
+|    Terminate
+|-------------------------------------------------------
+*/
+
+$kernel->terminate($request, $response);

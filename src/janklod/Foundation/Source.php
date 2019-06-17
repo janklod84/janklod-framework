@@ -21,7 +21,6 @@ const CONFIG = [
 'providers' => [
 \JK\Http\Facades\SessionProvider::class,
 \JK\Http\Facades\ResponseProvider::class,
-\JK\Routing\Facades\RouterProvider::class, 
 \JK\Loader\Facades\LoaderProvider::class,
 \JK\View\Facades\AssetProvider::class,
 \JK\View\Facades\ViewProvider::class,

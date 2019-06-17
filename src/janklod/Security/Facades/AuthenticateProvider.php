@@ -3,7 +3,7 @@ namespace JK\Security\Facades;
 
 use JK\DI\ServiceProvider;
 use JK\Security\Authenticate\Auth;
-
+use JK\Http\Request;
 
 
 /**
@@ -21,7 +21,7 @@ class AuthenticateProvider extends ServiceProvider
 public function boot()
 {
      // Check session for Authentication
-     $session = $this->app->request->session();
+     $session = Request::capture()->session();
      Auth::check($session);
 }
 

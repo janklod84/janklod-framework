@@ -54,7 +54,9 @@ public static function group($method)
 {
     if(!self::isStored($method))
     {
-    	 throw new \Exception("This group [$method] does not is set!", 404); 
+    	 throw new \Exception(
+    	 "This group [$method] does not is set! May be no routes required!", 404
+    	); 
     }
     return self::$routes[$method];
 }

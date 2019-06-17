@@ -5,6 +5,7 @@ namespace JK\Routing;
 use \Config;
 use \HTML;
 use \View;
+use JK\Http\Request;
 
 
 /**
@@ -35,6 +36,7 @@ protected $autoview = true;
 
 /**
 * Constructor
+* 
 * @param \JK\DI\ContainerInterface $app 
 * @return void
 */
@@ -42,7 +44,7 @@ public function __construct($app)
 {
      $this->app      = $app;
      $this->view     = $app->view;
-     $this->request  = $app->request;
+     $this->request  = Request::capture();
      $this->load     = $app->load;
      $this->response = $app->response;
      $this->onConstructor();

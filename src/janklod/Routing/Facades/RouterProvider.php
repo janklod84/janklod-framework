@@ -24,9 +24,6 @@ public function boot()
 {
    // require routes paths
    $this->app->file->call('routes/app.php');
-
-   // set url
-   $this->url = $this->app->request->get('url');
 }
 
 
@@ -37,9 +34,7 @@ public function boot()
 */
 public function register()
 {
-    $this->app->singleton('router', function () {
-         return $this->app->make(Router::class, [$this->url]);
-    });
+  
 }
 
 
