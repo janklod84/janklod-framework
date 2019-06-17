@@ -16,7 +16,7 @@ abstract class CustomGenerator extends FileGenerator implements GeneratorInterfa
 /**
  * @var InputInterface    $input      [ Input interface  ]
  * @var InputInterface    $output     [ Output interface ]
- * @var string            $root       [ root directory of file ]
+ * @var File              $file       [ File object ]
  * @var string            $directory  [ Name of Directory ]
  * @var string            $classname  [ Class name  ]
  * @var string            $success    [ Success Message ]
@@ -24,7 +24,7 @@ abstract class CustomGenerator extends FileGenerator implements GeneratorInterfa
 */
 protected $input;
 protected $output;
-protected $root;
+protected $file;
 protected $directory = '';
 protected $namespace;
 protected $classname = '';
@@ -49,8 +49,8 @@ public function __construct($input, $output)
     // get namespace
     $this->namespace = $this->get_namespace();
 
-    $this->root = Application::instance()->root();
-    parent::__construct($this->root);
+    $this->file = Application::instance()->file;
+    parent::__construct($this->file);
     $this->before();
 }
 
