@@ -13,20 +13,6 @@ class Kernel implements KernelInterface
 {
 
 
-private $router;
-
-
-/**
- * Construct
- * 
- * @param Router $router 
- * @return void
-*/
-public function __construct(Router $router)
-{
-      $this->router = $router;
-}
-
 
 /**
  * Handler
@@ -46,7 +32,7 @@ public function handle(RequestInterface $request, ResponseInterface $response)
  * 
  * @param JK\Http\RequestInterface $request 
  * @param  mixed $output 
- * @return 
+ * @return void
 */
 public function terminate(RequestInterface $request, $output)
 {
