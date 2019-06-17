@@ -32,7 +32,22 @@ protected $compile = 'console';
  * @param string $file 
  * @return void
 */
-public function __construct() { }
+public function __construct() 
+{
+  if(php_sapi_name() == 'cli') 
+  {
+      $this->commands();
+  }
+}
+
+
+/**
+ * Here load commands and require
+ * 
+ * @return void
+*/
+protected function commands() {}
+
 
 
 /**

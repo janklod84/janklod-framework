@@ -36,6 +36,15 @@ public function __construct()
   }
 }
 
+
+/**
+ * Here load commands and require
+ * 
+ * @return void
+*/
+public function commands() {}
+
+
 /**
  * Excecute command
  * 
