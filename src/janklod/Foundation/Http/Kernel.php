@@ -39,12 +39,12 @@ protected $router;
 */
 public function __construct()
 {
-	// Get container
-	$this->app = Application::instance()->container();
+// Get container
+$this->app = Application::instance()->container();
 
-	// Load all configuration
-    $path = $this->app->file->to('app/config/*');
-    Config::map($path);
+// Load all configuration
+$path = $this->app->file->to('app/config/*');
+Config::map($path);
 }
 
 
