@@ -9,47 +9,36 @@ namespace JK\Security\Authenticate;
 class Auth
 {
           
-          
 /**
-* @var \JK\Http\Sessions\Session $session
-* @var string $key [ Auth key user ]
-*/
-private static $session;
-private static $key = 'sess.user_id'; // default
+ * @var   string   $key            [ Base key of Authentication]
+ * @var   array    $permissions    [ Permissions ]
+ * @var   array    $authenticates  [ Authenticates ]
+ */
+private static $key = 'auth.identify--'; // default
+private static $permissions  = [];
+private static $authenticates = [];
 
 
 /**
- * Check session
+ * Generate auth key
  * 
- * @param \JK\Http\Sessions\Session $session
- * @return void
-*/
-public static function check($session)
-{
-    self::$session = $session;
-}
-
-
-/**
- * Add auth key
- * 
- * @param string $key
- * @return void
-*/
-public static function addKey($key)
-{
-    self::$key = $key;
-}
-
-
-/**
- * Get current auth key
- * 
+ * @param string $key 
  * @return string
-*/
-public static function getKey()
+ */
+public static function generate($key='xxx-xxx-domain.com')
 {
-	 return self::$key;
+     // 
+}
+
+/**
+ * Add Auth
+ * 
+ * @param mixed $user
+ * @return void
+*/
+public static function add(array $user)
+{
+     self::$authenticates[self::$key] = $user;
 }
 
 
@@ -58,28 +47,84 @@ public static function getKey()
 * 
 * @return bool
 */
-public static function isLogged()
+public static function isLogged(): bool
 {
-	 return self::$session->has(self::$key);
+	 return isset(self::$authenticates[self::$key]);
 }
 
 
 /**
- * Get current authenticate
+ * Get current user
+ * 
  * @param null $item 
  * @return mixed
 */
-public static function get($item=null)
+public static function currentUser()
 {
-     if(self::isLogged())
+     if(!self::isLogged())
      {
-     	  $current = self::$session->get(self::$key);
-     	  if(isset($current[$item]))
-     	  {
-     	  	  return $current[$item];
-     	  }
-     	  return $current;
+     	 die('No Logged User!');
      }
+     return self::$authenticates[self::$key];
+}
+
+
+/**
+ * Add permission
+ * 
+ * @param  array $permissions 
+ * @return void
+*/
+public static function addPermissions($permissions = [])
+{
+      self::$permissions = array_merge(
+        self::$permissions, 
+        $permissions
+      );
+}
+
+
+/**
+ * Add permission
+ * 
+ * @param string|array $permissions 
+ * @return void
+*/
+public static function addPermission($name='admin', $value=1)
+{
+      self::$permissions[$name] = $value;
+}
+
+
+/**
+ * Determine if current user has permissions
+ * 
+ * @param string $name 
+ * @return bool
+*/
+public static function is($name='admin')
+{
+    $current = self::currentUser();
+    if(in_array($name, array_values($current)))
+    {
+         return true;
+    }
+    return false;
+}
+
+/**
+ * Remove current authenticate
+ * 
+ * @return string
+*/
+public static function logout()
+{
+    if(self::isLogged())
+    {
+         unset(self::$authenticates[self::$key]);
+         return true;
+    }
+    return false;
 }
          
 }

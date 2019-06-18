@@ -24,7 +24,7 @@ class Form
 protected $data = [];
 protected $output = PHP_EOL;
 protected $surround = '';
-protected $closed  = false;
+protected $closed = false;
 
 
 /**

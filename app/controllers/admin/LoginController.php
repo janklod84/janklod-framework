@@ -53,8 +53,12 @@ public function __construct($app)
 */
 public function index()
 {
-
-   $form = new Form();
+   $data = [
+     'username' => 'Jean',
+     'password' => md5('jean'),   
+     'role'     => 1
+   ];
+   $form = new Form($data);
    
    
    $this->show();
