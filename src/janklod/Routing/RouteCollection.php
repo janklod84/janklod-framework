@@ -52,7 +52,7 @@ public static function add($routes=[])
 */
 public static function group($method)
 {
-    if(!self::isStored($method))
+    if(!self::stored($method))
     {
     	 throw new \Exception(
     	 "This group [$method] does not is set! May be no routes required!", 404
@@ -68,7 +68,7 @@ public static function group($method)
  * @param string $method 
  * @return bool
 */
-public static function isStored($method): bool
+public static function stored($method): bool
 {
     return isset(self::$routes[$method]);
 }

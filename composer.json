@@ -16,5 +16,7 @@
 	},
     "files": [
     ],
-    "require": {}
+    "require": {
+        "filp/whoops": "^2.3"
+    }
 }

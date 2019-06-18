@@ -11,6 +11,14 @@ class ComposerStaticInitdec0758a7896ead25c52a524276e7bd2
         array (
             'app\\' => 4,
         ),
+        'W' => 
+        array (
+            'Whoops\\' => 7,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'J' => 
         array (
             'JK\\' => 3,
@@ -21,6 +29,14 @@ class ComposerStaticInitdec0758a7896ead25c52a524276e7bd2
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'JK\\' => 
         array (
