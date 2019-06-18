@@ -17,7 +17,7 @@ define('JKSTART', microtime(true));
 require(__DIR__.'/vendor/autoload.php');
 
 $app = require(__DIR__.'/bootstrap/app.php');
-$kernel = $app->make(JK\Foundation\Console\Kernel::class);
+$kernel = $app->get(JK\Foundation\Console\Kernel::class);
 
 $status = $kernel->handle(
   $input = new JK\Console\IO\InputArgv,

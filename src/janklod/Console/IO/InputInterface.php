@@ -7,7 +7,7 @@ use JK\Http\Contracts\ServerRequestInterface;
 /**
  * @package JK\Console\IO\InputInterface 
 */ 
-interface InputInterface extends ServerRequestInterface
+interface InputInterface
 {
 
 /**

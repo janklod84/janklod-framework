@@ -43,7 +43,7 @@ $app->file->call('src/Debug.php');
 
 /*
 |-------------------------------------------------------------------
-|    Binds importantes interfaces
+|    Binds importantes interfaces as Singleton
 |-------------------------------------------------------------------
 */
 

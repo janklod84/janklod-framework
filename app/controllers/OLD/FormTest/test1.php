@@ -23,8 +23,9 @@ class LoginController extends Controller
  * @return 
 */
 public function before()
-{    
-     // redirect user if is logged
+{
+     # пользователь может попасть в систему 
+     # только когда он будет авторизован
      if(Auth::isLogged())
      {
           redirect('/dashboard');
@@ -42,6 +43,7 @@ public function before()
 public function __construct($app)
 {
      parent::__construct($app);
+     /* debug(\DB::connect('users')->findAll()); */
 }
 
 
@@ -56,15 +58,6 @@ public function index()
 
    $form = new Form();
    
-   
-   $this->show();
-}
-
-
-private function formTest()
-{
-    $form = new Form();
-   
    // echo '<h2>Form1</h2>';
    // $form->open(['action' => '/sign-in','class'  => 'sign-in']);
    // $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
@@ -74,11 +67,11 @@ private function formTest()
     
     // OUTPUT
     // Query::output();
+   $this->show();
 }
 
 
-
-private function queryTest()
+public function query()
 {
     // Fetch all users : User::all();
     // Fetch one record by id :  User::one(1);
@@ -101,8 +94,9 @@ private function show()
 * Action index
 * @return void
 */
-private function testIsPost()
+public function indexOLD()
 {
+    /*
     if($this->request->isPost())
     {
         $username = $this->request->post('username');
@@ -117,7 +111,10 @@ private function testIsPost()
         }
     }
     debug(\DB::instance());
-  
+    */
+    
+
+
     $results = Query::execute('SELECT * FROM `users`')->results();
     
     debug($results);
@@ -129,8 +126,10 @@ private function testIsPost()
 
 private function hash()
 {
+   /*
    $this->request->session()
     ->put('sess.user_---af2f4a9befcc57c1e65e8904b38b66c4ae9337d9', true);
+   */
 }
 
 private function reference()

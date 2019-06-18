@@ -22,9 +22,9 @@ class Form
 * @var  bool    $closed
 */
 protected $data = [];
-protected $output   = PHP_EOL;
+protected $output = PHP_EOL;
 protected $surround = '';
-protected $closed   = false;
+protected $closed  = false;
 
 
 /**
