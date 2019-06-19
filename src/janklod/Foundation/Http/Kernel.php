@@ -17,14 +17,6 @@ class Kernel implements RequestHandlerInterface
 {
 
 
-
-/**
- * @var ContainerInterface $app
- * @var Router $router
-*/
-protected $router;
-
-
 /**
  * Constructor
  * 
@@ -58,9 +50,8 @@ public function handle(RequestInterface $request): ResponseInterface
 */
 public function terminate(RequestInterface $request, ResponseInterface $response)
 {
-	  echo $response->getBody();
+	  if(!$request->is('cli'))
+	  { echo $response->getBody(); }
 }
-
-
 
 }
