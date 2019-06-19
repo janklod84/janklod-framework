@@ -48,7 +48,7 @@ public function __construct($data=[])
  * @param  array $options 
  * @return void
  */
-public function open($action='', $method='', $options = [])
+public function open($action='/', $method='POST', $options = [])
 {
      ob_start();
      $this->output = sprintf('<form action="%s" method="%s"%s>', 
@@ -58,6 +58,7 @@ public function open($action='', $method='', $options = [])
      );
      $this->output .= PHP_EOL;
 }
+
 
 
 /**
@@ -106,19 +107,7 @@ public function hidden($attributes = [], $label='')
      $this->output .= $this->input($attributes, 'hidden', $label);
 }
 
-/**
- * CSRF Input
- * 
- * @param null $value 
- * @param string $name 
- * @param string $id 
- * @return void
- */
-public function csrfInput($value=null, $name='csrf_token', $id='csrf_token')
-{
-    $attributes = compact('name', 'id', 'value');
-    $this->output .=  $this->hidden($attributes);
-}
+
 
 /**
 * Input File

@@ -21,8 +21,8 @@ class AuthenticateProvider extends ServiceProvider
 public function boot()
 {
      // Check session for Authentication
-     $session = Request::capture()->session();
-     Auth::check($session);
+     // $session = Request::capture()->session();
+     // Auth::check($session);
 }
 
 

@@ -4,7 +4,7 @@
 <div class="col-md-6">
 <?php 
 	$form = new \JK\Library\Forms\BootstrapForm($_POST);
-	$form->open(['action' => '/', 'method' => 'POST', 'class'  => 'sign-in']);
+	$form->open('/', 'POST', ['class'  => 'sign-in']);
 	$form->input(['class' => 'form-control', 'name'=> 'username',
 	'placeholder' => 'Введите ваш логин']);
 	$form->input(['class' => 'form-control', 'name'=> 'password',

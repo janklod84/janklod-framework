@@ -6,7 +6,7 @@
 
  $form = new Form();
 echo '<h2>Form1</h2>';
-$form->open(['action' => '/login','class'  => 'login']);
+$form->open('/login','POST', ['class'  => 'login']);
 $form->input(['class' => 'form-control', 'id' => 'login'], 'text', 'Login');
 $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
 $form->hidden();
@@ -17,7 +17,7 @@ $form->inputSubmit(['class' => 'btn btn-primary']);
 $form->close();
 
 echo '<h2>Form2</h2>';
-$form->open(['action' => '/sign-in','class'  => 'sign-in']);
+$form->open('/save', 'PUT', ['class'  => 'save-data']);
 $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
 $form->textarea(['class' => 'form-control', 'id'=> 'text'], 'Message', 'Admin?');
 $form->inputSubmit(['class' => 'btn btn-primary']);
@@ -26,7 +26,7 @@ $form->close();
 # WILL BE GENERATE
 /*
 <h2>Form1</h2>
-<form  action="/login" class="login">
+<form  action="/login" method="POST" class="login">
 <label for="login">Login</label>
 <input type="text" class="form-control" id="login">
 <label for="password">Password</label>
@@ -40,7 +40,7 @@ $form->close();
 </form>
 
 <h2>Form2</h2>
-<form  action="/sign-in" class="sign-in">
+<form  action="/save" method="PUT" class="save-data">
 <label for="password">Password</label>
 <input type="password" class="form-control" id="password">
 <label for="text">Message</label>
@@ -48,3 +48,17 @@ $form->close();
 <input type="submit" class="btn btn-primary">
 </form>
 */
+
+$form = new Form();
+echo '<!DOCTYPE html>'.PHP_EOL;
+$form->open('/sign-in', 'POST', ['class'  => 'sign-in']);
+$form->html('<h3>Formulaire</h3>');
+$form->hidden();
+$form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
+$form->close();
+
+$form->open('/logout', 'POST', ['id'  => 'form']);
+$form->html('<h1>Formulaire</h1>');
+$form->hidden();
+$form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
+$form->close();

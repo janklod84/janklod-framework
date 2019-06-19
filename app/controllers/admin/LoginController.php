@@ -9,7 +9,6 @@ use app\models\User;
 use JK\Library\Forms\Form;
 
 
-
 /**
  * @package app\controllers\admin\LoginController 
 */ 
@@ -53,28 +52,61 @@ public function __construct($app)
 */
 public function index()
 {
-   $data = [
+     $user = [
+     'username' => 'Jean',
+     'password' => md5('jean'),   
+     'role'     => 1
+    ];
+    
+    // Auth::add($user);
+
+    if(Auth::isLogged())
+    {
+       exit('Is Logged!');
+    }
+	
+	/*
+
+    $form = new Form();
+    echo '<!DOCTYPE html>'.PHP_EOL;
+    $form->open('/sign-in', 'POST', ['class'  => 'sign-in']);
+    $form->csrfInput();
+    $form->html('<h3>Formulaire</h3>');
+    $form->hidden();
+    $form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
+    $form->close();
+    
+    */
+	
+    $this->show();
+}
+
+
+private function formTest()
+{
+     $data = [
      'username' => 'Jean',
      'password' => md5('jean'),   
      'role'     => 1
    ];
    $form = new Form($data);
    
+   // $form->input(['class:{form-control}', 'id:{password}',], 'password', 'Password');
    
-   $this->show();
-}
-
-
-private function formTest()
-{
-    $form = new Form();
-   
-   // echo '<h2>Form1</h2>';
-   // $form->open(['action' => '/sign-in','class'  => 'sign-in']);
-   // $form->input(['class' => 'form-control', 'id'=> 'password'], 'password', 'Password');
-   // $form->textarea(['class' => 'form-control', 'id'=> 'text'], 'Message', 'Admin?');
-   // $form->inputSubmit(['class' => 'btn btn-primary']);
-   // $form->close();
+    // $form = new Form();
+    // echo '<!DOCTYPE html>'.PHP_EOL;
+    // $form->open('/sign-in', 'POST', ['class'  => 'sign-in']);
+    // $form->html('<h3>Formulaire</h3>');
+    // $form->hidden();
+    // $form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
+    // $form->close();
+    
+    // $form->open('/logout', 'POST', ['id'  => 'form']);
+    // $form->html('<h1>Formulaire</h1>');
+    // $form->hidden();
+    // $form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
+    // $form->close();
+  
     
     // OUTPUT
     // Query::output();

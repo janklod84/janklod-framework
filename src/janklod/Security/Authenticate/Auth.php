@@ -15,7 +15,7 @@ class Auth
  * @var   array    $authenticates  [ Authenticates ]
  */
 private static $key = 'auth.identify--'; // default
-private static $permissions  = [];
+private static $permissions   = [];
 private static $authenticates = [];
 
 
@@ -33,11 +33,13 @@ public static function generate($key='xxx-xxx-domain.com')
 /**
  * Add Auth
  * 
- * @param mixed $user
+ * @param mixed  $user
+ * @param string $hash
  * @return void
 */
-public static function add(array $user)
+public static function add(array $user, $hash='')
 {
+     if($hash){ self::$key .= $hash; }
      self::$authenticates[self::$key] = $user;
 }
 
@@ -59,7 +61,7 @@ public static function isLogged(): bool
  * @param null $item 
  * @return mixed
 */
-public static function currentUser()
+public static function current()
 {
      if(!self::isLogged())
      {
@@ -109,6 +111,7 @@ public static function is($name='admin')
     {
          return true;
     }
+    if(is_object($current)) {}
     return false;
 }
 
@@ -126,5 +129,26 @@ public static function logout()
     }
     return false;
 }
-         
+
+/**
+ * Get all authenticated
+ * 
+ * @return array
+*/
+public static function authenticates()
+{
+    return self::$authenticates;
+}     
+
+/**
+ * Get all permissions
+ * 
+ * @return array
+*/
+public static function permissions()
+{
+    return self::$permissions;
+}     
+
+
 }

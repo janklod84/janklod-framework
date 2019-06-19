@@ -27,10 +27,11 @@ const DS = DIRECTORY_SEPARATOR;
  * @param string $cache_dir 
  * @return void
 */
-public function __construct($cache_dir='')	
+public function __construct(string $cache_dir)	
 { 
-     $this->cache_dir = $cache_dir;
+     $this->cache_dir =  $this->prepare_path($cache_dir);
 }
+
 
 /**
  * Get cache file
@@ -40,7 +41,6 @@ public function __construct($cache_dir='')
 */
 public function cacheFile($key)
 {
-	$this->cache_dir = str_replace(['/', '\\'], self::DS, $this->cache_dir);
 	return $this->cache_dir . self::DS . md5($key) . '.txt';
 }
 
@@ -116,5 +116,17 @@ public function exists($key)
      return file_exists($this->cacheFile($key));
 }
 
+
+/**
+ * Prepare path
+ * 
+ * @param  string $path 
+ * @return string
+*/
+private function prepare_path(string $path)
+{
+     $path = trim($path, '/');
+     return str_replace(['/', '\\'], self::DS, $path);
+}
 
 }
