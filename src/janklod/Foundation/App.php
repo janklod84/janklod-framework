@@ -18,15 +18,15 @@ use JK\Routing\Router;
 /**
  * Application
  * 
- * @package JK\Foundation\Application
+ * @package JK\Foundation\App
 */ 
-final class Application
+final class App
 {
 
          
 /**
  * Instance of Application
- * @var JK\Foundation\Application
+ * @var JK\Foundation\App
 */
 private static $instance;
 
@@ -37,11 +37,6 @@ private static $instance;
 */
 private $app;
 
-
-/**
- * @var string $root  [ Application root ]
-*/
-private $root;
 
 
 /**

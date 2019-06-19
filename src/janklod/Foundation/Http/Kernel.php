@@ -6,7 +6,7 @@ use JK\Http\Contracts\{
 	RequestInterface, 
 	ResponseInterface
 };
-use JK\Foundation\Application;
+use JK\Foundation\App;
 
 
 /**
@@ -24,7 +24,7 @@ class Kernel implements RequestHandlerInterface
 */
 public function __construct()
 {
-    Application::instance()->bootstrap();
+    App::instance()->bootstrap();
 }
 
 
@@ -37,7 +37,7 @@ public function __construct()
 public function handle(RequestInterface $request): ResponseInterface
 { 
       if($request->is('cli')) { die('Access denided!'); }
-      return Application::instance()->handle($request);
+      return App::instance()->handle($request);
 }
 
 

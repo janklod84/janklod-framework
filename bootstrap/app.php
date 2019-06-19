@@ -43,7 +43,7 @@ define('ROOT', realpath(__DIR__.'/../'));
 |-------------------------------------------------------------------
 */
 
-$app = \JK\Foundation\Application::instance();
+$app = \JK\Foundation\App::instance();
 
 
 /*

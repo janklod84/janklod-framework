@@ -1,6 +1,7 @@
 <?php 
 namespace JK\Foundation;
 
+use JK\DI\Contracts\ContainerInterface;
 
 /**
  * @package JK\Foundation\Initialize
@@ -9,8 +10,9 @@ class Initialize
 {
 
 
+
 /**
- * @var JK\Container\ContainerInterface
+ * @var JK\DI\Contracts\ContainerInterface
 */
 private $app;
 
@@ -20,10 +22,10 @@ private $app;
  * Constructor
  * 
  * 
- * @param JK\Container\Contrats\ContainerInterface $app 
+ * @param JK\DI\Contracts\ContainerInterface $app 
  * @return void
 */
-public function __construct($app)
+public function __construct(ContainerInterface $app)
 {
     // Get container
     $this->app = $app;
@@ -42,7 +44,6 @@ public function run()
     {
         $this->call($runner);
     }
-
 }
 
 
@@ -56,13 +57,13 @@ private function call($runner)
 {
  if(!class_exists($runner))
  {
- 	  throw new \Exception(
- 	  sprintf(
+    throw new \Exception(
+    sprintf(
       'Sorry class <strong>%s</strong> does not exist!', 
        $runner
       ), 
- 	  404
- 	 );
+    404
+   );
  }
  
  $runnerObj = new $runner($this->app);
@@ -71,8 +72,8 @@ private function call($runner)
  {
      throw new \Exception(
      'Sorry can not get this callback',
- 	  404
- 	 );
+    404
+   );
  }
  call_user_func($callback);
 }
