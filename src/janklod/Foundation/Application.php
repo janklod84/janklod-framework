@@ -83,7 +83,7 @@ public function bootstrap()
    $path = $this->file->to('app/config/*');
    Config::map($path);
 
-   // Initialize all services [ Bootstrap of application ]
+   // Initialize all services 
    (new Initialize($this->app))->run();
 }
 
