@@ -32,9 +32,10 @@ class Dispatcher
 
 /**
   * Get callback
+  * 
   * @return mixed
 */
-public function getCallback()
+public function callback()
 {
    return $this->callback;
 }
@@ -42,9 +43,10 @@ public function getCallback()
 
 /**
  * Get Matches data
+ * 
  * @return array
 */
-public function getMatches()
+public function matches()
 {
    return $this->matches;
 }

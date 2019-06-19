@@ -45,9 +45,6 @@ public function run()
         $this->call($runner);
     }
 
-    // Require all routes
-    $this->app->file->call('routes/app.php');
-
 }
 
 

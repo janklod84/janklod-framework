@@ -268,10 +268,11 @@ public function remove($key)
 
 /**
 * Call dynamically object from container
+* 
 * @param string $key 
 * @return object
 */
-public function __get($key)
+public function __get(string $key)
 {
    return $this->get($key);
 }

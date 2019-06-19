@@ -96,7 +96,6 @@ public function bootstrap()
 
    // Initialize all services [ Bootstrap of application ]
    (new Initialize($this->app))->run();
-
 }
 
 
@@ -110,6 +109,9 @@ public function handle(RequestInterface $request)
 {
    if(!$request->is('cli'))
    {
+      // Require all routes
+      $this->app->file->call('routes/app.php');
+
       // Get URL
       $url = $request->get('url');
 
@@ -122,14 +124,14 @@ public function handle(RequestInterface $request)
       // Get dispatcher
       $dispatcher = $router->dispatch($method);
 
-      // Get callaback and matches params
-      $callback = $dispatcher->getCallback();
-      $matches  = $dispatcher->getMatches();
+      // Get callback and matches params
+      $callback = $dispatcher->callback();
+      $matches  = $dispatcher->matches();
 
-      // Storing output for sending to response class
+      // Get output
       $output = $this->app->load->callAction($callback, $matches);
 
-      // Set output
+      // Set response body
       $output = (string) $output;
       return $this->app->response->withBody($output);
     }
