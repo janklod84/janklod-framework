@@ -2,8 +2,10 @@
 namespace JK\Foundation;
 
 
-use JK\Http\Contracts\RequestInterface;
-use JK\Http\Contracts\ResponseInterface;
+use JK\Http\Contracts\{
+  RequestInterface,
+  ResponseInterface
+};
 
 use JK\FileSystem\File;
 use JK\Config\Config;
