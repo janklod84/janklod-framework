@@ -40,12 +40,10 @@ define('ROOT', realpath(__DIR__.'/../'));
 /*
 |-------------------------------------------------------------------
 |    Create new application
-|    Root directory specifly  dirname(__DIR__) or [../]
 |-------------------------------------------------------------------
 */
 
-$app = \JK\Foundation\Application::instance(ROOT);
-
+$app = \JK\Foundation\Application::instance();
 
 
 /*
@@ -53,6 +51,9 @@ $app = \JK\Foundation\Application::instance(ROOT);
 |    Binds importantes interfaces as Singleton
 |-------------------------------------------------------------------
 */
+$app->singleton('file', function () use ($app) {
+   return $app->make(JK\FileSystem\File::class, [ROOT]);
+});
 
 $app->singleton(JK\Foundation\Http\Kernel::class, function () use ($app) {
 	return $app->make(JK\Foundation\Http\Kernel::class);

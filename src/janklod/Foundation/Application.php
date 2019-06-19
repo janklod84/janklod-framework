@@ -55,26 +55,15 @@ private function __clone(){}
 private function __wakeup(){}
 
 
-
-
 /**
   * Contructor
   * 
-  * @param string $root
   * @return void
 */
-private function __construct($root)
+private function __construct()
 {
    // Get container
    $this->app = $this->container();
-   
-   // root application
-   $this->root = $root;
-
-   // bind file in container
-   $this->bind('file', function () {
-      return $this->make(File::class, [$this->root]);
-   });
 }
 
 /**
@@ -91,7 +80,7 @@ public function bootstrap()
    Error::capture(new WhoopsAdapter());
    
    // Load all configuration
-   $path = $this->app->file->to('app/config/*');
+   $path = $this->file->to('app/config/*');
    Config::map($path);
 
    // Initialize all services [ Bootstrap of application ]
@@ -110,7 +99,7 @@ public function handle(RequestInterface $request)
    if(!$request->is('cli'))
    {
       // Require all routes
-      $this->app->file->call('routes/app.php');
+      $this->file->call('routes/app.php');
 
       // Get URL
       $url = $request->get('url');
@@ -138,33 +127,16 @@ public function handle(RequestInterface $request)
 }
 
 
-
 /**
- * Root of application
+ * Instance of Application
  * 
- * @return string
-*/
-public function root()
-{
-    return $this->root;
-}
-
-
-
-/**
- * Get one times instance of Application
- * [ Using pattern Singleton ]
- * 
- * Ex: $app = Application::instance();
- * 
- * @param  string $root
  * @return self
 */
-public static function instance($root = null): self
+public static function instance(): self
 {
     if(is_null(self::$instance))
     {
-        self::$instance = new self($root);
+        self::$instance = new self();
     }
 
     return self::$instance;

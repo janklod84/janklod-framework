@@ -42,4 +42,19 @@ public function cookie();
 public function session();
 
 
+/**
+ * Request Method
+ * 
+ * @return string
+*/
+public function method();
+
+
+/**
+ * Determine type of request
+ * 
+ * @param string $key 
+ * @return bool
+*/
+public function is($key): bool;
 }

@@ -245,10 +245,11 @@ public function body()
 
 /**
  * Determine if has param
+ * 
  * @param string $key 
  * @return string
 */
-public function is($key='xxx'): bool
+public function is($key=null): bool
 {
    switch($key)
    {

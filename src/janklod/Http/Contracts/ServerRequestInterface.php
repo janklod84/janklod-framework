@@ -16,14 +16,4 @@ interface ServerRequestInterface
  */
 public function server($key=null);
 
-
-
-/**
- * Request Method
- * 
- * @return string
-*/
-public function method();
-
-
 }

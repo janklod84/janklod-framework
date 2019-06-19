@@ -22,7 +22,6 @@ class Kernel implements RequestHandlerInterface
  * @var ContainerInterface $app
  * @var Router $router
 */
-protected $app;
 protected $router;
 
 
