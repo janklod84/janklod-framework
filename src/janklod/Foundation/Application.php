@@ -84,9 +84,11 @@ private function __construct($root)
 */
 public function bootstrap()
 {
+   // Define Time debug
+   define('JKSTART', microtime(true));
+
    // Capture all Errors
    Error::capture(new WhoopsAdapter());
-   define('JKSTART', microtime(true));
    
    // Load all configuration
    $path = $this->app->file->to('app/config/*');

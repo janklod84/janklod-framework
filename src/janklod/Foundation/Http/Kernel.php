@@ -58,9 +58,7 @@ public function handle(RequestInterface $request): ResponseInterface
 */
 public function terminate(RequestInterface $request, ResponseInterface $response)
 {
-      // $request get parse Body []
-	     echo $response->getBody();
-      // notifications
+	  echo $response->getBody();
 }
 
 
