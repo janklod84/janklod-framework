@@ -1,20 +1,12 @@
 <?php 
 namespace JK\Foundation\Http;
 
-
-use JK\Http\Contracts\RequestHandlerInterface;
 use JK\Http\Contracts\{
- RequestInterface, 
- ResponseInterface
+	RequestHandlerInterface,
+	RequestInterface, 
+	ResponseInterface
 };
-
-use JK\Foundation\{
-  Application,
-  Initialize
-};
-use JK\Routing\Router;
-use JK\Config\Config;
-
+use JK\Foundation\Application;
 
 
 /**
