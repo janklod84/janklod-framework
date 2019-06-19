@@ -1,7 +1,5 @@
 <?php 
 namespace JK\Foundation;
-use JK\Config\Config;
-
 
 
 /**

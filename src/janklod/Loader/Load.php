@@ -36,13 +36,18 @@ public function __construct($app)
 /**
 * Call action
 * 
-* @param  string|\Closure $callback 
-* @param  array  $matches
+* @param  JK\Routing\Dispatcher $dispatcher
 * @return mixed
 */
-public function callAction($callback, $matches=[])
+public function callAction($dispatcher)
 {
    $loader = new ActionLoader($this->app);
+
+   // Get callback and matches params
+   $callback = $dispatcher->callback();
+   $matches  = $dispatcher->matches();
+   
+   // Call process
    return $loader->process($callback, $matches);
 }
 

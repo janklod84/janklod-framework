@@ -68,6 +68,7 @@ private function __construct()
    $this->app = $this->container();
 }
 
+
 /**
  * Bootstrap of Application
  * 
@@ -90,10 +91,10 @@ public function bootstrap()
 /**
  * Handle Application
  * 
- * @param RequestInterface $request 
- * @return 
- */
-public function handle(RequestInterface $request)
+ * @param  RequestInterface $request 
+ * @return ResponseInterface
+*/
+public function handle(RequestInterface $request): ResponseInterface
 {
    if(!$request->is('cli'))
    {
@@ -112,12 +113,8 @@ public function handle(RequestInterface $request)
       // Get dispatcher
       $dispatcher = $router->dispatch($method);
 
-      // Get callback and matches params
-      $callback = $dispatcher->callback();
-      $matches  = $dispatcher->matches();
-
       // Get output
-      $output = $this->app->load->callAction($callback, $matches);
+      $output = $this->app->load->callAction($dispatcher);
 
       // Set response body
       $output = (string) $output;
@@ -137,7 +134,6 @@ public static function instance(): self
     {
         self::$instance = new self();
     }
-
     return self::$instance;
 }
 
