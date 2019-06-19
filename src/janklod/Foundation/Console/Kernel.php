@@ -11,8 +11,6 @@ use JK\Foundation\Application;
 use JK\Foundation\Source;
 
 
-class_alias('JK\\Foundation\\Console\\Shell', 'Shell');
-
 /**
  * 
  * @package JK\Foundation\Console\Kernel
@@ -30,6 +28,7 @@ private $console;
 */
 public function __construct()
 {
+     class_alias('JK\\Foundation\\Console\\Shell', 'Shell');
      $this->console = new Shell();
 }
 
@@ -42,6 +41,7 @@ public function __construct()
 */
 public function handle(InputInterface $input, OutputInterface $output)
 {
+	 if(php_sapi_name() != 'cli') { die('Restricted'); }
      return $this->console->run($input, $output);
 }
 
@@ -56,7 +56,10 @@ public function handle(InputInterface $input, OutputInterface $output)
 */
 public function terminate(InputInterface $input, $status)
 {
-     //
+	if(!$status)
+	{ 
+	   exit("\t". $this->console->help() . "\n");
+	}
 }
 
 

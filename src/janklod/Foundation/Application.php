@@ -73,9 +73,6 @@ private function __construct()
 */
 public function bootstrap()
 {
-   // Define Time debug
-   define('JKSTART', microtime(true));
-
    // Capture all Errors
    Error::capture(new WhoopsAdapter());
    

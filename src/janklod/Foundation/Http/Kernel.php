@@ -32,7 +32,7 @@ protected $router;
 */
 public function __construct()
 {
-     Application::instance()->bootstrap();
+    Application::instance()->bootstrap();
 }
 
 
@@ -44,7 +44,8 @@ public function __construct()
 */
 public function handle(RequestInterface $request): ResponseInterface
 { 
-     return Application::instance()->handle($request);
+      if($request->is('cli')) { die('Access denided!'); }
+      return Application::instance()->handle($request);
 }
 
 

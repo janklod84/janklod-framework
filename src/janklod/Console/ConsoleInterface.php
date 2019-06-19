@@ -16,6 +16,14 @@ interface ConsoleInterface
 
 
 /**
+ * Get console help
+ * 
+ * @return string
+*/
+public function help();
+
+
+/**
  * Excecute command
  * 
  * @param string $compile 

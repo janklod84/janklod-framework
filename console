@@ -10,8 +10,6 @@
 |   Ex: cmd/desktop>php console server
 |------------------------------------------------------------------
 */
-
-if(php_sapi_name() != 'cli') { die('Restricted'); }
 define('JKSTART', microtime(true));
 
 require(__DIR__.'/vendor/autoload.php');

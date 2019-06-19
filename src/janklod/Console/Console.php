@@ -29,14 +29,15 @@ protected $compile = 'console';
 /**
  * Constructor
  *  
+ * @param string $compile
  * @return void
 */
-public function __construct() 
+public function __construct($compile='') 
 {
-  if(php_sapi_name() == 'cli') 
-  {
-      $this->commands();
-  }
+     if($compile !== '')
+     {
+        $this->compile = $compile;
+     }
 }
 
 
@@ -53,14 +54,6 @@ protected function load(string $command_path)
     self::addCommands($command_path);
 }
 
-
-
-/**
- * Here load commands and require
- * 
- * @return void
-*/
-protected function commands() {}
 
 
 
@@ -234,8 +227,8 @@ protected function process($input, $output)
            return $output->message() ?? 'No messages!';
         }
    }
-   
-   exit("\t". $this->help() . "\n");
+   // It very important return false , for getting status
+   return false; 
 }
 
 
