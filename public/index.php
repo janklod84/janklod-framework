@@ -7,25 +7,6 @@
 |----------------------------------------------------------------------
 */
 
-/*
-|-------------------------------------------------------------------
-|    Application starting time
-|-------------------------------------------------------------------
-*/
-
-define('JKSTART', microtime(true));
-
-
-/*
-|-------------------------------------------------------
-|    Development mode 
-|    FALSE mean that you are in production mode
-|    TRUE  mean that you are in develpment mode
-|-------------------------------------------------------
-*/
-
-define('DEV', true);
-
 
 /*
 |----------------------------------------------------------------------
@@ -34,18 +15,6 @@ define('DEV', true);
 */
 
 require_once realpath(__DIR__ .'/../vendor/autoload.php');
-
-
-/*
-|----------------------------------------------------------------------
-|    Error Handler settings
-|----------------------------------------------------------------------
-*/
-
-error_reporting(E_ALL);
-set_error_handler('JK\Exception\ErrorHandler::errorHandler');
-set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
-
 
 
 /*

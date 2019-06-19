@@ -1,6 +1,17 @@
 <?php 
 
 /*
+|-------------------------------------------------------
+|    Development mode 
+|    FALSE mean that you are in production mode
+|    TRUE  mean that you are in develpment mode
+|-------------------------------------------------------
+*/
+
+define('DEV', true);
+
+
+/*
 |----------------------------------------------------------------------
 |   Check compatibility php version user with that used application
 |----------------------------------------------------------------------
@@ -15,6 +26,13 @@ if(!version_compare(PHP_VERSION, '7.1', '>='))
 }
 
 
+
+/*
+|-------------------------------------------------------------------
+|    Definition root directory of Application  
+|-------------------------------------------------------------------
+*/
+
 define('ROOT', realpath(__DIR__.'/../'));
 
 
@@ -27,17 +45,6 @@ define('ROOT', realpath(__DIR__.'/../'));
 */
 
 $app = \JK\Foundation\Application::instance(ROOT);
-
-
-
-/*
-|-------------------------------------------------------------------
-|    This debug file will be removed later
-|    it's for development [ later will be pretty print debogging system ]
-|-------------------------------------------------------------------
-*/
-
-$app->file->call('src/Debug.php');
 
 
 

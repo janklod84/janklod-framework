@@ -1,15 +1,22 @@
 <?php
-namespace JK\Exception;
+namespace JK\Exception\Errors;
 
+/*
+SetUp
+error_reporting(E_ALL);
+set_error_handler('JK\Exception\ErrorHandler::errorHandler');
+set_exception_handler('JK\Exception\ErrorHandler::exceptionHandler');
+*/
 
 /**
  * Simple Error and exception handler, it's for moment
  * Later will be more advanced ErrorHandler ...
  * 
- * @package \JK\Exception\ErrorHandler
+ * @package \JK\Exception\Errors\ErrorHandler
 */
 class ErrorHandler
 {
+
 
 
 /**
@@ -29,6 +36,20 @@ public static function errorHandler($level, $message, $file, $line)
         throw new \ErrorException($message, 0, $level, $file, $line);
     }
 }
+
+
+/**
+ * Set Handlers
+ * 
+ * @return void
+*/
+public static function setHandlers()
+{
+    error_reporting(E_ALL);
+    set_error_handler(__CLASS__.'::errorHandler');
+    set_exception_handler(__CLASS__.'::exceptionHandler');
+}
+
 
 
 /**

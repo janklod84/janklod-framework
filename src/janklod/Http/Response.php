@@ -241,7 +241,6 @@ public function send()
     {
         $this->setCode($this->status);
         $this->sendHeaders();
-        $this->sendBody();
     }
 }
 
@@ -270,17 +269,6 @@ public function sendHeaders()
              }  
         }
     }
-}
-
-
-/**
- * Send body to server
- * @return void
-*/
-public function sendBody()
-{
-    echo $this->content;
-    self::$stored['content'][] = $this->content;
 }
 
 

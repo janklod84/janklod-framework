@@ -7,11 +7,11 @@
 |   Ex: cmd/desktop>php console --help or --h
 |   Ex: cmd/desktop>php console make:controller home
 |   Ex: cmd/desktop>php console make:model user
-|   Ex: cmd/desktop>php -S localhost:8000 -t public
+|   Ex: cmd/desktop>php console server
 |------------------------------------------------------------------
 */
 
-if(php_sapi_name() != 'cli') die('Restricted');
+if(php_sapi_name() != 'cli') { die('Restricted'); }
 define('JKSTART', microtime(true));
 
 require(__DIR__.'/vendor/autoload.php');

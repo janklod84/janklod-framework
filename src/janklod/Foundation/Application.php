@@ -6,7 +6,11 @@ use JK\Http\Contracts\RequestInterface;
 use JK\Http\Contracts\ResponseInterface;
 
 use JK\FileSystem\File;
-use \Config;
+use JK\Config\Config;
+use JK\Exception\Error;
+use JK\Exception\Support\WhoopsAdapter;
+use JK\Routing\Router;
+
 
 
 /**
@@ -71,6 +75,62 @@ private function __construct($root)
    $this->bind('file', function () {
       return $this->make(File::class, [$this->root]);
    });
+}
+
+/**
+ * Bootstrap of Application
+ * 
+ * @return void
+*/
+public function bootstrap()
+{
+   // Capture all Errors
+   Error::capture(new WhoopsAdapter());
+   define('JKSTART', microtime(true));
+   
+   // Load all configuration
+   $path = $this->app->file->to('app/config/*');
+   Config::map($path);
+
+   // Initialize all services [ Bootstrap of application ]
+   (new Initialize($this->app))->run();
+
+}
+
+
+/**
+ * Handle Application
+ * 
+ * @param RequestInterface $request 
+ * @return 
+ */
+public function handle(RequestInterface $request)
+{
+   if(!$request->is('cli'))
+   {
+      // Get URL
+      $url = $request->get('url');
+
+      // Instance de Router
+      $router = $this->make(Router::class, [$url]);
+
+      // Get request method
+      $method = $request->method();
+
+      // Get dispatcher
+      $dispatcher = $router->dispatch($method);
+
+      // Get callaback and matches params
+      $callback = $dispatcher->getCallback();
+      $matches  = $dispatcher->getMatches();
+
+      // Storing output for sending to response class
+      $output = $this->app->load->callAction($callback, $matches);
+
+      // Set output
+      $output = (string) $output;
+      return $this->app->response->withBody($output);
+    }
 }
 
 
