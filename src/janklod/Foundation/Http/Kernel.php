@@ -49,7 +49,7 @@ public function handle(RequestInterface $request): ResponseInterface
 
 
 /**
- * Send reponse to server
+ * Terminate processing
  * 
  * @param  JK\Http\Contracts\RequestInterface  $request 
  * @param  JK\Http\Contracts\ResponseInterface $response
