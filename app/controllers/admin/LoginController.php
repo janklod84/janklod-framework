@@ -142,8 +142,9 @@ private function queryTest()
 
 private function show()
 {
+    $errors = ['Login is required', 'Password is required'];
     $this->setMeta('Вход');
-    $this->render('/admin/login/form');
+    $this->render('/admin/login/form', compact('errors'));
 }
 
 

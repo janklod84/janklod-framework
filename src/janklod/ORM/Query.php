@@ -123,6 +123,19 @@ public static function getTable()
 }
 
 
+/**
+* Fetch Assoc
+* 
+* @param array $arguments ['mode' => 'PDO::FETCH_ASSOC..']
+* @return 
+*/
+public static function fetchAssoc($arguments = [])
+{
+   self::fetchModeRegister('FetchAssoc', [
+     'arguments' => $arguments
+   ]);
+   return new static;
+}
 
 /**
 * Fetch class
@@ -194,7 +207,8 @@ public static function execute($sql, $params=[])
       self::ensureSetup();
       
       // to add begin transaction ...
-
+      self::$connection->beginTransaction();
+	  
       // prepare request sql
       self::$statement = self::$connection->prepare($sql);
 
@@ -219,10 +233,12 @@ public static function execute($sql, $params=[])
       self::$lastId = self::$connection->lastInsertId();
            
       // to add commit ...
+	  self::$connection->commit();
 
    }catch(PDOException $e){
       
       // to add rollback ...
+	  self::$connection->rollback();
 
       // debug
       self::$executed = false;
@@ -550,10 +566,12 @@ public static function done(): bool
  * 
  * Ex: Query::execute('SELECT * FROM my_table')->results();
  * 
+ * @param int|null $fetchMode 
  * @return mixed
 */
-public function results()
+public function results($fetchMode=null)
 {
+	 if($fetchMode) { return self::$statement->fetchAll($fetchMode); };
      return self::$result;
 }
 
@@ -561,11 +579,13 @@ public function results()
 
 /**
  * Get first record
- * 
+ *
+ * @param int|null $fetchMode 
  * @return array
 */
-public function first()
+public function first($fetchMode=null)
 {
+	if($fetchMode) { return self::$statement->fetch($fetchMode); };
     return ! empty(self::$result) ? self::$result[0] : [];
 }
 

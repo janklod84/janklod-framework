@@ -63,17 +63,6 @@ public function after(){}
 
 
 
-/**
-* Set data
-* 
-* @param array $data 
-* @return void
-*/
-protected function set($data = [])
-{
-    $this->view->setData($data);
-}
-
 
 /**
  * Get title format
