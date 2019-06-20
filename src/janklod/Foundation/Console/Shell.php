@@ -2,7 +2,7 @@
 namespace JK\Foundation\Console;
 
 use JK\Console\Console;
-use JK\Foundation\Application;
+use JK\Foundation\App;
 use JK\Foundation\Source;
 
 
@@ -31,7 +31,7 @@ public function __construct()
 {
   if(php_sapi_name() == 'cli') 
   {
-    $this->file = Application::instance()->file;
+    $this->file = App::instance()->file;
     self::addCommands(Source::CONFIG['commands']);
     $this->file->call('routes/console.php');
     parent::__construct();

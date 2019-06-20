@@ -390,14 +390,47 @@ public function fromGlobals()
 
 
 /**
- * Prepare URL
+ * Get Path URL
  * 
+ * @param  $requestUrl 
+ * @param  string $baseUrl 
  * @return string
 */
-public function prepareURL()
+public function getPath($requestUrl=null, $baseUrl=null)
 {
-    // TO Implements
+  // set request URL if it isn't passed as parameter
+  if(is_null($requestUrl))
+  {
+      $requestUrl = $this->server('REQUEST_URI', '/');
+  }
+  
+  // strip base path from request url
+  $requestUrl = substr($requestUrl, strlen($baseUrl));
+  
+  // strip query string (?page=2) from Request URL
+  if(($strpos = strpos($requestUrl, '?')) !== false)
+  {
+       $requestUrl = substr($requestUrl, 0, $strpos);
+  }
+
+  return trim($requestUrl, '/');
 }
+
+
+
+
+/**
+ * Prepare URL
+ * 
+ * @param  $requestUrl 
+ * @param  string $baseUrl 
+ * @return string
+ */
+public function prepareURL($requestUrl, $baseUrl=null)
+{
+	
+}
+
 
        
 }

@@ -97,7 +97,7 @@ public function handle(RequestInterface $request): ResponseInterface
       $this->file->call('routes/app.php');
 
       // Get URL
-      $url = $request->get('url');
+      $url = $request->getPath();
 
       // Instance de Router
       $router = $this->make(Router::class, [$url]);

@@ -1,8 +1,6 @@
 <?php 
 namespace JK\Console\IO;
 
-use JK\Http\Contracts\ServerRequestInterface;
-
 
 /**
  * @package JK\Console\IO\InputInterface 

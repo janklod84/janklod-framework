@@ -2,7 +2,7 @@
 namespace JK\Foundation\Console\Generator;
 
 
-use JK\Foundation\Application;
+use JK\Foundation\App;
 use JK\FileSystem\FileGenerator;
 use JK\Foundation\Contracts\GeneratorInterface;
 
@@ -49,7 +49,7 @@ public function __construct($input, $output)
     // get namespace
     $this->namespace = $this->get_namespace();
 
-    $this->file = Application::instance()->file;
+    $this->file = App::instance()->file;
     parent::__construct($this->file);
     $this->before();
 }
