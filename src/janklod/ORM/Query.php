@@ -725,7 +725,7 @@ $arguments = []
 /**
  * Add Query
  * 
- * @param string $sql
+ * @param mixed $query 
  * @return void
 */
 private static function addQuery($query)
