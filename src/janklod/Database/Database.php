@@ -40,9 +40,6 @@ public static function open($alias='')
    $driver = self::config('connection');
    $config = self::config($driver);
    self::$connection = Connection::make($driver, $config, 'Query');
-
-   # add alias
-   if($alias) { class_alias(__CLASS__, $alias); }
 }
 
 

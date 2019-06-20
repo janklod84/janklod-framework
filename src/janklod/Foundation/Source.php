@@ -40,6 +40,7 @@ const CONFIG = [
 'Url'      => 'JK\\Helper\\Url',
 'DI'       => 'JK\\DI\\Container',
 'DB'       => 'JK\\Database\\Database',
+'Form'     => 'JK\\Library\\HTML\\Forms\\BootstrapForm'
 ],
 'commands' => [
 \JK\Routing\Commands\MakeControllerCommand::class,

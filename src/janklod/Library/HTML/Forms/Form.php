@@ -1,5 +1,5 @@
 <?php 
-namespace JK\Library\Forms;
+namespace JK\Library\HTML\Forms;
 
 
 use \Exception;
@@ -8,7 +8,7 @@ use \Exception;
 /**
  * class Form
  * 
- * @package JK\Library\Forms\Form
+ * @package JK\Library\HTML\Forms\Form
 */ 
 class Form 
 {
@@ -21,22 +21,29 @@ class Form
 * @var  string  $surround
 * @var  bool    $closed
 */
-protected $data = [];
-protected $output = PHP_EOL;
-protected $surround = '';
-protected $closed = false;
+public static $data = [];
+public static $surround = '';
+public static $closed = false;
 
 
 
 /**
- * Construct
+ * Dispay errors
  * 
- * @param array $data 
- * @return void
+ * @param array $errors 
+ * @param array $ul [ attributes ul ]
+ * @return string
 */
-public function __construct($data=[])
+public static function displayErrors($errors=[], $ul=[])
 {
-	  $this->data = $data;
+     $html = '<ul%s>'. PHP_EOL;
+     $items = array_map(function($error){
+           return sprintf('<li>%s</li>', $error).PHP_EOL;
+     }, $errors);
+     
+     $html .= implode($items);
+     $html .= '</ul>'. PHP_EOL;
+     return sprintf($html, self::attributes($ul));
 }
 
 
@@ -48,15 +55,13 @@ public function __construct($data=[])
  * @param  array $options 
  * @return void
  */
-public function open($action='', $method='', $options = [])
+public static function open($action='', $method='', $options = [])
 {
-     ob_start();
-     $this->output = sprintf('<form action="%s" method="%s"%s>', 
+     return sprintf('<form action="%s" method="%s"%s>', 
         $action,  
         $method,
-        $this->attributes($options)
-     );
-     $this->output .= PHP_EOL;
+        self::attributes($options)
+     ).PHP_EOL;
 }
 
 
@@ -68,15 +73,14 @@ public function open($action='', $method='', $options = [])
  * @param string $label 
  * @return void
 */
-public function input($attributes = [], $type='text', $label='')
+public static function input($attributes = [], $type='text', $label='')
 {
-     $this->output .= sprintf(
+     return sprintf(
         '%s<input type="%s"%s>', 
-        $this->label($label, $attributes),
+        self::label($label, $attributes),
         $type, 
-        $this->attributes($attributes)
-     );
-     $this->output .= PHP_EOL;
+        self::attributes($attributes)
+     ). PHP_EOL;
 }
 
 
@@ -88,9 +92,9 @@ public function input($attributes = [], $type='text', $label='')
 * @param string $label
 * @return void
 */
-public function password($attributes = [], $label='')
+public static function password($attributes = [], $label='')
 {
-     $this->output .= $this->input($attributes, 'password', $label);
+     return self::input($attributes, 'password', $label);
 }
 
 
@@ -101,9 +105,9 @@ public function password($attributes = [], $label='')
 * @param string $label
 * @return void
 */
-public function hidden($attributes = [], $label='')
+public static function hidden($attributes = [], $label='')
 {
-     $this->output .= $this->input($attributes, 'hidden', $label);
+     return self::input($attributes, 'hidden', $label);
 }
 
 /**
@@ -114,10 +118,10 @@ public function hidden($attributes = [], $label='')
  * @param string $id 
  * @return void
  */
-public function csrfInput($value=null, $name='csrf_token', $id='csrf_token')
+public static function csrfInput($value=null, $name='csrf_token', $id='csrf_token')
 {
     $attributes = compact('name', 'id', 'value');
-    $this->output .=  $this->hidden($attributes);
+    return self::hidden($attributes);
 }
 
 /**
@@ -126,9 +130,9 @@ public function csrfInput($value=null, $name='csrf_token', $id='csrf_token')
 * @param array $attributes 
 * @return void
 */
-public function file($attributes = [], $label = '')
+public static function file($attributes = [], $label = '')
 {
-    $this->output .= $this->input($attributes, 'file', $label);
+    return self::input($attributes, 'file', $label);
 }
 
 
@@ -140,15 +144,14 @@ public function file($attributes = [], $label = '')
  * @param string $value 
  * @return void
 */
-public function textarea($attributes = [], $label = '', $value = '')
+public static function textarea($attributes = [], $label = '', $value = '')
 {
-      $this->output .= $this->label($label, $attributes);
-      $this->output .= sprintf(
-       '<textarea %s>%s</textarea>', 
-       $this->attributes($attributes),   
+      return sprintf(
+       '%s<textarea %s>%s</textarea>', 
+       self::label($label, $attributes),
+       self::attributes($attributes),   
        $value
-      );
-      $this->output .= PHP_EOL;
+      ).PHP_EOL;
 }
 
 
@@ -158,7 +161,7 @@ public function textarea($attributes = [], $label = '', $value = '')
  * @param array $attributes 
  * @return void
 */
-public function select($attributes = [])
+public static function select($attributes = [])
 {
    '<select name="%s">%s</select>'. 
    '<option value="%s">%s</option>';
@@ -171,9 +174,9 @@ public function select($attributes = [])
  * @param array $attributes
  * @return void
 */
-public function inputSubmit($attributes = [])
+public static function inputSubmit($attributes = [])
 {
-    $this->output .= $this->input($attributes, 'submit', null);
+    return self::input($attributes, 'submit', null);
 }
 
 
@@ -184,14 +187,13 @@ public function inputSubmit($attributes = [])
 * @param string $value 
 * @return void
 */
-public function button($attributes = [], $value = '')
+public static function button($attributes = [], $value = '')
 {
-      $this->output .= sprintf(
+      return sprintf(
        '<button%s>%s</button>', 
-       $this->attributes($attributes),  
+       self::attributes($attributes),  
        $value 
-      );
-      $this->output .= PHP_EOL;
+      ). PHP_EOL;
 }
 
 
@@ -203,25 +205,12 @@ public function button($attributes = [], $value = '')
 * @param string $label 
 * @return void
 */
-public function checkBox($attributes = [], $label = '', $checked = 'on')
+public static function checkBox($attributes = [], $label = '', $checked = 'on')
 {
      ($checked == 'on') ? $attributes['checked'] = 'checked' : '';
-     $this->output .= $this->input($attributes, 'checkbox', null);
+     return self::input($attributes, 'checkbox', null);
 }
 
-
-/**
- * Add content in form
- * 
- * @param array|string $content 
- * @return 
-*/
-public function html($content=null)
-{
-     if(is_array($content)) 
-     { $this->output .= implode(PHP_EOL, $content); }
-     $this->output .= $content . PHP_EOL;
-}
 
 
 /**
@@ -229,11 +218,9 @@ public function html($content=null)
  * 
  * @return string
 */
-public function close()
+public static function close()
 {
- $this->output .= '</form>'.PHP_EOL;
- ob_get_clean(); 
- echo $this->output;
+   return '</form>'.PHP_EOL;
 }
 
 
@@ -246,14 +233,14 @@ public function close()
 * @param string $data 
 * @return string
 */
-protected function surround($data, $attributes = [])
+public static function surround($data, $attributes = [])
 {
-     if($this->surround)
+     if(self::surround)
      {
-         $attr = $this->attributes($attributes);
-         $html = sprintf("<{$this->surround} %s>", $attr). PHP_EOL;
+         $attr = self::attributes($attributes);
+         $html = sprintf("<{self::surround} %s>", $attr). PHP_EOL;
          $html .= $data;
-         $html .= "</{$this->surround}>". PHP_EOL;
+         $html .= "</{self::surround}>". PHP_EOL;
 
      }else{
 
@@ -268,7 +255,7 @@ protected function surround($data, $attributes = [])
  * @param array $attributes 
  * @return string
 */
-protected function attributes($attributes=[])
+public static function attributes($attributes=[])
 {
    if($attributes)
    {
@@ -289,7 +276,7 @@ protected function attributes($attributes=[])
  * @param string $attributes
  * @return string
 */
-protected function label($content, $attributes)
+public static function label($content, $attributes)
 {
     $output = '';
     $id = $attributes['id'] ?? null;
@@ -311,7 +298,7 @@ protected function label($content, $attributes)
  * @param array $attributes 
  * @return string
 */
-public function styliser($attributes=[])
+public static function styliser($attributes=[])
 {
       $style = '';
       foreach($attributes as $property => $value)

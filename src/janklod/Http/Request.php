@@ -407,7 +407,7 @@ public function getPath($requestUrl=null, $baseUrl=null)
   // strip base path from request url
   $requestUrl = substr($requestUrl, strlen($baseUrl));
   
-  // strip query string (?page=2) from Request URL
+  // strip query string (?page=2&slug=mon-livre-d-or&filtre=..) from Request URL
   if(($strpos = strpos($requestUrl, '?')) !== false)
   {
        $requestUrl = substr($requestUrl, 0, $strpos);
@@ -418,6 +418,13 @@ public function getPath($requestUrl=null, $baseUrl=null)
 
 
 
+/**
+ * @return string 
+*/
+public function getScript()
+{
+	
+}
 
 /**
  * Prepare URL

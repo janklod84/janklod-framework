@@ -6,7 +6,7 @@ use \Auth;
 use \Query;
 use JK\Routing\Controller;
 use app\models\User;
-use JK\Library\Forms\Form;
+use \Form;
 
 
 /**
@@ -52,35 +52,49 @@ public function __construct($app)
 */
 public function index()
 {
+
+    $options = [
+      'Lundi',
+      'Mardi',
+      'Mercredi',
+      'Jeudi',
+      'Vendredi',
+      'Samedi',
+      'Dimanche',
+    ];
+
+
+
+	/*
+    $form = new Form();
+    echo '<!DOCTYPE html>'.PHP_EOL;
+    $form->open('/sign-in', 'POST', ['class'  => 'sign-in']);
+    $form->csrfInput();
+    echo '<h3>Formulaire</h3>';
+    $form->hidden();
+    $form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
+    $form->close();
+    */
+	
+    $this->show();
+}
+
+
+private function Logged()
+{
+
      $user = [
      'username' => 'Jean',
      'password' => md5('jean'),   
      'role'     => 1
     ];
-    
     // Auth::add($user);
 
     if(Auth::isLogged())
     {
        exit('Is Logged!');
     }
-	
-	/*
-
-    $form = new Form();
-    echo '<!DOCTYPE html>'.PHP_EOL;
-    $form->open('/sign-in', 'POST', ['class'  => 'sign-in']);
-    $form->csrfInput();
-    $form->html('<h3>Formulaire</h3>');
-    $form->hidden();
-    $form->input(['class' => 'form-control', 'id'=> 'password',], 'password', 'Password');
-    $form->close();
-    
-    */
-	
-    $this->show();
 }
-
 
 private function formTest()
 {

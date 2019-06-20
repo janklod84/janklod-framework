@@ -2,20 +2,20 @@
 <?php HTML::lang() ?>
 <head>
 <?php 
-   View::getMeta();
+    View::getMeta();
 	HTML::refresh(false); 
 	Asset::render('css') 
 ?>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
    <?php 
    if(Auth::isLogged()):  // partial('menu', 'layouts');
-   include('partials/menu.php');
-   ?>
-   <?php endif; ?>
+     include('partials/menu.php'); 
+   endif; ?>
    <div class="container" style="margin-top:30px;">
    	  <?= $content ?>
    </div>
+   <?php //\JK\Views\Components\TimeDebug::show() ?>
    <?php Asset::render('js') ?>
 </body>
 </html>
