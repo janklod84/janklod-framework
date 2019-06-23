@@ -61,7 +61,6 @@ public function match($url=null, $method=null)
        $regex = $route->convertPattern();
        if(preg_match($regex, $url, $matches))
        {
-           die('YES');
            array_shift($matches);
            $this->matches = $matches;
            $this->route   = $route;

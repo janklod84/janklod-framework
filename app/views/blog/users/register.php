@@ -3,7 +3,7 @@
 <div class="col-md-6">
 <?= Form::displayErrors($errors, 
 ['class' => 'alert alert-danger', 'style'=> 'list-style: none;']); ?>
-<?= Form::open('/', 'POST', ['class'  => 'sign-in']) ?>
+<?= Form::open('/register', 'POST', ['class'  => 'sign-in']) ?>
 <?= Form::input(['class' => 'form-control', 'name'=> 'username',
 	'placeholder' => 'например: Александр']) ?>
 <?= Form::input(['class' => 'form-control', 'name'=> 'email',

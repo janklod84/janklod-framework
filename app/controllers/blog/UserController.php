@@ -21,10 +21,10 @@ class UserController extends BaseController
 public function before()
 {    
      // redirect user if is logged
-     if(Auth::isLogged())
-     {
-          redirect('/admin');
-     }
+     //if(Auth::isLogged())
+     //{
+          // redirect('/admin');
+     //}
      
 } 
 

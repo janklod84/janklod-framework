@@ -11,6 +11,7 @@
 | BACKEND CONTROLLERS
 ************************************/
 
+/*
 $prefixes = [
   'path' => '/dashboard', // admin,
   'controller' => 'admin'
@@ -19,7 +20,7 @@ $prefixes = [
 Route::prefix($prefixes, function () {
     Route::get('/', 'DashboardController@index');
 });
-
+*/
 
 /***********************************
 | FRONTEND CONTROLLERS
