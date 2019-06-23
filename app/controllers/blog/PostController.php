@@ -57,13 +57,28 @@ public function index()
    // Query::output();
 }
 
-private function debug($arr)
-{
-	echo '<pre>';
-	print_r($arr);
-	echo '</pre>';
-	die;
-}
 
+/**
+ * Action Show
+ * 
+ * @param string|null $slug 
+ * @param int|null $id 
+ * @return void
+*/
+public function show(string $slug=null, int $id = null)
+{
+
+  $post = (new PostManager())->find($id);
+  (new CategoryManager())->hydratePosts([$post]);
+
+  // a celui de l'URL on fait une redirection
+  if($post->getSlug() !== $slug)
+  {
+    $url = base_url('post', ['slug' => $post->getSlug(), 'id' => $id]);
+    http_response_code(301);
+    header('Location: '. $url);
+    exit;
+  }
+}
 
 }

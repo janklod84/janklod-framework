@@ -54,21 +54,27 @@ public function __construct($app)
  */
 public function show(string $slug=null, int $id=null)
 {
-   // $id = (int) $id;
    $category = (new CategoryManager())->find($id);
    if($category->getSlug() !== $slug)
    {
-      $url = base_url('category', ['slug' => $category->getSlug(), 'id' => $id]); 
-      http_response_code(301); 
-      header('Location: '. $url);
+      $url = base_url('category', 
+      ['slug' => $category->getSlug(), 'id' => $id]
+      );  
+      response()->setCode(301); // redirect permanently
+      redirect($url);
    }
 
    $title = "Categorie {$category->getName()}";
    [$posts, $pagination] = (new PostManager())->findPaginatedForcategory($category->getID());
 
    // 
-   $link = base_url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
-   $this->render('blog.categories.show', compact('posts', 'pagination', 'link', 'title'));
+   $link = base_url('category', 
+   ['id' => $category->getID(), 
+   'slug' => $category->getSlug()
+   ]);
+   $this->render('blog.categories.show', 
+   compact('posts', 'pagination', 'link', 'title')
+   );
 }
 
 

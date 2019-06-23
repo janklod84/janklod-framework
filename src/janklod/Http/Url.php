@@ -99,7 +99,7 @@ public static function getInt(string $name, ?int $default = null): ?int
   if(!filter_var($_GET[$name], FILTER_VALIDATE_INT))
   {
      throw new \Exception(
-            sprintf("Le parametre [ %s ] dans l'url n'est pas un entier", $name)
+            sprintf("This param [ %s ] in url is not integer", $name)
      ); 
   }
 
@@ -120,7 +120,7 @@ public static function getPositiveInt(string $name, ?int $default = null): ?int
     if($param !== null && $param <= 0)
     {
        throw new \Exception(
-            sprintf("Le parametre [ %s ] dans l'url n'est pas un entier positif", $name)
+            sprintf("This param [ %s ] in url is not positif integer", $name)
      ); 
     }
 

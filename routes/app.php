@@ -40,6 +40,12 @@ Route::prefix($prefixes, function () {
        'slug' => '[a-z\-]+',
        'id'   => '[0-9]+'
     ]);
+
+    Route::get('/login', 'UserController@login');
+	  Route::post('/login', 'UserController@login');
+    Route::get('/register', 'UserController@register');
+	  Route::post('/register', 'UserController@register');
+    Route::get('/profile', 'UserController@profile', 'profile');
 });
 
 

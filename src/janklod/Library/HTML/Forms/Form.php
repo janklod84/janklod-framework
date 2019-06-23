@@ -36,14 +36,17 @@ public static $closed = false;
 */
 public static function displayErrors($errors=[], $ul=[])
 {
-     $html = '<ul%s>'. PHP_EOL;
-     $items = array_map(function($error){
-           return sprintf('<li>%s</li>', $error).PHP_EOL;
-     }, $errors);
+    if(!empty($errors))
+    {
+       $html = '<ul%s>'. PHP_EOL;
+       $items = array_map(function($error){
+          return sprintf('<li>%s</li>', $error).PHP_EOL;
+       }, $errors);
      
-     $html .= implode($items);
-     $html .= '</ul>'. PHP_EOL;
-     return sprintf($html, self::attributes($ul));
+       $html .= implode($items);
+       $html .= '</ul>'. PHP_EOL;
+       return sprintf($html, self::attributes($ul));
+    }
 }
 
 

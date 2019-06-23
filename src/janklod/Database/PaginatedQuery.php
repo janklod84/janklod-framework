@@ -69,7 +69,7 @@ int $perPage = 12
 
           if($currentPage > $pages)
           {
-             throw new \Exception('This page doest not existe!'); 
+             throw new \Exception('This page doest not exist!'); 
           } 
           
           $offset = $this->perPage * ($currentPage - 1);

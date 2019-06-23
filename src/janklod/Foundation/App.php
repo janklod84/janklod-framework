@@ -98,13 +98,14 @@ public function handle(RequestInterface $request): ResponseInterface
 
       // Get URL
       $url = $request->getPath();
+      die($url);
 
       // Instance de Router
       $router = $this->make(Router::class, [$url]);
 
       // Get request method
       $method = $request->method();
-
+      // die($method);
       // Get dispatcher
       $dispatcher = $router->dispatch($method);
 

@@ -12,11 +12,28 @@
               главная<span class="sr-only">(current)</span>
             </a>
           </li>
+          <li class="nav-item">
+             <?php if(Auth::isLogged()): ?>
+              <a href="/profile" class="nav-link" title="к профилию ?">
+               Привет, Александр
+              </a>
+            <?php endif; ?>
+          </li>
         </ul>
         <ul class="navbar-nav">
+           <?php if(!Auth::isLogged()): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Вход</a>
+            </li>
            <li class="nav-item">
-             <a class="nav-link" href="/login">вход</a>
+             <a class="nav-link" href="/register">Регистрация</a>
            </li>
+           <?php endif; ?>
+           <?php if(Auth::isLogged()): ?>
+            <li class="nav-item">
+             <a class="nav-link" href="/logout">Выход</a>
+            </li>
+           <?php endif; ?>
         </ul>
     </div>
 </nav>

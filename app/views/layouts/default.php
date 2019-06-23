@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <?php HTML::lang() ?>
 <head>
+<title><?= isset($title) ? $title : 'Блог'; ?></title>
 <?php 
-    View::getMeta();
+    // View::getMeta();
 	HTML::refresh(false); 
 	Asset::render('css') 
 ?>
