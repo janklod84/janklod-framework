@@ -19,7 +19,7 @@ class Debogger
 */
 private $app; 
 private $blanks = [
-  'RoutingBlank',
+  // 'RoutingBlank',
   // 'ViewBlank'
 ];
 private $output = '';

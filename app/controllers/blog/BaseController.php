@@ -12,7 +12,11 @@ use \Auth;
 */ 
 class BaseController extends Controller
 {
-     
+
+protected $validation;
+protected $errors = [];
+
+
 /**
  * Do action before callback
  * 
@@ -23,11 +27,10 @@ public function before()
 {
 	 # Если ползователь не авторизован
 	 # перенаправлю на главную
-     if(!Auth::isLogged())
-     {
-         redirect('/login');
-     }
-     
+     //if(!Auth::isLogged())
+     //{
+         //redirect('/login');
+     //}
 } 
 
 
@@ -39,7 +42,8 @@ public function before()
 public function __construct($app)
 {
     parent::__construct($app);
+    $this->validation = $this->app->get('validation');
+    $this->validation->addTranslation(lang('ru', 'validation'));
 }
-
 
 }

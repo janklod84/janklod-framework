@@ -14,8 +14,7 @@ class RoutingBlank extends CustomBlank
 */
 public function output()
 { 
-  /*
-  if(!empty($this->app->get('current.route')))
+  if(!empty($this->app->get('route')))
   {
       $html  = '<table class="table table-striped">';
       $html .= '<thead>';
@@ -35,31 +34,30 @@ public function output()
       $html .= '</th>';
       $html .= '<th scope="row">'; 
       $html .= '<code>';
-      $html .=  $this->app->get('current.route')['path'];
+      $html .=  $this->app->get('route')['path'] ?: '/';
       $html .= '</code>'; 
       $html .= '</th>';
       $html .= '<th scope="row">'; 
       $html .= '<code>';
-      $html .=  $this->app->get('current.route')['name'];
+      $html .=  $this->app->get('route')['name'];
       $html .= '</code>'; 
       $html .= '</th>';
       $html .= '<th scope="row">'; 
       $html .= '<code>';
-      $html .=  $this->app->get('current.route')['method'];
+      $html .=  $this->app->get('route')['method'];
       $html .= '</code>'; 
       $html .= '</th>';
       $html .= '<th scope="row">'; 
-      $html .= '<code>'. $this->app->get('current.controller') . '</code>'; 
+      // $html .= '<code>'. /*$this->app->get('current.controller')*/. '</code>'; 
       $html .= '</th>';
       $html .= '<th scope="row">'; 
-      $html .= '<code>'. $this->app->get('current.action'). '</code>'; 
+      // $html .= '<code>'. /*$this->app->get('current.action').*/. '</code>'; 
       $html .= '</th>';
       $html .= '</tr>';
       $html .= '</tbody>';
       $html .= '</table>';
       return $html;
    }
-   */
 }
 
 }

@@ -62,7 +62,7 @@ public function getMessage($code = null)
 public function rounder($times = 5, float $start=null)
 {
     $start = $start ?: JKSTART;
-    return round(microtime(true) - $start, $times);
+    return 1000 * round(microtime(true) - $start, $times);
 }
 
 

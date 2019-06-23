@@ -2,22 +2,19 @@
 namespace JK\Validation\Facades;
 
 use JK\DI\ServiceProvider;
-use JK\Validation\Validator;
+use JK\Validation\Validate;
+use \Query;
 
 /**
- * @package JK\Validation\Facades\ValidationProvider
+ * @package JK\Validation\Facades\ValidationProvider 
 */ 
-class ValidationProvider extends ServiceProvider
+class ValidationProvider  extends ServiceProvider
 {
-        
-/**
- * Register service
- * @return void
-*/
-public function register()
-{
-    $this->app->singleton('validate', function () {
-         return new Validator();
-    });
-}
+       
+       public function register()
+       {
+       	   $this->app->singleton('validation', function () {
+               return $this->app->make(Validate::class, [Query::connect()]);
+           });
+       }
 }

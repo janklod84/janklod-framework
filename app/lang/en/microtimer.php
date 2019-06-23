@@ -1,5 +1,5 @@
 <?php 
 
 return [
- 'msg' => 'Page generated in <b>%s</b> seconds'
+ 'msg' => 'Page generated in <b>%s</b> ms'
 ];

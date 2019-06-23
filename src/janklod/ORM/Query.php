@@ -341,7 +341,6 @@ public function where($field='', $value=null, $operator='=')
                           ->from(self::$table)
                           ->where($field, $value, $operator)
                           ->limit(1);
-     
      return self::execute($sql, self::$builder->values)
                  ->first();
 }

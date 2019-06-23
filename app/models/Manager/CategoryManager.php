@@ -9,7 +9,7 @@ use \PDO;
 /**
  * @package app\models\Manager\CategoryManager
 */ 
-class CategoryManager  extends BaseManager
+class CategoryManager extends BaseManager
 {
     
 /**

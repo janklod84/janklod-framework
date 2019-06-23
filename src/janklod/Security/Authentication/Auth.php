@@ -2,6 +2,8 @@
 namespace JK\Security\Authentication;
 
 
+use JK\Http\Sessions\Session;
+
 
 /**
  * @package JK\Security\Authentication\Auth
@@ -14,9 +16,9 @@ class Auth
  * @var   array    $permissions    [ Permissions ]
  * @var   array    $authenticates  [ Authenticates ]
  */
-private static $key = 'auth.identify--'; // default
-private static $permissions   = [];
-private static $authenticates = [];
+private static $key = 'auth.id'; // default
+private static $permissions = [];
+private static $hash = '---xxx-xx--xxx---';
 
 
 /**
@@ -25,22 +27,22 @@ private static $authenticates = [];
  * @param string $key 
  * @return string
  */
-public static function generate($key='xxx-xxx-domain.com')
+public static function generate($key='domain.com')
 {
-     // 
+    // TO Implements
+    self::$hash = sha1(self::$hash.$key);
 }
+
 
 /**
  * Add Auth
  * 
- * @param array  $user
- * @param string $hash
+ * @param mixed $user
  * @return void
 */
-public static function add(array $user, $hash='')
+public static function put($user)
 {
-     if($hash){ self::$key .= $hash; }
-     self::$authenticates[self::$key] = $user;
+     Session::put(self::$key, $user);
 }
 
 
@@ -51,14 +53,13 @@ public static function add(array $user, $hash='')
 */
 public static function isLogged(): bool
 {
-	 return isset(self::$authenticates[self::$key]);
+	 return Session::has(self::$key);
 }
 
 
 /**
- * Get current user
+ * Get current user or authenticate
  * 
- * @param null $item 
  * @return mixed
 */
 public static function current()
@@ -67,7 +68,7 @@ public static function current()
      {
      	 die('No Logged User!');
      }
-     return self::$authenticates[self::$key];
+     return Session::get(self::$key);
 }
 
 
@@ -124,7 +125,7 @@ public static function logout()
 {
     if(self::isLogged())
     {
-         unset(self::$authenticates[self::$key]);
+		 Session::remove(self::$key);
          return true;
     }
     return false;
@@ -137,7 +138,7 @@ public static function logout()
 */
 public static function authenticates()
 {
-    return self::$authenticates;
+    return Session::all();
 }     
 
 /**

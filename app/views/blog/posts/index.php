@@ -5,11 +5,14 @@ if(!empty($posts)):
 foreach($posts as $post): 
 ?>
   <div class="col-md-3">
-  	<!-- У меня партиал функция еще не реализована, поэтому так времено пишу -->
+  	<!-- У меня partials функция еще не реализована, поэтому так времено пишу -->
     <?php require(__DIR__.'/../partials/card.php'); ?>
   </div>
 </div>
-<?php endforeach; endif; ?>
+<?php 
+endforeach; 
+endif; 
+?>
 </div>
 
 <!-- Show pagination -->

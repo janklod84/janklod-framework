@@ -4,7 +4,7 @@
 <?= Form::displayErrors($errors, 
 ['class' => 'alert alert-danger', 'style'=> 'list-style: none;']); ?>
 
-<?= Form::open('/login', 'POST', ['class'  => 'sign-in']) ?>
+<?= Form::open($url, 'POST', ['class'  => 'sign-in']) ?>
 
 <?= Form::input(['class' => 'form-control', 'name'=> 'username',
 	'placeholder' => 'Введите ваш логин']) ?>

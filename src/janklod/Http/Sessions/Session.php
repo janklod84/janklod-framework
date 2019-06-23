@@ -90,6 +90,7 @@ public static function remove($key)
 	if(self::has($key))
 	{
 	   unset($_SESSION[$key]);
+       return true;
 	}
 }
 
@@ -104,6 +105,7 @@ public static function clear()
     self::ensureStarted();
     $_SESSION = [];
     session_destroy();
+    return true;
 }
 
 

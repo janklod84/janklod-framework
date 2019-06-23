@@ -3,16 +3,20 @@
 <div class="col-md-6">
 <?= Form::displayErrors($errors, 
 ['class' => 'alert alert-danger', 'style'=> 'list-style: none;']); ?>
+
 <?= Form::open('/register', 'POST', ['class'  => 'sign-in']) ?>
+
 <?= Form::input(['class' => 'form-control', 'name'=> 'username',
-	'placeholder' => 'например: Александр']) ?>
-<?= Form::input(['class' => 'form-control', 'name'=> 'email',
-	'placeholder' => 'например: aleksandr@nethammer.com']) ?>
+	'placeholder' => 'Введите ваш логин']) ?>
+
 <?= Form::input(['class' => 'form-control', 'name'=> 'password',
-'placeholder' => 'например: Qwer4Pety!'], 'password') ?>
-<?= Form::input(['class' => 'form-control', 'name'=> 'confirm',
-'placeholder' => 'Потвердить пароль'], 'password') ?>
+'placeholder' => 'Введите ваш пароль'], 'password') ?>
+
+<?= Form::input(['class' => 'form-control', 'name'=> 'email',
+'placeholder' => 'Введите ваш email'], 'email') ?>
+
 <?= Form::button(['type' => 'submit', 'class' => 'btn btn-primary'], 'Отправить') ?>
+
 <?= Form::close() ?>
 </div>
 </div>

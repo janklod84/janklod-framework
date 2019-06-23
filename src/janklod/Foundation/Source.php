@@ -38,6 +38,7 @@ const CONFIG = [
 'HTML'     => 'JK\\View\\Components\\HTML', 
 'Config'   => 'JK\\Config\\Config',
 'Url'      => 'JK\\Http\\Url',
+'Flash'    => 'JK\\Http\\Sessions\\Flash',
 'DI'       => 'JK\\DI\\Container',
 'DB'       => 'JK\\Database\\Database',
 'QB'       => 'JK\\ORM\\QueryBuilder',

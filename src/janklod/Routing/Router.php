@@ -14,12 +14,13 @@ class Router
  * @var  array        $routes
  * @var  RouteParam   $route
  * @var  string       $url
+ * @vae  array        $params
 */
 private $matches = [];
 private $routes  = [];
 private $route;
 private $url;
-
+private $params;
 
 
 /**
@@ -82,14 +83,24 @@ public function match($url=null, $method=null)
 */
 public function dispatch($method='GET')
 {
-    if($this->match($this->url, $method))
+    if($params = $this->match($this->url, $method))
     {
+       $this->params = $params;
     	 return new Dispatcher($this->route->callback(), $this->matches);
     }else{
-    	return new Dispatcher('NotFoundController@page404');
+    	 return new Dispatcher('NotFoundController@page404');
     }
 }
 
 
+/**
+ * Route params
+ * 
+ * @return array
+ */
+public function params()
+{
+    return $this->params;
+}
 
 }

@@ -15,22 +15,7 @@ use app\models\Manager\{
 */ 
 class CategoryController extends BaseController
 {
-     
-
-/**
- * Do all behaviours before actions
- * 
- * @return 
-*/
-public function before()
-{    
-     // redirect user if is logged
-     if(Auth::isLogged())
-     {
-          redirect('/dashboard');
-     }
-     
-} 
+    
 
 
 /**

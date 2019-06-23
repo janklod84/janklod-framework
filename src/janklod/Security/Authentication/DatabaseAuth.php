@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Security\Authenticate;
+namespace JK\Security\Authentication;
 
 
 
 /**
- * @package JK\Security\Authenticate\DatabaseAuth
+ * @package JK\Security\Authentication\DatabaseAuth
 */ 
 class DatabaseAuth implements AuthInterface {}

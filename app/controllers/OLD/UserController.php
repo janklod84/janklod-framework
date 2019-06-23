@@ -17,6 +17,21 @@ class UserController extends BaseController
 
 private $userManager;
 
+/**
+ * Do all behaviours before actions
+ * 
+ * @return 
+*/
+public function before()
+{    
+     // redirect user if is logged
+     if(Auth::isLogged())
+     {
+          redirect('/dashboard');
+     }
+     
+} 
+
 
 /**
 * Constructor
@@ -38,27 +53,19 @@ public function __construct($app)
 */
 public function login()
 {
-   $errors = [];
    if($this->request->isPost())
    {
+        $login = $this->request->post('login');
         $username = $this->request->post('username');
-        $password = $this->request->post('password');
-       
-        if($this->userManager->login($username, $password))
-        {
-              // Установление сообщение об успехе
-             Flash::message('success', 'Вы успешно авторизован :)');
-             redirect('/');
 
-        }else{
-           $this->validation->addError('Не верный логин или пароль!(');
+        if($this->isValidData() && $this->userManager->login($login, $username))
+        {
+              die('LOGGED');
         }
    }
    $title = 'Вход';
    $url = '/login';
-   $errors = $this->validation->errors();
-   $this->render('blog.users.login', compact('title', 'url', 'errors'));
-   // blog.users.login или blog/users/login
+   $this->form(compact('title', 'url'));
 }
 
 
@@ -74,11 +81,9 @@ public function register()
         // data already cleaned from class request
         $username = $this->request->post('username');
         $password = $this->request->post('password');
-        $email    = $this->request->post('email');
         $data = [
           'username' => $username,
-          'password' => password_hash($password, PASSWORD_DEFAULT),
-          'email'    => $email
+          'password' => password_hash($password, PASSWORD_BCRYPT)
         ];
         if($this->isValidData() && $this->userManager->save($data))
         {
@@ -89,8 +94,7 @@ public function register()
    }
    $title = 'Регистрация';
    $url = '/register';
-   $errors = $this->validation->errors();
-   $this->render('blog.users.register', compact('title', 'url', 'errors'));
+   $this->form(compact('title', 'url'));
 }
 
 
@@ -113,10 +117,20 @@ public function profile()
 */
 public function logout()
 {
-    if(Auth::logout())
-    {
-        redirect('/');
-    }
+    return Auth::logout();
+}
+
+
+/**
+ * Form
+ * 
+ * @param array $data 
+ * @return void
+*/
+private function form($data=[])
+{
+    $data['errors'] = $this->validation->errors();
+    $this->render('blog.users.form', $data);
 }
 
 
@@ -130,24 +144,24 @@ public function logout()
 */
 private function isValidData(): bool
 {
+      
+   // проверка если у нас валидные данные с Поста
+   // при помощью валидатор
    $validation = $this->validation->check($this->request->post(), [
          'username' => [
              'required' => true,
              'min' => 3,
-             'max' => 150
-          ],
-          'email' => [
-             'required' => true,
+             'max' => 150,
              'unique' => 'user'
           ],
-          'password' => [
+         'password' => [
              'required' => true,
              'min' => 6,
              'max' => 200
          ]
      ]);
 
-     return $validation->passed();
+   return $validation->passed();
 }
 
 

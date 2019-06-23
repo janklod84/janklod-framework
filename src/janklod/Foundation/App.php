@@ -104,9 +104,14 @@ public function handle(RequestInterface $request): ResponseInterface
 
       // Get request method
       $method = $request->method();
-      // die($method);
+    
       // Get dispatcher
       $dispatcher = $router->dispatch($method);
+      
+      // Bind params
+      $this->push([
+        'route' => $router->params()
+      ]);
 
       // Get output
       $output = $this->app->load->callAction($dispatcher);
@@ -224,23 +229,14 @@ public function __get($key)
 }
 
 
-
-
 /**
- * Storage params for pretty print
+ * Notification
  * 
- * @return void
+ * @return Debogger
 */
-private function bindParams()
+public function notify()
 {
-    /*
-    $this->push([
-      'current.route'   => $this->router->params(),
-      'current.queries' => '', //\JK\ORM\Q::queries(),
-      'config' => '', // Config::all()
-     ]);
-     */
-
+   return new \JK\Debug\Debogger($this->app);
 }
 
 }

@@ -7,7 +7,7 @@ use JK\Database\PaginatedQuery;
 
 
 /**
- * @package app\models\Manager 
+ * @package app\models\Manager\PostManager 
 */ 
 class PostManager  extends BaseManager
 {

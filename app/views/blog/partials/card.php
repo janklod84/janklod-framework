@@ -25,7 +25,7 @@ $categories = array_map(function($category) {
 	</p>
 	<p><?= $post->getExcerpt(); ?></p>
 	<p>
-		<a href="" class="btn btn-primary">Просмотреть</a>
+		<a href="<?= base_url('post', ['id' => $post->getID(), 'slug' => $post->getSlug()]);?>" class="btn btn-primary">Подробнее</a>
 	</p>
 </div>
 <div class="clear-fix"></div>
