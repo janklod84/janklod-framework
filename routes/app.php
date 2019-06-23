@@ -12,45 +12,37 @@
 ************************************/
 
 $prefixes = [
-  // 'path' => '/admin',
+  'path' => '/dashboard', // admin,
   'controller' => 'admin'
 ];
 
 Route::prefix($prefixes, function () {
-    Route::get('/', 'LoginController@index', 'sign.up');
-    Route::get('/test', 'LoginController@test');
-    Route::get('/dashboard', 'DashboardController@index');
-    Route::post('/', 'LoginController@index');
+    Route::get('/', 'DashboardController@index');
 });
-
-
-
-
-Route::get('/me', function () {
-   die('Me!');
-});
-
-/*
-Route::get('/about', function () {
-   die('About!');
-});
-
-
-Route::get('/about/:id', function () {
-   die('About!');
-})->with('id' => '[0-9]+');
-*/
-
-Route::get('/about/:id', function () {
-   die('About!');
-})->with(['id' => '[0-9]+']);
-
-
-// Route::get('/test', function () {
-//     die('ALREADY SETTED!');
-// });
 
 
 /***********************************
 | FRONTEND CONTROLLERS
 ************************************/
+$prefixes = [
+  'controller' => 'blog'
+];
+
+Route::prefix($prefixes, function () {
+    Route::get('/', 'PostController@index', 'home');
+    Route::get('/blog/category/:slug-:id', 'CategoryController@show', 'category')
+    ->with([
+       'slug' => '[a-z\-]+',
+       'id'   => '[0-9]+'
+    ]);
+    Route::get('/blog/:slug-:id', 'PostController@show', 'post')
+    ->with([
+       'slug' => '[a-z\-]+',
+       'id'   => '[0-9]+'
+    ]);
+});
+
+
+Route::get('/test/:slug-:id', function ($slug, $id) {
+    echo 'Slug: '. $slug .' -- ID: '. $id;
+}, 'category')->with(['slug' => '[a-z\-]+', 'id'   => '[0-9]+']);

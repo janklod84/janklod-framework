@@ -16,6 +16,7 @@ class MakeControllerCommand extends ComponentCommand
  * @var string $description  [ Description of command ]
 */
 protected $signature   = 'make:controller';
+// protected $signature   = 'make:controller {name} {ddd}';
 protected $description = [
 'This command generate new controller.',
 'Ex : php console make:controller user.',

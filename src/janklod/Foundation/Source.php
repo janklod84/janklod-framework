@@ -32,22 +32,31 @@ const CONFIG = [
 'alias' => [
 'Route'    => 'JK\\Routing\\Route',
 'Request'  => 'JK\\Http\\Request',
-'Auth'     => 'JK\\Security\\Authenticate\\Auth',
+'Auth'     => 'JK\\Security\\Authentication\\Auth',
 'Asset'    => 'JK\\View\\Components\\Asset',
 'View'     => 'JK\\View\\View',
 'HTML'     => 'JK\\View\\Components\\HTML', 
 'Config'   => 'JK\\Config\\Config',
-'Url'      => 'JK\\Helper\\Url',
+'Url'      => 'JK\\Http\\Url',
 'DI'       => 'JK\\DI\\Container',
 'DB'       => 'JK\\Database\\Database',
+'QB'       => 'JK\\ORM\\QueryBuilder',
 'Form'     => 'JK\\Library\\HTML\\Forms\\BootstrapForm'
 ],
 'commands' => [
+# COMMANDS GENERATOR
 \JK\Routing\Commands\MakeControllerCommand::class,
 \JK\Routing\Commands\DeleteControllerCommand::class,
 \JK\Database\Commands\MakeModelCommand::class,
 \JK\Database\Commands\DeleteModelCommand::class,
-\JK\Http\Commands\ServerCommand::class
+# COMMANDS SERVER
+\JK\Http\Commands\ServerCommand::class,
+# COMMANDS MIGRATION
+// \JK\Database\Migrations\Commands\CreateTableCommand::class,
+// \JK\Database\Migrations\Commands\DeleteTableCommand::class,
+// \JK\Database\Migrations\Commands\UpdateTableCommand::class,
+// \JK\Database\Migrations\Commands\MigrateCommand::class,
+// \JK\Database\Migrations\Commands\RollbackCommand::class,
 ],
 'cache.dir'     => '/temp/framework/cache/',
 'migration.dir' => '/temp/database/migrations/',

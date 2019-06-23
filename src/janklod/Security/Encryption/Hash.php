@@ -8,11 +8,15 @@ namespace JK\Security\Encryption;
 class Hash 
 {
 		 
+
 /**
-* Make hash
-* @var $string, $salt
-* @return string
-**/
+ * Make Hash
+ * 
+ * @param  string  $algo 
+ * @param  string  $string 
+ * @param  string  $salt 
+ * @return string
+ */
 public static function make($algo = 'sha256', $string, $salt ='')
 {
      return hash($algo, $string . $salt);

@@ -35,7 +35,7 @@ public function __construct($app)
 */
 protected function call(callable $callback, $params=[])
 {
-   call_user_func($callback, $params);
+   call_user_func_array($callback, $params);
 }
 
 

@@ -9,13 +9,13 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="/">
-              Доброе пожаловать в админ панель<span class="sr-only">(current)</span>
+              главная<span class="sr-only">(current)</span>
             </a>
           </li>
         </ul>
         <ul class="navbar-nav">
            <li class="nav-item">
-             <a class="nav-link" href="/logout">Logout</a>
+             <a class="nav-link" href="/login">вход</a>
            </li>
         </ul>
     </div>

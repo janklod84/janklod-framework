@@ -5,7 +5,6 @@ use JK\Console\IO\InputInterface;
 use JK\Console\IO\OutputInterface;
 use JK\Console\Command;
 
-
 /**
  * Class generate controller 
  *

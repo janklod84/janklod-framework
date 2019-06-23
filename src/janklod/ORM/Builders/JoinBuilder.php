@@ -26,7 +26,7 @@ class JoinBuilder extends CustomBuilder
                       }
                       foreach($joinParams as $join)
                       {
-                              $joined .= sprintf(' %s JOIN `%s` ON %s ', 
+                              $joined .= sprintf(' %s JOIN %s ON %s ', 
                                               $typed, 
                                               $this->table(), 
                                               $join['condition']);

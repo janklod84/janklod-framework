@@ -17,7 +17,7 @@ public function argument($key=null)
    $arguments = $this->server('argv');
    if($this->is_cli() && !is_null($key))
    {
-      return $arguments[$key] ?? null;
+      return trim($arguments[$key]) ?? null;
    }
    return $arguments;
 }

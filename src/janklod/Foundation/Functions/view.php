@@ -1,6 +1,23 @@
 <?php 
 use JK\Template\View;
 
+
+
+/**
+ * Escape html characters
+ * 
+ * @param string $string 
+ * @return string
+ */
+if(!function_exists('e'))
+{
+  function e(string $string)
+  {
+     return htmlentities($string, ENT_QUOTES, 'UTF-8');
+  }
+}
+
+
 if(!function_exists('view'))
 {
      

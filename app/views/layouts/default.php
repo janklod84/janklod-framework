@@ -8,14 +8,11 @@
 ?>
 </head>
 <body class="d-flex flex-column h-100">
-   <?php 
-   if(Auth::isLogged()):  // partial('menu', 'layouts');
-     include('partials/menu.php'); 
-   endif; ?>
+   <?php include('partials/menu.php'); ?>
    <div class="container" style="margin-top:30px;">
    	  <?= $content ?>
    </div>
-   <?php //\JK\Views\Components\TimeDebug::show() ?>
+   <?= \app\helpers\TimeDebug::show() ?>
    <?php Asset::render('js') ?>
 </body>
 </html>

@@ -73,7 +73,7 @@ public function setFilename($filename='')
 */
 public function filename()
 {
-	return $this->filename;
+	  return $this->filename;
 }
 
 
@@ -107,11 +107,11 @@ public function content()
 */
 public function put()
 {
-    return $this->file->generate(
-        $this->directory, 
-        $this->filename, 
-        $this->content
-    );
+   return $this->file->generate(
+    $this->directory, 
+    $this->filename, 
+    $this->content
+  );
 }
 
 

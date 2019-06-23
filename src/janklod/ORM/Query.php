@@ -66,6 +66,31 @@ public static function setup(PDO $connection, $table='')
 }
 
 
+
+/**
+ * Get connection
+ * 
+ * @return \PDO
+*/
+public static function connect(): PDO 
+{
+    self::ensureSetup();
+    return self::$connection;
+}
+
+
+/**
+ * Add table
+ * 
+ * @param  string $table 
+ * @return void
+*/
+public static function addTable($table='')
+{
+   self::$table = $table;
+}
+
+
 /**
  * Add table
  * 
@@ -499,7 +524,7 @@ public function hasAttribute($key='', $properties = []): bool
 /**
  * Storage data in to database
  * 
- * @param object $model
+ * @param object $object
  * @return int [ Last Insert id ]
 */
 public function store(object $object)
@@ -507,9 +532,9 @@ public function store(object $object)
     self::ensureSetup();
     if(self::$table)
     {
-       if(property_exists($object, 'id'))
+	     $data = $this->setProperties($object);
+       if(property_exists($object, 'id') || in_array('id', $data))
        {
-            $data = $this->setProperties($object);
             if($this->isNewRecord($object))
             {
                 // Update record
@@ -631,7 +656,7 @@ public function errors()
 */
 public function close()
 {
-     self::ensureSetup();
+    self::ensureSetup();
     return self::$statement->closeCursor();
 }
 

@@ -26,11 +26,10 @@ public function help();
 /**
  * Excecute command
  * 
- * @param string $compile 
  * @param InputInterface $input 
  * @param OutputInterface $output 
  * @return void
 */
-public function execute($compile ='', InputInterface $input, OutputInterface $output);
+public function execute(InputInterface $input, OutputInterface $output);
 
 }

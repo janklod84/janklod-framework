@@ -41,7 +41,11 @@ if($this->is_string_callback($callback))
   '<b>Sorry, Can not call this route. 
    May be current route already used</b>'
   );
- 
+  
+  echo '<pre>';
+  print_r($matches); echo 'From '. __FILE__;
+  echo '</pre>';
+  die;
   $this->call([$controller_object, 'before']);
   $this->output = $this->call($callback, $matches);
   $this->call([$controller_object, 'after']);

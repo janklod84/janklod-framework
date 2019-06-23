@@ -9,6 +9,7 @@ use JK\Console\IO\{
 
 
 /**
+ * Class Kernel
  * 
  * @package JK\Foundation\Console\Kernel
 */ 
@@ -38,8 +39,7 @@ public function __construct()
 */
 public function handle(InputInterface $input, OutputInterface $output)
 {
-	 if(php_sapi_name() != 'cli') { die('Restricted'); }
-     return $this->console->run($input, $output);
+     return $this->console->execute($input, $output);
 }
 
 

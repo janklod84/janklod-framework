@@ -1,0 +1,5 @@
+JK\Database\Migrations\Commands\CreateTableCommand::class
+JK\Database\Migrations\Commands\DeleteTableCommand::class
+JK\Database\Migrations\Commands\UpdateTableCommand::class
+JK\Database\Migrations\Commands\MigrateCommand::class
+JK\Database\Migrations\Commands\RollbackCommand::class

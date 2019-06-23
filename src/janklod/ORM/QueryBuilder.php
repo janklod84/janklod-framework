@@ -132,6 +132,14 @@ public function or($column = '', $value = '', $operator = '=')
 
 
 /**
+ * In [ TO Implements ]
+ * 
+ * @return self
+*/
+public function in() {}
+
+
+/**
   * Conditions
   * 
   * by default $operator is '='
@@ -193,12 +201,12 @@ public function limit($limit='', $offset = 0)
  * $this->table('users')->join('users.id = orders.user_id', 'LEFT')
  * $this->join('users.id = orders.user_id', 'RIGHT', 'orders')
  * 
- * @param string $condition
- * @param string $type 
  * @param string $table
+ * @param string $condition
+ * @param string $type
  * @return self
 */
-public function join($condition='', $type='INNER', $table='')
+public function join($table='', $condition='', $type='INNER')
 {
   $this->table = $table;
   $this->builders['join'][$type][] = compact('condition');
@@ -453,6 +461,7 @@ $type=null,
 $alias = null
 )
 {
+    $this->clear();
     $this->table = $table;
     $this->builders['function'] = compact('column', 'type', 'alias');
     return $this;

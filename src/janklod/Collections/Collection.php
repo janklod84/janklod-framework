@@ -7,7 +7,7 @@ use JK\Collections\Contracts\Collectionnable;
 
 /**
  * Class Collection 
- * [ for exemple it's used for retrieve item from database ]
+ * [ for exemple it's used for working with array data ]
  * 
  * @package JK\Collections\Collection 
 */ 

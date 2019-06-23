@@ -1,0 +1,21 @@
+Migrations Concept:
+============================
+
+Command:
+
+php console  migration:create  users_table
+php console  migration:delete  users_table 
+
+
+php console migrate
+  IL va se charger de prendre toutes les tables
+  dans le fichier /temp/database/migrations/
+                       2019-06-21_create_users_table
+					   2019-06-21_create_orders_table
+					   2019-06-21_create_products_table
+  executer la tache demandee [ faire migrer tous dans la base de donnees
+  
+
+php console rollback
+
+

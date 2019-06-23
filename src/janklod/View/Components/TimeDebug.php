@@ -1,9 +1,9 @@
 <?php 
-namespace JK\Views\Components;
+namespace JK\View\Components;
 
 
 /**
- * @package JK\Views\Components\TimeDebug 
+ * @package JK\View\Components\TimeDebug 
 */ 
 class TimeDebug
 {
@@ -16,7 +16,7 @@ class TimeDebug
 	  $html[] = '<footer class="bg-light py-4 footer mt-auto">';
    	  $html[] = '<div class="container">';
    	  if(defined('JKSTART')): 
-           $html[] = 'Page generee en '. round(1000 * (microtime(true) - JKSTART)) .' ms';
+           $html[] = 'Страница сгенирована в '. round(1000 * (microtime(true) - JKSTART)) .' ms';
       endif; 
    	  $html[] = '</div>';
       $html[] = '</footer>'; 

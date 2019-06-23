@@ -16,7 +16,7 @@ return [
    'prefix'   => ''
  ],
  'mysql' => [
-    'dbname'    => 'dbproject',
+    'dbname'    => 'jk_blog_project',
     'host'      => 'localhost',
     'port'      => '3306',
     'charset'   => 'utf8',

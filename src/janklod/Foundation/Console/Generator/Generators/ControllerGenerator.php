@@ -40,11 +40,16 @@ protected function before()
     }
     $name = ucfirst($second).'Controller';
     $this->setClassName($name);
-    $content = sprintf($this->blank(), $this->namespace, $this->classname, $name);
+    $content = sprintf(
+      $this->blank(), 
+      $this->namespace, 
+      $this->classname, 
+      $name
+    );
     $this->setContent($content);
     $filename = sprintf('%s.php', $name);
     $this->setFilename($filename);
-    
+    echo 'OK';
 }
 
 
@@ -66,6 +71,7 @@ public function make()
      $this->success($success);
      $this->fail($fail);
      parent::make();
+     echo 'OK2';
 }
 
 

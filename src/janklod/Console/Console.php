@@ -9,6 +9,7 @@ use JK\Console\CommandInterface;
 use \ReflectionClass;
 
 
+
 /**
  * Class Console [Excecute command]
  * 
@@ -21,10 +22,15 @@ class Console implements ConsoleInterface
 /**
  * @var array $commands    [ Container all commands ]
  * @var string $compile    [ Name of file to execute ]
+ * @var string $options    [ Options console ]
+ * @var array  $register   [ Command Register ]
+ * @var string $help       [ Help output ]
 */
 protected static $commands = [];
-protected $compile = 'console';
-
+protected $compile   = 'console';
+protected $options   = [];
+protected $register  = [];
+protected $help      = 'HELP COMMANDS:'."\n\n";
 
 /**
  * Constructor
@@ -51,7 +57,12 @@ public function __construct($compile='')
 */
 protected function load(string $command_path)
 {
-    self::addCommands($command_path);
+   if(is_string($command_path) && is_file($command_path))
+   {
+       $this->addCommands(
+         require(realpath($command_path))
+       );
+   }
 }
 
 
@@ -60,16 +71,11 @@ protected function load(string $command_path)
 /**
  * Add commands from file or array
  * 
- * @param string|array $parsed
+ * @param array $commands
  * @return void
 */
-public static function addCommands($parsed=null)
+public static function addCommands($commands=[])
 {
-   $commands = (array) $parsed;
-   if(is_string($parsed) && is_file($parsed))
-   {
-       $commands = require(realpath($parsed));
-   }
    if(!empty($commands))
    {
        self::$commands = array_merge(
@@ -100,7 +106,6 @@ public static function add($command)
 */
 public static function getCommands()
 {
-     self::blockAccess();
      return self::$commands;
 }
 
@@ -117,37 +122,33 @@ public function name()
 }
 
 
-/**
- * Block Access for not cli action
- * 
- * @return void
-*/
-protected static function blockAccess()
-{
-  if(php_sapi_name() != 'cli')
-  { die('Restricted'); } 
-}
-
-
 
 /**
  * Excecute command
  * 
- * @param string $compile 
  * @param InputInterface $input 
  * @param OutputInterface $output 
- * @return void
+ * @return mixed
 */
-public function execute($compile='', InputInterface $input, OutputInterface $output)
+public function execute(InputInterface $input, OutputInterface $output)
 {
      // block access no cli request
-     self::blockAccess();
-     
+     if(php_sapi_name() != 'cli') { die('Restricted'); } 
+
+     // registration commands by signature
+     foreach(self::$commands as $command)
+     {
+          $cmd = $this->createObjectCommand($command, [$input, $output]);
+          $this->register[$cmd->signature()] = $cmd;
+          $this->help .= $cmd->signature() . "\n\t" 
+                         . join("\n\t", $cmd->description()) ."\n";
+     }
+
      // get head 
      $this->blank_head();
 
      // Make sure input name file matches
-     if($compile !== $this->compile)
+     if($input->argument(0) !== $this->compile)
      {
          exit(
           sprintf(
@@ -158,29 +159,9 @@ public function execute($compile='', InputInterface $input, OutputInterface $out
          );
      }
      
-     // Get Help
-     $first = $input->argument(1);
-     if($first === '--help' || $first === '--h')
-     {
-         exit($this->help());
-     }
-     
+
      // execution processing
      return $this->process($input, $output);
-}
-
-
-/**
- * Run and execute commands
- * 
- * @param \JK\Console\IO\InputInterface $input 
- * @param \JK\Console\IO\OutputInterface $output 
- * 
- * @return string
-*/
-public function run(InputInterface $input, OutputInterface $output)
-{
-    return $this->execute($input->argument(0), $input, $output);
 }
 
 
@@ -192,14 +173,7 @@ public function run(InputInterface $input, OutputInterface $output)
 */
 public function help()
 {
-    $output = 'HELP COMMANDS:'."\n\n";
-    foreach(self::$commands as $command)
-    {
-       $cmd = $this->createCommand($command);
-       $output .= $cmd->signature();
-       $output .= "\n\t" . join("\n\t", $cmd->description()) ."\n";
-    }
-    return $output;
+    exit($this->help);
 }
 
 
@@ -213,42 +187,60 @@ public function help()
  */
 protected function process($input, $output)
 {
-   $message = '';
-   foreach(self::$commands as $command)
-   {
-        $cmd = $this->createCommand($command, [$input, $output]);
-        $argument = '#^'. $input->argument(1) . '$#';
-        $signature = $cmd->signature();
+   // Get first argument
+   $argument = $input->argument(1);
+   
+    if($argument === '--help' || $argument === '--h')
+    {
+        $this->help();
+    }
+     
+     // Get commands list
+    if($argument === '--commands')
+    {
+         print_r(self::$commands);
+         exit;     
+    }
+    
+    // Execute command
+    if(isset($this->register[$argument]))
+    {
+         $command = $this->register[$argument];
+         $command->execute();
+         $output->writeln($this->end_msg());  
+         return $output->message();
+    }else{
 
-        if(preg_match($argument, $signature))
-        {
-           $cmd->execute();
-           $output->writeln($this->end_msg());
-           return $output->message() ?? 'No messages!';
-        }
-   }
-   // It very important return false , for getting status
-   return false; 
+        echo 'Invalid Command [ ' . $argument . ' ]'. "\n\n";
+        $this->help();
+     }
+     // return false;
 }
 
 
 /**
  * Create command object
  * 
- * @param  string $command
+ * @param  string $command [ Command Name ]
  * @param  array  $arguments
  * @return \JK\Console\CommandInterface
  */
-protected function createCommand($command, $arguments=[]): CommandInterface
+protected function createObjectCommand($command, $arguments=[]): CommandInterface
 {
     if($this->is_class($command))
     {
-         $reflection = new ReflectionClass($command);
+       $reflection = new ReflectionClass($command);
 
-         $command = $reflection->newInstanceArgs($arguments);
+       if(! $command = $reflection->newInstanceArgs($arguments))
+       {
+           exit('Can not get new Instance of '. $reflection->getName());
+       }
+
+    }else{
+        exit('Sorry class ['. $command .'] does not exist!');
     }
 
-    if(!$this->is_command($command))
+    if(! $this->is_command($command))
     {
         exit(
          sprintf(

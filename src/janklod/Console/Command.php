@@ -12,22 +12,22 @@ abstract class Command implements CommandInterface
 {
 
 /**
- * @var InputInterface  $input
- * @var OutputInterface $output
- * @var string $signature         [ Signature of command   ]
- * @var string $description       [ Description of command ]
+ * @var InputInterface    $input
+ * @var OutputInterface   $output
+ * @var string            $signature     [ Signature of command   ]
+ * @var string            $description   [ Description of command ]
+ * @var array             $arguments     [ arguments ]
 */
 protected $input;
 protected $output;
-protected $signature   = 'command:test';
+protected $signature = '';
 protected $description = ['description of command'];
-
-
+protected $arguments = [];
 
 /**
  * Constructor
  * 
- * @param InputInterface|null $input 
+ * @param InputInterface|null  $input 
  * @param OutputInterface|null $output 
  * @return void
  */
@@ -37,6 +37,18 @@ public function __construct(InputInterface $input = null, OutputInterface $outpu
    $this->output = $output;
 
    if(is_callable([$this, 'configure'])) {  $this->configure(); }
+}
+
+
+/**
+ * Add arguments
+ * 
+ * @param array $arguments 
+ * @return void
+*/
+public function addArguments($arguments=[])
+{
+    $this->arguments = $arguments;
 }
 
 
@@ -73,7 +85,13 @@ public function addDescription($description='')
 */
 public function signature()
 {
-    return $this->signature;
+   if(strpos($this->signature, '{') !== false)
+   {
+       $this->signature = preg_replace(
+        '#{([\w]+)}#', '', $this->signature
+       );
+    }
+    return trim($this->signature);
 }
 
 
@@ -88,27 +106,54 @@ public function description()
 }
 
 
-
 /**
- * Get Input argument [ I'll had more fonctionnalites later ]
+ * Get option
  * 
- * @param mixed $indice 
+ * @param  string $name 
  * @return string
 */
-public function argument($indice='')
+public function option($name='')
 {
-     return $this->input->argument($indice);
+    // 
 }
 
 
 /**
- * Determine if input match signature
+ * Get all arguments
  * 
- * @return bool
- */
-public function match()
+ * @return array
+*/
+public function arguments()
 {
-   return $this->argument(0) === $this->signature;
+   return $this->arguments;
+}
+
+
+/**
+ * Get argument
+ * 
+ * @param string $name [ user, create_users_table ..]
+ * @return void
+*/
+public function argument($name="user")
+{
+    if($this->hasArgument($name))
+    {
+        return $this->arguments[2];
+    }
+}
+
+
+/**
+ * Determine if has argument
+ * 
+ * @param string $name 
+ * @return bool
+*/
+protected function hasArgument($name): bool
+{
+    return strpos($this->signature, '{'. $name .'}') !== false 
+           && isset($this->arguments[2]);
 }
 
 

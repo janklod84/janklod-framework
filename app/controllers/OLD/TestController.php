@@ -5,7 +5,7 @@ use JK\Routing\Controller;
 
 
 /**
- * @package [ class ]
+ * @package app\controllers\TestController
 */
 class TestController  extends Controller
 {
