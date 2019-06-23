@@ -2,7 +2,7 @@
 <div class="row">
 <?php foreach($posts as $post): ?>
   <div class="col-md-3">
-    <?php require(__DIR__.'/../post/card.php'); ?>
+    <?php require(__DIR__.'/../partials/card.php'); ?>
   </div>
  </div>
 <?php endforeach; ?>

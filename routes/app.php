@@ -43,6 +43,8 @@ Route::prefix($prefixes, function () {
 });
 
 
+/*
 Route::get('/test/:slug-:id', function ($slug, $id) {
     echo 'Slug: '. $slug .' -- ID: '. $id;
-}, 'category')->with(['slug' => '[a-z\-]+', 'id'   => '[0-9]+']);
+}, 'test')->with(['slug' => '[a-z\-]+', 'id'   => '[0-9]+']);
+*/

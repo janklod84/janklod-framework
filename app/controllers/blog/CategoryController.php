@@ -52,12 +52,9 @@ public function __construct($app)
  * @param int $id 
  * @return void
  */
-public function show($slug=null, $id=null)
+public function show(string $slug=null, int $id=null)
 {
-   echo $slug;
-   print_r($this->request->get('id'));
-   die;
-   $id = (int) $id;
+   // $id = (int) $id;
    $category = (new CategoryManager())->find($id);
    if($category->getSlug() !== $slug)
    {

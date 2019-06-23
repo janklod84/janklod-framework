@@ -59,7 +59,7 @@ class PostManager  extends BaseManager
     WHERE category_id = {$categoryID}
     ";
 
-    $pagination = new PaginatedQuery($query, $queryCount);
+    $pagination = new PaginatedQuery($query, $queryCount, $this->pdo);
 
     $posts = $pagination->getItems($this->class);
     (new CategoryManager($this->pdo))->hydratePosts($posts);
