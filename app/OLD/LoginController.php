@@ -2,32 +2,41 @@
 namespace app\controllers\blog;
 
 
+
 use \Auth;
 use \Flash;
 use \Url;
 use app\models\Manager\UserManager;
+use JK\Routing\Controller;
 
 
 /**
  * @package app\controllers\blog\UserController 
 */ 
-class UserController extends BaseController
+class LoginController extends Controller
 {
      
 
 private $userManager;
 
 
+
+
 /**
- * Do action before callback
- * 
- * Do all behaviours before actions
- * @return 
+* Constructor
+* 
+* @param \JK\Container\Contracts\ContainerInterface $app 
+* @return void
 */
-public function before()
+public function __construct($app)
 {
+     if(Auth::isLogged())
+     {
+        redirect('/profile');
+     }
+     parent::__construct($app);
      $this->userManager = new UserManager();
-} 
+}
 
 
 /**
@@ -38,11 +47,6 @@ public function before()
 public function login()
 {
    $errors = [];
-   if(Auth::isLogged())
-   {
-       redirect('/');
-   }
-
    if($this->request->isPost())
    {
         $username = $this->request->post('username');
@@ -74,10 +78,6 @@ public function login()
 */
 public function register()
 {
-   if(Auth::isLogged())
-   {
-       redirect('/');
-   }
    if($this->request->isPost())
    {
         // data already cleaned from class request

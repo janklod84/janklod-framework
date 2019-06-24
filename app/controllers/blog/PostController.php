@@ -17,17 +17,6 @@ class PostController extends BaseController
 {
      
 
-/**
-* Constructor
-* 
-* @param \JK\Container\Contracts\ContainerInterface $app 
-* @return void
-*/
-public function __construct($app)
-{
-     parent::__construct($app);
-}
-
 
 /**
 * Action index
