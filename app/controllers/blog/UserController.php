@@ -18,6 +18,13 @@ class UserController extends BaseController
 private $userManager;
 
 
+public function before()
+{
+     if(Auth::isLogged())
+     {
+         redirect('/');
+     }
+}
 /**
 * Constructor
 * 
