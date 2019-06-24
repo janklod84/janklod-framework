@@ -40,7 +40,7 @@ public function __construct($app)
      $this->view     = $app->view;
      $this->request  = Request::capture();
      $this->response = $app->response;
-     $this->validation = $this->app->get('validation');
+     $this->validation = $this->app->validation;
      $this->onConstructor();
 }
 
