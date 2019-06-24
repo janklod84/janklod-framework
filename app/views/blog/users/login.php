@@ -7,7 +7,7 @@
 <?= Form::open('/login', 'POST', ['class'  => 'sign-in']) ?>
 
 <?= Form::input(['class' => 'form-control', 'name'=> 'username',
-	'placeholder' => 'Введите ваш логин']) ?>
+	'placeholder' => 'Введите ваш логин', 'value' => $data['username'] ?? '']) ?>
 
 <?= Form::input(['class' => 'form-control', 'name'=> 'password',
 'placeholder' => 'Введите ваш пароль'], 'password') ?>

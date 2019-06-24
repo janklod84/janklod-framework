@@ -57,7 +57,8 @@ public function login()
    $title = 'Вход';
    $url = '/login';
    $errors = $this->validation->errors();
-   $this->render('blog.users.login', compact('title', 'url', 'errors'));
+   $data = $this->request->post();
+   $this->render('blog.users.login', compact('title', 'url', 'errors', 'data'));
    // blog.users.login или blog/users/login
 }
 
@@ -90,7 +91,8 @@ public function register()
    $title = 'Регистрация';
    $url = '/register';
    $errors = $this->validation->errors();
-   $this->render('blog.users.register', compact('title', 'url', 'errors'));
+   $data = $this->request->post();
+   $this->render('blog.users.register', compact('title', 'url', 'errors', 'data'));
 }
 
 
