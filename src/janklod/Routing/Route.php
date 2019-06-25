@@ -219,7 +219,7 @@ public static function prefixed($key)
 public static function path($path)
 {
     $path = trim($path, '/');
-    if($prefix = self::prefixed('path'))
+    if($prefix = self::prefixed('prefix'))
     {
          $path = trim($prefix, '/') . '/'. $path;
     }
@@ -237,7 +237,7 @@ public static function callback($callback)
 {
      if(is_string($callback))
      {
-        if($prefix = self::prefixed('controller'))
+        if($prefix = self::prefixed('namespace'))
         {
              $callback = $prefix.'\\'. $callback; 
         }

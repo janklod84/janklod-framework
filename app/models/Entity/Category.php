@@ -14,7 +14,7 @@ class Category
 * @var int      $id          [ Identification of categorie ]
 * @var string   $slug        [ Slug of categorie ]
 * @var string   $name        [ Name of categorie ]
-* @var string   $post_id     [ Id of article associeted to a categorie ]
+* @var int      $post_id     [ Id of article associeted to a categorie ]
 */
 private $id;
 private $slug;

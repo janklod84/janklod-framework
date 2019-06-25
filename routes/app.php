@@ -13,8 +13,8 @@
 
 
 // $prefixes = [
-//   'path' => '/dashboard', // admin,
-//   'controller' => 'admin'
+//   'prefix' => '/dashboard', // admin,
+//   'namespace' => 'admin'
 // ];
 
 // Route::prefix($prefixes, function () {
@@ -26,7 +26,7 @@
 | FRONTEND CONTROLLERS
 ************************************/
 $prefixes = [
-  'controller' => 'blog'
+  'namespace' => 'blog'
 ];
 
 Route::prefix($prefixes, function () {
